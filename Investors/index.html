@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Wolfs Trucking - Investor Dashboard</title>
+<script>if(localStorage.getItem('wolfs_authenticated')!=='true'){location.replace('../')}</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--text:#e8e8e8;--dim:#8899aa;--nav:#0a0f14;--green:#22c55e;--blue:#3b82f6;--red:#ef4444;--purple:#a855f7;--gray:#6b7280;--border:#2a3a4a;--yellow:#eab308}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+button,a{touch-action:manipulation}
+
+.header{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--nav);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;min-height:56px}
+.back-btn{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.06);border:none;color:var(--text);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;text-decoration:none}
+.back-btn:hover{background:rgba(255,255,255,.12)}
+.header-title{font-size:1.1rem;font-weight:700;flex:1}
+.header-date{color:var(--dim);font-size:.82rem}
+
+.content{max-width:1200px;margin:0 auto;padding:20px 16px 40px}
+
+.exec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:28px}
+.exec-card{background:var(--card);border-radius:12px;padding:16px;text-align:center}
+.exec-card .val{font-size:1.5rem;font-weight:800;margin-bottom:4px}
+.exec-card .lbl{font-size:.75rem;color:var(--dim);text-transform:uppercase;letter-spacing:.5px}
+.exec-card.green .val{color:var(--green)}
+.exec-card.blue .val{color:var(--blue)}
+.exec-card.accent .val{color:var(--accent)}
+.exec-card.purple .val{color:var(--purple)}
+
+.section{margin-bottom:28px}
+.section-title{font-size:1rem;font-weight:700;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.section-title .icon{font-size:1.1rem}
+
+.data-table{width:100%;border-collapse:collapse;font-size:.82rem;background:var(--card);border-radius:12px;overflow:hidden}
+.data-table th{background:rgba(255,255,255,.04);padding:10px 14px;text-align:left;font-weight:700;color:var(--dim);font-size:.75rem;text-transform:uppercase;letter-spacing:.5px}
+.data-table td{padding:10px 14px;border-top:1px solid rgba(255,255,255,.04)}
+.data-table tr:hover td{background:rgba(255,255,255,.02)}
+.data-table .num{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.data-table .green{color:var(--green)}
+.data-table .accent{color:var(--accent)}
+.data-table .blue{color:var(--blue)}
+.data-table .bold{font-weight:700}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.kpi-card{background:var(--card);border-radius:12px;padding:16px}
+.kpi-card .header-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.kpi-card .val{font-size:1.3rem;font-weight:800}
+.kpi-card .lbl{font-size:.78rem;color:var(--dim)}
+.kpi-card .sub{font-size:.72rem;color:var(--dim);margin-top:4px}
+.kpi-card .compare{font-size:.72rem;padding:2px 8px;border-radius:6px;font-weight:600}
+.kpi-card .compare.good{background:rgba(34,197,94,.12);color:var(--green)}
+.kpi-card .compare.warn{background:rgba(234,179,8,.12);color:var(--yellow)}
+
+.chart-container{background:var(--card);border-radius:12px;padding:20px;margin-bottom:16px}
+.chart-container h4{font-size:.85rem;font-weight:700;margin-bottom:16px;color:var(--dim)}
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:160px;padding-top:10px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.bar{width:100%;border-radius:4px 4px 0 0;transition:height .6s ease;min-width:16px}
+.bar-label{font-size:.6rem;color:var(--dim);white-space:nowrap;writing-mode:vertical-lr;text-orientation:mixed;transform:rotate(180deg);max-height:50px;overflow:hidden;text-overflow:ellipsis}
+.bar-value{font-size:.62rem;font-weight:700;white-space:nowrap}
+
+.compare-chart{display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap}
+.compare-item{text-align:center}
+.compare-bar-track{width:60px;height:120px;background:rgba(255,255,255,.04);border-radius:6px;position:relative;overflow:hidden;margin:0 auto 6px}
+.compare-bar-fill{position:absolute;bottom:0;left:0;right:0;border-radius:6px 6px 0 0;transition:height .8s ease}
+.compare-label{font-size:.72rem;color:var(--dim)}
+.compare-value{font-size:.85rem;font-weight:700;margin-top:2px}
+
+.risk-card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start}
+.risk-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.risk-icon.fuel{background:rgba(234,179,8,.15);color:var(--yellow)}
+.risk-icon.driver{background:rgba(239,68,68,.15);color:var(--red)}
+.risk-icon.reg{background:rgba(59,130,246,.15);color:var(--blue)}
+.risk-icon.econ{background:rgba(168,85,247,.15);color:var(--purple)}
+.risk-text .title{font-weight:700;font-size:.85rem;margin-bottom:2px}
+.risk-text .desc{font-size:.78rem;color:var(--dim);line-height:1.4}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:768px){.two-col{grid-template-columns:1fr}}
+
+.tech-list{list-style:none}
+.tech-list li{background:var(--card);border-radius:10px;padding:14px 16px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start}
+.tech-list .tech-icon{width:32px;height:32px;border-radius:8px;background:rgba(255,107,53,.12);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.tech-list .tech-name{font-weight:700;font-size:.85rem}
+.tech-list .tech-desc{font-size:.78rem;color:var(--dim);margin-top:2px}
+</style>
+</head>
+<body>
+<script>
+if(localStorage.getItem('wolfs_authenticated')!=='true'){location.href='../';throw''}
+</script>
+
+<div class="header">
+<a href="../Dashboard/" class="back-btn">&#8592;</a>
+<div class="header-title">Investor Dashboard</div>
+<div class="header-date">As of April 15, 2026</div>
+</div>
+
+<div class="content">
+
+<div class="exec-grid">
+<div class="exec-card accent"><div class="val">$4.2M</div><div class="lbl">Revenue YTD</div></div>
+<div class="exec-card green"><div class="val">32.6%</div><div class="lbl">Gross Margin</div></div>
+<div class="exec-card blue"><div class="val">$1.37M</div><div class="lbl">EBITDA YTD</div></div>
+<div class="exec-card purple"><div class="val">52</div><div class="lbl">Fleet Size</div></div>
+<div class="exec-card green"><div class="val">67</div><div class="lbl">Headcount</div></div>
+<div class="exec-card accent"><div class="val">127</div><div class="lbl">Active Accounts</div></div>
+</div>
+
+<div class="section">
+<div class="section-title"><span class="icon">&#128200;</span> Financial Metrics</div>
+<div style="overflow-x:auto">
+<table class="data-table">
+<thead>
+<tr><th>Metric</th><th class="num">Q1 2026</th><th class="num">Q2 2026 (Proj)</th><th class="num">YTD</th><th class="num">FY2025 Actual</th></tr>
+</thead>
+<tbody>
+<tr><td>Revenue</td><td class="num">$2,100,000</td><td class="num">$2,100,000</td><td class="num accent bold">$4,200,000</td><td class="num">$11,400,000</td></tr>
+<tr><td>COGS</td><td class="num">$1,420,000</td><td class="num">$1,400,000</td><td class="num">$2,820,000</td><td class="num">$7,690,000</td></tr>
+<tr><td>Gross Profit</td><td class="num green">$680,000</td><td class="num green">$700,000</td><td class="num green bold">$1,380,000</td><td class="num">$3,710,000</td></tr>
+<tr><td>Operating Expenses</td><td class="num">$310,000</td><td class="num">$305,000</td><td class="num">$615,000</td><td class="num">$1,240,000</td></tr>
+<tr><td>EBITDA</td><td class="num blue">$370,000</td><td class="num blue">$405,000</td><td class="num blue bold">$775,000</td><td class="num">$2,470,000</td></tr>
+<tr><td>Net Income</td><td class="num green">$245,000</td><td class="num green">$272,000</td><td class="num green bold">$517,000</td><td class="num">$1,680,000</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title"><span class="icon">&#128663;</span> Fleet Performance</div>
+<div class="kpi-grid">
+<div class="kpi-card"><div class="header-row"><div><div class="val" style="color:var(--accent)">$16,827</div><div class="lbl">Revenue / Truck / Month</div></div></div><div class="sub">Based on 48 active trucks</div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val" style="color:var(--green)">$2.85</div><div class="lbl">Revenue per Mile</div></div><div class="compare good">+8% YoY</div></div><div class="sub">vs. industry avg $2.45</div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val" style="color:var(--blue)">$1.92</div><div class="lbl">Cost per Mile</div></div></div><div class="sub">Fuel $0.68 | Driver $0.85 | Maint $0.22 | Ins $0.17</div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val">487</div><div class="lbl">Avg Miles / Truck / Day</div></div></div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val" style="color:var(--green)">8.2%</div><div class="lbl">Deadhead Percentage</div></div><div class="compare good">Industry: 12%</div></div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val" style="color:var(--green)">94.3%</div><div class="lbl">Fleet Utilization</div></div></div><div class="sub">48 active / 52 total (4 in maintenance)</div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val">3.2 yrs</div><div class="lbl">Average Fleet Age</div></div></div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val">$0.22</div><div class="lbl">Maintenance Cost / Mile</div></div><div class="compare good">-15% YoY</div></div></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title"><span class="icon">&#128101;</span> Driver Metrics</div>
+<div class="kpi-grid">
+<div class="kpi-card"><div class="header-row"><div><div class="val" style="color:var(--green)">89%</div><div class="lbl">Driver Retention Rate</div></div><div class="compare good">Industry: 73%</div></div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val">3.4 yrs</div><div class="lbl">Avg Driver Tenure</div></div></div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val" style="color:var(--green)">4.6/5.0</div><div class="lbl">Driver Satisfaction</div></div></div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val" style="color:var(--accent)">$8,400</div><div class="lbl">Turnover Cost / Driver</div></div></div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val">$68,500</div><div class="lbl">Avg Driver Pay / Year</div></div><div class="compare good">Above market</div></div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val" style="color:var(--green)">0.8</div><div class="lbl">Safety Incidents / M Miles</div></div><div class="compare good">Industry: 2.1</div></div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val" style="color:var(--green)">0.3</div><div class="lbl">HOS Violations / Driver / Yr</div></div></div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val">52</div><div class="lbl">Total Drivers</div></div></div><div class="sub">8 Dispatch | 4 Mechanics | 3 Admin</div></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title"><span class="icon">&#9989;</span> Operational KPIs</div>
+<div class="kpi-grid">
+<div class="kpi-card"><div class="header-row"><div><div class="val" style="color:var(--green)">97.3%</div><div class="lbl">On-Time Delivery Rate</div></div><div class="compare good">Top decile</div></div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val">28 min</div><div class="lbl">Avg Delivery Time</div></div></div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val" style="color:var(--green)">0.2%</div><div class="lbl">Claims Rate</div></div></div><div class="sub">Lowest in Southeast region</div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val" style="color:var(--green)">4.8/5.0</div><div class="lbl">Customer Satisfaction</div></div></div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val" style="color:var(--accent)">189</div><div class="lbl">Loads per Day (Avg)</div></div></div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val">32,400 lbs</div><div class="lbl">Avg Load Weight</div></div></div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val" style="color:var(--blue)">12</div><div class="lbl">Reefer Units</div></div></div><div class="sub">Temperature-controlled capacity</div></div>
+<div class="kpi-card"><div class="header-row"><div><div class="val" style="color:var(--green)">100%</div><div class="lbl">ELD Compliance</div></div></div></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title"><span class="icon">&#127919;</span> Market Position</div>
+<div class="two-col">
+<div>
+<div class="kpi-grid" style="grid-template-columns:1fr">
+<div class="kpi-card"><div class="lbl">Service Area</div><div class="val" style="font-size:1rem;margin-top:4px">Southeast US</div><div class="sub">North Carolina, South Carolina, Georgia, Virginia, Tennessee</div></div>
+<div class="kpi-card"><div class="lbl">Target Market</div><div class="val" style="font-size:1rem;margin-top:4px">Mid-Market Manufacturers & Distributors</div><div class="sub">Diversified across 6 industries</div></div>
+<div class="kpi-card"><div class="lbl">Competitive Advantage</div><div class="val" style="font-size:.9rem;margin-top:4px;color:var(--accent)">AI-Powered Dispatch | 97%+ On-Time | Lowest Claims Rate</div></div>
+</div>
+</div>
+<div>
+<div class="kpi-grid" style="grid-template-columns:1fr 1fr">
+<div class="kpi-card"><div class="val" style="color:var(--green)">12.3%</div><div class="lbl">YoY Revenue Growth</div></div>
+<div class="kpi-card"><div class="val" style="color:var(--accent)">$2,400</div><div class="lbl">Customer Acq Cost</div></div>
+<div class="kpi-card"><div class="val" style="color:var(--green)">$94,000</div><div class="lbl">Customer LTV</div></div>
+<div class="kpi-card"><div class="val" style="color:var(--green)">39.2x</div><div class="lbl">LTV / CAC Ratio</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title"><span class="icon">&#128187;</span> Technology Investment</div>
+<ul class="tech-list">
+<li><div class="tech-icon">&#129302;</div><div><div class="tech-name">AI Dispatch Platform</div><div class="tech-desc">Reduces dispatch labor by 60%, improves route efficiency 15%. Automated load matching and ETA optimization.</div></div></li>
+<li><div class="tech-icon">&#128225;</div><div><div class="tech-name">Real-Time GPS Fleet Tracking</div><div class="tech-desc">30-second update intervals. Geofencing alerts for all 52 trucks. Live ETA sharing with customers.</div></div></li>
+<li><div class="tech-icon">&#128203;</div><div><div class="tech-name">Electronic Logging Devices</div><div class="tech-desc">100% fleet compliance. Automated HOS tracking and violation prevention. FMCSA-compliant.</div></div></li>
+<li><div class="tech-icon">&#128295;</div><div><div class="tech-name">Predictive Maintenance</div><div class="tech-desc">Reduced unplanned breakdowns by 42% since implementation. Sensor-based engine monitoring on all units.</div></div></li>
+<li><div class="tech-icon">&#128241;</div><div><div class="tech-name">Driver Mobile App</div><div class="tech-desc">98% adoption rate. Digital BOL, route navigation, ELD integration, real-time chat with dispatch.</div></div></li>
+</ul>
+</div>
+
+<div class="section">
+<div class="section-title"><span class="icon">&#128200;</span> Monthly Revenue Trend</div>
+<div class="chart-container">
+<h4>Revenue by Month (Last 12 Months, in $K)</h4>
+<div class="bar-chart" id="revenueChart"></div>
+</div>
+</div>
+
+<div class="two-col">
+<div class="chart-container">
+<h4>Fleet Utilization Trend (%)</h4>
+<div class="bar-chart" id="utilizationChart" style="height:140px"></div>
+</div>
+<div class="chart-container">
+<h4>Driver Retention: Wolfs vs Industry</h4>
+<div class="compare-chart" id="retentionChart"></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title"><span class="icon">&#128640;</span> 5-Year Growth Projections</div>
+<div style="overflow-x:auto">
+<table class="data-table">
+<thead>
+<tr><th>Year</th><th class="num">Revenue</th><th class="num">Fleet Size</th><th class="num">EBITDA Margin</th><th class="num">Headcount (Est)</th></tr>
+</thead>
+<tbody>
+<tr><td class="bold">2026</td><td class="num accent bold">$12,800,000</td><td class="num">52</td><td class="num">32.6%</td><td class="num">67</td></tr>
+<tr><td>2027</td><td class="num">$16,500,000</td><td class="num">68</td><td class="num green">34.1%</td><td class="num">87</td></tr>
+<tr><td>2028</td><td class="num">$21,200,000</td><td class="num">85</td><td class="num green">35.8%</td><td class="num">108</td></tr>
+<tr><td>2029</td><td class="num">$27,400,000</td><td class="num">110</td><td class="num green">37.2%</td><td class="num">140</td></tr>
+<tr><td class="bold">2030</td><td class="num green bold">$35,000,000</td><td class="num bold">140</td><td class="num green bold">38.5%</td><td class="num bold">178</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title"><span class="icon">&#9888;&#65039;</span> Risk Factors & Mitigation</div>
+<div class="risk-card"><div class="risk-icon fuel">&#9981;</div><div class="risk-text"><div class="title">Fuel Price Volatility</div><div class="desc">Mitigated by fuel surcharge pass-through clauses in 94% of contracts. Hedging strategy covers 60% of projected fuel needs at locked rates through Q3 2026.</div></div></div>
+<div class="risk-card"><div class="risk-icon driver">&#128101;</div><div class="risk-text"><div class="title">Driver Shortage</div><div class="desc">Mitigated by above-market compensation ($68.5K avg vs. $62K industry), comprehensive benefits, and AI-assisted scheduling that improves work-life balance. 89% retention vs. 73% industry average.</div></div></div>
+<div class="risk-card"><div class="risk-icon reg">&#128220;</div><div class="risk-text"><div class="title">Regulatory Changes</div><div class="desc">Dedicated compliance team monitors FMCSA, DOT, and state-level regulatory developments. 100% ELD compliance. Proactive driver training on emerging requirements.</div></div></div>
+<div class="risk-card"><div class="risk-icon econ">&#128202;</div><div class="risk-text"><div class="title">Economic Cyclicality</div><div class="desc">Diversified customer base across 6 industries (manufacturing 28%, retail 22%, construction 18%, agriculture 14%, chemicals 10%, electronics 8%). No single customer exceeds 6% of revenue.</div></div></div>
+</div>
+
+</div>
+
+<script>
+var RevenueData = [
+  {month:'May 25',val:920},{month:'Jun 25',val:980},{month:'Jul 25',val:1020},{month:'Aug 25',val:990},
+  {month:'Sep 25',val:950},{month:'Oct 25',val:1010},{month:'Nov 25',val:960},{month:'Dec 25',val:870},
+  {month:'Jan 26',val:1050},{month:'Feb 26',val:1000},{month:'Mar 26',val:1050},{month:'Apr 26',val:1100}
+];
+var MaxRev = Math.max.apply(null, RevenueData.map(function(D){return D.val}));
+var RevChart = document.getElementById('revenueChart');
+RevenueData.forEach(function(D) {
+  var Pct = (D.val / MaxRev * 100);
+  var Col = document.createElement('div');
+  Col.className = 'bar-col';
+  Col.innerHTML = '<div class="bar-value">$' + D.val + 'K</div>' +
+    '<div class="bar" style="height:' + Pct + '%;background:' + (D.val >= 1050 ? 'var(--green)' : D.val >= 950 ? 'var(--accent)' : 'var(--blue)') + '"></div>' +
+    '<div class="bar-label" style="writing-mode:horizontal-tb;transform:none;font-size:.6rem">' + D.month + '</div>';
+  RevChart.appendChild(Col);
+});
+
+var UtilData = [
+  {month:'May',val:91.2},{month:'Jun',val:92.5},{month:'Jul',val:93.1},{month:'Aug',val:92.8},
+  {month:'Sep',val:93.5},{month:'Oct',val:93.8},{month:'Nov',val:94.0},{month:'Dec',val:91.5},
+  {month:'Jan',val:93.8},{month:'Feb',val:94.1},{month:'Mar',val:94.3},{month:'Apr',val:94.3}
+];
+var UtilChart = document.getElementById('utilizationChart');
+UtilData.forEach(function(D) {
+  var Pct = ((D.val - 88) / 8 * 100);
+  var Col = document.createElement('div');
+  Col.className = 'bar-col';
+  Col.innerHTML = '<div class="bar-value">' + D.val + '%</div>' +
+    '<div class="bar" style="height:' + Math.max(Pct, 5) + '%;background:' + (D.val >= 94 ? 'var(--green)' : 'var(--blue)') + '"></div>' +
+    '<div class="bar-label" style="writing-mode:horizontal-tb;transform:none;font-size:.58rem">' + D.month + '</div>';
+  UtilChart.appendChild(Col);
+});
+
+var RetChart = document.getElementById('retentionChart');
+var RetData = [
+  {label:'Wolfs 2024',val:86,color:'var(--blue)'},
+  {label:'Wolfs 2025',val:88,color:'var(--accent)'},
+  {label:'Wolfs 2026',val:89,color:'var(--green)'},
+  {label:'Industry Avg',val:73,color:'var(--gray)'}
+];
+RetData.forEach(function(D) {
+  var Item = document.createElement('div');
+  Item.className = 'compare-item';
+  Item.innerHTML = '<div class="compare-bar-track"><div class="compare-bar-fill" style="height:' + D.val + '%;background:' + D.color + '"></div></div>' +
+    '<div class="compare-value" style="color:' + D.color + '">' + D.val + '%</div>' +
+    '<div class="compare-label">' + D.label + '</div>';
+  RetChart.appendChild(Item);
+});
+</script>
+</body>
+</html>

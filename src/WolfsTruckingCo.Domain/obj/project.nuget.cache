@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "kjzpL3UrfRI=",
+  "success": true,
+  "projectFilePath": "C:\\work\\wolfstruckingco.com\\src\\WolfsTruckingCo.Domain\\WolfsTruckingCo.Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user1\\.nuget\\packages\\meziantou.analyzer\\2.0.194\\meziantou.analyzer.2.0.194.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\roslynator.analyzers\\4.13.1\\roslynator.analyzers.4.13.1.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\sonaranalyzer.csharp\\10.6.0.109712\\sonaranalyzer.csharp.10.6.0.109712.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\stylecop.analyzers\\1.2.0-beta.556\\stylecop.analyzers.1.2.0-beta.556.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\stylecop.analyzers.unstable\\1.2.0.556\\stylecop.analyzers.unstable.1.2.0.556.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\work\\wolfstruckingco.com\\src\\WolfsTruckingCo.SharedUI\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "obj\\Release\\net11.0\\staticwebassets\\WolfsTruckingCo.SharedUI.PackageAssets.json",
+      "PackagePath": "build\\WolfsTruckingCo.SharedUI.PackageAssets.json"
+    },
+    {
+      "Id": "obj\\Release\\net11.0\\staticwebassets\\msbuild.WolfsTruckingCo.SharedUI.Microsoft.AspNetCore.StaticWebAssets.targets",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.targets"
+    },
+    {
+      "Id": "obj\\Release\\net11.0\\staticwebassets\\msbuild.build.WolfsTruckingCo.SharedUI.targets",
+      "PackagePath": "build\\WolfsTruckingCo.SharedUI.targets"
+    },
+    {
+      "Id": "obj\\Release\\net11.0\\staticwebassets\\msbuild.buildMultiTargeting.WolfsTruckingCo.SharedUI.targets",
+      "PackagePath": "buildMultiTargeting\\WolfsTruckingCo.SharedUI.targets"
+    },
+    {
+      "Id": "obj\\Release\\net11.0\\staticwebassets\\msbuild.buildTransitive.WolfsTruckingCo.SharedUI.targets",
+      "PackagePath": "buildTransitive\\WolfsTruckingCo.SharedUI.targets"
+    }
+  ],
+  "ElementsToRemove": []
+}

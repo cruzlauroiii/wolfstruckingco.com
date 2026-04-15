@@ -1,0 +1,296 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v11.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v11.0": {
+      "WolfsTruckingCo.SharedUI/1.0.0": {
+        "dependencies": {
+          "AspNetCore.SassCompiler": "1.97.1",
+          "Microsoft.AspNetCore.Components.Web": "11.0.0-preview.3.26207.106",
+          "WolfsTruckingCo.Application": "1.0.0",
+          "WolfsTruckingCo.Domain": "1.0.0"
+        },
+        "runtime": {
+          "WolfsTruckingCo.SharedUI.dll": {}
+        }
+      },
+      "AspNetCore.SassCompiler/1.97.1": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Binder": "11.0.0-preview.3.26207.106"
+        },
+        "runtime": {
+          "lib/net6.0/AspNetCore.SassCompiler.dll": {
+            "assemblyVersion": "1.97.1.0",
+            "fileVersion": "1.97.1.0",
+            "localPath": "AspNetCore.SassCompiler.dll"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Authorization/11.0.0-preview.3.26207.106": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Metadata": "11.0.0-preview.3.26207.106",
+          "Microsoft.Extensions.Diagnostics": "11.0.0-preview.3.26207.106"
+        },
+        "runtime": {
+          "lib/net11.0/Microsoft.AspNetCore.Authorization.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.26.20806",
+            "localPath": "Microsoft.AspNetCore.Authorization.dll"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Components/11.0.0-preview.3.26207.106": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Authorization": "11.0.0-preview.3.26207.106"
+        },
+        "runtime": {
+          "lib/net11.0/Microsoft.AspNetCore.Components.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.26.20806",
+            "localPath": "Microsoft.AspNetCore.Components.dll"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Components.Forms/11.0.0-preview.3.26207.106": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "11.0.0-preview.3.26207.106",
+          "Microsoft.Extensions.Validation": "11.0.0-preview.3.26207.106"
+        },
+        "runtime": {
+          "lib/net11.0/Microsoft.AspNetCore.Components.Forms.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.26.20806",
+            "localPath": "Microsoft.AspNetCore.Components.Forms.dll"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Components.Web/11.0.0-preview.3.26207.106": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "11.0.0-preview.3.26207.106",
+          "Microsoft.AspNetCore.Components.Forms": "11.0.0-preview.3.26207.106",
+          "Microsoft.Extensions.DependencyInjection": "11.0.0-preview.3.26207.106",
+          "Microsoft.JSInterop": "11.0.0-preview.3.26207.106"
+        },
+        "runtime": {
+          "lib/net11.0/Microsoft.AspNetCore.Components.Web.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.26.20806",
+            "localPath": "Microsoft.AspNetCore.Components.Web.dll"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Metadata/11.0.0-preview.3.26207.106": {
+        "runtime": {
+          "lib/net11.0/Microsoft.AspNetCore.Metadata.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.26.20806",
+            "localPath": "Microsoft.AspNetCore.Metadata.dll"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration/11.0.0-preview.3.26207.106": {
+        "runtime": {
+          "lib/net11.0/Microsoft.Extensions.Configuration.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.26.20806",
+            "localPath": "Microsoft.Extensions.Configuration.dll"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration.Binder/11.0.0-preview.3.26207.106": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "11.0.0-preview.3.26207.106"
+        },
+        "runtime": {
+          "lib/net11.0/Microsoft.Extensions.Configuration.Binder.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.26.20806",
+            "localPath": "Microsoft.Extensions.Configuration.Binder.dll"
+          }
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection/11.0.0-preview.3.26207.106": {
+        "runtime": {
+          "lib/net11.0/Microsoft.Extensions.DependencyInjection.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.26.20806",
+            "localPath": "Microsoft.Extensions.DependencyInjection.dll"
+          }
+        }
+      },
+      "Microsoft.Extensions.Diagnostics/11.0.0-preview.3.26207.106": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "11.0.0-preview.3.26207.106",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "11.0.0-preview.3.26207.106"
+        },
+        "runtime": {
+          "lib/net11.0/Microsoft.Extensions.Diagnostics.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.26.20806",
+            "localPath": "Microsoft.Extensions.Diagnostics.dll"
+          }
+        }
+      },
+      "Microsoft.Extensions.Options.ConfigurationExtensions/11.0.0-preview.3.26207.106": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Binder": "11.0.0-preview.3.26207.106"
+        },
+        "runtime": {
+          "lib/net11.0/Microsoft.Extensions.Options.ConfigurationExtensions.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.26.20806",
+            "localPath": "Microsoft.Extensions.Options.ConfigurationExtensions.dll"
+          }
+        }
+      },
+      "Microsoft.Extensions.Validation/11.0.0-preview.3.26207.106": {
+        "runtime": {
+          "lib/net11.0/Microsoft.Extensions.Validation.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.26.20806",
+            "localPath": "Microsoft.Extensions.Validation.dll"
+          }
+        }
+      },
+      "Microsoft.JSInterop/11.0.0-preview.3.26207.106": {
+        "runtime": {
+          "lib/net11.0/Microsoft.JSInterop.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.26.20806",
+            "localPath": "Microsoft.JSInterop.dll"
+          }
+        }
+      },
+      "WolfsTruckingCo.Application/1.0.0": {
+        "dependencies": {
+          "WolfsTruckingCo.Domain": "1.0.0"
+        },
+        "runtime": {
+          "WolfsTruckingCo.Application.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "WolfsTruckingCo.Domain/1.0.0": {
+        "runtime": {
+          "WolfsTruckingCo.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "WolfsTruckingCo.SharedUI/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "AspNetCore.SassCompiler/1.97.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6O6qf/MVXglqaIVPIFbI3ZH1Y8Zl3C/uR/FLjElc4kMGgvuZsSwy93VIuz2fPitqjUeE7szFbkxrnvNf68LDKA==",
+      "path": "aspnetcore.sasscompiler/1.97.1",
+      "hashPath": "aspnetcore.sasscompiler.1.97.1.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authorization/11.0.0-preview.3.26207.106": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aG5EDY9+cuNp5JIHGI8JI5nK33VWTWfL6wrkPXH/YF4H7R4ocdy1v5GluBjLsJmkuOfnhWx+OnrquTG1nk2+DA==",
+      "path": "microsoft.aspnetcore.authorization/11.0.0-preview.3.26207.106",
+      "hashPath": "microsoft.aspnetcore.authorization.11.0.0-preview.3.26207.106.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Components/11.0.0-preview.3.26207.106": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vYjuCf+PeTSSRqj6rnsy2GTug6uPc19APFYZeoblqS6X7dPC4+2nfyLhse4b8U2OUA0MXo6KSAKmN3h7QlJr5Q==",
+      "path": "microsoft.aspnetcore.components/11.0.0-preview.3.26207.106",
+      "hashPath": "microsoft.aspnetcore.components.11.0.0-preview.3.26207.106.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Components.Forms/11.0.0-preview.3.26207.106": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xmlT3nwvksyCBbpokkRggUYC8ePCjk62KidZQNPK0rSAoJjL1obyr5LaijGUueHszOOeNveJMAPFLvVDZp6IKA==",
+      "path": "microsoft.aspnetcore.components.forms/11.0.0-preview.3.26207.106",
+      "hashPath": "microsoft.aspnetcore.components.forms.11.0.0-preview.3.26207.106.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Components.Web/11.0.0-preview.3.26207.106": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-mWBNAbZznffrMIkxvBfUU44Yr2IMZYWYyqVXbOd6fdABQnmK9iI+pMez9kWT6GbyJr3/CiilO5VzzLLWvtu4jw==",
+      "path": "microsoft.aspnetcore.components.web/11.0.0-preview.3.26207.106",
+      "hashPath": "microsoft.aspnetcore.components.web.11.0.0-preview.3.26207.106.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Metadata/11.0.0-preview.3.26207.106": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OCMOT108ju0Iy1JjbVAIkOI8PuvPqzWf1QUAk1e/JHR4IvgvSTlCy9AvrjixkNyxaO4ZMwWrMiC4DyCHicTdvw==",
+      "path": "microsoft.aspnetcore.metadata/11.0.0-preview.3.26207.106",
+      "hashPath": "microsoft.aspnetcore.metadata.11.0.0-preview.3.26207.106.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Configuration/11.0.0-preview.3.26207.106": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Do6yieeVHdvwyIKED9oPfFHAH5PAkvwDjR+65u2ZS/ddSHvEtOd5e5rrAQyhIIflbCz13graO/XkBQQV5EJNkg==",
+      "path": "microsoft.extensions.configuration/11.0.0-preview.3.26207.106",
+      "hashPath": "microsoft.extensions.configuration.11.0.0-preview.3.26207.106.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Configuration.Binder/11.0.0-preview.3.26207.106": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ulM+V32IqcFYIqIxxT7MZjSfpQ9T3k33chyBrnjcfSm1BQFIgtdTcXAlZJpzZmFAklh4PHG7BFuVw9PIJ1KcUg==",
+      "path": "microsoft.extensions.configuration.binder/11.0.0-preview.3.26207.106",
+      "hashPath": "microsoft.extensions.configuration.binder.11.0.0-preview.3.26207.106.nupkg.sha512"
+    },
+    "Microsoft.Extensions.DependencyInjection/11.0.0-preview.3.26207.106": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aq5Lc0SLQiJGRauG829dTpoMygFLpuelBspnnNi4rRKa8C8eqruxdrCIzJ0po2NQlpgoNprHlC0vQsT0fDxH4w==",
+      "path": "microsoft.extensions.dependencyinjection/11.0.0-preview.3.26207.106",
+      "hashPath": "microsoft.extensions.dependencyinjection.11.0.0-preview.3.26207.106.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Diagnostics/11.0.0-preview.3.26207.106": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Gv4wwBodQj50cbyfXvoHRue1sEA4hVSwBv2bR0Oi8Re/cxvxyfrBKWJg5KYANDQW242uohhzDSOmyx0kY8wNLw==",
+      "path": "microsoft.extensions.diagnostics/11.0.0-preview.3.26207.106",
+      "hashPath": "microsoft.extensions.diagnostics.11.0.0-preview.3.26207.106.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Options.ConfigurationExtensions/11.0.0-preview.3.26207.106": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-DbZcRfBrCSLas0cS0iKdiez9kM/7Z3rz5xlDJKqAxhGPGzhKJu82Z3+LNANPZSTUbyYnNawb3Euvv8ACPPatjQ==",
+      "path": "microsoft.extensions.options.configurationextensions/11.0.0-preview.3.26207.106",
+      "hashPath": "microsoft.extensions.options.configurationextensions.11.0.0-preview.3.26207.106.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Validation/11.0.0-preview.3.26207.106": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-C4Pr8mgHyGwh6BBKRGvPba5E1mSYAagvpQ3fNSG7Zu34LbMcIevtnICHjHuzS9ZVsr0xCmTLGnvui7Q8sLyiOQ==",
+      "path": "microsoft.extensions.validation/11.0.0-preview.3.26207.106",
+      "hashPath": "microsoft.extensions.validation.11.0.0-preview.3.26207.106.nupkg.sha512"
+    },
+    "Microsoft.JSInterop/11.0.0-preview.3.26207.106": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Aium3LUgCopPfwpMUFgypek80eYRV1w2jc1K6BgRQdFzJIqq2MHw2fiHzS8ga9diaDkHEh8Vsb0WfMnn4yqlhg==",
+      "path": "microsoft.jsinterop/11.0.0-preview.3.26207.106",
+      "hashPath": "microsoft.jsinterop.11.0.0-preview.3.26207.106.nupkg.sha512"
+    },
+    "WolfsTruckingCo.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "WolfsTruckingCo.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

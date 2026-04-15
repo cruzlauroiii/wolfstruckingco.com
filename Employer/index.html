@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Employer View | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<meta name="theme-color" content="#ff6b35">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--info:#3b82f6;--radius:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.TopBar{position:sticky;top:0;z-index:10;background:rgba(15,20,25,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+.Brand{font-weight:800;font-size:1.05rem;display:flex;align-items:center;gap:8px}
+.Brand .Logo{width:28px;height:28px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:.85rem}
+.Brand a{color:var(--text);text-decoration:none}
+.TopActions a{color:var(--text-muted);text-decoration:none;padding:8px 12px;font-size:.85rem}
+.TopActions a:hover{color:var(--accent)}
+.Stage{max-width:1100px;margin:0 auto;padding:28px 20px 80px}
+
+.PanelHead{margin-bottom:18px}
+.PanelHead h1{font-size:1.4rem;font-weight:800;margin-bottom:4px}
+.PanelHead p{color:var(--text-muted);font-size:.92rem}
+
+.RoleBar{display:flex;gap:10px;align-items:center;margin-bottom:20px;flex-wrap:wrap}
+.RoleBar label{font-size:.85rem;color:var(--text-muted)}
+.RoleBar select{padding:10px 14px;border-radius:8px;background:var(--card);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.9rem}
+.RoleBar button{padding:10px 16px;border-radius:8px;background:var(--accent);color:#fff;border:none;font-weight:700;cursor:pointer}
+
+.RoleMeta{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:18px;font-size:.9rem;line-height:1.6}
+.RoleMeta .Pills span{display:inline-block;padding:3px 9px;border-radius:11px;font-size:.72rem;background:rgba(255,107,53,.12);color:var(--accent);border:1px solid rgba(255,107,53,.3);margin-right:6px;margin-bottom:4px}
+
+.Candidates{display:grid;gap:12px}
+.CandCard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:grid;grid-template-columns:60px 1fr auto;gap:14px;align-items:start}
+.Avatar{width:52px;height:52px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:1.1rem}
+.CandBody h3{font-size:1rem;margin-bottom:3px}
+.CandMeta{color:var(--text-muted);font-size:.82rem;margin-bottom:8px}
+.AiSummary{background:rgba(59,130,246,.08);border-left:3px solid var(--info);padding:10px 12px;border-radius:6px;font-size:.85rem;line-height:1.55;white-space:pre-wrap;margin-top:8px}
+.AiSummaryLabel{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--info);margin-bottom:3px}
+.MatchScore{text-align:center;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:10px;padding:10px 14px;color:var(--success);min-width:80px}
+.MatchScore .Num{font-size:1.4rem;font-weight:800;display:block}
+.MatchScore .Lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.5px}
+.Spinner{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid rgba(59,130,246,.25);border-top-color:var(--info);animation:spin .7s linear infinite;margin-right:6px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.Empty{text-align:center;padding:60px 20px;color:var(--text-muted)}
+</style>
+</head>
+<body>
+
+<div class="TopBar">
+  <div class="Brand"><span class="Logo">W</span><a href="/wolfstruckingco.com/">Wolfs — Employer View</a></div>
+  <div class="TopActions">
+    <a href="/wolfstruckingco.com/HiringHall/">Hiring Hall</a>
+    <a href="/wolfstruckingco.com/CareerAgent/">Career Agent</a>
+    <a href="/wolfstruckingco.com/Dashboard/">Dashboard</a>
+  </div>
+</div>
+<div id="KeyModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;max-width:520px;width:100%;padding:28px">
+    <h3 style="font-size:1.1rem;margin-bottom:6px;color:var(--text)">Use your own Anthropic API key</h3>
+    <p style="color:var(--text-muted);font-size:.85rem;line-height:1.5;margin-bottom:16px">Paste a key to get real Claude candidate summaries. Stored only in your browser and sent as a request header.</p>
+    <input id="KeyInput" type="password" placeholder="sk-ant-..." style="width:100%;padding:12px 14px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;margin-bottom:12px">
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button onclick="ClearKey()" style="padding:10px 16px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--text);cursor:pointer">Clear</button>
+      <button onclick="CloseKeyModal()" style="padding:10px 16px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--text);cursor:pointer">Cancel</button>
+      <button onclick="SaveKey()" style="padding:10px 16px;border-radius:8px;background:var(--accent);color:#fff;border:none;font-weight:700;cursor:pointer">Save &amp; enable</button>
+    </div>
+  </div>
+</div>
+<script>
+function OpenKeyModal() { const m = document.getElementById('KeyModal'); m.style.display = 'flex'; document.getElementById('KeyInput').value = WolfsAI.getKey() || ''; }
+function CloseKeyModal() { document.getElementById('KeyModal').style.display = 'none'; }
+function SaveKey() { WolfsAI.setKey(document.getElementById('KeyInput').value.trim()); UpdateAiStatus(); CloseKeyModal(); Render(); }
+function ClearKey() { WolfsAI.setKey(''); UpdateAiStatus(); CloseKeyModal(); }
+function UpdateAiStatus() { const el = document.getElementById('AiStatus'); if (!el) return; if (WolfsAI.hasKey()) { el.textContent = '🔑 Real Claude on'; el.style.color = 'var(--success)'; } else { el.textContent = '🔑 Use real Claude'; el.style.color = ''; } }
+document.getElementById('KeyModal').addEventListener('click', ev => { if (ev.target.id === 'KeyModal') CloseKeyModal(); });
+(function waitForAi(){ if (window.WolfsAI) UpdateAiStatus(); else setTimeout(waitForAi, 50); })();
+</script>
+
+<div class="Stage">
+  <div class="PanelHead">
+    <h1>Employer backoffice</h1>
+    <p>Live KPIs for jobs you posted plus the matched candidate pool for open roles.</p>
+  </div>
+
+  <div id="EmployerKpi" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:22px"></div>
+
+  <div id="MyJobs" style="margin-bottom:26px"></div>
+
+  <div class="PanelHead" style="margin-top:4px"><h2 style="font-size:1.1rem">Candidate pool</h2><p>Every qualifying worker with an AI-written candidate summary, pitched for this hiring manager.</p></div>
+
+  <div class="RoleBar">
+    <label>Open role:</label>
+    <select id="RoleSel"></select>
+    <button id="RefreshBtn">Refresh matches</button>
+  </div>
+
+  <div id="RoleMeta" class="RoleMeta"></div>
+  <div id="Candidates" class="Candidates"><div class="Empty">Select a role…</div></div>
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+<script>window.__allowedRoles = ['client','employer','admin','staff'];</script>
+<script src="/wolfstruckingco.com/auth-guard.js"></script>
+<script src="/wolfstruckingco.com/auth-header.js"></script>
+<script src="/wolfstruckingco.com/db.js"></script>
+<script>
+// Toggle a collapsible route map inline inside the "Your jobs" card. Reuses OSRM + Leaflet.
+// Keeps geocode results cached per job so re-opening is instant.
+window.__routeMaps = {};
+window.__geocodeCache = {};
+async function __geocode(q) {
+  if (!q || !q.trim()) return null;
+  if (window.__geocodeCache[q]) return window.__geocodeCache[q];
+  try {
+    const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(q));
+    const arr = await r.json();
+    if (arr && arr.length) {
+      const ll = [parseFloat(arr[0].lat), parseFloat(arr[0].lon)];
+      window.__geocodeCache[q] = ll;
+      return ll;
+    }
+  } catch (_) {}
+  return null;
+}
+function __inferTraffic(km, min) {
+  if (!km || !min) return { label: 'unknown', color: '#8899aa' };
+  const kmh = (km / min) * 60;
+  if (kmh >= 55) return { label: 'clear', color: '#22c55e' };
+  if (kmh >= 30) return { label: 'moderate', color: '#f59e0b' };
+  return { label: 'heavy', color: '#ef4444' };
+}
+window.__cancelJob = async function(jobId) {
+  if (!confirm('Cancel this open job? The $49 fee is refunded and drivers will no longer see it.')) return;
+  try {
+    const job = await WolfsDB.get('jobs', jobId);
+    if (!job) return;
+    job.status = 'cancelled';
+    job.cancelledAt = new Date().toISOString();
+    await WolfsDB.put('jobs', job);
+    try { await WolfsDB.put('audit', { id: 'aud_' + Date.now() + '_' + Math.random().toString(36).slice(2,6), kind: 'job.cancel', at: job.cancelledAt, subject: job.id, meta: { title: job.title } }); } catch (_) {}
+    alert('Job cancelled and refund queued. Audit trail updated.');
+    await RenderKpi();
+  } catch (ex) { alert('Cancel failed: ' + ex.message); }
+};
+window.__showRoute = async function(jobId) {
+  const mapEl = document.getElementById('RouteMap_' + jobId);
+  const infoEl = document.getElementById('RouteInfo_' + jobId);
+  if (!mapEl) return;
+  // Prevent card parent click from bubbling when user clicks map.
+  mapEl.onclick = (e) => e.stopPropagation();
+  if (mapEl.style.display === 'block') {
+    mapEl.style.display = 'none';
+    infoEl.style.display = 'none';
+    return;
+  }
+  mapEl.style.display = 'block';
+  infoEl.style.display = 'block';
+  infoEl.textContent = 'Loading route…';
+  const job = (window.__wolfsEmployerJobs || []).find(j => j.id === jobId);
+  if (!job) { infoEl.textContent = 'Job not found.'; return; }
+  const m = window.__routeMaps[jobId] || (window.__routeMaps[jobId] = L.map(mapEl, { zoomControl: true, attributionControl: false }).setView([34.05, -118.24], 10));
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 19, subdomains: 'abcd' }).addTo(m);
+  m.invalidateSize();
+  const addrs = [job.pickup, ...(job.stops || []), job.delivery];
+  const coords = [];
+  for (const a of addrs) {
+    const c = await __geocode(a);
+    if (c) coords.push(c);
+  }
+  if (coords.length < 2) { infoEl.textContent = 'Could not geocode the route.'; return; }
+  const waypoints = coords.map(([la, lo]) => L.latLng(la, lo));
+  if (m._routingControl) m.removeControl(m._routingControl);
+  m._routingControl = L.Routing.control({
+    waypoints,
+    router: L.Routing.osrmv1({ serviceUrl: 'https://router.project-osrm.org/route/v1' }),
+    lineOptions: { styles: [{ color: '#ff6b35', weight: 5, opacity: .9 }] },
+    show: false, addWaypoints: false, draggableWaypoints: false, fitSelectedRoutes: true,
+    createMarker: (i, wp) => L.marker(wp.latLng, { icon: L.divIcon({ className: '', html: '<div style="width:20px;height:20px;border-radius:50%;background:' + (i===0 ? '#22c55e' : i===waypoints.length-1 ? '#ff6b35' : '#3b82f6') + ';border:3px solid #0f1419;box-shadow:0 2px 6px rgba(0,0,0,.4)"></div>', iconSize:[20,20], iconAnchor:[10,10] }) }),
+  }).on('routesfound', (e) => {
+    const r = e.routes[0];
+    const km = r.summary.totalDistance / 1000;
+    const min = r.summary.totalTime / 60;
+    const t = __inferTraffic(km, min);
+    infoEl.innerHTML = `<b>${km.toFixed(1)} km</b> · <b>${Math.round(min)} min</b> · <span style="color:${t.color};font-weight:700;text-transform:uppercase">${t.label} traffic</span> · ${coords.length} waypoints`;
+  }).on('routingerror', () => {
+    infoEl.textContent = 'Routing error — OSRM might be rate-limited. Try again in a moment.';
+  }).addTo(m);
+};
+</script>
+<script src="/wolfstruckingco.com/ai.js"></script>
+<script>
+(async function() {
+  await WolfsDB.seed();
+  const roles = await WolfsDB.all('roles');
+  const sel = document.getElementById('RoleSel');
+  sel.innerHTML = roles.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+  sel.addEventListener('change', Render);
+  document.getElementById('RefreshBtn').addEventListener('click', () => { RenderKpi(); Render(); });
+  await RenderKpi();
+  await Render();
+})();
+
+async function RenderKpi() {
+  const email = (localStorage.getItem('wolfs_email') || '').toLowerCase();
+  const [jobs, charges, timesheets, workers] = await Promise.all([
+    WolfsDB.all('jobs'), WolfsDB.all('charges'), WolfsDB.all('timesheets'), WolfsDB.all('workers'),
+  ]);
+  const mine = jobs.filter(j => ((j.postedBy || j.employerEmail || '').toLowerCase() === email) || (!email && true));
+  const open = mine.filter(j => j.status === 'open').length;
+  const active = mine.filter(j => j.status === 'accepted' || j.status === 'in_progress').length;
+  const done = mine.filter(j => j.status === 'completed').length;
+  const myCharges = charges.filter(c => ((c.email || '').toLowerCase() === email) || (!email && true));
+  const spent = myCharges.reduce((a, c) => a + (Number(c.amount) || 0), 0);
+  const paidOut = mine.reduce((a, j) => a + ((j.hours || 0) * (j.payRate || 0) * (j.status === 'completed' ? 1 : 0)), 0);
+  const tile = (label, val, accent) => `<div style="background:var(--card);border:1px solid var(--border);border-left:3px solid ${accent};border-radius:10px;padding:14px 16px"><div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-bottom:6px">${label}</div><div style="font-size:1.4rem;font-weight:800">${val}</div></div>`;
+  document.getElementById('EmployerKpi').innerHTML =
+    tile('Posted jobs', mine.length, 'var(--accent)') +
+    tile('Open', open, 'var(--info)') +
+    tile('Active', active, 'var(--info)') +
+    tile('Completed', done, 'var(--success)') +
+    tile('Total charged', '$' + spent.toFixed(2), 'var(--accent)') +
+    tile('Driver pay (completed)', '$' + paidOut.toFixed(2), 'var(--success)');
+
+  const myJobs = mine.slice().sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+  const mj = document.getElementById('MyJobs');
+  if (!myJobs.length) {
+    mj.innerHTML = '<div style="background:var(--card);border:1px dashed var(--border);border-radius:10px;padding:18px 20px;color:var(--text-muted);font-size:.9rem">No jobs yet. <a href="/wolfstruckingco.com/Employer/Post/" style="color:var(--accent);font-weight:700">Post one</a>.</div>';
+    return;
+  }
+  const wmap = Object.fromEntries(workers.map(w => [w.id, w.name || w.email]));
+  mj.innerHTML = '<h2 style="font-size:1.05rem;margin-bottom:10px">Your jobs</h2><div style="display:grid;gap:8px">' + myJobs.map(j => {
+    const pill = j.status === 'open' ? 'background:rgba(59,130,246,.15);color:var(--info)' :
+      j.status === 'completed' ? 'background:rgba(34,197,94,.15);color:var(--success)' :
+      'background:rgba(255,107,53,.15);color:var(--accent)';
+    const who = j.acceptedBy ? (wmap[j.acceptedBy] || j.acceptedBy) : '—';
+    const pay = '$' + ((j.hours || 0) * (j.payRate || 0)).toFixed(2);
+    const stopsTxt = (j.stops && j.stops.length) ? ' · ' + j.stops.length + ' stop' + (j.stops.length === 1 ? '' : 's') : '';
+    const cancelBtn = j.status === 'open'
+      ? `<button class="CancelBtn" onclick="event.stopPropagation();window.__cancelJob('${Esc(j.id)}')" style="padding:5px 11px;border-radius:7px;border:1px solid var(--border);background:transparent;color:#ef4444;font-size:.72rem;font-weight:700;cursor:pointer">Cancel job</button>`
+      : '';
+    return `<div class="JobCardItem" onclick="window.__showRoute('${Esc(j.id)}')" style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="min-width:220px"><b>${Esc(j.title || j.id)}</b><div style="color:var(--text-muted);font-size:.8rem">${Esc(j.pickup || '')} ${j.delivery ? '→ '+Esc(j.delivery) : ''}${stopsTxt}</div></div>
+      <div style="font-size:.85rem">Driver: ${Esc(who)}</div>
+      <div style="font-size:.85rem">${j.hours || 0}h × $${j.payRate || 0} = <b>${pay}</b></div>
+      <div style="display:flex;gap:8px;align-items:center"><span style="padding:3px 10px;border-radius:10px;font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;${pill}">${Esc(j.status || 'unknown')}</span>${cancelBtn}</div>
+      <div style="width:100%"><div class="RouteMapForJob" id="RouteMap_${Esc(j.id)}" style="display:none;width:100%;height:260px;border-radius:8px;border:1px solid var(--border);background:#0b1016;margin-top:10px"></div><div class="RouteInfoForJob" id="RouteInfo_${Esc(j.id)}" style="display:none;font-size:.8rem;color:var(--text-muted);margin-top:6px"></div></div>
+    </div>`;
+  }).join('') + '</div>';
+  window.__wolfsEmployerJobs = myJobs;
+}
+
+function Esc(s){return (s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+async function Render() {
+  const roleId = document.getElementById('RoleSel').value;
+  const [roles, badges, workers] = await Promise.all([WolfsDB.all('roles'), WolfsDB.all('badges'), WolfsDB.all('workers')]);
+  const role = roles.find(r => r.id === roleId);
+  const bmap = Object.fromEntries(badges.map(b => [b.id, b.name]));
+  const reqBadgeNames = (role.requiredBadges||[]).map(id => bmap[id]||id);
+  document.getElementById('RoleMeta').innerHTML = `
+    <b>${Esc(role.name)}</b><br>
+    <span style="color:var(--text-muted)">${Esc(role.summaryCustomer||'')}</span><br>
+    <div class="Pills" style="margin-top:8px">${reqBadgeNames.map(n => `<span>${Esc(n)}</span>`).join('')}</div>`;
+
+  // Qualified = approved + has role + holds every required badge
+  const qualified = workers.filter(w => w.approved && (w.roles||[]).includes(roleId) && (role.requiredBadges||[]).every(id => (w.badges||[]).includes(id)));
+  const container = document.getElementById('Candidates');
+  if (!qualified.length) { container.innerHTML = '<div class="Empty">No workers currently qualify for this role.</div>'; return; }
+
+  // Score each candidate (count of matched credentials + experience)
+  qualified.forEach(w => {
+    const badgeMatch = (w.badges||[]).filter(id => (role.requiredBadges||[]).includes(id)).length;
+    const allBadges = (w.badges||[]).length;
+    const expBoost = Math.min((w.experienceYears||0) / 15, 1) * 20;
+    w._score = Math.min(100, 60 + badgeMatch * 3 + allBadges * 2 + expBoost | 0);
+  });
+  // 5-star rated drivers always appear at the top (per hiring-hall-demo.md), then by match score.
+  qualified.sort((a,b) => (b.rating||0) - (a.rating||0) || b._score - a._score);
+
+  container.innerHTML = qualified.map(w => `
+    <div class="CandCard">
+      <div class="Avatar">${Esc((w.name||'?').slice(0,1).toUpperCase())}</div>
+      <div class="CandBody">
+        <h3>${Esc(w.name)}</h3>
+        <div class="CandMeta">${Esc(w.location||w.address||'')} &middot; ${w.experienceYears || '—'}y experience &middot; ${(w.badges||[]).length} credentials${w.rating ? ' &middot; <span style="color:var(--warning)">' + '★'.repeat(Math.round(w.rating)) + '<span style="opacity:.3">' + '★'.repeat(5-Math.round(w.rating)) + '</span></span>' : ''}</div>
+        <div class="AiSummaryLabel">AI candidate pitch</div>
+        <div class="AiSummary" id="ai_${w.id}"><span class="Spinner"></span>Generating summary…</div>
+      </div>
+      <div class="MatchScore"><span class="Num">${w._score}</span><span class="Lbl">Match</span></div>
+    </div>
+  `).join('');
+  for (const w of qualified) {
+    WolfsAI.generateCandidateSummary(w, role).then(text => {
+      const slot = document.getElementById('ai_' + w.id);
+      if (slot) slot.textContent = text;
+    });
+  }
+}
+</script>
+
+</body>
+</html>

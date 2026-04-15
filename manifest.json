@@ -1,0 +1,63 @@
+{
+  "name": "Wolfs Trucking Co.",
+  "short_name": "Wolfs Trucking",
+  "description": "Full-service freight trucking, container drayage, 3PL warehouse, and nationwide logistics. Transparent $1.45/mi rates.",
+  "start_url": "/wolfstruckingco.com/",
+  "scope": "/wolfstruckingco.com/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1419",
+  "theme_color": "#ff6b35",
+  "lang": "en-US",
+  "categories": ["business", "productivity", "logistics"],
+  "icons": [
+    {
+      "src": "/wolfstruckingco.com/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/wolfstruckingco.com/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/wolfstruckingco.com/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Get a Quote",
+      "short_name": "Quote",
+      "description": "Get instant freight quote",
+      "url": "/wolfstruckingco.com/#ShipWithUs",
+      "icons": [{"src": "/wolfstruckingco.com/icon.svg", "sizes": "any"}]
+    },
+    {
+      "name": "Track Shipment",
+      "short_name": "Track",
+      "description": "Track your shipment in real-time",
+      "url": "/wolfstruckingco.com/Track/",
+      "icons": [{"src": "/wolfstruckingco.com/icon.svg", "sizes": "any"}]
+    },
+    {
+      "name": "Driver Dashboard",
+      "short_name": "Dashboard",
+      "description": "Driver dispatch dashboard",
+      "url": "/wolfstruckingco.com/Dashboard/",
+      "icons": [{"src": "/wolfstruckingco.com/icon.svg", "sizes": "any"}]
+    },
+    {
+      "name": "Apply to Drive",
+      "short_name": "Apply",
+      "description": "Start AI hiring interview",
+      "url": "/wolfstruckingco.com/Interview/",
+      "icons": [{"src": "/wolfstruckingco.com/icon.svg", "sizes": "any"}]
+    }
+  ]
+}

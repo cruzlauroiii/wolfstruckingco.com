@@ -1,0 +1,9 @@
+﻿<Project>
+  <ItemGroup>
+    <StaticWebAssetPackageManifest Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)WolfsTruckingCo.SharedUI.PackageAssets.json'))">
+      <SourceId>WolfsTruckingCo.SharedUI</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <PackageRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..'))</PackageRoot>
+    </StaticWebAssetPackageManifest>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "dgSpecHash": "3FNa4KPiYi0=",
+  "success": true,
+  "projectFilePath": "C:\\work\\wolfstruckingco.com\\src\\WolfsTruckingCo.SharedUI\\WolfsTruckingCo.SharedUI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user1\\.nuget\\packages\\aspnetcore.sasscompiler\\1.97.1\\aspnetcore.sasscompiler.1.97.1.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\meziantou.analyzer\\2.0.194\\meziantou.analyzer.2.0.194.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\microsoft.aspnetcore.authorization\\11.0.0-preview.3.26207.106\\microsoft.aspnetcore.authorization.11.0.0-preview.3.26207.106.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\microsoft.aspnetcore.components\\11.0.0-preview.3.26207.106\\microsoft.aspnetcore.components.11.0.0-preview.3.26207.106.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\11.0.0-preview.3.26207.106\\microsoft.aspnetcore.components.analyzers.11.0.0-preview.3.26207.106.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\microsoft.aspnetcore.components.forms\\11.0.0-preview.3.26207.106\\microsoft.aspnetcore.components.forms.11.0.0-preview.3.26207.106.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\microsoft.aspnetcore.components.web\\11.0.0-preview.3.26207.106\\microsoft.aspnetcore.components.web.11.0.0-preview.3.26207.106.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\microsoft.aspnetcore.metadata\\11.0.0-preview.3.26207.106\\microsoft.aspnetcore.metadata.11.0.0-preview.3.26207.106.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\microsoft.extensions.configuration\\11.0.0-preview.3.26207.106\\microsoft.extensions.configuration.11.0.0-preview.3.26207.106.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\microsoft.extensions.configuration.binder\\11.0.0-preview.3.26207.106\\microsoft.extensions.configuration.binder.11.0.0-preview.3.26207.106.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\11.0.0-preview.3.26207.106\\microsoft.extensions.dependencyinjection.11.0.0-preview.3.26207.106.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\microsoft.extensions.diagnostics\\11.0.0-preview.3.26207.106\\microsoft.extensions.diagnostics.11.0.0-preview.3.26207.106.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\11.0.0-preview.3.26207.106\\microsoft.extensions.options.configurationextensions.11.0.0-preview.3.26207.106.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\microsoft.extensions.validation\\11.0.0-preview.3.26207.106\\microsoft.extensions.validation.11.0.0-preview.3.26207.106.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\microsoft.jsinterop\\11.0.0-preview.3.26207.106\\microsoft.jsinterop.11.0.0-preview.3.26207.106.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\roslynator.analyzers\\4.13.1\\roslynator.analyzers.4.13.1.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\sonaranalyzer.csharp\\10.6.0.109712\\sonaranalyzer.csharp.10.6.0.109712.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\stylecop.analyzers\\1.2.0-beta.556\\stylecop.analyzers.1.2.0-beta.556.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\stylecop.analyzers.unstable\\1.2.0.556\\stylecop.analyzers.unstable.1.2.0.556.nupkg.sha512"
+  ],
+  "logs": []
+}

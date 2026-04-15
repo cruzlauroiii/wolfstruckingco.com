@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Applicant Interview | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<meta name="theme-color" content="#ff6b35">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--info:#3b82f6;--warning:#f59e0b;--radius:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.TopBar{position:sticky;top:0;z-index:10;background:rgba(15,20,25,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.Brand{font-weight:800;display:flex;align-items:center;gap:8px}
+.Brand .Logo{width:28px;height:28px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:.85rem}
+.Brand a{color:var(--text);text-decoration:none}
+.Stage{max-width:900px;margin:0 auto;padding:28px 20px 80px}
+.Stage h1{font-size:1.7rem;font-weight:800;margin-bottom:6px}
+.Stage>p{color:var(--text-muted);margin-bottom:24px;line-height:1.55}
+
+.Card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:16px}
+.Card h2{font-size:1.05rem;margin-bottom:10px}
+.ChatLog{display:flex;flex-direction:column;gap:10px;max-height:460px;overflow-y:auto;padding:4px;margin-bottom:14px}
+.Msg{padding:12px 15px;border-radius:10px;max-width:85%;line-height:1.5;white-space:pre-wrap;font-size:.95rem}
+.Msg.User{background:var(--bg);align-self:flex-end;border:1px solid var(--border)}
+.Msg.Agent{background:rgba(255,107,53,.08);border:1px solid rgba(255,107,53,.3);align-self:flex-start}
+.Msg .Label{font-size:.72rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;display:block}
+.ChatInput{display:flex;gap:8px;margin-top:10px}
+.ChatInput input{flex:1;padding:12px 16px;border-radius:10px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit}
+.ChatInput input:focus{border-color:var(--accent);outline:none}
+.Btn{padding:12px 22px;border-radius:10px;background:var(--accent);color:#fff;border:none;font-weight:700;cursor:pointer;font-size:.95rem;font-family:inherit}
+.Btn:hover{background:var(--accent-hover)}
+.Btn.Ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.Btn[disabled]{opacity:.5;cursor:not-allowed}
+
+.Uploads{display:grid;gap:10px}
+.UploadRow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px;border:1px dashed var(--border);border-radius:10px}
+.UploadRow label{cursor:pointer;display:flex;align-items:center;gap:10px;color:var(--text-muted);font-size:.88rem}
+.UploadRow label input[type=file]{display:none}
+.UploadRow .Pill{background:rgba(34,197,94,.15);color:var(--success);padding:3px 10px;border-radius:12px;font-size:.75rem}
+.UploadRow .Pill.Pending{background:rgba(245,158,11,.15);color:var(--warning)}
+
+.Spinner{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid rgba(255,107,53,.25);border-top-color:var(--accent);animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.Hidden{display:none}
+.AuthWarn{padding:14px 18px;background:rgba(245,158,11,.1);border:1px solid var(--warning);border-radius:10px;margin-bottom:18px;font-size:.88rem;color:var(--warning)}
+</style>
+</head>
+<body>
+<div class="TopBar">
+  <div class="Brand"><span class="Logo">W</span><a href="/wolfstruckingco.com/">Wolfs Trucking Co.</a></div>
+  <div class="TopActions"><a href="/wolfstruckingco.com/Login/" style="color:var(--text-muted);text-decoration:none;padding:8px 12px;font-size:.88rem">Sign In</a></div>
+</div>
+<div class="Stage">
+  <h1>🚚 Driver application — chat with the Dispatcher</h1>
+  <p>Your AI dispatcher runs a short intake interview, captures your experience, and collects your credential scans for staff review.</p>
+
+  <div id="AuthWarn" class="AuthWarn Hidden">You need to sign in to start — uploads and chat are tied to your session. <a href="/wolfstruckingco.com/Login/" style="color:var(--accent)">Sign in here</a>.</div>
+
+  <div class="Card">
+    <h2>Interview</h2>
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
+      <button type="button" id="CallBtn" style="padding:8px 16px;border-radius:999px;background:rgba(255,107,53,.1);border:1px solid var(--accent);color:var(--accent);font-weight:700;cursor:pointer;font-size:.85rem;font-family:inherit">&#9742; Call Dispatcher</button>
+      <span id="CallStatus" style="font-size:.78rem;color:var(--text-muted)">Speak your answers instead of typing — voice to text powered by the same AI.</span>
+    </div>
+    <div class="ChatLog" id="ChatLog"></div>
+    <form class="ChatInput" id="ChatForm">
+      <input id="ChatInput" placeholder="Type your answer…" required autocomplete="off">
+      <button class="Btn" type="submit">Send</button>
+    </form>
+    <p style="font-size:.75rem;color:var(--text-muted);margin-top:8px">Your answers are saved to your Wolfs profile.</p>
+  </div>
+
+  <div id="CallOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:20;padding:20px">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:32px 28px;max-width:440px;width:100%;text-align:center">
+      <div style="width:88px;height:88px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto 18px">&#9742;</div>
+      <h2 style="font-size:1.1rem;margin-bottom:6px">Calling Dispatcher…</h2>
+      <p id="CallSub" style="color:var(--text-muted);font-size:.85rem;margin-bottom:18px;min-height:2.4em;line-height:1.4">Hold the mic button and speak. Release to send.</p>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button type="button" id="HoldBtn" style="padding:10px 18px;border-radius:999px;background:var(--accent);border:1px solid var(--accent);color:#fff;font-weight:700;cursor:pointer;font-family:inherit;font-size:.88rem">Hold to talk</button>
+        <button type="button" id="HangupBtn" style="padding:10px 18px;border-radius:999px;background:#ef4444;border:1px solid #ef4444;color:#fff;font-weight:700;cursor:pointer;font-family:inherit;font-size:.88rem">Hang up</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="Card">
+    <h2>Upload credential scans</h2>
+    <p style="color:var(--text-muted);font-size:.85rem;margin-bottom:12px">Photos or PDFs of your CDL, medical exam cert, TWIC card, any endorsements. Staff review these before adding badges to your profile.</p>
+    <div class="Uploads" id="Uploads"></div>
+    <button class="Btn Ghost" id="AddFile" style="margin-top:10px">+ Add file</button>
+  </div>
+
+  <div class="Card" id="FinishCard" style="text-align:center">
+    <p style="color:var(--text-muted);margin-bottom:10px">When you're done, submit your application. Staff will review your answers and docs, verify your badges, and contact you.</p>
+    <button class="Btn" id="SubmitApp">Submit application for review</button>
+    <div id="SubmitStatus" style="margin-top:12px;font-size:.88rem"></div>
+  </div>
+</div>
+
+<script>window.__allowedRoles = ['applicant','driver','admin','staff'];</script>
+<script src="/wolfstruckingco.com/auth-guard.js"></script>
+<script src="/wolfstruckingco.com/auth-header.js"></script>
+<script src="/wolfstruckingco.com/db.js"></script>
+<script src="/wolfstruckingco.com/ai.js"></script>
+<script>
+(async function(){
+  const sess = localStorage.getItem('wolfs_session');
+  const email = localStorage.getItem('wolfs_email');
+  const name = localStorage.getItem('wolfs_name') || (email ? email.split('@')[0] : 'Applicant');
+  if (!sess || !email) { document.getElementById('AuthWarn').classList.remove('Hidden'); }
+
+  const applicantId = 'app_' + (email || 'anon').replace(/[^a-zA-Z0-9]/g, '_');
+  let applicant = await WolfsDB.get('applicants', applicantId) || {
+    id: applicantId, email, name, createdAt: new Date().toISOString(),
+    transcript: [], uploads: [], status: 'in_interview'
+  };
+
+  const chatLog = document.getElementById('ChatLog');
+  const input = document.getElementById('ChatInput');
+  const form = document.getElementById('ChatForm');
+  const uploadsEl = document.getElementById('Uploads');
+
+  const systemPrompt = `You are "Dispatcher", the AI intake officer for Wolfs Trucking Co. You interview new driver applicants — warmly, concisely, but thoroughly.
+Collect in this order: (1) name + years driving, (2) CDL class + endorsements, (3) location + willingness to relocate, (4) career goals, (5) list of credentials they'll upload.
+Ask ONE question at a time. When you have enough to summarize their profile, say so plainly and thank them. Do not repeat yourself. Do not request information they've already given.
+Applicant's email on file: ${email || 'unknown'}. Applicant's current transcript so far is provided. Pick up exactly where the last exchange left off.`;
+
+  function render() {
+    chatLog.innerHTML = '';
+    for (const m of applicant.transcript) {
+      const d = document.createElement('div');
+      d.className = 'Msg ' + (m.role === 'user' ? 'User' : 'Agent');
+      d.innerHTML = `<span class="Label">${m.role === 'user' ? 'You' : 'Dispatcher'}</span>${escapeHtml(m.content)}`;
+      chatLog.appendChild(d);
+    }
+    chatLog.scrollTop = chatLog.scrollHeight;
+    renderUploads();
+  }
+  function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  // Kick off interview if transcript empty
+  if (applicant.transcript.length === 0 && sess) {
+    const spinner = document.createElement('div');
+    spinner.className = 'Msg Agent';
+    spinner.innerHTML = '<span class="Spinner"></span>Dispatcher is introducing herself…';
+    chatLog.appendChild(spinner);
+    const opener = await window.WolfsAI.chat({ name, email, role: 'applicant' }, null, [], 'Introduce yourself as Dispatcher and kick off the interview. One question only.');
+    spinner.remove();
+    applicant.transcript.push({ role: 'assistant', content: opener, ts: new Date().toISOString() });
+    await WolfsDB.put('applicants', applicant);
+  }
+  render();
+
+  async function sendApplicantMessage(msg) {
+    msg = (msg || '').trim();
+    if (!msg) return;
+    input.value = '';
+    applicant.transcript.push({ role: 'user', content: msg, ts: new Date().toISOString() });
+    render();
+    try { await WolfsDB.put('applicants', applicant); } catch (_) {}
+    const spinner = document.createElement('div');
+    spinner.className = 'Msg Agent';
+    spinner.innerHTML = '<span class="Spinner"></span>Dispatcher is thinking…';
+    chatLog.appendChild(spinner);
+    let reply;
+    try {
+      const history = applicant.transcript.slice(0, -1).map(m => ({ role: m.role, content: m.content }));
+      reply = await window.WolfsAI.chat({ name, email, role: 'applicant' }, null, history, msg, systemPrompt);
+    } catch (ex) {
+      reply = 'Sorry, I hit an error reaching the dispatcher: ' + (ex.message || ex);
+    }
+    try { spinner.remove(); } catch (_) {}
+    applicant.transcript.push({ role: 'assistant', content: reply || 'No reply.', ts: new Date().toISOString() });
+    render();
+    try { await WolfsDB.put('applicants', applicant); } catch (_) {}
+  }
+  // Exposed so the video automation can invoke the same code path as a real submit, without
+  // relying on requestSubmit() — some CDP evaluate contexts don't fire the submit event
+  // reliably, so we give the scene a direct entry point.
+  window.__applicantSend = sendApplicantMessage;
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    await sendApplicantMessage(input.value);
+  });
+
+  // Uploads
+  async function deleteUpload(idx) {
+    if (!applicant.uploads || idx < 0 || idx >= applicant.uploads.length) return;
+    applicant.uploads.splice(idx, 1);
+    try { await WolfsDB.put('applicants', applicant); } catch (_) {}
+    render();
+  }
+  window.__applicantDeleteUpload = deleteUpload;
+  // Scene-automation hook: re-read the applicant record from R2 and re-render chat + uploads.
+  // This lets the walkthrough video script seed uploads directly in R2 and then show them via
+  // the real renderer (which includes the Remove button per row) instead of fabricated HTML.
+  window.__applicantForceRender = async function() {
+    try {
+      const fresh = await WolfsDB.get('applicants', applicantId);
+      if (fresh) applicant = fresh;
+    } catch (_) {}
+    render();
+  };
+  function renderUploads() {
+    uploadsEl.innerHTML = '';
+    const uploads = applicant.uploads || [];
+    uploads.forEach((u, idx) => {
+      const row = document.createElement('div');
+      row.className = 'UploadRow';
+      row.innerHTML = `<span>📎 ${escapeHtml(u.name)} <span style="color:var(--text-muted);font-size:.78rem">(${Math.round(u.size/1024)} KB)</span></span><span style="display:flex;gap:8px;align-items:center"><span class="Pill">uploaded</span><button type="button" class="Btn Ghost Small" style="padding:4px 10px;font-size:.75rem" onclick="window.__applicantDeleteUpload(${idx})">Remove</button></span>`;
+      uploadsEl.appendChild(row);
+    });
+    if (!uploads.length) uploadsEl.innerHTML = '<div style="color:var(--text-muted);font-size:.85rem;padding:10px">No files yet.</div>';
+  }
+  document.getElementById('AddFile').addEventListener('click', () => {
+    const inp = document.createElement('input');
+    inp.type = 'file';
+    inp.accept = 'image/*,application/pdf';
+    inp.onchange = async () => {
+      const f = inp.files[0];
+      if (!f) return;
+      const row = document.createElement('div');
+      row.className = 'UploadRow';
+      row.innerHTML = `<span>📤 ${escapeHtml(f.name)}</span><span class="Pill Pending"><span class="Spinner"></span>uploading…</span>`;
+      uploadsEl.appendChild(row);
+      try {
+        const res = await fetch(`${WolfsDB.API.replace('/api','')}/api/upload?filename=${encodeURIComponent(f.name)}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': f.type || 'application/octet-stream',
+            'X-Wolfs-Session': sess || '',
+            'X-Wolfs-Email': email || '',
+            'X-Wolfs-Role': localStorage.getItem('wolfs_role') || 'applicant',
+          },
+          body: f,
+        });
+        if (!res.ok) throw new Error('upload failed: ' + res.status);
+        const data = await res.json();
+        applicant.uploads = applicant.uploads || [];
+        applicant.uploads.push({ name: f.name, size: data.size, key: data.key, url: data.url, uploadedAt: new Date().toISOString() });
+        await WolfsDB.put('applicants', applicant);
+        render();
+      } catch (ex) {
+        row.innerHTML = `<span>❌ ${escapeHtml(f.name)}</span><span class="Pill" style="background:rgba(239,68,68,.15);color:#ef4444">failed</span>`;
+        console.error(ex);
+      }
+    };
+    inp.click();
+  });
+
+  // ── Voice call mode (same sidecar wiring as /Dispatcher/) ──────────
+  const SIDECAR = 'http://localhost:9334';
+  const callBtn = document.getElementById('CallBtn');
+  const callStatus = document.getElementById('CallStatus');
+  const overlay = document.getElementById('CallOverlay');
+  const holdBtn = document.getElementById('HoldBtn');
+  const hangupBtn = document.getElementById('HangupBtn');
+  const callSub = document.getElementById('CallSub');
+  let rec = null, stream = null, chunks = [], audioEl = null;
+  (async () => {
+    if (location.protocol === 'https:' && SIDECAR.startsWith('http:')) {
+      callStatus.textContent = 'Voice call available when running the local companion.';
+      callBtn.disabled = true; callBtn.style.opacity = .55; return;
+    }
+    try {
+      const r = await fetch(SIDECAR + '/health', { cache: 'no-store' });
+      if (!r.ok) throw 0;
+      callStatus.textContent = 'Voice ready — hold the mic to talk.';
+    } catch {
+      callStatus.textContent = 'Voice unavailable right now.';
+      callBtn.disabled = true; callBtn.style.opacity = .55;
+    }
+  })();
+  callBtn.addEventListener('click', () => { if (!callBtn.disabled) overlay.style.display = 'flex'; });
+  function endCall() {
+    overlay.style.display = 'none';
+    try { if (audioEl) audioEl.pause(); } catch {}
+    try { if (stream) stream.getTracks().forEach(t => t.stop()); } catch {}
+    stream = null; rec = null; chunks = [];
+  }
+  hangupBtn.addEventListener('click', endCall);
+  async function speak(text) {
+    try {
+      const r = await fetch(SIDECAR + '/tts', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({text}) });
+      if (!r.ok) return;
+      const blob = await r.blob();
+      audioEl = new Audio(URL.createObjectURL(blob));
+      audioEl.play().catch(()=>{});
+    } catch {}
+  }
+  async function holdDown() {
+    try {
+      if (!stream) stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      rec = new MediaRecorder(stream);
+      chunks = [];
+      rec.ondataavailable = ev => { if (ev.data.size) chunks.push(ev.data); };
+      rec.onstop = async () => {
+        const blob = new Blob(chunks, { type:'audio/webm' });
+        callSub.textContent = 'Transcribing…';
+        try {
+          const r = await fetch(SIDECAR + '/stt', { method:'POST', headers:{'Content-Type':'audio/webm'}, body: blob });
+          if (!r.ok) throw new Error('stt ' + r.status);
+          const { text } = await r.json();
+          if (!text) { callSub.textContent = 'No speech detected.'; return; }
+          // Drop transcript into the chat and close overlay; user taps Call again for the next turn.
+          document.getElementById('ChatInput').value = text;
+          endCall();
+          await sendApplicantMessage(text);
+          // Speak the reply back using the same Aria voice.
+          const last = applicant.transcript[applicant.transcript.length - 1];
+          if (last && last.role === 'assistant') await speak(last.content);
+        } catch (ex) { callSub.textContent = 'Call error: ' + ex.message; }
+      };
+      rec.start();
+      callSub.textContent = 'Listening…';
+    } catch (ex) { callSub.textContent = 'Mic access denied.'; }
+  }
+  function holdUp() {
+    if (rec && rec.state === 'recording') { callSub.textContent = 'Processing…'; rec.stop(); }
+  }
+  holdBtn.addEventListener('mousedown', holdDown);
+  holdBtn.addEventListener('touchstart', ev => { ev.preventDefault(); holdDown(); });
+  holdBtn.addEventListener('mouseup', holdUp);
+  holdBtn.addEventListener('mouseleave', holdUp);
+  holdBtn.addEventListener('touchend', ev => { ev.preventDefault(); holdUp(); });
+
+  document.getElementById('SubmitApp').addEventListener('click', async () => {
+    const btn = document.getElementById('SubmitApp');
+    const status = document.getElementById('SubmitStatus');
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+    status.textContent = '';
+    applicant.status = 'pending_review';
+    applicant.submittedAt = new Date().toISOString();
+    try {
+      await WolfsDB.put('applicants', applicant);
+      btn.textContent = '✅ Submitted';
+      btn.style.background = 'var(--success)';
+      status.innerHTML = '<span style="color:var(--success)">Your application is now in the staff review queue. You\'ll hear back once your badges are verified.</span>';
+    } catch (ex) {
+      btn.disabled = false;
+      btn.textContent = 'Submit application for review';
+      status.innerHTML = '<span style="color:#ef4444">Submit failed: ' + escapeHtml(ex.message || String(ex)) + '</span>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

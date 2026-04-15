@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Post a Job | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<meta name="theme-color" content="#ff6b35">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--radius:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.TopBar{position:sticky;top:0;z-index:10;background:rgba(15,20,25,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.Brand{font-weight:800;display:flex;align-items:center;gap:8px}
+.Brand .Logo{width:28px;height:28px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:.85rem}
+.Brand a{color:var(--text);text-decoration:none}
+.TopActions a{color:var(--text-muted);text-decoration:none;padding:8px 12px;font-size:.88rem}
+.Stage{max-width:780px;margin:0 auto;padding:32px 20px 80px}
+.Stage h1{font-size:1.7rem;font-weight:800;margin-bottom:6px}
+.Stage>p{color:var(--text-muted);margin-bottom:24px;line-height:1.55}
+.Card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+.Card h2{font-size:1.05rem;margin-bottom:12px}
+.Field{margin-bottom:14px}
+.Field label{display:block;font-size:.82rem;margin-bottom:6px;color:var(--text-muted);font-weight:600}
+.Field input,.Field select,.Field textarea{width:100%;padding:11px 14px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.95rem}
+.Field textarea{resize:vertical;min-height:72px}
+.Field input:focus,.Field select:focus,.Field textarea:focus{border-color:var(--accent);outline:none}
+.Row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.Row{grid-template-columns:1fr}}
+.CheckList{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;max-height:180px;overflow-y:auto}
+.CheckList label{display:flex;gap:6px;font-size:.85rem;padding:4px;color:var(--text)}
+.Btn{padding:12px 24px;border-radius:10px;background:var(--accent);color:#fff;border:none;font-weight:700;cursor:pointer;font-size:.95rem;font-family:inherit}
+.Btn:hover{background:var(--accent-hover)}
+.Btn[disabled]{opacity:.5;cursor:not-allowed}
+.CardVisual{background:linear-gradient(135deg,#2a3a4a,#1a2332);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:12px;font-family:'Courier New',monospace}
+.CardVisual .Num{font-size:1.25rem;letter-spacing:2px;margin-bottom:12px}
+.CardVisual .Meta{display:flex;justify-content:space-between;font-size:.85rem;color:var(--text-muted)}
+.SuccessBanner{background:rgba(34,197,94,.1);border:1px solid var(--success);color:var(--success);padding:14px 18px;border-radius:10px;margin-top:14px}
+/* Hide leaflet-routing-machine instruction panel — it was overlapping the map */
+.leaflet-routing-container{display:none !important}
+.leaflet-top.leaflet-right{display:none !important}
+.AutoCompleteBox{position:relative}
+.AutoCompleteSuggestions{position:absolute;top:100%;left:0;right:0;background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;max-height:220px;overflow-y:auto;z-index:1000;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.AutoCompleteSuggestions div{padding:10px 14px;cursor:pointer;font-size:.9rem;border-bottom:1px solid var(--border);color:var(--text)}
+.AutoCompleteSuggestions div:hover,.AutoCompleteSuggestions div.Active{background:rgba(255,107,53,.12);color:var(--accent)}
+.AutoCompleteSuggestions div:last-child{border-bottom:none}
+.PinHint{position:absolute;top:8px;left:8px;background:rgba(15,20,25,.9);color:var(--accent);padding:6px 10px;border-radius:6px;font-size:.72rem;font-weight:700;pointer-events:none;z-index:500;border:1px solid var(--accent)}
+.StopRow{display:flex;gap:8px;align-items:center;padding:6px;border-radius:8px;background:rgba(59,130,246,.05);border:1px dashed var(--border);margin-bottom:6px}
+.StopRow .StopNum{background:var(--info);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex-shrink:0}
+.AddStopHeader{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,107,53,.08);border:1px dashed var(--accent);border-radius:8px;margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="TopBar">
+  <div class="Brand"><span class="Logo">W</span><a href="/wolfstruckingco.com/">Wolfs — Post a Job</a></div>
+  <div class="TopActions"><a href="/wolfstruckingco.com/Employer/">Candidate pool</a><a href="/wolfstruckingco.com/HiringHall/">Hiring Hall</a></div>
+</div>
+<div class="Stage">
+  <h1>Post a job</h1>
+  <p>Define the role, set the pay, pick the credentials required to apply, and pay the posting fee. Job goes live on the driver dashboard the moment payment settles.</p>
+
+  <form id="PostForm">
+    <div class="Card">
+      <h2>Job details</h2>
+      <div class="Field"><label>Title</label><input name="title" required placeholder="e.g. Dayshift Drayage Driver — LA/LB"></div>
+      <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:10px">Type to search any address or <b style="color:var(--accent)">click the map</b> to drop a pin. Add as many stops as needed — the route and driver pay are computed automatically.</p>
+      <div class="Row">
+        <div class="Field AutoCompleteBox"><label>Pickup location <span style="color:var(--accent)">(from)</span></label><input name="pickup" id="PickupInput" autocomplete="off" required placeholder="Start typing or click the map…"><div class="AutoCompleteSuggestions" id="PickupSuggestions" style="display:none"></div></div>
+        <div class="Field AutoCompleteBox"><label>Delivery location <span style="color:var(--accent)">(to)</span></label><input name="delivery" id="DeliveryInput" autocomplete="off" required placeholder="Start typing or click the map…"><div class="AutoCompleteSuggestions" id="DeliverySuggestions" style="display:none"></div></div>
+      </div>
+      <div class="Field">
+        <div class="AddStopHeader">
+          <span style="font-size:.88rem;font-weight:700;color:var(--accent)">📍 Additional stops between pickup and delivery</span>
+          <button type="button" class="Btn" id="AddStopBtn" style="padding:6px 14px;font-size:.78rem">+ Add another stop</button>
+        </div>
+        <div id="StopsList" style="display:grid;gap:4px"></div>
+      </div>
+      <div class="Field">
+        <label style="display:flex;align-items:center;justify-content:space-between">
+          <span>Route preview (traffic-aware)</span>
+          <button type="button" class="Btn Ghost Small" id="PreviewRouteBtn" style="padding:4px 10px;font-size:.75rem">Preview route</button>
+        </label>
+        <div style="position:relative"><div id="RouteMap" style="width:100%;height:320px;border-radius:10px;border:1px solid var(--border);background:#0b1016;cursor:crosshair"></div><div class="PinHint" id="PinHint">Click anywhere on the map to drop a pin</div></div>
+        <div id="RouteInfo" style="font-size:.82rem;color:var(--text-muted);margin-top:6px"></div>
+      </div>
+      <div class="Row">
+        <div class="Field"><label>Starts at</label><input type="datetime-local" name="startsAt" required></div>
+        <div class="Field"><label>Estimated duration (auto)</label><input id="HoursAuto" name="hours" readonly value="—" style="background:rgba(59,130,246,.08);border-color:#3b82f6;color:#3b82f6;font-weight:700"></div>
+      </div>
+      <div class="Row">
+        <div class="Field"><label>Pay rate ($/hr)</label><input type="number" step="0.25" min="0" name="payRate" id="PayRateInput" value="35" required></div>
+        <div class="Field"><label>Tip (optional)</label><input type="number" step="1" min="0" name="tip" id="TipInput" value="0" placeholder="0"></div>
+      </div>
+      <div class="Row">
+        <div class="Field"><label>Required role</label><select name="roleId" id="RoleSel" required></select></div>
+        <div class="Field"><label>Total payment (auto)</label><input id="PayTotal" readonly value="$0.00" style="background:rgba(34,197,94,.08);border-color:#22c55e;color:#22c55e;font-weight:700"></div>
+      </div>
+      <div class="Field"><label>Required badges (inferred from role; adjust if needed)</label>
+        <div id="BadgeChecks" class="CheckList"></div>
+      </div>
+      <div class="Field"><label>Description</label><textarea name="description" placeholder="Route details, reporting instructions…"></textarea></div>
+    </div>
+
+    <div class="Card">
+      <h2>Payment</h2>
+      <p style="color:var(--text-muted);font-size:.88rem;margin-bottom:14px">Posting fee is $49 flat. Use a saved card or add a new one — it'll stay on file for future posts.</p>
+      <div id="SavedCardsList" style="margin-bottom:14px"></div>
+      <div id="NewCardForm">
+        <div class="CardVisual">
+          <div class="Num" id="CardPreview">•••• •••• •••• ••••</div>
+          <div class="Meta"><span id="NamePreview">FULL NAME</span><span id="ExpPreview">MM/YY</span></div>
+        </div>
+        <div class="Field"><label>Cardholder name</label><input name="cardName" placeholder="As shown on card"></div>
+        <div class="Field"><label>Card number</label><input name="cardNumber" inputmode="numeric" maxlength="19" placeholder="4242 4242 4242 4242"></div>
+        <div class="Row">
+          <div class="Field"><label>Expiry (MM/YY)</label><input name="cardExp" maxlength="5" placeholder="12/28"></div>
+          <div class="Field"><label>CVC</label><input name="cardCvc" inputmode="numeric" maxlength="4" placeholder="123"></div>
+        </div>
+        <label style="display:flex;gap:8px;align-items:center;font-size:.82rem;color:var(--text-muted);margin-bottom:10px">
+          <input type="checkbox" name="saveCard" checked> Save this card for future posts
+        </label>
+      </div>
+      <input type="hidden" name="selectedCardId" id="SelectedCardId">
+      <button class="Btn" type="submit" id="PaySubmit">Charge $49 &amp; post job</button>
+      <div id="SuccessBanner"></div>
+    </div>
+  </form>
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+<script>window.__allowedRoles = ['client','employer','admin','staff'];</script>
+<script src="/wolfstruckingco.com/auth-guard.js"></script>
+<script src="/wolfstruckingco.com/auth-header.js"></script>
+<script src="/wolfstruckingco.com/db.js"></script>
+<script>
+(async function(){
+  const sess = localStorage.getItem('wolfs_session');
+  const email = localStorage.getItem('wolfs_email');
+  if (!sess) { alert('Sign in first.'); location.href = '/wolfstruckingco.com/Login/'; return; }
+
+  // Populate roles + badges
+  const [roles, badges] = await Promise.all([WolfsDB.all('roles'), WolfsDB.all('badges')]);
+  const roleSel = document.getElementById('RoleSel');
+  roleSel.innerHTML = roles.map(r => `<option value="${r.id}">${r.name}</option>`).join('') || '<option value="">(no roles yet — staff creates them)</option>';
+  const bmap = Object.fromEntries(badges.map(b => [b.id, b]));
+  const checksEl = document.getElementById('BadgeChecks');
+  function refreshBadges() {
+    const role = roles.find(r => r.id === roleSel.value) || {};
+    const req = new Set(role.requiredBadges || []);
+    checksEl.innerHTML = badges.map(b => `<label><input type="checkbox" name="badges" value="${b.id}" ${req.has(b.id)?'checked':''}> ${b.name}</label>`).join('') || '<div style="color:var(--text-muted);font-size:.85rem">no badges defined yet</div>';
+  }
+  roleSel.addEventListener('change', refreshBadges);
+  refreshBadges();
+
+  // ─── Auto-computed payment (hours come from OSRM route, not user input) ───
+  function recalcTotal() {
+    const hrs = parseFloat((document.getElementById('HoursAuto').value || '').replace(/[^\d.]/g, '')) || 0;
+    const rate = parseFloat(document.getElementById('PayRateInput').value) || 0;
+    const tip = parseFloat(document.getElementById('TipInput').value) || 0;
+    const fee = 49;
+    const driverPay = hrs * rate + tip;
+    const total = driverPay + fee;
+    document.getElementById('PayTotal').value = `$${driverPay.toFixed(2)} driver + $${fee} fee = $${total.toFixed(2)}`;
+  }
+  ['PayRateInput','TipInput'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', recalcTotal);
+  });
+  recalcTotal();
+
+  // ─── Route map + stops ──────────────────────────────────────────────
+  // Leaflet map + OSRM routing. Traffic estimate is from the routed distance/duration
+  // ratio — gives an honest congestion hint without a paid traffic feed.
+  const map = L.map('RouteMap', { zoomControl: true, attributionControl: false }).setView([34.05, -118.24], 10);
+  window.__leafletMap = map;  // exposed for automation/video scenes to fire clicks
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 19, subdomains: 'abcd' }).addTo(map);
+  let routingControl = null;
+  let activeInput = null;
+  const pinHint = document.getElementById('PinHint');
+
+  // Visible pin markers keyed by input — stay on the map so the employer can see
+  // exactly where each pickup/delivery/stop is, before the route even renders.
+  // The routing-machine adds its own P/D/numbered markers on top when the route
+  // draws; these are the leading indicators that appear on click/suggest.
+  const inputMarkers = new Map();
+  function markerIconFor(inputEl, label) {
+    const isPickup = inputEl && inputEl.id === 'PickupInput';
+    const isDelivery = inputEl && inputEl.id === 'DeliveryInput';
+    const bg = isPickup ? '#22c55e' : isDelivery ? '#ff6b35' : '#3b82f6';
+    const letter = isPickup ? 'P' : isDelivery ? 'D' : (label && label.replace(/\D/g,'')) || '•';
+    return L.divIcon({ className: '', html: `<div style="width:28px;height:28px;border-radius:50%;background:${bg};border:3px solid #0f1419;box-shadow:0 3px 10px rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.78rem;font-weight:900">${letter}</div>`, iconSize:[28,28], iconAnchor:[14,14] });
+  }
+  function setInputMarker(inputEl, latlng) {
+    const key = inputEl.id || inputEl.dataset.label || inputEl.name;
+    const old = inputMarkers.get(key);
+    if (old) map.removeLayer(old);
+    const m = L.marker(latlng, { icon: markerIconFor(inputEl, inputEl.dataset.label) }).addTo(map);
+    inputMarkers.set(key, m);
+    return m;
+  }
+
+  // Track which input is currently focused so click-on-map fills the right one.
+  function registerPinInput(el) {
+    el.addEventListener('focus', () => { activeInput = el; pinHint.textContent = 'Click map to set: ' + (el.dataset.label || el.name); pinHint.style.color = 'var(--accent)'; });
+  }
+  document.getElementById('PickupInput').dataset.label = 'pickup';
+  document.getElementById('DeliveryInput').dataset.label = 'delivery';
+  registerPinInput(document.getElementById('PickupInput'));
+  registerPinInput(document.getElementById('DeliveryInput'));
+
+  function renumberStops() {
+    Array.from(document.querySelectorAll('#StopsList .StopRow')).forEach((row, idx) => {
+      const num = row.querySelector('.StopNum');
+      if (num) num.textContent = (idx + 1);
+      const inp = row.querySelector('input[name="stop"]');
+      if (inp) inp.dataset.label = 'stop ' + (idx + 1);
+    });
+  }
+
+  function addStopRow(initial) {
+    const wrap = document.createElement('div');
+    wrap.className = 'StopRow AutoCompleteBox';
+    wrap.innerHTML = `<div class="StopNum"></div><input name="stop" autocomplete="off" placeholder="Search address or click the map…" value="${(initial||'').replace(/"/g,'&quot;')}" style="flex:1;padding:10px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.92rem"><button type="button" class="Btn Small Danger" style="padding:6px 12px;font-size:.72rem">Remove</button><div class="AutoCompleteSuggestions" style="display:none"></div>`;
+    const inp = wrap.querySelector('input');
+    registerPinInput(inp);
+    wireAutocomplete(inp, wrap.querySelector('.AutoCompleteSuggestions'));
+    wrap.querySelector('button').addEventListener('click', () => { wrap.remove(); renumberStops(); previewRoute(); });
+    document.getElementById('StopsList').appendChild(wrap);
+    renumberStops();
+    inp.focus();
+  }
+  document.getElementById('AddStopBtn').addEventListener('click', () => addStopRow(''));
+
+  // ─── Nominatim geocode + reverse + autocomplete ─────────────────────
+  async function geocode(q) {
+    if (!q || !q.trim()) return null;
+    try {
+      const res = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(q));
+      const arr = await res.json();
+      if (arr && arr.length) return [parseFloat(arr[0].lat), parseFloat(arr[0].lon)];
+    } catch (_) {}
+    return null;
+  }
+  async function suggest(q) {
+    if (!q || q.trim().length < 3) return [];
+    try {
+      const res = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=6&q=' + encodeURIComponent(q));
+      return await res.json();
+    } catch (_) { return []; }
+  }
+  async function reverse(lat, lon) {
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=16`);
+      const data = await res.json();
+      return data && data.display_name;
+    } catch (_) { return null; }
+  }
+  function wireAutocomplete(inputEl, suggestBox) {
+    let timer = null;
+    inputEl.addEventListener('input', () => {
+      clearTimeout(timer);
+      timer = setTimeout(async () => {
+        const results = await suggest(inputEl.value);
+        if (!results.length) { suggestBox.style.display = 'none'; return; }
+        suggestBox.innerHTML = results.map(r => `<div data-name="${r.display_name.replace(/"/g,'&quot;')}" data-lat="${r.lat}" data-lon="${r.lon}">${r.display_name}</div>`).join('');
+        suggestBox.style.display = 'block';
+        Array.from(suggestBox.children).forEach(child => {
+          child.addEventListener('click', () => {
+            inputEl.value = child.dataset.name;
+            suggestBox.style.display = 'none';
+            // Drop a visible pin for this input at the suggested coords, then route.
+            const lat = parseFloat(child.dataset.lat), lon = parseFloat(child.dataset.lon);
+            if (!isNaN(lat) && !isNaN(lon)) { setInputMarker(inputEl, L.latLng(lat, lon)); map.panTo(L.latLng(lat, lon)); }
+            previewRoute();
+          });
+        });
+      }, 280);
+    });
+    inputEl.addEventListener('blur', () => setTimeout(() => { suggestBox.style.display = 'none'; }, 180));
+  }
+  wireAutocomplete(document.getElementById('PickupInput'), document.getElementById('PickupSuggestions'));
+  wireAutocomplete(document.getElementById('DeliveryInput'), document.getElementById('DeliverySuggestions'));
+
+  // Click on map to drop a pin — place a visible marker IMMEDIATELY for feedback,
+  // then reverse-geocode in the background + set the focused input.
+  map.on('click', async (e) => {
+    if (!activeInput) { pinHint.textContent = 'Focus a pickup/delivery/stop field first, then click the map'; pinHint.style.color = '#ef4444'; return; }
+    // Drop the pin right away — the user sees the marker before the network call returns.
+    setInputMarker(activeInput, e.latlng);
+    pinHint.textContent = '📍 Dropped pin — looking up address…';
+    pinHint.style.color = 'var(--accent)';
+    const name = await reverse(e.latlng.lat, e.latlng.lng);
+    if (name) {
+      activeInput.value = name;
+      pinHint.textContent = '📍 Pin set: ' + (activeInput.dataset.label || activeInput.name);
+      pinHint.style.color = 'var(--success)';
+      previewRoute();
+    } else {
+      pinHint.textContent = 'Pin placed, but reverse-geocode failed — type the address manually';
+      pinHint.style.color = '#f59e0b';
+    }
+  });
+
+  function inferTraffic(distanceKm, durationMin) {
+    if (!distanceKm || !durationMin) return { label: 'unknown', color: '#8899aa' };
+    const kmh = (distanceKm / durationMin) * 60;
+    if (kmh >= 55) return { label: 'clear', color: '#22c55e' };
+    if (kmh >= 30) return { label: 'moderate', color: '#f59e0b' };
+    return { label: 'heavy', color: '#ef4444' };
+  }
+  async function previewRoute() {
+    const info = document.getElementById('RouteInfo');
+    const hoursAuto = document.getElementById('HoursAuto');
+    const pickup = document.getElementById('PickupInput').value;
+    const delivery = document.getElementById('DeliveryInput').value;
+    if (!pickup || !delivery) { info.textContent = 'Enter pickup and delivery to preview route.'; return; }
+    info.textContent = 'Looking up route…';
+    const stopInputs = Array.from(document.querySelectorAll('input[name="stop"]')).map(x => x.value).filter(x => x && x.trim());
+    const [pk, dl, ...stops] = await Promise.all([geocode(pickup), geocode(delivery), ...stopInputs.map(geocode)]);
+    if (!pk || !dl) { info.textContent = 'Could not find one of the addresses. Try more specific names (city/state).'; return; }
+    const waypoints = [pk, ...stops.filter(Boolean), dl].map(([lat, lon]) => L.latLng(lat, lon));
+    if (routingControl) map.removeControl(routingControl);
+    routingControl = L.Routing.control({
+      waypoints,
+      router: L.Routing.osrmv1({ serviceUrl: 'https://router.project-osrm.org/route/v1' }),
+      lineOptions: { styles: [{ color: '#ff6b35', weight: 5, opacity: .9 }] },
+      show: false, addWaypoints: false, draggableWaypoints: false, fitSelectedRoutes: true,
+      createMarker: (i, wp) => L.marker(wp.latLng, { icon: L.divIcon({ className: '', html: '<div style="width:22px;height:22px;border-radius:50%;background:' + (i===0 ? '#22c55e' : i===waypoints.length-1 ? '#ff6b35' : '#3b82f6') + ';border:3px solid #0f1419;box-shadow:0 2px 6px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.65rem;font-weight:800">' + (i===0 ? 'P' : i===waypoints.length-1 ? 'D' : i) + '</div>', iconSize:[22,22], iconAnchor:[11,11] }) }),
+    }).on('routesfound', (e) => {
+      const r = e.routes[0];
+      const km = r.summary.totalDistance / 1000;
+      const min = r.summary.totalTime / 60;
+      const t = inferTraffic(km, min);
+      const hours = Math.max(1, Math.round((min / 60) * 10) / 10);
+      hoursAuto.value = hours + 'h  (' + Math.round(min) + ' min est.)';
+      info.innerHTML = `<b>${km.toFixed(1)} km</b> · <b>${Math.round(min)} min</b> · <span style="color:${t.color};font-weight:700;text-transform:uppercase">${t.label} traffic</span> · <b>${waypoints.length}</b> waypoint${waypoints.length===1?'':'s'}`;
+      recalcTotal();
+    }).on('routingerror', (err) => {
+      info.textContent = 'Routing error — OSRM might be rate-limited. Try again in a moment.';
+    }).addTo(map);
+  }
+  document.getElementById('PreviewRouteBtn').addEventListener('click', previewRoute);
+  ['PickupInput','DeliveryInput'].forEach(id => document.getElementById(id).addEventListener('blur', () => {
+    if (document.getElementById('PickupInput').value && document.getElementById('DeliveryInput').value) previewRoute();
+  }));
+
+  // Card preview
+  const num = document.querySelector('[name=cardNumber]');
+  const nameInput = document.querySelector('[name=cardName]');
+  const exp = document.querySelector('[name=cardExp]');
+  num.addEventListener('input', () => {
+    let v = num.value.replace(/\D/g, '').slice(0, 16);
+    num.value = v.replace(/(\d{4})(?=\d)/g, '$1 ');
+    document.getElementById('CardPreview').textContent = (v.padEnd(16, '•')).replace(/(.{4})/g, '$1 ').trim();
+  });
+  nameInput.addEventListener('input', () => document.getElementById('NamePreview').textContent = (nameInput.value || 'FULL NAME').toUpperCase());
+  exp.addEventListener('input', () => {
+    let v = exp.value.replace(/\D/g, '').slice(0, 4);
+    if (v.length >= 3) v = v.slice(0,2) + '/' + v.slice(2);
+    exp.value = v;
+    document.getElementById('ExpPreview').textContent = v || 'MM/YY';
+  });
+
+  // ─── Saved cards ────────────────────────────────────────────────────
+  // Card brand + number are stored; CVC is never persisted — user re-enters on charge if they want.
+  async function loadSavedCards() {
+    const all = await WolfsDB.all('cards');
+    return all.filter(c => (c.email || '').toLowerCase() === (email || '').toLowerCase());
+  }
+  function brandOf(num) {
+    const n = (num || '').replace(/\D/g, '');
+    if (/^4/.test(n)) return 'VISA';
+    if (/^5[1-5]/.test(n)) return 'MASTERCARD';
+    if (/^3[47]/.test(n)) return 'AMEX';
+    if (/^6/.test(n)) return 'DISCOVER';
+    return 'CARD';
+  }
+  async function renderSavedCards() {
+    const saved = await loadSavedCards();
+    const list = document.getElementById('SavedCardsList');
+    const newForm = document.getElementById('NewCardForm');
+    const selectedId = document.getElementById('SelectedCardId');
+    if (!saved.length) {
+      list.innerHTML = '<p style="color:var(--text-muted);font-size:.82rem;margin-bottom:10px">No saved cards yet. Add one below — it stays on file for future posts.</p>';
+      newForm.style.display = 'block';
+      selectedId.value = '';
+      return;
+    }
+    list.innerHTML = '<div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);margin-bottom:6px">Saved cards</div>' +
+      saved.map(c => `<label style="display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--border);border-radius:8px;margin-bottom:6px;cursor:pointer;background:var(--bg)">
+        <input type="radio" name="pickedCard" value="${c.id}" ${selectedId.value === c.id || !selectedId.value ? 'checked' : ''} onchange="window.__pickCard('${c.id}')">
+        <span style="flex:1">
+          <span style="font-weight:700">${brandOf(c.last4 ? '' : '') || c.brand || 'CARD'} •••• ${c.last4 || '????'}</span>
+          <span style="color:var(--text-muted);font-size:.78rem;margin-left:8px">${c.cardName || ''} · exp ${c.exp || ''}</span>
+        </span>
+        <button type="button" class="Btn Ghost Small Danger" style="padding:4px 10px;font-size:.72rem" onclick="window.__deleteCard('${c.id}')">Remove</button>
+      </label>`).join('') +
+      `<label style="display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px dashed var(--border);border-radius:8px;margin-bottom:6px;cursor:pointer">
+        <input type="radio" name="pickedCard" value="" ${!selectedId.value ? '' : 'checked'} onchange="window.__pickCard('')">
+        <span>+ Use a new card</span>
+      </label>`;
+    if (!selectedId.value) selectedId.value = saved[0].id;
+    newForm.style.display = selectedId.value ? 'none' : 'block';
+  }
+  window.__pickCard = (id) => {
+    document.getElementById('SelectedCardId').value = id;
+    document.getElementById('NewCardForm').style.display = id ? 'none' : 'block';
+  };
+  window.__deleteCard = async (id) => {
+    try { await WolfsDB.del('cards', id); } catch (_) {}
+    const sel = document.getElementById('SelectedCardId');
+    if (sel.value === id) sel.value = '';
+    await renderSavedCards();
+  };
+  await renderSavedCards();
+
+  document.getElementById('PostForm').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const fd = new FormData(ev.target);
+    const btn = document.getElementById('PaySubmit');
+    btn.disabled = true; btn.textContent = 'Processing…';
+    try {
+      // Either use a saved card-on-file (full number never re-enters the browser,
+      // server-side stored) or enter a new one + optionally save it for reuse.
+      let cardNumber;
+      let savedCard = null;
+      const pickedId = fd.get('selectedCardId');
+      if (pickedId) {
+        const all = await WolfsDB.all('cards');
+        savedCard = all.find(c => c.id === pickedId);
+        if (!savedCard) throw new Error('Saved card not found.');
+        cardNumber = savedCard.number;
+      } else {
+        cardNumber = (fd.get('cardNumber') || '').replace(/\s/g, '');
+        if (!cardNumber) throw new Error('Enter a card number.');
+      }
+      // 1. Charge
+      const charge = await fetch(`${WolfsDB.API.replace('/api','')}/api/charge`, {
+        method: 'POST',
+        headers: {
+          'Content-Type':'application/json',
+          'X-Wolfs-Session': sess,
+          'X-Wolfs-Email': email,
+          'X-Wolfs-Role': localStorage.getItem('wolfs_role') || 'client',
+        },
+        body: JSON.stringify({
+          amount: 49.00,
+          number: cardNumber,
+          description: 'Job post fee: ' + fd.get('title'),
+          metadata: { type: 'job_post' },
+        }),
+      }).then(r => r.json());
+      if (!charge.ok) throw new Error(charge.error || 'charge failed');
+
+      // Save a new card only if user opted in and this wasn't an existing saved card.
+      if (!pickedId && fd.get('saveCard')) {
+        const last4 = cardNumber.slice(-4);
+        await WolfsDB.put('cards', {
+          id: 'card_' + Date.now(),
+          email: email,
+          brand: brandOf(cardNumber),
+          last4,
+          number: cardNumber,
+          cardName: fd.get('cardName') || '',
+          exp: fd.get('cardExp') || '',
+          createdAt: new Date().toISOString(),
+        });
+      }
+
+      // 2. Create job — include stops + geocoded waypoints so the employer history
+      // map can redraw the same route later without re-geocoding.
+      const stopsList = Array.from(document.querySelectorAll('input[name="stop"]')).map(x => x.value.trim()).filter(Boolean);
+      const tip = parseFloat(fd.get('tip') || 0) || 0;
+      const hoursNum = parseFloat((document.getElementById('HoursAuto').value || '').replace(/[^\d.]/g, '')) || 1;
+      const job = {
+        id: 'job_' + Date.now() + '_' + Math.random().toString(36).slice(2,6),
+        title: fd.get('title'),
+        pickup: fd.get('pickup'),
+        delivery: fd.get('delivery'),
+        stops: stopsList,
+        startsAt: fd.get('startsAt'),
+        hours: hoursNum,
+        payRate: parseFloat(fd.get('payRate')),
+        tip,
+        totalPay: parseFloat(fd.get('payRate')) * hoursNum + tip,
+        roleId: fd.get('roleId'),
+        requiredBadges: fd.getAll('badges'),
+        description: fd.get('description'),
+        employerEmail: email,
+        chargeId: charge.charge.id,
+        status: 'open',
+        createdAt: new Date().toISOString(),
+      };
+      await WolfsDB.put('jobs', job);
+
+      document.getElementById('SuccessBanner').innerHTML = `<div class="SuccessBanner">✅ Charged $49 (charge id <code>${charge.charge.id}</code>). Job is live at <a href="/wolfstruckingco.com/Dashboard/" style="color:var(--success)">/Dashboard/</a>. Drivers with matching badges will see it next page load.</div>`;
+      btn.textContent = 'Post another';
+      btn.disabled = false;
+      ev.target.reset();
+    } catch (ex) {
+      alert('Payment or job post failed: ' + ex.message);
+      btn.disabled = false; btn.textContent = 'Charge $49 & post job';
+    }
+  });
+})();
+</script>
+</body>
+</html>

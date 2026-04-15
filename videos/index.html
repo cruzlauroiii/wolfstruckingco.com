@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Walkthrough video | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<meta name="theme-color" content="#ff6b35">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--radius:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.TopBar{position:sticky;top:0;z-index:10;background:rgba(15,20,25,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.Brand{font-weight:800;display:flex;align-items:center;gap:8px}
+.Brand .Logo{width:28px;height:28px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:.85rem}
+.Brand a{color:var(--text);text-decoration:none}
+.TopActions a{color:var(--text-muted);text-decoration:none;padding:8px 12px;font-size:.88rem}
+.TopActions a:hover{color:var(--accent)}
+
+.Stage{max-width:1100px;margin:0 auto;padding:40px 20px 80px}
+.Stage h1{font-size:2rem;font-weight:800;margin-bottom:10px}
+.Stage>p{color:var(--text-muted);font-size:1rem;margin-bottom:32px;max-width:760px;line-height:1.65}
+
+.VideoWrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:30px}
+video{width:100%;display:block;background:#000}
+
+.Steps{display:grid;gap:12px}
+.StepRow{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:grid;grid-template-columns:60px 1fr;gap:14px}
+.StepNum{background:var(--accent);color:#fff;font-weight:800;font-size:1.2rem;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center}
+.StepBody h3{font-size:1rem;margin-bottom:4px}
+.StepBody p{color:var(--text-muted);font-size:.88rem;line-height:1.55}
+</style>
+</head>
+<body>
+<div class="TopBar">
+  <div class="Brand"><span class="Logo">W</span><a href="/wolfstruckingco.com/">Wolfs Trucking Co.</a></div>
+  <div class="TopActions">
+    <a href="/wolfstruckingco.com/CareerAgent/">Career Agent</a>
+    <a href="/wolfstruckingco.com/HiringHall/">Hiring Hall</a>
+    <a href="/wolfstruckingco.com/Login/">Sign In</a>
+  </div>
+</div>
+<div class="Stage">
+  <h1>Agentic AI labor platform — walkthrough</h1>
+  <p>One seven-minute run through the Case Study's five required steps, using real infrastructure: Cloudflare Workers + R2 for data and permissions, Claude Opus 4.7 via the Anthropic Messages API for the agentic steps, real OAuth single sign-on with role inference from the live backend. No seeded fixtures — every record created in-frame, narrated by the Aria voice via edge-tts.</p>
+
+  <div class="VideoWrap">
+    <video controls preload="metadata" playsinline src="/wolfstruckingco.com/videos/walkthrough.mp4"></video>
+  </div>
+
+  <div class="Steps">
+    <div class="StepRow"><div class="StepNum">1</div><div class="StepBody"><h3>Worker onboarding</h3><p>Jordan Vega authenticates via SSO, the Login page reads the callback email and routes by role. The Career Agent form collects role, experience, location, credentials, and goals — every field persisted to R2.</p></div></div>
+    <div class="StepRow"><div class="StepNum">2</div><div class="StepBody"><h3>Career agent activation</h3><p>On form submit, the agent fires a live Claude Opus 4.7 call to synthesize a grounded summary — strengths, gaps, suggested next move. No canned response.</p></div></div>
+    <div class="StepRow"><div class="StepNum">3</div><div class="StepBody"><h3>Job match surface</h3><p>Five matched listings ranked by location and profile fit. Each card gets a fresh per-job Claude rationale explaining the match.</p></div></div>
+    <div class="StepRow"><div class="StepNum">4</div><div class="StepBody"><h3>Career agent chat</h3><p>The worker asks about a specific role. Multi-turn conversation grounded in profile + job, persisted to R2 so the next session continues where this one left off.</p></div></div>
+    <div class="StepRow"><div class="StepNum">5</div><div class="StepBody"><h3>Employer view (bonus)</h3><p>A client signs in, opens the Employer view for their open role, and sees every qualifying worker pre-ranked with an AI-written pitch — fresh Claude call per candidate.</p></div></div>
+  </div>
+</div>
+</body>
+</html>

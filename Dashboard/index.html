@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Driver Dashboard | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<link rel="apple-touch-icon" href="/wolfstruckingco.com/icon.svg">
+<link rel="manifest" href="/wolfstruckingco.com/manifest.json">
+<meta name="theme-color" content="#ff6b35">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--radius:12px}
+html,body{height:100%;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+.App{height:100vh;height:100dvh;display:flex;flex-direction:column;position:relative}
+
+#Map{flex:1;z-index:1}
+.leaflet-control-attribution{display:none!important}
+.leaflet-routing-container{display:none !important}
+.leaflet-top.leaflet-right{display:none !important}
+.leaflet-control-zoom a{background:var(--card)!important;color:var(--text)!important;border-color:var(--border)!important;width:36px!important;height:36px!important;line-height:36px!important;font-size:18px!important}
+
+.TopBar{position:absolute;top:0;left:0;right:0;z-index:1000;display:flex;justify-content:space-between;align-items:flex-start;padding:12px 16px;pointer-events:none}
+.TopBar>*{pointer-events:auto}
+
+.BtnBurger{width:48px;height:48px;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.BtnBurger:hover{background:var(--bg)}
+
+.DriverInfo{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:8px 16px}
+.DriverName{font-size:.9rem;font-weight:700}
+.KpiBadges{display:flex;gap:8px;margin-top:4px}
+.KpiBadge{font-size:.7rem;padding:3px 8px;border-radius:50px;font-weight:600}
+.KpiGreen{background:rgba(34,197,94,.15);color:var(--success)}
+.KpiAccent{background:rgba(255,107,53,.15);color:var(--accent)}
+
+.SideMenu{position:fixed;top:0;left:-300px;width:300px;height:100%;background:var(--card);border-right:1px solid var(--border);z-index:2000;transition:left .3s ease;display:flex;flex-direction:column;overflow-y:auto}
+.SideMenu.Open{left:0}
+.MenuOverlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:1999}
+.MenuOverlay.Open{display:block}
+.MenuHeader{padding:24px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.MenuHeader h2{font-size:1.1rem;font-weight:700}
+.MenuClose{width:44px;height:44px;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.MenuItems{flex:1;padding:12px 0}
+.MenuItem{display:flex;align-items:center;gap:14px;padding:14px 20px;color:var(--text);text-decoration:none;font-size:.95rem;font-weight:500;min-height:52px;transition:background .2s;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.MenuItem:hover{background:rgba(255,107,53,.08)}
+.MenuItem.Active{color:var(--accent);background:rgba(255,107,53,.1)}
+.MenuIcon{font-size:1.2rem;width:28px;text-align:center}
+.MenuFooter{padding:20px;border-top:1px solid var(--border)}
+.BtnLogout{width:100%;padding:14px;border-radius:12px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;font-size:.95rem;font-weight:600;cursor:pointer;min-height:48px;font-family:inherit;transition:background .2s}
+.BtnLogout:hover{background:rgba(239,68,68,.2)}
+
+.LeftPanel{position:absolute;top:72px;left:0;width:380px;height:calc(100% - 72px);z-index:1000;background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;transition:left .3s ease;overflow:hidden}
+.LeftPanel.Collapsed{left:-380px}
+.LeftPanel>div{display:flex;flex-direction:column;flex:1;min-height:0}
+.RightPanel{position:absolute;top:72px;right:0;width:380px;height:calc(100% - 72px);z-index:1000;background:var(--card);border-left:1px solid var(--border);display:flex;flex-direction:column;transition:right .3s ease;overflow:hidden}
+.RightPanel.Collapsed{right:-380px}
+.RightPanel>div{display:flex;flex-direction:column;flex:1;min-height:0}
+.PanelHeader{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;flex-shrink:0;border-bottom:1px solid var(--border)}
+.PanelTitle{font-size:1.1rem;font-weight:700}
+.PanelBadge{background:var(--accent);color:#fff;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:50px}
+.PanelContent{overflow-y:auto;overflow-x:hidden;padding:12px 20px 20px;flex:1;min-height:0;-webkit-overflow-scrolling:touch}
+.PanelToggle{position:absolute;top:50%;width:28px;height:48px;background:var(--card);border:1px solid var(--border);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;z-index:1001;transition:all .2s}
+.PanelToggle:hover{background:var(--bg)}
+.PanelToggleLeft{left:380px;border-radius:0 8px 8px 0;transform:translateY(-50%)}
+.PanelToggleLeft.Collapsed{left:0}
+.PanelToggleRight{right:380px;border-radius:8px 0 0 8px;transform:translateY(-50%)}
+.PanelToggleRight.Collapsed{right:0}
+
+.JobCard{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;cursor:pointer;transition:border-color .2s}
+.JobCard:hover{border-color:var(--accent)}
+.JobCardHeader{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.JobTitle{font-size:1rem;font-weight:700}
+.JobPay{font-size:1.1rem;font-weight:900;color:var(--accent)}
+.JobRoute{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.JobPoint{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text-muted)}
+.JobDot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.DotPickup{background:var(--success)}
+.DotDelivery{background:var(--accent)}
+.JobMeta{display:flex;gap:12px;flex-wrap:wrap}
+.JobMetaItem{font-size:.75rem;color:var(--text-muted);background:rgba(136,153,170,.1);padding:4px 10px;border-radius:50px}
+.JobExpanded{display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.JobExpanded.Show{display:block}
+.JobDetail{display:flex;justify-content:space-between;padding:6px 0;font-size:.85rem}
+.JobDetail .Label{color:var(--text-muted)}
+.BtnAccept{width:100%;padding:14px;border-radius:12px;background:var(--success);border:none;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;min-height:52px;margin-top:16px;transition:background .2s;font-family:inherit}
+.BtnAccept:hover{background:#16a34a}
+
+.ActiveDelivery{display:none}
+.ActiveDelivery.Show{display:block}
+.ChecklistItem{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.ChecklistBox{width:28px;height:28px;border-radius:8px;border:2px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;transition:all .2s;min-width:44px;min-height:44px}
+.ChecklistBox.Checked{background:var(--success);border-color:var(--success);color:#fff}
+.ChecklistLabel{font-size:.9rem}
+.DeliverySteps{margin-top:16px}
+.DeliveryStep{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.StepNum{width:28px;height:28px;border-radius:50%;background:rgba(255,107,53,.15);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+.StepNum.Done{background:var(--success);color:#fff}
+.StepText{font-size:.9rem;color:var(--text-muted)}
+.BtnComplete{width:100%;padding:14px;border-radius:12px;background:var(--accent);border:none;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;min-height:52px;margin-top:16px;transition:background .2s;font-family:inherit}
+.BtnComplete:hover{background:var(--accent-hover)}
+.BtnComplete:disabled{opacity:.4;cursor:default}
+
+.ChatPanel{position:fixed;top:0;right:-380px;width:380px;height:100%;background:var(--card);border-left:1px solid var(--border);z-index:2000;transition:right .3s ease;display:flex;flex-direction:column}
+.ChatPanel.Open{right:0}
+.ChatHeader{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.ChatHeader h3{font-size:1rem;font-weight:700}
+.ChatClose{width:44px;height:44px;background:none;border:none;color:var(--text);font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.AuditSelect{margin:12px 20px;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem;width:calc(100% - 40px);font-family:inherit}
+.ChatMessages{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+.ChatMsg{max-width:85%;padding:10px 14px;border-radius:12px;font-size:.9rem;line-height:1.5;word-wrap:break-word;animation:FadeIn .3s ease}
+.ChatMsgBot{align-self:flex-start;background:var(--bg);border:1px solid var(--border);border-bottom-left-radius:4px}
+.ChatMsgUser{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:4px}
+.ChatInput{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--border)}
+.ChatInput input{flex:1;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:.9rem;outline:none;min-height:48px;font-family:inherit}
+.ChatInput input:focus{border-color:var(--accent)}
+.ChatInput input::placeholder{color:var(--text-muted)}
+.ChatSend{width:48px;height:48px;border-radius:50%;background:var(--accent);border:none;color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+.ChatSend:hover{background:var(--accent-hover)}
+.ChatVoice{width:48px;height:48px;border-radius:50%;background:var(--success);border:none;color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+.ChatVoice:hover{background:#16a34a}
+
+.BtnChat{position:absolute;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--accent);border:none;color:#fff;font-size:1.5rem;cursor:pointer;z-index:999;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(255,107,53,.3);transition:all .2s}
+.BtnChat:hover{transform:scale(1.1)}
+.BtnChat.HasPanel{display:none}
+.ChatBadge{position:absolute;top:-4px;right:-4px;width:20px;height:20px;border-radius:50%;background:var(--danger);font-size:.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;display:none}
+
+.Onboarding{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:5000;background:rgba(0,0,0,.7)}
+.Onboarding.Active{display:flex;align-items:center;justify-content:center}
+.OnboardStep{background:var(--card);border:2px solid var(--accent);border-radius:16px;padding:32px;max-width:400px;width:90%;text-align:center;animation:FadeIn .4s ease}
+.OnboardStep h3{font-size:1.2rem;font-weight:700;margin-bottom:12px;color:var(--accent)}
+.OnboardStep p{color:var(--text-muted);font-size:.95rem;line-height:1.6;margin-bottom:24px}
+.OnboardProgress{display:flex;gap:6px;justify-content:center;margin-bottom:20px}
+.OnboardDot{width:8px;height:8px;border-radius:50%;background:var(--border)}
+.OnboardDot.Active{background:var(--accent)}
+.BtnNext{padding:14px 40px;border-radius:12px;background:var(--accent);border:none;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;min-height:48px;transition:background .2s;font-family:inherit}
+.BtnNext:hover{background:var(--accent-hover)}
+.Highlight{position:fixed;border:3px solid var(--accent);border-radius:16px;z-index:4999;pointer-events:none;animation:HighlightPulse 1.5s infinite;transition:all .4s ease}
+@keyframes HighlightPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,53,.4)}50%{box-shadow:0 0 0 12px rgba(255,107,53,0)}}
+@keyframes FadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:768px){
+  .ChatPanel{width:100%}
+  .LeftPanel,.RightPanel{width:100%}
+  .PanelToggleLeft{left:100%}
+  .PanelToggleLeft.Collapsed{left:0}
+  .PanelToggleRight{right:100%}
+  .PanelToggleRight.Collapsed{right:0}
+  .DriverInfo .DriverName{font-size:.8rem}
+  .KpiBadge{font-size:.65rem}
+}
+</style>
+</head>
+<body>
+<div class="App">
+  <div id="Map"></div>
+
+  <div class="TopBar">
+    <button class="BtnBurger" onclick="ToggleMenu()">&#9776;</button>
+    <div class="DriverInfo">
+      <div>
+        <div class="DriverName" id="DriverName">Driver</div>
+        <div class="KpiBadges">
+          <span class="KpiBadge KpiGreen" id="KpiOnTime">98.2% On-Time</span>
+          <span class="KpiBadge KpiAccent" id="KpiEarnings">$412 Today</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="MenuOverlay" id="MenuOverlay" onclick="ToggleMenu()"></div>
+  <div class="SideMenu" id="SideMenu">
+    <div class="MenuHeader">
+      <h2>Wolfs Trucking</h2>
+      <button class="MenuClose" onclick="ToggleMenu()">&#10005;</button>
+    </div>
+    <div class="MenuItems">
+      <button class="MenuItem Active" onclick="ShowView('jobs');ToggleMenu()"><span class="MenuIcon">&#128203;</span> Available Jobs</button>
+      <button class="MenuItem" onclick="ShowView('active');ToggleMenu()"><span class="MenuIcon">&#128666;</span> Active Delivery</button>
+      <button class="MenuItem" onclick="ShowView('hall');ToggleMenu()"><span class="MenuIcon">&#128197;</span> My Hiring Hall</button>
+      <button class="MenuItem" onclick="ShowView('kpis');ToggleMenu()"><span class="MenuIcon">&#128200;</span> My KPIs</button>
+      <button class="MenuItem" onclick="OpenChat();ToggleMenu()"><span class="MenuIcon">&#128172;</span> Dispatch Chat</button>
+      <a class="MenuItem" href="/wolfstruckingco.com/CareerAgent/"><span class="MenuIcon">&#129302;</span> Career Agent</a>
+      <a class="MenuItem" href="/wolfstruckingco.com/HiringHall/"><span class="MenuIcon">&#127970;</span> Hiring Hall (Admin)</a>
+      <a class="MenuItem" href="/wolfstruckingco.com/Settings/"><span class="MenuIcon">&#9881;</span> Settings</a>
+    </div>
+    <div class="MenuFooter">
+      <button class="BtnLogout" onclick="Logout()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="LeftPanel" id="LeftPanel">
+    <div id="JobsView">
+      <div class="PanelHeader">
+        <span class="PanelTitle">Available Jobs</span>
+        <span class="PanelBadge" id="JobCount">0 Available</span>
+      </div>
+      <div class="PanelContent" id="JobList"></div>
+      <div class="PanelContent" id="RealJobList" style="border-top:1px solid var(--border);padding-top:12px;margin-top:10px;font-size:.9rem"></div>
+    </div>
+    <div id="KpisView" style="display:none">
+      <div class="PanelHeader">
+        <span class="PanelTitle">My Performance</span>
+      </div>
+      <div class="PanelContent" id="KpiContent"></div>
+    </div>
+    <div id="HallView" style="display:none">
+      <div class="PanelHeader">
+        <span class="PanelTitle">My Hiring Hall schedules</span>
+        <span class="PanelBadge" id="HallBadge">—</span>
+      </div>
+      <div class="PanelContent" id="HallContent" style="font-size:.88rem;line-height:1.5">Loading…</div>
+    </div>
+  </div>
+  <button class="PanelToggle PanelToggleLeft" id="ToggleLeft" onclick="ToggleLeftPanel()">&#9664;</button>
+
+  <div class="RightPanel Collapsed" id="RightPanel">
+    <div class="ActiveDelivery" id="ActiveView">
+      <div class="PanelHeader">
+        <span class="PanelTitle" id="ActiveTitle">Active Delivery</span>
+        <span class="PanelBadge" style="background:var(--success)">In Progress</span>
+      </div>
+      <div class="PanelContent">
+        <div id="PreTrip">
+          <h4 style="margin-bottom:12px;font-size:.9rem;color:var(--text-muted)">PRE-TRIP CHECKLIST</h4>
+          <div id="ChecklistItems"></div>
+          <button class="BtnAccept" id="BtnStartDrive" onclick="StartDriving()" disabled>Start Driving</button>
+        </div>
+        <div id="DrivingView" style="display:none">
+          <div class="DeliverySteps" id="DeliverySteps"></div>
+          <button class="BtnComplete" id="BtnCompleteDelivery" onclick="CompleteDelivery()">Complete Delivery</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="PanelToggle PanelToggleRight Collapsed" id="ToggleRight" onclick="ToggleRightPanel()">&#9654;</button>
+
+  <button class="BtnChat" id="BtnChat" onclick="OpenChat()">&#128172;<span class="ChatBadge" id="ChatBadge">0</span></button>
+
+  <div class="ChatPanel" id="ChatPanel">
+    <div class="ChatHeader">
+      <h3>Dispatch Chat</h3>
+      <button class="ChatClose" onclick="CloseChat()">&#10005;</button>
+    </div>
+    <select class="AuditSelect" id="AuditSelect" onchange="LoadAuditTrail(this.value)">
+      <option value="current">Current Conversation</option>
+      <option value="2026-04-14">Apr 14 - Load #4821</option>
+      <option value="2026-04-13">Apr 13 - Load #4807</option>
+      <option value="2026-04-12">Apr 12 - Load #4793</option>
+    </select>
+    <div class="ChatMessages" id="ChatMessages">
+      <div class="ChatMsg ChatMsgBot">Dispatch AI ready. How can I help you today?</div>
+    </div>
+    <div class="ChatInput">
+      <button class="ChatVoice" id="ChatVoiceBtn" onclick="ToggleChatVoice()">&#127908;</button>
+      <input type="text" id="ChatInputField" placeholder="Message dispatch..." onkeydown="if(event.key==='Enter')SendChat()">
+      <button class="ChatSend" onclick="SendChat()">&#10148;</button>
+    </div>
+  </div>
+
+  <div class="Onboarding" id="Onboarding">
+    <div class="OnboardStep" id="OnboardContent"></div>
+  </div>
+  <div class="Highlight" id="Highlight" style="display:none"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+<script src="/wolfstruckingco.com/demo.js"></script>
+<script>
+var RelayUrl = 'https://wolfstruckingco.nbth.workers.dev';
+var MapInstance = null;
+var DriverMarker = null;
+var RouteLayer = null;
+var ActiveJob = null;
+var ChecklistDone = 0;
+var ChecklistTotal = 8;
+var ChatVoiceActive = false;
+var ChatSpeechRec = null;
+
+(function AuthCheck() {
+  if (!localStorage.getItem('wolfs_session')) {
+    window.location.href = '/wolfstruckingco.com/Login/';
+    return;
+  }
+  var Email = localStorage.getItem('wolfs_email') || 'driver@wolfstruckingco.com';
+  var Name = Email.split('@')[0].replace(/[._]/g,' ').replace(/\b\w/g, function(L){return L.toUpperCase()});
+  document.getElementById('DriverName').textContent = Name;
+})();
+
+var Jobs = [
+  {Id:1,Title:'Container Drayage - Port of LA',Pickup:'Port of Los Angeles, Terminal Island',Delivery:'3PL Warehouse, Commerce CA',Pay:285,Distance:'22 mi',Time:'2-3 hrs',Weight:'42,000 lbs',Type:'Container',Window:'Today 8:00 AM - 2:00 PM',Notes:'TWIC required. 40ft container. Chassis provided at terminal.'},
+  {Id:2,Title:'Regional LTL - San Fernando Valley',Pickup:'Burbank Distribution Center',Delivery:'Multiple stops - Northridge, Chatsworth, Simi Valley',Pay:340,Distance:'68 mi',Time:'4-5 hrs',Weight:'18,500 lbs',Type:'LTL',Window:'Today 6:00 AM - 4:00 PM',Notes:'6 stops total. Liftgate needed for 2 stops. Residential deliveries.'},
+  {Id:3,Title:'Dedicated Run - Walmart DC',Pickup:'Wolfs Warehouse, Burbank',Delivery:'Walmart DC, Fontana CA',Pay:195,Distance:'52 mi',Time:'2 hrs',Weight:'38,000 lbs',Type:'FTL',Window:'Today 10:00 AM - 1:00 PM',Notes:'Drop and hook. Appointment at 11:30 AM. No lumper needed.'},
+  {Id:4,Title:'Reefer Load - Produce',Pickup:'LA Wholesale Produce Market',Delivery:'Ralphs Distribution, Compton',Pay:310,Distance:'18 mi',Time:'3 hrs',Weight:'35,200 lbs',Type:'Reefer',Window:'Today 5:00 AM - 10:00 AM',Notes:'Temperature 34F. Pre-cool required. FIFO loading.'},
+  {Id:5,Title:'Flatbed - Construction Materials',Pickup:'Home Depot Supply, Irwindale',Delivery:'Construction Site, Downtown LA',Pay:275,Distance:'28 mi',Time:'3-4 hrs',Weight:'44,000 lbs',Type:'Flatbed',Window:'Tomorrow 7:00 AM - 12:00 PM',Notes:'Tarping required. Oversized load permit on file. Escort not needed.'},
+  {Id:6,Title:'Express Delivery - Medical Supply',Pickup:'McKesson DC, Santa Fe Springs',Delivery:'Cedars-Sinai Medical Center, LA',Pay:165,Distance:'15 mi',Time:'1.5 hrs',Weight:'8,200 lbs',Type:'Express',Window:'Today ASAP',Notes:'Priority delivery. White glove service. Loading dock access.'}
+];
+
+var ChecklistItems = [
+  'Engine oil level checked',
+  'Tire pressure and condition inspected',
+  'Brake system tested',
+  'Lights and signals functioning',
+  'Mirrors clean and adjusted',
+  'Coupling devices secure',
+  'Cargo properly loaded and secured',
+  'All paperwork and permits ready'
+];
+
+function InitMap() {
+  MapInstance = L.map('Map',{zoomControl:true}).setView([34.1808,-118.3090],12);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+    maxZoom:19,
+    subdomains:'abcd'
+  }).addTo(MapInstance);
+  var DriverIcon = L.divIcon({
+    html:'<div style="width:36px;height:36px;background:#ff6b35;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,.4)">&#128666;</div>',
+    iconSize:[36,36],
+    iconAnchor:[18,18],
+    className:''
+  });
+  DriverMarker = L.marker([34.1808,-118.3090],{icon:DriverIcon}).addTo(MapInstance);
+  DriverMarker.bindPopup('<b>Your Location</b><br>Burbank, CA');
+  var Locations = [
+    [33.7405,-118.2716,'Port of LA'],
+    [34.0006,-118.1590,'Commerce 3PL'],
+    [34.1808,-118.3090,'Wolfs HQ'],
+    [34.0252,-117.5674,'Fontana DC'],
+    [34.0337,-118.2631,'Downtown LA']
+  ];
+  Locations.forEach(function(Loc) {
+    var Icon = L.divIcon({
+      html:'<div style="width:12px;height:12px;background:#22c55e;border-radius:50%;border:2px solid #0f1419;box-shadow:0 0 6px rgba(34,197,94,.5)"></div>',
+      iconSize:[12,12],
+      iconAnchor:[6,6],
+      className:''
+    });
+    L.marker([Loc[0],Loc[1]],{icon:Icon}).addTo(MapInstance).bindPopup(Loc[2]);
+  });
+}
+
+function RenderJobs() {
+  // No mock jobs: the only Available Jobs the driver ever sees are real employer-posted
+  // jobs that match their badges, rendered by RenderRealJobs() into #RealJobList.
+  document.getElementById('JobList').innerHTML = '';
+  document.getElementById('JobCount').textContent = '0 Available';
+}
+
+function ToggleJobDetails(Id) {
+  var El = document.getElementById('JobExp_' + Id);
+  var WasOpen = El.classList.contains('Show');
+  document.querySelectorAll('.JobExpanded').forEach(function(E){E.classList.remove('Show')});
+  if (!WasOpen) El.classList.add('Show');
+}
+
+function AcceptJob(Id) {
+  ActiveJob = Jobs.find(function(J){return J.Id === Id});
+  if (!ActiveJob) return;
+  ShowView('active');
+  document.getElementById('ActiveTitle').textContent = ActiveJob.Title;
+  document.getElementById('RightPanel').classList.remove('Collapsed');
+  document.getElementById('ToggleRight').classList.remove('Collapsed');
+  RenderChecklist();
+  DrawRoute();
+  // Persist acceptance to R2 (real business mode)
+  if (ActiveJob.RealId && localStorage.getItem('wolfs_demo') !== 'true') {
+    var DriverEmail = localStorage.getItem('wolfs_email') || '';
+    fetch(RelayUrl + '/api/jobs/' + ActiveJob.RealId, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ status:'accepted', acceptedBy: DriverEmail, acceptedAt: new Date().toISOString() }) }).catch(function(){});
+    fetch(RelayUrl + '/api/deliveries', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id:'del_'+Date.now(), jobId: ActiveJob.RealId, driverEmail: DriverEmail, status:'in_progress', startedAt: new Date().toISOString() }) }).catch(function(){});
+  }
+}
+
+function RenderChecklist() {
+  ChecklistDone = 0;
+  var Html = '';
+  ChecklistItems.forEach(function(Item, I) {
+    Html += '<div class="ChecklistItem">' +
+      '<div class="ChecklistBox" id="Check_' + I + '" onclick="ToggleCheck(' + I + ')"></div>' +
+      '<div class="ChecklistLabel">' + Item + '</div>' +
+    '</div>';
+  });
+  document.getElementById('ChecklistItems').innerHTML = Html;
+  document.getElementById('BtnStartDrive').disabled = true;
+}
+
+function ToggleCheck(I) {
+  var El = document.getElementById('Check_' + I);
+  if (El.classList.contains('Checked')) {
+    El.classList.remove('Checked');
+    El.innerHTML = '';
+    ChecklistDone--;
+  } else {
+    El.classList.add('Checked');
+    El.innerHTML = '&#10003;';
+    ChecklistDone++;
+  }
+  document.getElementById('BtnStartDrive').disabled = (ChecklistDone < ChecklistTotal);
+}
+
+function StartDriving() {
+  document.getElementById('PreTrip').style.display = 'none';
+  document.getElementById('DrivingView').style.display = 'block';
+  var Steps = [
+    'Depart from current location',
+    'Head to pickup: ' + (ActiveJob ? ActiveJob.Pickup : ''),
+    'Arrive at pickup, load cargo',
+    'Verify load count and seal number',
+    'Depart pickup, head to delivery',
+    'Follow designated route (see map)',
+    'Arrive at delivery: ' + (ActiveJob ? ActiveJob.Delivery : ''),
+    'Unload cargo, get signature',
+    'Submit delivery confirmation'
+  ];
+  var Html = '';
+  Steps.forEach(function(S, I) {
+    Html += '<div class="DeliveryStep"><div class="StepNum" id="Step_' + I + '">' + (I+1) + '</div><div class="StepText">' + S + '</div></div>';
+  });
+  document.getElementById('DeliverySteps').innerHTML = Html;
+}
+
+function CompleteDelivery() {
+  var CompletedJob = ActiveJob;
+  ActiveJob = null;
+  document.getElementById('PreTrip').style.display = 'block';
+  document.getElementById('DrivingView').style.display = 'none';
+  ShowView('jobs');
+  if (RoutingControl) { MapInstance.removeControl(RoutingControl); RoutingControl = null; }
+  if (TrafficLayer) { MapInstance.removeLayer(TrafficLayer); TrafficLayer = null; }
+  if (RouteLayer) { MapInstance.removeLayer(RouteLayer); RouteLayer = null; }
+  AddChatMsg('Delivery completed successfully! Great work. Ready for your next load?', false);
+  if (CompletedJob && CompletedJob.RealId && localStorage.getItem('wolfs_demo') !== 'true') {
+    fetch(RelayUrl + '/api/jobs/' + CompletedJob.RealId, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ status:'completed', completedAt: new Date().toISOString() }) }).catch(function(){});
+  }
+}
+
+var RoutingControl = null;
+var TrafficLayer = null;
+
+var UrbanZones = [
+  {name:'Charlotte',lat:35.2271,lng:-80.8431,radius:0.15},
+  {name:'Spartanburg',lat:34.9496,lng:-81.9320,radius:0.08},
+  {name:'Greenville',lat:34.8526,lng:-82.3940,radius:0.12},
+  {name:'Downtown LA',lat:34.0522,lng:-118.2437,radius:0.05},
+  {name:'Long Beach',lat:33.7701,lng:-118.1937,radius:0.06}
+];
+
+function ClassifySegment(Lat, Lng) {
+  for (var I = 0; I < UrbanZones.length; I++) {
+    var Z = UrbanZones[I];
+    var D = Math.sqrt(Math.pow(Lat - Z.lat, 2) + Math.pow(Lng - Z.lng, 2));
+    if (D < Z.radius) return 'red';
+  }
+  if (Lat > 34.5 || Lat < 33.5) return 'green';
+  return 'yellow';
+}
+
+function DrawRoute() {
+  if (RoutingControl) { MapInstance.removeControl(RoutingControl); RoutingControl = null; }
+  if (TrafficLayer) { MapInstance.removeLayer(TrafficLayer); TrafficLayer = null; }
+
+  var Start = L.latLng(34.1808, -118.3090);
+  var End = L.latLng(33.7405, -118.2716);
+
+  RoutingControl = L.Routing.control({
+    waypoints: [Start, End],
+    router: L.Routing.osrmv1({ serviceUrl: 'https://router.project-osrm.org/route/v1' }),
+    lineOptions: { styles: [{ color: '#ff6b35', weight: 5, opacity: 0.7 }] },
+    show: false,
+    addWaypoints: false,
+    draggableWaypoints: false,
+    fitSelectedRoutes: true,
+    createMarker: function() { return null; }
+  }).addTo(MapInstance);
+
+  RoutingControl.on('routesfound', function(E) {
+    var Coords = E.routes[0].coordinates;
+    TrafficLayer = L.layerGroup().addTo(MapInstance);
+    for (var I = 0; I < Coords.length - 1; I++) {
+      var A = Coords[I];
+      var B = Coords[I + 1];
+      var MidLat = (A.lat + B.lat) / 2;
+      var MidLng = (A.lng + B.lng) / 2;
+      var Traffic = ClassifySegment(MidLat, MidLng);
+      var Color = Traffic === 'red' ? '#ef4444' : Traffic === 'yellow' ? '#eab308' : '#22c55e';
+      L.polyline([[A.lat, A.lng], [B.lat, B.lng]], {
+        color: Color, weight: 7, opacity: 0.85
+      }).addTo(TrafficLayer);
+    }
+  });
+}
+
+function ShowView(View) {
+  document.getElementById('JobsView').style.display = View === 'jobs' ? 'block' : 'none';
+  document.getElementById('KpisView').style.display = View === 'kpis' ? 'block' : 'none';
+  var HallView = document.getElementById('HallView');
+  if (HallView) HallView.style.display = View === 'hall' ? 'block' : 'none';
+  document.getElementById('ActiveView').className = 'ActiveDelivery' + (View === 'active' ? ' Show' : '');
+  document.querySelectorAll('.MenuItem').forEach(function(M){M.classList.remove('Active')});
+
+  if (View === 'hall' && typeof RenderHallForDriver === 'function') RenderHallForDriver();
+  if (View === 'jobs' && typeof RenderRealJobs === 'function') RenderRealJobs();
+
+  if (View === 'jobs' || View === 'kpis' || View === 'hall') {
+    document.getElementById('LeftPanel').classList.remove('Collapsed');
+    document.getElementById('ToggleLeft').classList.remove('Collapsed');
+  }
+  if (View === 'active') {
+    document.getElementById('RightPanel').classList.remove('Collapsed');
+    document.getElementById('ToggleRight').classList.remove('Collapsed');
+  }
+  if (View === 'kpis') RenderKpis();
+}
+
+function ToggleLeftPanel() {
+  document.getElementById('LeftPanel').classList.toggle('Collapsed');
+  document.getElementById('ToggleLeft').classList.toggle('Collapsed');
+  setTimeout(function() { MapInstance.invalidateSize(); }, 350);
+}
+
+function ToggleRightPanel() {
+  document.getElementById('RightPanel').classList.toggle('Collapsed');
+  document.getElementById('ToggleRight').classList.toggle('Collapsed');
+  setTimeout(function() { MapInstance.invalidateSize(); }, 350);
+}
+
+function RenderKpis() {
+  document.getElementById('KpiContent').innerHTML =
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">' +
+      '<div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center"><div style="font-size:1.8rem;font-weight:900;color:var(--success)">98.2%</div><div style="font-size:.8rem;color:var(--text-muted);margin-top:4px">On-Time Rate</div></div>' +
+      '<div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center"><div style="font-size:1.8rem;font-weight:900;color:var(--accent)">$4,821</div><div style="font-size:.8rem;color:var(--text-muted);margin-top:4px">This Week</div></div>' +
+      '<div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center"><div style="font-size:1.8rem;font-weight:900;color:var(--text)">156</div><div style="font-size:.8rem;color:var(--text-muted);margin-top:4px">Loads This Month</div></div>' +
+      '<div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center"><div style="font-size:1.8rem;font-weight:900;color:var(--warning)">4.9&#9733;</div><div style="font-size:.8rem;color:var(--text-muted);margin-top:4px">Safety Score</div></div>' +
+    '</div>' +
+    '<h4 style="font-size:.9rem;color:var(--text-muted);margin-bottom:12px">RECENT DELIVERIES</h4>' +
+    '<div class="JobCard"><div class="JobCardHeader"><div class="JobTitle">Container Drayage #4821</div><div style="color:var(--success);font-weight:700">$285</div></div><div style="font-size:.8rem;color:var(--text-muted)">Apr 14 - Port of LA to Commerce | On-Time</div></div>' +
+    '<div class="JobCard"><div class="JobCardHeader"><div class="JobTitle">LTL Regional #4807</div><div style="color:var(--success);font-weight:700">$340</div></div><div style="font-size:.8rem;color:var(--text-muted)">Apr 13 - Burbank to SFV Multi-Stop | On-Time</div></div>' +
+    '<div class="JobCard"><div class="JobCardHeader"><div class="JobTitle">Walmart Dedicated #4793</div><div style="color:var(--success);font-weight:700">$195</div></div><div style="font-size:.8rem;color:var(--text-muted)">Apr 12 - Burbank to Fontana DC | On-Time</div></div>';
+}
+
+function ToggleMenu() {
+  document.getElementById('SideMenu').classList.toggle('Open');
+  document.getElementById('MenuOverlay').classList.toggle('Open');
+}
+
+function OpenChat() {
+  document.getElementById('ChatPanel').classList.add('Open');
+}
+
+function CloseChat() {
+  document.getElementById('ChatPanel').classList.remove('Open');
+}
+
+function SendToRelay(Data) {
+  fetch(RelayUrl + '/send', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(Data)
+  }).catch(function() {});
+}
+
+var DemoChatReplies = [
+  'Roger that. Traffic is clear on I-85 South. ETA to pickup is 22 minutes.',
+  'Copy. Load confirmed at pickup. Seal number 4821907 recorded in system.',
+  'Route updated — detour via US-321 to avoid I-40 construction. Saves 8 minutes.',
+  'Weather alert: light rain expected near Charlotte. Drive safe, no hazard.',
+  'Great work! Delivery on-time. Signature captured. Payment processing.',
+  'Next load available: Container Drayage, $285, ready in 45 minutes. Want it?',
+  'Dispatch here. What do you need?'
+];
+var DemoChatIdx = 0;
+
+function SendChat() {
+  var Input = document.getElementById('ChatInputField');
+  var Text = Input.value.trim();
+  if (!Text) return;
+  Input.value = '';
+  AddChatMsg(Text, true);
+  if (localStorage.getItem('wolfs_demo') === 'true') {
+    setTimeout(function() {
+      AddChatMsg(DemoChatReplies[DemoChatIdx % DemoChatReplies.length], false);
+      DemoChatIdx++;
+    }, 1000 + Math.random() * 500);
+  } else {
+    SendToRelay({type:'chat',content:Text,id:'chat_'+Date.now()});
+  }
+}
+
+function AddChatMsg(Text, IsUser) {
+  var Container = document.getElementById('ChatMessages');
+  var Msg = document.createElement('div');
+  Msg.className = 'ChatMsg ' + (IsUser ? 'ChatMsgUser' : 'ChatMsgBot');
+  Msg.textContent = Text;
+  Container.appendChild(Msg);
+  Container.scrollTop = Container.scrollHeight;
+}
+
+function LoadAuditTrail(Val) {
+  var Container = document.getElementById('ChatMessages');
+  if (Val === 'current') {
+    Container.innerHTML = '<div class="ChatMsg ChatMsgBot">Dispatch AI ready. How can I help you today?</div>';
+    return;
+  }
+  Container.innerHTML =
+    '<div class="ChatMsg ChatMsgBot">Audit trail for ' + Val + '</div>' +
+    '<div class="ChatMsg ChatMsgUser">Heading to pickup now</div>' +
+    '<div class="ChatMsg ChatMsgBot">Roger that. ETA to pickup is 22 minutes via I-5 South. Traffic is clear.</div>' +
+    '<div class="ChatMsg ChatMsgUser">Arrived at pickup. Loading now.</div>' +
+    '<div class="ChatMsg ChatMsgBot">Confirmed. Seal number recorded. Estimated delivery time 2:15 PM.</div>' +
+    '<div class="ChatMsg ChatMsgUser">Load complete, departing.</div>' +
+    '<div class="ChatMsg ChatMsgBot">Route updated. Take I-710 South to avoid construction on I-5.</div>' +
+    '<div class="ChatMsg ChatMsgUser">Delivered. Got signature.</div>' +
+    '<div class="ChatMsg ChatMsgBot">Delivery confirmed at 2:08 PM. On-time. Great work!</div>';
+}
+
+function ToggleChatVoice() {
+  if (ChatVoiceActive) {
+    ChatVoiceActive = false;
+    document.getElementById('ChatVoiceBtn').style.background = 'var(--success)';
+    if (ChatSpeechRec) { try { ChatSpeechRec.stop(); } catch(E){} ChatSpeechRec = null; }
+  } else {
+    ChatVoiceActive = true;
+    document.getElementById('ChatVoiceBtn').style.background = '#ef4444';
+    var SpeechApi = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechApi) return;
+    ChatSpeechRec = new SpeechApi();
+    ChatSpeechRec.continuous = true;
+    ChatSpeechRec.interimResults = false;
+    ChatSpeechRec.lang = 'en-US';
+    ChatSpeechRec.onresult = function(E) {
+      var Last = E.results[E.results.length - 1];
+      if (Last.isFinal) {
+        var T = Last[0].transcript.trim();
+        if (T) {
+          AddChatMsg(T, true);
+          SendToRelay({type:'chat',content:T,id:'chat_'+Date.now()});
+        }
+      }
+    };
+    ChatSpeechRec.onend = function() { if (ChatVoiceActive) try { ChatSpeechRec.start(); } catch(E){} };
+    ChatSpeechRec.onerror = function() {};
+    try { ChatSpeechRec.start(); } catch(E){}
+  }
+}
+
+function PollRelay() {
+  fetch(RelayUrl + '/poll?role=client')
+    .then(function(R) { return R.json(); })
+    .then(function(Data) {
+      if (Data.messages) {
+        Data.messages.forEach(function(Raw) {
+          try {
+            var Msg = JSON.parse(Raw);
+            var Text = Msg.content || Msg.Content || '';
+            if (!Text) return;
+            AddChatMsg(Text, false);
+            if (ChatVoiceActive && window.speechSynthesis) {
+              var U = new SpeechSynthesisUtterance(Text);
+              U.lang = 'en-US';
+              window.speechSynthesis.speak(U);
+            }
+          } catch(E) {}
+        });
+      }
+    })
+    .catch(function() {})
+    .finally(function() { setTimeout(PollRelay, 2000); });
+}
+
+function Logout() {
+  localStorage.removeItem('wolfs_session');
+  localStorage.removeItem('wolfs_email');
+  localStorage.removeItem('wolfs_role');
+  localStorage.removeItem('wolfs_onboarded');
+  window.location.href = '/wolfstruckingco.com/Login/';
+}
+
+var OnboardSteps = [
+  {Title:'Welcome!',Text:'This is your dispatch dashboard. The map shows your location, nearby jobs, and active routes in real time. Let me show you around.',Target:'Map'},
+  {Title:'Job Board',Text:'Available deliveries appear in the bottom panel. Each card shows the pickup, delivery, pay, distance, and time window.',Target:'BottomPanel'},
+  {Title:'Job Details',Text:'Tap any job card to see full details including weight, load type, and special instructions. Hit Accept to take the job.',Target:'JobList'},
+  {Title:'Pre-Trip Checklist',Text:'Before every delivery, you must complete the pre-trip inspection checklist. This is a DOT requirement and keeps everyone safe.',Target:'BottomPanel'},
+  {Title:'Route Navigation',Text:'Once driving, the map shows your route with turn-by-turn markers. Follow the orange dashed line to your destination.',Target:'Map'},
+  {Title:'Dispatch Chat',Text:'Use the chat button to communicate with AI dispatch. Get route updates, report issues, or ask questions anytime. Voice calls are supported too.',Target:'BtnChat'},
+  {Title:'You Are All Set!',Text:'Your dashboard is ready. Check the job board for available deliveries and accept your first job. Drive safe out there!',Target:null}
+];
+var OnboardIndex = 0;
+
+function CheckOnboarding() {
+  if (localStorage.getItem('wolfs_onboarded')) return;
+  OnboardIndex = 0;
+  ShowOnboardStep();
+}
+
+function ShowOnboardStep() {
+  if (OnboardIndex >= OnboardSteps.length) {
+    document.getElementById('Onboarding').classList.remove('Active');
+    document.getElementById('Highlight').style.display = 'none';
+    localStorage.setItem('wolfs_onboarded', 'true');
+    return;
+  }
+  var Step = OnboardSteps[OnboardIndex];
+  document.getElementById('Onboarding').classList.add('Active');
+  var Dots = '';
+  for (var I = 0; I < OnboardSteps.length; I++) {
+    Dots += '<div class="OnboardDot' + (I === OnboardIndex ? ' Active' : '') + '"></div>';
+  }
+  document.getElementById('OnboardContent').innerHTML =
+    '<h3>' + Step.Title + '</h3>' +
+    '<p>' + Step.Text + '</p>' +
+    '<div class="OnboardProgress">' + Dots + '</div>' +
+    '<button class="BtnNext" onclick="NextOnboardStep()">' + (OnboardIndex === OnboardSteps.length - 1 ? 'Get Started' : 'Next') + '</button>';
+  if (Step.Target) {
+    var El = document.getElementById(Step.Target);
+    if (El) {
+      var Rect = El.getBoundingClientRect();
+      var Hl = document.getElementById('Highlight');
+      Hl.style.display = 'block';
+      Hl.style.top = Rect.top - 4 + 'px';
+      Hl.style.left = Rect.left - 4 + 'px';
+      Hl.style.width = Rect.width + 8 + 'px';
+      Hl.style.height = Rect.height + 8 + 'px';
+    }
+  } else {
+    document.getElementById('Highlight').style.display = 'none';
+  }
+}
+
+function NextOnboardStep() {
+  OnboardIndex++;
+  ShowOnboardStep();
+}
+
+InitMap();
+RenderJobs();
+PollRelay();
+
+// Fetch real jobs from R2 in non-demo mode
+function FetchR2Jobs() {
+  if (localStorage.getItem('wolfs_demo') === 'true') return;
+  fetch(RelayUrl + '/api/jobs?status=available').then(function(R){return R.json()}).then(function(Data){
+    if (!Data.items || Data.items.length === 0) return;
+    var R2Jobs = Data.items.map(function(J, Idx) {
+      return {
+        Id: 1000 + Idx,
+        RealId: J.id,
+        Title: J.title || 'Shipment',
+        Pickup: J.pickup || '',
+        Delivery: J.delivery || '',
+        Pay: typeof J.pay === 'number' ? J.pay : parseFloat((J.pay||'0').replace(/[$,]/g, '')) || 0,
+        Distance: (J.distance || 0) + ' mi',
+        Time: J.duration || '2-3 hrs',
+        Weight: J.weight || '',
+        Type: J.type || 'FTL',
+        Window: J.window || 'Flexible',
+        Notes: J.cargo || J.instructions || ''
+      };
+    });
+    // Prepend real jobs to hardcoded ones
+    Jobs = R2Jobs.concat(Jobs);
+    RenderJobs();
+  }).catch(function(){});
+}
+setInterval(FetchR2Jobs, 15000);
+FetchR2Jobs();
+
+if (typeof DemoGuide !== 'undefined' && DemoGuide.IsDemo()) {
+  setTimeout(function() {
+    DemoGuide.Init('Driver', [
+      {title:'1. Driver Dashboard', text:'Welcome Lauro! Complete dispatch center: live map, job panel, active delivery tracker, dispatch chat, KPI badges. Everything real-time, persisted to R2.', target:'#Map'},
+      {title:'2. Identity + KPIs', text:'Name, on-time rate (98.2%), earnings today ($412) in top bar. Updates as you complete deliveries.', target:'.DriverInfo'},
+      {title:'3. Burger Menu', text:'Side menu access: Available Jobs, Active Delivery, My KPIs, Dispatch Chat, Settings, Sign Out. One tap from anywhere.', target:'.BtnBurger', action:function(){ ToggleMenu(); }},
+      {title:'4. Side Menu Items', text:'Menu scrolls on small screens. Each item switches the panel view. Sign Out clears session.', target:'#SideMenu .MenuItems', action:function(){ ToggleMenu(); }},
+      {title:'5. Available Jobs', text:'Left panel shows 6 open loads. Pay ($165-$340), pickup/delivery dots (green/orange), distance, time window, cargo type.', target:'#JobList'},
+      {title:'6. Job Types', text:'All freight types: Container Drayage (Port of LA), LTL multi-stop, Dedicated FTL (Walmart), Reefer produce, Flatbed construction, Express medical.', target:'#JobList'},
+      {title:'7. Expand Details', text:'Click a job for full details: weight, load type, time window, special instructions (TWIC, liftgate, temperature, appointments, tarping).', target:'.JobCard', action:function(){ ToggleJobDetails(1); }},
+      {title:'8. Accept Job', text:'Click "Accept Job" — creates delivery record, logs audit, locks load to you. Persisted to R2.', target:'.JobCard', action:function(){ AcceptJob(1); }},
+      {title:'9. Pre-Trip Inspection', text:'Federal law (49 CFR 392.7): 8-point pre-trip before every delivery. Oil, tires, brakes, lights, mirrors, coupling, cargo, paperwork.', target:'#ChecklistItems'},
+      {title:'10. Complete Checklist', text:'Tap each checkbox. CANNOT start driving until all 8 pass. Any fail = truck parked until repair.', target:'#ChecklistItems', action:function(){ for(var i=0;i<ChecklistItems.length;i++){var el=document.getElementById('Check_'+i);if(el&&!el.classList.contains('Checked'))ToggleCheck(i);} }},
+      {title:'11. Live Traffic Route', text:'Map draws OSRM route with traffic colors: green=clear, yellow=moderate, red=heavy. Avoids urban congestion zones automatically.', target:'#Map'},
+      {title:'12. Start Driving', text:'Click "Start Driving" — delivery begins, dispatch notified, clock starts, GPS tracking active.', target:'#BtnStartDrive', action:function(){ StartDriving(); }},
+      {title:'13. 9-Step Delivery', text:'Workflow: depart → pickup → load → verify seal/BOL → depart → route → arrive delivery → unload → signature. Each logged to audit trail.', target:'#DeliverySteps'},
+      {title:'14. Dispatch Chat', text:'Message dispatch AI. Ask routes, report delays, request help. Voice supported. All conversations saved.', target:'#BtnChat', action:function(){ OpenChat(); }},
+      {title:'15. Past Load History', text:'Dropdown shows past dispatch conversations per load. Every message compliance-logged.', target:'#AuditSelect'},
+      {title:'16. Voice Chat', text:'Microphone enables hands-free chat. Dispatch replies read aloud via speech synthesis. Perfect for highway.', target:'#ChatVoiceBtn', action:function(){ CloseChat(); }},
+      {title:'17. Complete Delivery', text:'After unload + signature, click Complete. Updates status, timestamps, triggers payment. You earn full pay.', target:'#BtnCompleteDelivery'},
+      {title:'18. My KPIs', text:'Personal dashboard: on-time rate, weekly earnings ($4,821), monthly loads (156), safety score (4.9/5), delivery history.', target:null, action:function(){ ShowView('kpis'); }},
+      {title:'19. Driver Earnings', text:'Pay per load, not hourly. Regional $275-$562, Express $165+. Drivers earn $65K-$80K/year with overtime.', target:'#KpiContent'},
+      {title:'20. Settings', text:'Update CDL info, truck unit, home base, phone, preferences. All persists to R2 for real business.', target:null},
+      {title:'Driver Demo Complete!', text:'ALL 20 features shown: jobs, details, acceptance, pre-trip, routing, driving, steps, chat, voice, KPIs, earnings. Ready to earn money!', target:null, action:function(){ ShowView('jobs'); }}
+    ]);
+  }, 800);
+} else {
+  setTimeout(CheckOnboarding, 1000);
+}
+</script>
+<script>window.__allowedRoles = ['driver','admin','staff'];</script>
+<script src="/wolfstruckingco.com/auth-guard.js"></script>
+<script src="/wolfstruckingco.com/auth-header.js"></script>
+<script src="/wolfstruckingco.com/db.js"></script>
+<script>
+// Render real employer-posted jobs from R2 that match this driver's badges.
+async function RenderRealJobs() {
+  try {
+    var email = (localStorage.getItem('wolfs_email') || '').toLowerCase();
+    var [workers, jobs] = await Promise.all([WolfsDB.all('workers'), WolfsDB.all('jobs')]);
+    var me = workers.find(function(w) { return (w.email || '').toLowerCase() === email; });
+    var el = document.getElementById('RealJobList');
+    if (!el) return;
+    if (!me) { el.innerHTML = '<p style="color:var(--text-muted);padding:10px">Sign in as an approved driver to see jobs that match your badges.</p>'; return; }
+    var myBadges = me.badges || [];
+    var open = jobs.filter(function(j) { return j.status === 'open' && (j.requiredBadges || []).every(function(b) { return myBadges.indexOf(b) !== -1; }); });
+    var cnt = document.getElementById('JobCount'); if (cnt) cnt.textContent = open.length + ' Available';
+    if (!open.length) { el.innerHTML = '<p style="color:var(--text-muted);padding:10px;font-size:.85rem">No employer-posted jobs matching your badges right now.</p>'; return; }
+    el.innerHTML = '<div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.4px;color:var(--text-muted);margin-bottom:8px">Employer-posted — matches your badges</div>' + open.map(function(j) {
+      var pay = (j.payRate || 0) * (j.hours || 0);
+      var stopsLine = (j.stops && j.stops.length)
+        ? '<div style="color:var(--info);font-size:.78rem;margin-bottom:4px">📍 ' + j.stops.length + ' intermediate stop' + (j.stops.length===1?'':'s') + ': ' + j.stops.map(function(s){return s;}).join(' → ') + '</div>'
+        : '';
+      return '<div class="JobRow" data-job-id="' + j.id + '" style="padding:12px;border:1px solid var(--border);border-radius:8px;margin-bottom:10px">' +
+        '<div style="font-weight:700;margin-bottom:4px">' + (j.title || 'Job') + '</div>' +
+        '<div style="color:var(--success);font-size:.85rem;margin-bottom:3px"><b>FROM</b> ' + (j.pickup||'—') + '</div>' +
+        stopsLine +
+        '<div style="color:var(--accent);font-size:.85rem;margin-bottom:6px"><b>TO</b> ' + (j.delivery||'—') + '</div>' +
+        '<div style="color:var(--text-muted);font-size:.82rem;margin-bottom:8px">' + (j.hours||0) + 'h @ $' + (j.payRate||0) + '/hr · <b style="color:var(--success)">$' + pay.toFixed(0) + ' total</b></div>' +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
+          '<button onclick="PreviewJobRoute(\'' + j.id + '\')" style="background:transparent;color:var(--info);border:1px solid var(--info);padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:700;font-size:.82rem">🗺️ See route</button>' +
+          '<button onclick="AcceptRealJob(\'' + j.id + '\')" style="background:#22c55e;color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:700;font-size:.82rem">Accept</button>' +
+        '</div>' +
+        '<div class="JobRouteMap" id="JobRouteMap_' + j.id + '" style="display:none;width:100%;height:240px;border-radius:8px;border:1px solid var(--border);background:#0b1016;margin-top:10px"></div>' +
+        '<div class="JobRouteInfo" id="JobRouteInfo_' + j.id + '" style="display:none;font-size:.8rem;color:var(--text-muted);margin-top:6px"></div>' +
+      '</div>';
+    }).join('');
+    window.__driverOpenJobs = open;
+  } catch (ex) { console.error(ex); }
+}
+window.__driverRouteMaps = {};
+window.__driverGeocodeCache = {};
+async function __drvGeocode(q){ if(!q||!q.trim())return null; if(window.__driverGeocodeCache[q])return window.__driverGeocodeCache[q]; try { const r=await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q='+encodeURIComponent(q)); const a=await r.json(); if(a&&a.length){const ll=[parseFloat(a[0].lat),parseFloat(a[0].lon)]; window.__driverGeocodeCache[q]=ll; return ll;} } catch(_){} return null; }
+function __drvTraffic(km,min){ if(!km||!min)return{label:'unknown',color:'#8899aa'}; const k=(km/min)*60; if(k>=55)return{label:'clear',color:'#22c55e'}; if(k>=30)return{label:'moderate',color:'#f59e0b'}; return{label:'heavy',color:'#ef4444'}; }
+async function PreviewJobRoute(jobId){
+  var mapEl=document.getElementById('JobRouteMap_'+jobId);
+  var infoEl=document.getElementById('JobRouteInfo_'+jobId);
+  if(!mapEl)return;
+  if(mapEl.style.display==='block'){ mapEl.style.display='none'; infoEl.style.display='none'; return; }
+  mapEl.style.display='block'; infoEl.style.display='block'; infoEl.textContent='Loading route…';
+  var j=(window.__driverOpenJobs||[]).find(function(x){return x.id===jobId;});
+  if(!j){ infoEl.textContent='Job not found.'; return; }
+  var m = window.__driverRouteMaps[jobId] || (window.__driverRouteMaps[jobId] = L.map(mapEl,{zoomControl:true,attributionControl:false}).setView([34.05,-118.24],10));
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19,subdomains:'abcd'}).addTo(m);
+  m.invalidateSize();
+  var addrs=[j.pickup, ...(j.stops||[]), j.delivery];
+  var coords=[];
+  for(var a of addrs){ var c=await __drvGeocode(a); if(c) coords.push(c); }
+  if(coords.length<2){ infoEl.textContent='Could not geocode this route.'; return; }
+  var waypoints=coords.map(function(p){return L.latLng(p[0],p[1]);});
+  if(m._rc) m.removeControl(m._rc);
+  m._rc = L.Routing.control({
+    waypoints, router: L.Routing.osrmv1({serviceUrl:'https://router.project-osrm.org/route/v1'}),
+    lineOptions:{styles:[{color:'#22c55e',weight:5,opacity:.9}]},
+    show:false, addWaypoints:false, draggableWaypoints:false, fitSelectedRoutes:true,
+    createMarker:function(i,wp){ return L.marker(wp.latLng,{icon:L.divIcon({className:'',html:'<div style="width:22px;height:22px;border-radius:50%;background:'+(i===0?'#22c55e':i===waypoints.length-1?'#ff6b35':'#3b82f6')+';border:3px solid #0f1419;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.65rem;font-weight:800">'+(i===0?'P':i===waypoints.length-1?'D':i)+'</div>',iconSize:[22,22],iconAnchor:[11,11]})}); }
+  }).on('routesfound',function(e){
+    var r=e.routes[0]; var km=r.summary.totalDistance/1000; var min=r.summary.totalTime/60; var t=__drvTraffic(km,min);
+    infoEl.innerHTML='<b>'+km.toFixed(1)+' km</b> · <b>'+Math.round(min)+' min</b> · <span style="color:'+t.color+';font-weight:700;text-transform:uppercase">'+t.label+' traffic</span> · <b>'+coords.length+' waypoints</b> (this is what you\'ll drive)';
+  }).on('routingerror',function(){ infoEl.textContent='Routing error — OSRM may be rate-limited. Try again.'; }).addTo(m);
+}
+window.PreviewJobRoute = PreviewJobRoute;
+async function AcceptRealJob(jobId) {
+  var email = (localStorage.getItem('wolfs_email') || '').toLowerCase();
+  var [workers, jobs] = await Promise.all([WolfsDB.all('workers'), WolfsDB.all('jobs')]);
+  var me = workers.find(function(w){return (w.email||'').toLowerCase()===email});
+  if (!me) return;
+  var j = jobs.find(function(x){return x.id===jobId});
+  if (!j) return;
+  j.status = 'accepted'; j.acceptedBy = me.id; j.acceptedAt = new Date().toISOString();
+  await WolfsDB.put('jobs', j);
+  await WolfsDB.put('timesheets', { id:'ts_'+Date.now(), jobId:j.id, workerId:me.id, startsAt:new Date().toISOString(), hours:j.hours, payRate:j.payRate, status:'in_progress' });
+  alert('Accepted! Timesheet opened.');
+  RenderRealJobs();
+}
+
+// Hiring Hall integration — finds the logged-in driver's assignments in the shared browser DB.
+async function RenderHallForDriver() {
+  try {
+    await WolfsDB.seed();
+    var email = (localStorage.getItem('wolfs_email') || '').toLowerCase();
+    var name = localStorage.getItem('wolfs_name') || '';
+    var [workers, schedules, roles, customers] = await Promise.all([WolfsDB.all('workers'), WolfsDB.all('schedules'), WolfsDB.all('roles'), WolfsDB.all('customers')]);
+    // Best-effort worker identification by email, then name, then first seeded worker.
+    var me = workers.find(function(w){ return (w.email||'').toLowerCase() === email; })
+          || workers.find(function(w){ return w.name === name; })
+          || workers[0];
+    if (!me) { document.getElementById('HallContent').innerHTML = '<p style="color:var(--text-muted)">No worker record found.</p>'; return; }
+    var rmap = Object.fromEntries(roles.map(function(r){return [r.id, r.name]}));
+    var cmap = Object.fromEntries(customers.map(function(c){return [c.id, c.name]}));
+    var mine = [];
+    for (var s of schedules) {
+      var a = (s.assignments||[]).find(function(x){return x.workerId === me.id});
+      if (a) mine.push({ s: s, a: a });
+    }
+    mine.sort(function(x,y){return x.s.startsAt.localeCompare(y.s.startsAt)});
+    document.getElementById('HallBadge').textContent = mine.length + ' assignment' + (mine.length === 1 ? '' : 's');
+    if (!mine.length) {
+      document.getElementById('HallContent').innerHTML = '<p style="color:var(--text-muted);padding:12px 0">No hiring hall schedules yet. Admins can create them at <a href="/wolfstruckingco.com/HiringHall/" style="color:var(--accent)">/HiringHall/</a> → Scheduling.</p>';
+      return;
+    }
+    document.getElementById('HallContent').innerHTML = mine.map(function(e){
+      var color = e.a.status === 'confirmed' ? 'var(--success,#22c55e)' : e.a.status === 'rejected' ? 'var(--danger,#ef4444)' : 'var(--warning,#f59e0b)';
+      var actions = e.a.status === 'pending'
+        ? '<button onclick="DriverRespond(\'' + e.s.id + '\',\'confirmed\')" style="background:#22c55e;color:#fff;border:none;padding:6px 12px;border-radius:6px;margin-right:6px;cursor:pointer;font-weight:700">Confirm</button>' +
+          '<button onclick="DriverRespond(\'' + e.s.id + '\',\'rejected\')" style="background:#ef4444;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-weight:700">Reject</button>'
+        : '';
+      return '<div style="padding:12px;border:1px solid var(--border,#2a3a4a);border-radius:8px;margin-bottom:10px">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><b>' + (rmap[e.s.roleId]||e.s.roleId) + '</b><span style="color:' + color + ';text-transform:uppercase;font-size:.72rem;letter-spacing:.4px">' + e.a.status + '</span></div>' +
+        '<div style="color:var(--text-muted);font-size:.82rem;margin-bottom:4px">' + (cmap[e.s.customerId]||'') + '</div>' +
+        '<div style="font-size:.85rem;margin-bottom:8px">' + e.s.startsAt + ' → ' + e.s.endsAt + '</div>' +
+        (e.s.instructions ? '<div style="color:var(--text-muted);font-size:.78rem;margin-bottom:8px">📋 ' + e.s.instructions + '</div>' : '') +
+        actions + '</div>';
+    }).join('');
+  } catch (ex) {
+    document.getElementById('HallContent').innerHTML = '<p style="color:var(--danger,#ef4444)">Error loading schedules: ' + (ex.message || ex) + '</p>';
+  }
+}
+async function DriverRespond(scheduleId, status) {
+  var s = await WolfsDB.get('schedules', scheduleId);
+  if (!s) return;
+  var email = (localStorage.getItem('wolfs_email') || '').toLowerCase();
+  var name = localStorage.getItem('wolfs_name') || '';
+  var workers = await WolfsDB.all('workers');
+  var me = workers.find(function(w){ return (w.email||'').toLowerCase() === email; })
+        || workers.find(function(w){ return w.name === name; }) || workers[0];
+  var a = (s.assignments||[]).find(function(x){return x.workerId === me.id});
+  if (a) { a.status = status; a.respondedAt = new Date().toISOString(); }
+  // Auto-reassign on reject
+  if (status === 'rejected' && s.autoReassign) {
+    var confirmedCount = (s.assignments||[]).filter(function(x){return x.status==='confirmed'}).length;
+    if (confirmedCount < (s.target||1)) {
+      var roles = await WolfsDB.all('roles');
+      var role = roles.find(function(r){return r.id===s.roleId}) || { requiredBadges: [] };
+      var offered = new Set((s.assignments||[]).map(function(x){return x.workerId}));
+      var next = workers.find(function(w){ return w.approved && !offered.has(w.id) && (w.roles||[]).includes(s.roleId) && (role.requiredBadges||[]).every(function(bid){return (w.badges||[]).includes(bid)}); });
+      if (next) s.assignments.push({ workerId: next.id, status:'pending', offeredAt: new Date().toISOString(), reassignedFrom: me.id });
+    }
+  }
+  // Generate timesheet on confirm
+  if (status === 'confirmed') {
+    var hours = (new Date(s.endsAt) - new Date(s.startsAt)) / 36e5;
+    await WolfsDB.put('timesheets', { id:'ts_'+WolfsDB.uuid(), scheduleId:s.id, workerId:me.id, startsAt:s.startsAt, endsAt:s.endsAt, hours, status: new Date(s.endsAt) < new Date() ? 'completed' : (new Date(s.startsAt) > new Date() ? 'future' : 'waiting'), createdAt: new Date().toISOString() });
+  }
+  await WolfsDB.put('schedules', s);
+  RenderHallForDriver();
+}
+</script>
+</body>
+</html>

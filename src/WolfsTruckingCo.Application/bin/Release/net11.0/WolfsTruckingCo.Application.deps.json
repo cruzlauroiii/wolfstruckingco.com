@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v11.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v11.0": {
+      "WolfsTruckingCo.Application/1.0.0": {
+        "dependencies": {
+          "WolfsTruckingCo.Domain": "1.0.0"
+        },
+        "runtime": {
+          "WolfsTruckingCo.Application.dll": {}
+        }
+      },
+      "WolfsTruckingCo.Domain/1.0.0": {
+        "runtime": {
+          "WolfsTruckingCo.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "WolfsTruckingCo.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "WolfsTruckingCo.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

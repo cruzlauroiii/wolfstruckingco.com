@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Investor — User Management | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<meta name="theme-color" content="#ff6b35">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--info:#3b82f6;--warning:#f59e0b;--danger:#ef4444;--radius:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.TopBar{position:sticky;top:0;z-index:10;background:rgba(15,20,25,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.Brand{font-weight:800;display:flex;align-items:center;gap:8px}
+.Brand .Logo{width:28px;height:28px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:.85rem}
+.Brand a{color:var(--text);text-decoration:none}
+.Stage{max-width:1100px;margin:0 auto;padding:28px 20px 80px}
+.Stage h1{font-size:1.6rem;font-weight:800}
+.Stage>p{color:var(--text-muted);margin-top:6px;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:.9rem}
+th{color:var(--text-muted);text-transform:uppercase;font-size:.72rem;letter-spacing:.4px;font-weight:600;background:rgba(255,255,255,.02)}
+.Btn{display:inline-flex;align-items:center;padding:8px 14px;border-radius:7px;background:var(--accent);color:#fff;border:none;font-weight:700;cursor:pointer;font-size:.82rem;font-family:inherit}
+.Btn.Small{padding:6px 10px;font-size:.72rem}
+.Btn.Ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.Btn.Danger{background:var(--danger)}
+select.RoleSel{padding:6px 10px;border-radius:6px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-size:.82rem;font-family:inherit}
+.Modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
+.Modal.Open{display:flex}
+.ModalBody{background:var(--card);border-radius:var(--radius);max-width:520px;width:100%;padding:24px;border:1px solid var(--border)}
+.Field{margin-bottom:12px}
+.Field label{display:block;font-size:.82rem;margin-bottom:5px;color:var(--text-muted);font-weight:600}
+.Field input,.Field select{width:100%;padding:10px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.9rem}
+.Toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--success);border-radius:10px;padding:14px 18px;z-index:1000;transform:translateY(120%);transition:transform .3s;font-size:.9rem}
+.Toast.Show{transform:translateY(0)}
+</style>
+</head>
+<body>
+<div class="TopBar">
+  <div class="Brand"><span class="Logo">W</span><a href="/wolfstruckingco.com/">Wolfs — User Management</a></div>
+  <div>
+    <a style="color:var(--text-muted);text-decoration:none;padding:8px 12px;font-size:.88rem" href="/wolfstruckingco.com/Investors/KPI/">KPIs</a>
+    <a style="color:var(--text-muted);text-decoration:none;padding:8px 12px;font-size:.88rem" href="/wolfstruckingco.com/Login/">Sign In</a>
+  </div>
+</div>
+
+<div class="Stage">
+  <h1>User management</h1>
+  <p>Every sign-up account on the platform. Change anyone's role inline — <code>auth-guard.js</code> on each page honours the new role on the next page load, so access locks down immediately.</p>
+  <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+    <button class="Btn" onclick="OpenUserModal()">+ New user</button>
+  </div>
+  <div id="UserTable"></div>
+</div>
+
+<div class="Modal" id="Modal">
+  <div class="ModalBody">
+    <h3 id="ModalTitle" style="margin-bottom:14px">Modal</h3>
+    <div id="ModalContent"></div>
+  </div>
+</div>
+<div class="Toast" id="Toast"></div>
+
+<script>window.__allowedRoles = ['investor','admin'];</script>
+<script src="/wolfstruckingco.com/auth-guard.js"></script>
+<script src="/wolfstruckingco.com/auth-header.js"></script>
+<script src="/wolfstruckingco.com/db.js"></script>
+<script>
+const __roleOpts = ['applicant','staff','employer','driver','investor','admin'];
+function Esc(s){return (s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function Toast(msg){ const t=document.getElementById('Toast'); t.textContent=msg; t.classList.add('Show'); setTimeout(()=>t.classList.remove('Show'), 2800); }
+function OpenModal(title, html){ document.getElementById('ModalTitle').textContent=title; document.getElementById('ModalContent').innerHTML=html; document.getElementById('Modal').classList.add('Open'); }
+function CloseModal(){ document.getElementById('Modal').classList.remove('Open'); }
+document.getElementById('Modal').addEventListener('click', (ev) => { if (ev.target.id === 'Modal') CloseModal(); });
+
+async function RenderUsers() {
+  const users = await WolfsDB.all('users');
+  const container = document.getElementById('UserTable');
+  if (!users.length) { container.innerHTML = '<div style="text-align:center;padding:60px;color:var(--text-muted)">No accounts yet.</div>'; return; }
+  const sorted = users.slice().sort((a,b) => (a.createdAt||'').localeCompare(b.createdAt||''));
+  container.innerHTML = '<table><thead><tr><th>Username</th><th>Email</th><th>Role (change to re-gate access)</th><th>Created</th><th style="text-align:right">Actions</th></tr></thead><tbody>' +
+    sorted.map(u => `
+      <tr>
+        <td><b>${Esc(u.username)}</b></td>
+        <td>${Esc(u.email || '')}</td>
+        <td><select class="RoleSel" onchange="ChangeUserRole('${Esc(u.id || u.username)}', this.value)">${__roleOpts.map(r => `<option value="${r}" ${((u.uiRole||u.role)===r)?'selected':''}>${r}</option>`).join('')}</select></td>
+        <td style="font-size:.78rem;color:var(--text-muted)">${u.createdAt ? new Date(u.createdAt).toLocaleString() : '—'}</td>
+        <td style="text-align:right">
+          <button class="Btn Ghost Small" onclick="OpenUserModal('${Esc(u.id || u.username)}')">Edit</button>
+          <button class="Btn Small Danger" onclick="DeleteUser('${Esc(u.id || u.username)}')">Delete</button>
+        </td>
+      </tr>
+    `).join('') + '</tbody></table>';
+}
+async function ChangeUserRole(id, newRole) {
+  const users = await WolfsDB.all('users');
+  const u = users.find(x => (x.id || x.username) === id);
+  if (!u) return;
+  const oldRole = u.uiRole || u.role;
+  u.uiRole = newRole; u.role = newRole;
+  await WolfsDB.put('users', u);
+  try { await WolfsDB.put('audit', { id: 'aud_' + Date.now() + '_' + Math.random().toString(36).slice(2,6), kind: 'user.role.change', at: new Date().toISOString(), subject: u.username, meta: { from: oldRole, to: newRole } }); } catch (_) {}
+  Toast(`${u.username} → ${newRole}. Auth-guard applies on next page load.`);
+}
+async function OpenUserModal(id) {
+  const users = await WolfsDB.all('users');
+  const u = id ? users.find(x => (x.id || x.username) === id) : { id:'user_'+Date.now(), username:'', email:'', uiRole:'applicant' };
+  const html = `
+    <form id="UserForm">
+      <div class="Field"><label>Username</label><input name="username" required value="${Esc(u.username)}"></div>
+      <div class="Field"><label>Email</label><input name="email" type="email" value="${Esc(u.email||'')}"></div>
+      <div class="Field"><label>Role</label><select name="uiRole">${__roleOpts.map(r => `<option value="${r}" ${((u.uiRole||u.role)===r)?'selected':''}>${r}</option>`).join('')}</select></div>
+      <input type="hidden" name="id" value="${Esc(u.id || u.username)}">
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+        <button type="button" class="Btn Ghost" onclick="CloseModal()">Cancel</button>
+        <button type="submit" class="Btn">Save</button>
+      </div>
+    </form>`;
+  OpenModal(id ? 'Edit user: ' + u.username : 'New user', html);
+  document.getElementById('UserForm').addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const fd = new FormData(ev.target);
+    const old = (await WolfsDB.all('users')).find(x => (x.id || x.username) === fd.get('id'));
+    const record = {
+      id: fd.get('id'), username: fd.get('username'), email: fd.get('email'),
+      uiRole: fd.get('uiRole'), role: fd.get('uiRole'),
+      createdAt: old ? old.createdAt : new Date().toISOString(),
+      passwordHash: old ? old.passwordHash : '',
+    };
+    await WolfsDB.put('users', record);
+    try { await WolfsDB.put('audit', { id: 'aud_' + Date.now() + '_' + Math.random().toString(36).slice(2,6), kind: id ? 'user.edit' : 'user.create', at: new Date().toISOString(), subject: record.username, meta: { role: record.uiRole } }); } catch (_) {}
+    CloseModal(); Toast('User saved'); RenderUsers();
+  });
+}
+async function DeleteUser(id) {
+  if (!confirm('Delete this account? They will no longer be able to sign in.')) return;
+  const users = await WolfsDB.all('users');
+  const u = users.find(x => (x.id || x.username) === id);
+  if (!u) return;
+  await WolfsDB.del('users', u.id || u.username);
+  try { await WolfsDB.put('audit', { id: 'aud_' + Date.now() + '_' + Math.random().toString(36).slice(2,6), kind: 'user.delete', at: new Date().toISOString(), subject: u.username }); } catch (_) {}
+  Toast('Deleted ' + u.username); RenderUsers();
+}
+window.OpenUserModal = OpenUserModal;
+window.DeleteUser = DeleteUser;
+window.ChangeUserRole = ChangeUserRole;
+
+RenderUsers();
+</script>
+</body>
+</html>

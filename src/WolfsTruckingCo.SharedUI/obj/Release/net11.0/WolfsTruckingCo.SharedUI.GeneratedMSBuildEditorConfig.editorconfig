@@ -1,0 +1,75 @@
+is_global = true
+build_property.TargetFramework = net11.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v11.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = WolfsTruckingCo.SharedUI
+build_property.RootNamespace = WolfsTruckingCo.SharedUI
+build_property.ProjectDir = C:\work\wolfstruckingco.com\src\WolfsTruckingCo.SharedUI\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 11.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\work\wolfstruckingco.com\src\WolfsTruckingCo.SharedUI
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 11.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/work/wolfstruckingco.com/src/WolfsTruckingCo.SharedUI/Components/App.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/work/wolfstruckingco.com/src/WolfsTruckingCo.SharedUI/Components/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xNYWluTGF5b3V0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/work/wolfstruckingco.com/src/WolfsTruckingCo.SharedUI/Components/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xOYXZNZW51LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/work/wolfstruckingco.com/src/WolfsTruckingCo.SharedUI/Components/Routes.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/work/wolfstruckingco.com/src/WolfsTruckingCo.SharedUI/Pages/DashboardPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGFzaGJvYXJkUGFnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/work/wolfstruckingco.com/src/WolfsTruckingCo.SharedUI/Pages/HomePage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZVBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/work/wolfstruckingco.com/src/WolfsTruckingCo.SharedUI/Pages/ItineraryPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSXRpbmVyYXJ5UGFnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/work/wolfstruckingco.com/src/WolfsTruckingCo.SharedUI/Pages/LoginPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5QYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/work/wolfstruckingco.com/src/WolfsTruckingCo.SharedUI/Pages/MapPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWFwUGFnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/work/wolfstruckingco.com/src/WolfsTruckingCo.SharedUI/Pages/SchedulePage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2NoZWR1bGVQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/work/wolfstruckingco.com/src/WolfsTruckingCo.SharedUI/Pages/SettingsPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2V0dGluZ3NQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/work/wolfstruckingco.com/src/WolfsTruckingCo.SharedUI/Pages/VoiceChatPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVm9pY2VDaGF0UGFnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/work/wolfstruckingco.com/src/WolfsTruckingCo.SharedUI/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 

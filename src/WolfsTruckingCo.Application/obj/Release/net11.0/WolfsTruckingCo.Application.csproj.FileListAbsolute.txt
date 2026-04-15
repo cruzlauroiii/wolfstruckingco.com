@@ -1,0 +1,16 @@
+C:\work\wolfstruckingco.com\src\WolfsTruckingCo.Application\bin\Release\net11.0\WolfsTruckingCo.Application.deps.json
+C:\work\wolfstruckingco.com\src\WolfsTruckingCo.Application\bin\Release\net11.0\WolfsTruckingCo.Application.dll
+C:\work\wolfstruckingco.com\src\WolfsTruckingCo.Application\bin\Release\net11.0\WolfsTruckingCo.Application.pdb
+C:\work\wolfstruckingco.com\src\WolfsTruckingCo.Application\bin\Release\net11.0\WolfsTruckingCo.Domain.dll
+C:\work\wolfstruckingco.com\src\WolfsTruckingCo.Application\bin\Release\net11.0\WolfsTruckingCo.Domain.pdb
+C:\work\wolfstruckingco.com\src\WolfsTruckingCo.Application\obj\Release\net11.0\WolfsTruckingCo.Application.csproj.AssemblyReference.cache
+C:\work\wolfstruckingco.com\src\WolfsTruckingCo.Application\obj\Release\net11.0\WolfsTruckingCo.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\work\wolfstruckingco.com\src\WolfsTruckingCo.Application\obj\Release\net11.0\WolfsTruckingCo.Application.AssemblyInfoInputs.cache
+C:\work\wolfstruckingco.com\src\WolfsTruckingCo.Application\obj\Release\net11.0\WolfsTruckingCo.Application.AssemblyInfo.cs
+C:\work\wolfstruckingco.com\src\WolfsTruckingCo.Application\obj\Release\net11.0\WolfsTruckingCo.Application.csproj.CoreCompileInputs.cache
+C:\work\wolfstruckingco.com\src\WolfsTruckingCo.Application\obj\Release\net11.0\WolfsTruckingCo.Application.sourcelink.json
+C:\work\wolfstruckingco.com\src\WolfsTruckingCo.Application\obj\Release\net11.0\WolfsTru.B1FFAC25.Up2Date
+C:\work\wolfstruckingco.com\src\WolfsTruckingCo.Application\obj\Release\net11.0\WolfsTruckingCo.Application.dll
+C:\work\wolfstruckingco.com\src\WolfsTruckingCo.Application\obj\Release\net11.0\refint\WolfsTruckingCo.Application.dll
+C:\work\wolfstruckingco.com\src\WolfsTruckingCo.Application\obj\Release\net11.0\WolfsTruckingCo.Application.pdb
+C:\work\wolfstruckingco.com\src\WolfsTruckingCo.Application\obj\Release\net11.0\ref\WolfsTruckingCo.Application.dll

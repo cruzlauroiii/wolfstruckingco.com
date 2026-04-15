@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign Up | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<meta name="theme-color" content="#ff6b35">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--info:#3b82f6;--warning:#f59e0b;--danger:#ef4444;--radius:12px}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.Wrap{width:100%;max-width:560px}
+.Card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px 28px;text-align:center}
+.Logo{width:56px;height:56px;border-radius:14px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.6rem;color:#fff;margin:0 auto 16px}
+h1{font-size:1.35rem;font-weight:800;margin-bottom:6px}
+.Card>p{color:var(--text-muted);font-size:.85rem;margin-bottom:20px}
+.Form{display:grid;gap:10px;text-align:left}
+.Form label{font-size:.78rem;color:var(--text-muted);font-weight:600}
+.Form input, .Form select{padding:11px 13px;border-radius:10px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.93rem;width:100%}
+.Form input:focus, .Form select:focus{border-color:var(--accent);outline:none}
+.Form button{padding:12px 18px;border-radius:10px;background:var(--accent);color:#fff;border:none;font-weight:700;cursor:pointer;font-size:.95rem;font-family:inherit;margin-top:6px}
+.Form button:hover{background:var(--accent-hover)}
+.Form button[disabled]{opacity:.6;cursor:not-allowed}
+.Footer{margin-top:16px;font-size:.82rem;color:var(--text-muted)}
+.Footer a{color:var(--accent);text-decoration:none;font-weight:700}
+.ErrMsg{background:rgba(239,68,68,.1);border:1px solid var(--danger);color:var(--danger);padding:10px 14px;border-radius:8px;font-size:.82rem;margin-bottom:12px;display:none;text-align:left}
+.OkMsg{background:rgba(34,197,94,.1);border:1px solid var(--success);color:var(--success);padding:10px 14px;border-radius:8px;font-size:.82rem;margin-bottom:12px;display:none;text-align:left}
+.Roles{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:4px}
+.RoleBtn{padding:8px 4px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text-muted);font-size:.72rem;font-weight:700;cursor:pointer;text-transform:capitalize;font-family:inherit}
+.RoleBtn.Active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.QuickSeed{margin-top:14px;padding:14px;background:var(--bg);border:1px dashed var(--border);border-radius:10px;text-align:left}
+.QuickSeed h3{font-size:.85rem;margin-bottom:6px;color:var(--accent)}
+.QuickSeed p{color:var(--text-muted);font-size:.78rem;margin-bottom:10px;line-height:1.5}
+.QuickSeed button{padding:9px 14px;border-radius:8px;background:transparent;border:1px solid var(--accent);color:var(--accent);font-weight:700;cursor:pointer;font-size:.82rem;font-family:inherit}
+.QuickSeed button:hover{background:rgba(255,107,53,.1)}
+</style>
+</head>
+<body>
+<div class="Wrap">
+<div class="Card">
+  <div class="Logo">W</div>
+  <h1>Create an account</h1>
+  <p>Pick a role and set your login.</p>
+
+  <div class="ErrMsg" id="ErrMsg"></div>
+  <div class="OkMsg" id="OkMsg"></div>
+
+  <form class="Form" id="SignUpForm" autocomplete="off">
+    <div>
+      <label>Role</label>
+      <div class="Roles" id="Roles">
+        <button type="button" class="RoleBtn" data-role="applicant">applicant</button>
+        <button type="button" class="RoleBtn" data-role="staff">staff</button>
+        <button type="button" class="RoleBtn" data-role="employer">employer</button>
+        <button type="button" class="RoleBtn" data-role="driver">driver</button>
+        <button type="button" class="RoleBtn" data-role="investor">investor</button>
+      </div>
+    </div>
+    <div>
+      <label>Username</label>
+      <input name="username" id="Username" placeholder="e.g. driver" required autocomplete="off">
+    </div>
+    <div>
+      <label>Password</label>
+      <input name="password" id="Password" type="password" placeholder="your password" required autocomplete="new-password">
+    </div>
+    <div>
+      <label>Display name (optional)</label>
+      <input name="name" placeholder="e.g. Jordan Vega" autocomplete="off">
+    </div>
+    <div>
+      <label>Email (optional)</label>
+      <input name="email" type="email" placeholder="you@example.com" autocomplete="off">
+    </div>
+    <button type="submit" id="SubmitBtn">Create account</button>
+  </form>
+
+  <!-- Hidden SeedAll kept for the video scene which fills creds per role and submits the form
+       programmatically; the visible bulk button was removed so the UI stays strictly one-at-a-time. -->
+  <button type="button" id="SeedAll" style="display:none" aria-hidden="true"></button>
+
+  <div class="Footer">
+    Already have an account? <a href="/wolfstruckingco.com/Login/">Sign in</a>
+  </div>
+</div>
+</div>
+
+<script src="/wolfstruckingco.com/db.js"></script>
+<script>
+var currentRole = 'driver';
+Array.prototype.forEach.call(document.querySelectorAll('.RoleBtn'), function(btn){
+  btn.addEventListener('click', function(){
+    Array.prototype.forEach.call(document.querySelectorAll('.RoleBtn'), function(b){ b.classList.remove('Active'); });
+    btn.classList.add('Active');
+    currentRole = btn.dataset.role;
+    var u = document.getElementById('Username');
+    if (!u.value) u.value = currentRole;
+  });
+});
+document.querySelector('.RoleBtn[data-role="driver"]').classList.add('Active');
+
+function showError(msg){ var e=document.getElementById('ErrMsg'); e.textContent=msg; e.style.display='block'; document.getElementById('OkMsg').style.display='none'; }
+function showOk(msg){ var e=document.getElementById('OkMsg'); e.textContent=msg; e.style.display='block'; document.getElementById('ErrMsg').style.display='none'; }
+
+async function hashPw(pw) {
+  var buf = new TextEncoder().encode(pw + ':wolfs-salt');
+  var h = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+function roleToDbRole(uiRole){
+  if (uiRole === 'staff') return 'admin';
+  if (uiRole === 'employer') return 'client';
+  return uiRole;
+}
+
+var WORKER_BASE = 'https://wolfstruckingco.nbth.workers.dev';
+
+async function createAccount(username, password, uiRole, name, email) {
+  username = (username||'').toLowerCase().trim();
+  if (!username || !password) throw new Error('username and password required');
+  var hash = await hashPw(password);
+  var res = await fetch(WORKER_BASE + '/api/signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: username, passwordHash: hash, uiRole: uiRole, name: name || '', email: email || '' }),
+  });
+  var out;
+  try { out = await res.json(); } catch { out = {}; }
+  if (!res.ok) {
+    var msg = out.error || ('signup failed: ' + res.status);
+    if (res.status === 409) throw new Error('username "' + username + '" already exists');
+    throw new Error(msg);
+  }
+  return out.item || { username: username, uiRole: uiRole };
+}
+
+document.getElementById('SignUpForm').addEventListener('submit', async function(ev){
+  ev.preventDefault();
+  var fd = new FormData(ev.target);
+  var btn = document.getElementById('SubmitBtn');
+  btn.disabled = true;
+  try {
+    var u = await createAccount(fd.get('username'), fd.get('password'), currentRole, fd.get('name'), fd.get('email'));
+    showOk('Created ' + u.username + ' (' + u.uiRole + '). Redirecting to sign-in…');
+    setTimeout(function(){ window.location.href = '/wolfstruckingco.com/Login/'; }, 1200);
+  } catch (ex) {
+    showError(ex.message || String(ex));
+    btn.disabled = false;
+  }
+});
+
+document.getElementById('SeedAll').addEventListener('click', async function(){
+  var btn = this;
+  btn.disabled = true;
+  btn.textContent = 'Creating…';
+  var roles = ['applicant','staff','employer','driver','investor'];
+  var made = 0, skipped = 0;
+  for (var r of roles) {
+    try {
+      await createAccount(r, r, r, null, null);
+      made++;
+    } catch (ex) {
+      if (String(ex.message||'').indexOf('already exists') >= 0) skipped++;
+      else console.error('seed failed for ' + r, ex);
+    }
+  }
+  btn.disabled = false;
+  btn.textContent = 'Create all 5 walkthrough accounts';
+  showOk('Created ' + made + ' account(s)' + (skipped ? ', ' + skipped + ' already existed' : '') + '. Go to Sign in.');
+});
+</script>
+</body>
+</html>

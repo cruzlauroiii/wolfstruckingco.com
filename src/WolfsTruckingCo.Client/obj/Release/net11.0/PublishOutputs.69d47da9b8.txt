@@ -1,0 +1,4 @@
+C:\Users\user1\AppData\Local\Temp\wolfs-deploy\sasscompiler.json
+C:\Users\user1\AppData\Local\Temp\wolfs-deploy\WolfsTruckingCo.Client.runtimeconfig.json
+C:\Users\user1\AppData\Local\Temp\wolfs-deploy\dotnet.js
+C:\Users\user1\AppData\Local\Temp\wolfs-deploy\web.config
