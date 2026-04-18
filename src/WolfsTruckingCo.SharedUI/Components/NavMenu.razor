@@ -1,0 +1,40 @@
+<aside class="sidebar">
+    <div class="brand">
+        <div class="brand-icon">W</div>
+        <span class="brand-text">Wolfs Trucking</span>
+    </div>
+    <nav>
+        <NavLink class="nav-link" href="@RouteConstants.Home" Match="NavLinkMatch.All">
+            <span class="nav-icon">&#x2302;</span>
+            <span class="nav-label">Home</span>
+        </NavLink>
+        <NavLink class="nav-link" href="@RouteConstants.Dashboard.TrimStart('/')">
+            <span class="nav-icon">&#x25A3;</span>
+            <span class="nav-label">Dashboard</span>
+        </NavLink>
+        <NavLink class="nav-link" href="@RouteConstants.Schedule.TrimStart('/')">
+            <span class="nav-icon">&#x23F0;</span>
+            <span class="nav-label">Schedule</span>
+        </NavLink>
+        <NavLink class="nav-link" href="@RouteConstants.Itinerary.TrimStart('/')">
+            <span class="nav-icon">&#x2690;</span>
+            <span class="nav-label">Itinerary</span>
+        </NavLink>
+        <NavLink class="nav-link" href="@RouteConstants.Map.TrimStart('/')">
+            <span class="nav-icon">&#x2609;</span>
+            <span class="nav-label">Map</span>
+        </NavLink>
+        <NavLink class="nav-link" href="@RouteConstants.VoiceChat.TrimStart('/')">
+            <span class="nav-icon">&#x260E;</span>
+            <span class="nav-label">Voice Chat</span>
+        </NavLink>
+        <NavLink class="nav-link" href="@RouteConstants.Settings.TrimStart('/')">
+            <span class="nav-icon">&#x2699;</span>
+            <span class="nav-label">Settings</span>
+        </NavLink>
+        <NavLink class="nav-link" href="@RouteConstants.Login.TrimStart('/')">
+            <span class="nav-icon">&#x2192;</span>
+            <span class="nav-label">Sign In</span>
+        </NavLink>
+    </nav>
+</aside>

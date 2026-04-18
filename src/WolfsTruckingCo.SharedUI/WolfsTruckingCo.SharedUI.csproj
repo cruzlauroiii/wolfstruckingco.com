@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);S6562;S2933;S1481;IDE0130</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WolfsTruckingCo.Domain\WolfsTruckingCo.Domain.csproj" />
+    <ProjectReference Include="..\WolfsTruckingCo.Application\WolfsTruckingCo.Application.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.SassCompiler" Version="1.97.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="11.0.0-preview.3.26207.106" />
+  </ItemGroup>
+</Project>

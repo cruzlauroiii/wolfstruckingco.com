@@ -1,0 +1,15 @@
+{
+  "solution": {
+    "path": "WolfsTruckingCo.slnx",
+    "projects": [
+      "src/WolfsTruckingCo.Domain/WolfsTruckingCo.Domain.csproj",
+      "src/WolfsTruckingCo.Application/WolfsTruckingCo.Application.csproj",
+      "src/WolfsTruckingCo.Infrastructure/WolfsTruckingCo.Infrastructure.csproj",
+      "src/WolfsTruckingCo.Server/WolfsTruckingCo.Server.csproj",
+      "src/WolfsTruckingCo.SharedUI/WolfsTruckingCo.SharedUI.csproj",
+      "src/WolfsTruckingCo.Client/WolfsTruckingCo.Client.csproj",
+      "src/WolfsTruckingCo.Analyzers/WolfsTruckingCo.Analyzers.csproj",
+      "src/WolfsTruckingCo.Fingerprint/WolfsTruckingCo.Fingerprint.csproj"
+    ]
+  }
+}

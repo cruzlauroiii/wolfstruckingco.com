@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Wolfs Trucking - AI Hiring</title>
+<script>if(localStorage.getItem('wolfs_authenticated')!=='true'){location.replace('../')}</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--text:#e8e8e8;--dim:#8899aa;--nav:#0a0f14;--green:#22c55e;--blue:#3b82f6;--red:#ef4444;--purple:#a855f7;--gray:#6b7280;--border:#2a3a4a;--yellow:#eab308}
+html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+button,input,textarea{touch-action:manipulation;font-family:inherit}
+
+.header{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--nav);border-bottom:1px solid var(--border);flex-shrink:0;min-height:56px}
+.back-btn{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.06);border:none;color:var(--text);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;text-decoration:none}
+.back-btn:hover{background:rgba(255,255,255,.12)}
+.header-title{font-size:1.1rem;font-weight:700;flex:1}
+.header-badge{background:var(--accent);color:#fff;padding:4px 12px;border-radius:8px;font-size:.75rem;font-weight:700}
+
+.main{display:flex;flex:1;overflow:hidden;height:calc(100% - 56px)}
+.chat-col{flex:1;display:flex;flex-direction:column;min-width:0}
+.profile-col{width:380px;border-left:1px solid var(--border);overflow-y:auto;padding:16px;flex-shrink:0}
+
+.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.chat-msg{max-width:82%;padding:10px 14px;border-radius:12px;font-size:.88rem;line-height:1.5;word-break:break-word}
+.chat-msg.system{align-self:center;background:rgba(255,255,255,.04);color:var(--dim);font-size:.78rem;border-radius:8px;max-width:100%;text-align:center;padding:8px 16px}
+.chat-msg.assistant{align-self:flex-start;background:var(--card);color:var(--text);border-bottom-left-radius:2px}
+.chat-msg.user{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:2px}
+.chat-msg.verdict{align-self:center;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:12px;max-width:95%;padding:16px;text-align:left}
+.chat-msg.verdict.conditional{background:rgba(234,179,8,.1);border-color:rgba(234,179,8,.3)}
+.chat-msg.verdict.not-recommended{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3)}
+
+.chat-input-bar{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:10px;flex-shrink:0;background:var(--nav)}
+.chat-input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;color:var(--text);font-size:.88rem;outline:none;min-height:44px}
+.chat-input:focus{border-color:var(--accent)}
+.chat-input::placeholder{color:var(--dim)}
+.chat-send{width:44px;height:44px;border-radius:10px;background:var(--accent);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:background .15s;flex-shrink:0}
+.chat-send:hover{background:#e55a2b}
+
+.profile-card{background:var(--card);border-radius:12px;padding:20px;margin-bottom:16px}
+.profile-card h3{font-size:.95rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.profile-card h3 svg{width:18px;height:18px;opacity:.7}
+.profile-field{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.85rem}
+.profile-field:last-child{border-bottom:none}
+.profile-field .label{color:var(--dim)}
+.profile-field .value{font-weight:600;text-align:right;max-width:60%}
+.profile-field .value.pending{color:var(--dim);font-style:italic;font-weight:400}
+
+.score-card{background:var(--card);border-radius:12px;padding:20px;margin-bottom:16px;text-align:center}
+.score-ring{width:100px;height:100px;margin:0 auto 12px;position:relative}
+.score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.score-ring circle{fill:none;stroke-width:8}
+.score-ring .bg{stroke:rgba(255,255,255,.06)}
+.score-ring .fg{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset .8s ease,stroke .3s}
+.score-num{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.8rem;font-weight:800}
+.score-label{font-size:.8rem;color:var(--dim);margin-bottom:12px}
+
+.verdict-badge{display:inline-block;padding:6px 18px;border-radius:20px;font-size:.85rem;font-weight:700;letter-spacing:.5px}
+.verdict-badge.recommended{background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+.verdict-badge.conditional{background:rgba(234,179,8,.15);color:var(--yellow);border:1px solid rgba(234,179,8,.3)}
+.verdict-badge.not-recommended{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+.verdict-badge.pending{background:rgba(255,255,255,.05);color:var(--dim);border:1px solid var(--border)}
+
+.download-btn{width:100%;padding:12px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-size:.88rem;font-weight:600;cursor:pointer;transition:background .15s;min-height:44px;margin-top:8px}
+.download-btn:hover{background:#2563eb}
+
+.guardrails-card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:16px}
+.guardrails-card h4{font-size:.82rem;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.guardrail{display:flex;align-items:flex-start;gap:8px;padding:4px 0;font-size:.78rem;color:var(--dim);line-height:1.4}
+.guardrail .icon{color:var(--green);flex-shrink:0;margin-top:1px}
+
+@media(max-width:900px){
+.main{flex-direction:column}
+.profile-col{width:100%;border-left:none;border-top:1px solid var(--border);max-height:40vh;flex-shrink:1}
+.chat-col{min-height:0}
+}
+</style>
+</head>
+<body style="display:flex;flex-direction:column">
+<script>
+if(localStorage.getItem('wolfs_authenticated')!=='true'){location.href='../';throw''}
+</script>
+
+<div class="header">
+<a href="../Dashboard/" class="back-btn">&#8592;</a>
+<div class="header-title">Wolfs Trucking Co. Hiring</div>
+<div class="header-badge">AI Interview</div>
+</div>
+
+<div class="main">
+<div class="chat-col">
+<div class="chat-messages" id="chatMessages"></div>
+<div id="callBanner" style="display:none;background:#1a3a2a;padding:10px 16px;text-align:center;border-top:1px solid rgba(34,197,94,.3)">
+<div style="font-weight:700;color:#22c55e;font-size:.85rem">&#127911; Listening...</div>
+<div id="interimTranscript" style="color:var(--dim);font-size:.78rem;font-style:italic;min-height:1em;margin-top:2px"></div>
+<button onclick="EndCall()" style="margin-top:6px;background:#ef4444;border:none;color:#fff;padding:4px 16px;border-radius:6px;cursor:pointer;font-size:.78rem;min-height:28px">End Call</button>
+</div>
+<div class="chat-input-bar">
+<button id="callBtn" onclick="ToggleCall()" style="width:44px;height:44px;border-radius:10px;background:#22c55e;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;transition:background .15s">&#128222;</button>
+<input class="chat-input" id="chatInput" type="text" placeholder="Type your response..." autocomplete="off">
+<button class="chat-send" onclick="SendMessage()">&#10148;</button>
+</div>
+</div>
+<div class="profile-col">
+<div class="score-card">
+<div class="score-ring">
+<svg viewBox="0 0 100 100">
+<circle class="bg" cx="50" cy="50" r="42"/>
+<circle class="fg" id="scoreRing" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"/>
+</svg>
+<div class="score-num" id="scoreNum">0</div>
+</div>
+<div class="score-label">Overall Score</div>
+<div id="verdictBadge" class="verdict-badge pending">PENDING</div>
+</div>
+<div class="profile-card">
+<h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Applicant Profile</h3>
+<div class="profile-field"><span class="label">Name</span><span class="value pending" id="fName">Pending...</span></div>
+<div class="profile-field"><span class="label">CDL Class</span><span class="value pending" id="fCdl">Pending...</span></div>
+<div class="profile-field"><span class="label">Experience</span><span class="value pending" id="fExp">Pending...</span></div>
+<div class="profile-field"><span class="label">Safety Record</span><span class="value pending" id="fSafety">Pending...</span></div>
+<div class="profile-field"><span class="label">HOS Knowledge</span><span class="value pending" id="fHos">Pending...</span></div>
+<div class="profile-field"><span class="label">Availability</span><span class="value pending" id="fAvail">Pending...</span></div>
+<div class="profile-field"><span class="label">Route Type</span><span class="value pending" id="fRoute">Pending...</span></div>
+<div class="profile-field"><span class="label">Endorsements</span><span class="value pending" id="fEndorse">Pending...</span></div>
+</div>
+<button class="download-btn" onclick="DownloadReport()">&#128196; Download Report</button>
+<div class="guardrails-card">
+<h4>&#128274; Interview Guardrails</h4>
+<div class="guardrail"><span class="icon">&#10003;</span> No questions about age, race, gender, religion, disability, marital status</div>
+<div class="guardrail"><span class="icon">&#10003;</span> No salary negotiation (handled by HR separately)</div>
+<div class="guardrail"><span class="icon">&#10003;</span> Focus only on job-relevant qualifications</div>
+<div class="guardrail"><span class="icon">&#10003;</span> Must explain rejection reasons clearly</div>
+<div class="guardrail"><span class="icon">&#10003;</span> Must be respectful and professional at all times</div>
+</div>
+</div>
+</div>
+
+<script>
+var WsConn = null;
+var ExchangeCount = 0;
+var InterviewComplete = false;
+var Score = 0;
+var ProfileData = {Name:'',Cdl:'',Exp:'',Safety:'',Hos:'',Avail:'',Route:'',Endorse:''};
+
+var DemoConversation = [
+  {role:'assistant', text:'Welcome to Wolfs Trucking Co. I\'m your AI interviewer. I\'ll ask you some questions about your experience and qualifications. Feel free to speak naturally.\n\nLet\'s start: Tell me about yourself and your experience in trucking or logistics.'},
+  {role:'user', text:'Hi, I\'m Marcus Johnson. I\'ve been driving trucks for about 6 years now. Started with local deliveries in the Charlotte area and moved up to regional routes on the East Coast.'},
+  {role:'assistant', text:'Great experience, Marcus. Six years on the road is solid, especially transitioning from local to regional. That shows adaptability.\n\nWhat class CDL do you hold, and do you have any special endorsements?', extract:{Name:'Marcus Johnson',Exp:'6 years',Route:'Regional (East Coast)'}, score:25},
+  {role:'user', text:'I have a Class A CDL with hazmat and tanker endorsements. Got them about 4 years ago.'},
+  {role:'assistant', text:'Excellent. Class A with hazmat and tanker puts you in a strong position. Those endorsements open up a lot of opportunities here at Wolfs.\n\nCan you tell me about your safety record? Any accidents or moving violations in those 6 years?', extract:{Cdl:'Class A',Endorse:'Hazmat, Tanker'}, score:45},
+  {role:'user', text:'Clean record. No accidents in 6 years. One speeding ticket about 3 years ago but that\'s it. I take safety seriously.'},
+  {role:'assistant', text:'Good to hear. A clean accident record over 6 years is impressive. One minor violation 3 years ago is well within acceptable range, and the fact that you take safety seriously is exactly what we look for.\n\nAre you familiar with Hours of Service regulations? How do you manage your driving hours on a typical day?', extract:{Safety:'Clean - 0 accidents, 1 minor violation (3yr ago)'}, score:65},
+  {role:'user', text:'Yeah, I use ELD and I\'m strict about it. 11 hours driving max, 14-hour window, 30-minute break after 8 hours. I plan my routes ahead of time to make sure I can stay compliant and still hit my delivery windows.'},
+  {role:'assistant', text:'That\'s exactly right, and the fact that you plan routes around compliance shows real professionalism. A lot of drivers know the numbers but don\'t plan for them. You clearly do.\n\nLast question: What\'s your availability like? Are you open to weekday and weekend work, and are you comfortable with overnight routes if needed?', extract:{Hos:'Expert - ELD proficient, plans around compliance'}, score:78},
+  {role:'user', text:'I\'m flexible. Weekdays are my preference but I can do weekends when needed. I\'ve done overnight runs before and I\'m fine with it as long as there\'s a reasonable schedule. I just need to know my rotation ahead of time.'},
+  {role:'verdict', text:'Based on our conversation, Marcus, I\'m pleased to give you a **RECOMMENDED** verdict.\n\n**Summary:**\n- 6 years of progressive experience (local to regional)\n- Class A CDL with hazmat and tanker endorsements\n- Outstanding safety record with zero accidents\n- Expert knowledge of HOS regulations with proactive compliance\n- Flexible availability including weekends and overnights\n\nYour combination of experience, credentials, safety focus, and flexibility makes you an excellent fit for Wolfs Trucking Co. Our HR team will be in touch within 2-3 business days to discuss next steps, including compensation and your preferred route assignments.\n\nThank you for your time today, Marcus. We look forward to potentially having you on the team.', extract:{Avail:'Flexible - weekdays preferred, weekends/overnights available'}, score:87, verdict:'RECOMMENDED'}
+];
+
+function AddChatMsg(Role, Text, IsVerdict, VerdictType) {
+  var Msgs = document.getElementById('chatMessages');
+  var Div = document.createElement('div');
+  if (IsVerdict) {
+    Div.className = 'chat-msg verdict' + (VerdictType === 'CONDITIONAL' ? ' conditional' : VerdictType === 'NOT RECOMMENDED' ? ' not-recommended' : '');
+  } else {
+    Div.className = 'chat-msg ' + Role;
+  }
+  Div.innerHTML = Text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+  Msgs.appendChild(Div);
+  Msgs.scrollTop = Msgs.scrollHeight;
+}
+
+function UpdateProfile(Data) {
+  if (Data.Name) { ProfileData.Name = Data.Name; SetField('fName', Data.Name); }
+  if (Data.Cdl) { ProfileData.Cdl = Data.Cdl; SetField('fCdl', Data.Cdl); }
+  if (Data.Exp) { ProfileData.Exp = Data.Exp; SetField('fExp', Data.Exp); }
+  if (Data.Safety) { ProfileData.Safety = Data.Safety; SetField('fSafety', Data.Safety); }
+  if (Data.Hos) { ProfileData.Hos = Data.Hos; SetField('fHos', Data.Hos); }
+  if (Data.Avail) { ProfileData.Avail = Data.Avail; SetField('fAvail', Data.Avail); }
+  if (Data.Route) { ProfileData.Route = Data.Route; SetField('fRoute', Data.Route); }
+  if (Data.Endorse) { ProfileData.Endorse = Data.Endorse; SetField('fEndorse', Data.Endorse); }
+}
+
+function SetField(Id, Val) {
+  var El = document.getElementById(Id);
+  El.textContent = Val;
+  El.classList.remove('pending');
+}
+
+function UpdateScore(NewScore) {
+  Score = NewScore;
+  document.getElementById('scoreNum').textContent = Score;
+  var Circumference = 264;
+  var Offset = Circumference - (Circumference * Score / 100);
+  var Ring = document.getElementById('scoreRing');
+  Ring.style.strokeDashoffset = Offset;
+  if (Score >= 70) Ring.style.stroke = '#22c55e';
+  else if (Score >= 40) Ring.style.stroke = '#eab308';
+  else Ring.style.stroke = '#ef4444';
+}
+
+function SetVerdict(V) {
+  var Badge = document.getElementById('verdictBadge');
+  Badge.textContent = V;
+  Badge.className = 'verdict-badge';
+  if (V === 'RECOMMENDED') Badge.classList.add('recommended');
+  else if (V === 'CONDITIONAL') Badge.classList.add('conditional');
+  else if (V === 'NOT RECOMMENDED') Badge.classList.add('not-recommended');
+  else Badge.classList.add('pending');
+}
+
+function RunDemo() {
+  var Delay = 0;
+  DemoConversation.forEach(function(Msg, Idx) {
+    Delay += (Idx === 0 ? 300 : Msg.role === 'user' ? 1200 : 1800);
+    (function(M, D) {
+      setTimeout(function() {
+        if (M.role === 'verdict') {
+          AddChatMsg('assistant', M.text, true, M.verdict);
+          InterviewComplete = true;
+        } else {
+          AddChatMsg(M.role, M.text);
+        }
+        if (M.extract) UpdateProfile(M.extract);
+        if (M.score) UpdateScore(M.score);
+        if (M.verdict) SetVerdict(M.verdict);
+        if (M.role === 'user') ExchangeCount++;
+      }, D);
+    })(Msg, Delay);
+  });
+}
+
+function SendMessage() {
+  var Input = document.getElementById('chatInput');
+  var Text = Input.value.trim();
+  if (!Text) return;
+  Input.value = '';
+
+  if (InterviewComplete) {
+    AddChatMsg('system', 'Interview is complete. The report has been generated.');
+    return;
+  }
+
+  AddChatMsg('user', Text);
+  ExchangeCount++;
+
+  if (WsConn && WsConn.readyState === WebSocket.OPEN) {
+    WsConn.send(JSON.stringify({type: 'hiring', content: Text, id: 'hire_' + Date.now(), exchangeCount: ExchangeCount}));
+  } else {
+    setTimeout(function() {
+      var Responses = [
+        'Thank you for sharing that. Can you tell me more about your CDL qualifications and any endorsements you hold?',
+        'I appreciate that detail. How would you describe your safety record over your driving career?',
+        'Good to know. Are you familiar with current Hours of Service regulations? How do you typically manage your driving hours?',
+        'That helps. What about your availability? Can you work weekends or overnight shifts if the route requires it?',
+        'Understood. What type of routes do you prefer or have the most experience with? Local, regional, or over-the-road?'
+      ];
+      var RIdx = Math.min(ExchangeCount - 1, Responses.length - 1);
+      AddChatMsg('assistant', Responses[RIdx]);
+
+      if (ExchangeCount >= 5) {
+        var NewScore = Math.min(Score + 15, 75);
+        UpdateScore(NewScore);
+      }
+      if (ExchangeCount >= 7) {
+        SetVerdict('CONDITIONAL');
+        InterviewComplete = true;
+        AddChatMsg('assistant', 'Based on our conversation, I\'m giving you a **CONDITIONAL** verdict. We\'d like to see your CDL documentation and safety records before making a final recommendation. HR will follow up with you within 3-5 business days.', true, 'CONDITIONAL');
+      }
+    }, 1000 + Math.random() * 1500);
+  }
+}
+
+var CallActive = false;
+var SpeakingNow = false;
+var MediaStream = null;
+var AudioContext = null;
+var AudioProcessor = null;
+
+function StartVoiceCall() {
+  navigator.mediaDevices.getUserMedia({audio:{sampleRate:16000,channelCount:1,echoCancellation:true,noiseSuppression:true}}).then(function(Stream) {
+    MediaStream = Stream;
+    AudioContext = new (window.AudioContext || window.webkitAudioContext)({sampleRate: 16000});
+    var Source = AudioContext.createMediaStreamSource(Stream);
+    AudioProcessor = AudioContext.createScriptProcessor(4096, 1, 1);
+
+    AudioProcessor.onaudioprocess = function(E) {
+      if (!CallActive) return;
+      if (SpeakingNow) return;
+      var Samples = E.inputBuffer.getChannelData(0);
+      var Pcm = new Int16Array(Samples.length);
+      for (var I = 0; I < Samples.length; I++) {
+        var S = Math.max(-1, Math.min(1, Samples[I]));
+        Pcm[I] = S < 0 ? S * 0x8000 : S * 0x7FFF;
+      }
+      var Bytes = new Uint8Array(Pcm.buffer);
+      var Binary = '';
+      for (var I = 0; I < Bytes.length; I++) Binary += String.fromCharCode(Bytes[I]);
+      var B64 = btoa(Binary);
+      if (WsConn && WsConn.readyState === 1) {
+        WsConn.send(JSON.stringify({type: 'audio', data: B64}));
+      }
+    };
+
+    Source.connect(AudioProcessor);
+    AudioProcessor.connect(AudioContext.destination);
+
+    if (WsConn && WsConn.readyState === 1) {
+      WsConn.send(JSON.stringify({type: 'call_start', id: 'call_' + Date.now()}));
+    }
+
+    SetCallState('listening');
+    AddChatMsg('system', 'Voice interview connected via Anthropic STT. Speak naturally.');
+  }).catch(function(Err) {
+    AddChatMsg('system', 'Microphone access denied: ' + Err.message);
+  });
+}
+
+function StopVoiceCall() {
+  if (AudioProcessor) { AudioProcessor.disconnect(); AudioProcessor = null; }
+  if (AudioContext) { AudioContext.close(); AudioContext = null; }
+  if (MediaStream) { MediaStream.getTracks().forEach(function(T) { T.stop(); }); MediaStream = null; }
+  if (WsConn && WsConn.readyState === 1) {
+    WsConn.send(JSON.stringify({type: 'call_end'}));
+  }
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  SpeakingNow = false;
+}
+
+function SetCallState(State) {
+  var Banner = document.getElementById('callBanner');
+  var BannerText = Banner.querySelector('div');
+  if (State === 'listening') {
+    BannerText.innerHTML = '&#127911; Listening...';
+    BannerText.style.color = '#22c55e';
+    Banner.style.background = '#1a3a2a';
+  } else if (State === 'speaking') {
+    BannerText.innerHTML = '&#128264; AI Speaking...';
+    BannerText.style.color = '#ff6b35';
+    Banner.style.background = '#2a1f1a';
+  } else if (State === 'processing') {
+    BannerText.innerHTML = '&#9203; Processing...';
+    BannerText.style.color = '#3b82f6';
+    Banner.style.background = '#1a2332';
+  }
+}
+
+function SpeakTts(Text) {
+  if (!window.speechSynthesis || !CallActive) return;
+  SpeakingNow = true;
+  SetCallState('speaking');
+  var Utt = new SpeechSynthesisUtterance(Text);
+  Utt.lang = 'en-US';
+  Utt.rate = 1.0;
+  Utt.pitch = 1.0;
+  var Voices = speechSynthesis.getVoices();
+  for (var I = 0; I < Voices.length; I++) {
+    if (Voices[I].lang.indexOf('en') === 0 && Voices[I].name.indexOf('Female') >= 0) { Utt.voice = Voices[I]; break; }
+  }
+  Utt.onend = function() {
+    SpeakingNow = false;
+    if (CallActive) SetCallState('listening');
+  };
+  Utt.onerror = function() {
+    SpeakingNow = false;
+    if (CallActive) SetCallState('listening');
+  };
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(Utt);
+}
+
+function ToggleCall() {
+  CallActive = !CallActive;
+  var Banner = document.getElementById('callBanner');
+  var CallBtnEl = document.getElementById('callBtn');
+  if (CallActive) {
+    Banner.style.display = 'block';
+    CallBtnEl.style.background = '#ef4444';
+    StartVoiceCall();
+  } else { EndCall(); }
+}
+
+function EndCall() {
+  CallActive = false;
+  StopVoiceCall();
+  var Banner = document.getElementById('callBanner');
+  var CallBtnEl = document.getElementById('callBtn');
+  if (Banner) Banner.style.display = 'none';
+  if (CallBtnEl) CallBtnEl.style.background = '#22c55e';
+  var InterimEl = document.getElementById('interimTranscript');
+  if (InterimEl) InterimEl.textContent = '';
+  AddChatMsg('system', 'Voice interview ended.');
+}
+
+function ConnectWs() {
+  try {
+    WsConn = new WebSocket('wss://wolfstruckingco.nbth.workers.dev/ws?role=client');
+    WsConn.onopen = function() {};
+    WsConn.onmessage = function(E) {
+      try {
+        var Data = JSON.parse(E.data);
+        if (Data.type === 'transcript') {
+          var InterimEl = document.getElementById('interimTranscript');
+          if (InterimEl) InterimEl.textContent = Data.content || '';
+          return;
+        }
+        if (Data.type === 'transcript_final') {
+          AddChatMsg('user', Data.content);
+          var InterimEl = document.getElementById('interimTranscript');
+          if (InterimEl) InterimEl.textContent = '';
+          SetCallState('processing');
+          ExchangeCount++;
+          if (WsConn && WsConn.readyState === WebSocket.OPEN) {
+            WsConn.send(JSON.stringify({type: 'hiring', content: Data.content, id: Data.id || ('hire_' + Date.now()), exchangeCount: ExchangeCount}));
+          }
+          return;
+        }
+        if (Data.type === 'hiring' && Data.content) {
+          AddChatMsg('assistant', Data.content, Data.isVerdict, Data.verdict);
+          if (Data.extract) UpdateProfile(Data.extract);
+          if (Data.score) UpdateScore(Data.score);
+          if (Data.verdict) { SetVerdict(Data.verdict); InterviewComplete = true; }
+          if (Data.content && CallActive) SpeakTts(Data.content.replace(/\*\*(.+?)\*\*/g, '$1'));
+        } else if (Data.content) {
+          AddChatMsg('assistant', Data.content);
+          if (Data.content && CallActive) SpeakTts(Data.content);
+        }
+      } catch(Err) {
+        AddChatMsg('assistant', E.data);
+        if (CallActive) SpeakTts(E.data);
+      }
+    };
+    WsConn.onclose = function() { setTimeout(ConnectWs, 5000); };
+    WsConn.onerror = function() {};
+  } catch(Err) {}
+}
+
+function DownloadReport() {
+  var Lines = [
+    '========================================',
+    '  WOLFS TRUCKING CO. - HIRING REPORT',
+    '========================================',
+    '',
+    'Date: ' + new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}),
+    'Time: ' + new Date().toLocaleTimeString('en-US'),
+    '',
+    '--- APPLICANT PROFILE ---',
+    'Name:           ' + (ProfileData.Name || 'N/A'),
+    'CDL Class:      ' + (ProfileData.Cdl || 'N/A'),
+    'Experience:     ' + (ProfileData.Exp || 'N/A'),
+    'Safety Record:  ' + (ProfileData.Safety || 'N/A'),
+    'HOS Knowledge:  ' + (ProfileData.Hos || 'N/A'),
+    'Availability:   ' + (ProfileData.Avail || 'N/A'),
+    'Route Type:     ' + (ProfileData.Route || 'N/A'),
+    'Endorsements:   ' + (ProfileData.Endorse || 'N/A'),
+    '',
+    '--- ASSESSMENT ---',
+    'Overall Score:  ' + Score + '/100',
+    'Verdict:        ' + (document.getElementById('verdictBadge').textContent),
+    '',
+    '--- INTERVIEW TRANSCRIPT ---'
+  ];
+  var Msgs = document.querySelectorAll('.chat-msg:not(.system)');
+  Msgs.forEach(function(M) {
+    var Role = M.classList.contains('user') ? 'APPLICANT' : 'AI INTERVIEWER';
+    Lines.push('');
+    Lines.push('[' + Role + ']');
+    Lines.push(M.textContent);
+  });
+  Lines.push('');
+  Lines.push('========================================');
+  Lines.push('  Generated by Wolfs Trucking AI Hiring');
+  Lines.push('========================================');
+
+  var Blob = new window.Blob([Lines.join('\n')], {type: 'text/plain'});
+  var Url = URL.createObjectURL(Blob);
+  var A = document.createElement('a');
+  A.href = Url;
+  A.download = 'hiring-report-' + (ProfileData.Name || 'applicant').replace(/\s+/g, '-').toLowerCase() + '.txt';
+  A.click();
+  URL.revokeObjectURL(Url);
+}
+
+document.getElementById('chatInput').addEventListener('keydown', function(E) {
+  if (E.key === 'Enter' && !E.shiftKey) { E.preventDefault(); SendMessage(); }
+});
+
+if (window.speechSynthesis) { speechSynthesis.onvoiceschanged = function() { speechSynthesis.getVoices(); }; speechSynthesis.getVoices(); }
+AddChatMsg('system', 'AI Hiring Interview - Wolfs Trucking Co.');
+AddChatMsg('system', 'This interview is conducted by an AI assistant. All questions focus strictly on job-relevant qualifications. You can type or click the phone button to speak.');
+ConnectWs();
+RunDemo();
+</script>
+</body>
+</html>

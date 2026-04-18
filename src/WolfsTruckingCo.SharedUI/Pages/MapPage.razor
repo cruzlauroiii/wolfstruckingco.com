@@ -1,0 +1,105 @@
+@page "/Map"
+
+<div class="page-header">
+    <h1>Route Map</h1>
+    <div class="page-subtitle">Jake Martinez &mdash; April 15, 2026 &mdash; Lenoir, NC round trip through Charlotte, Gastonia, Spartanburg, Greenville, Anderson, Asheville</div>
+</div>
+
+<div class="map-container">
+    <iframe class="map-frame"
+            src="@MapUrl"
+            title="Route Map"
+            loading="lazy"
+            referrerpolicy="no-referrer">
+    </iframe>
+</div>
+
+<div class="route-legend">
+    <div class="legend-item">
+        <div class="legend-dot dot-depot"></div>
+        <span>Depot (Lenoir, NC)</span>
+    </div>
+    <div class="legend-item">
+        <div class="legend-dot dot-pickup"></div>
+        <span>Pickup</span>
+    </div>
+    <div class="legend-item">
+        <div class="legend-dot dot-delivery"></div>
+        <span>Delivery</span>
+    </div>
+    <div class="legend-item">
+        <div class="legend-dot dot-fuel"></div>
+        <span>Fuel Stop</span>
+    </div>
+    <div class="legend-item">
+        <div class="legend-dot dot-break"></div>
+        <span>Break</span>
+    </div>
+</div>
+
+<div class="card" style="margin-top: 16px;">
+    <h2 class="card-title">Route Stops</h2>
+    <table class="schedule-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Location</th>
+                <th>Type</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ var Index = 0; }
+            @foreach (var Marker in RouteMarkers)
+            {
+                Index++;
+                <tr>
+                    <td>@Index</td>
+                    <td>@Marker.LocationName</td>
+                    <td><span class="badge @GetMarkerBadge(Marker.StopType)">@Marker.StopType</span></td>
+                    <td style="font-family: var(--wt-font-mono);">@Marker.Latitude.ToString("F4")</td>
+                    <td style="font-family: var(--wt-font-mono);">@Marker.Longitude.ToString("F4")</td>
+                    <td>@Marker.ArrivalTime.ToString("h:mm tt")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    private string MapUrl = string.Empty;
+    private List<ItineraryStopEntity> RouteMarkers = new();
+
+    protected override void OnInitialized()
+    {
+        MapUrl = "https://www.openstreetmap.org/export/embed.html?bbox=-82.9%2C34.3%2C-80.5%2C36.2&layer=mapnik";
+
+        RouteMarkers = new List<ItineraryStopEntity>
+        {
+            new() { LocationName = "Wolfs Trucking Depot, Lenoir, NC", StopType = StopTypeConstants.PreTripInspection, Latitude = 35.9140, Longitude = -81.5390, ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 5, 0, 0) },
+            new() { LocationName = "Blue Ridge Furniture, Hickory, NC", StopType = StopTypeConstants.Pickup, Latitude = 35.7345, Longitude = -81.3412, ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 5, 50, 0) },
+            new() { LocationName = "Charlotte Distribution Center", StopType = StopTypeConstants.Delivery, Latitude = 35.3268, Longitude = -80.8577, ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 7, 45, 0) },
+            new() { LocationName = "Charlotte Industrial Park", StopType = StopTypeConstants.Pickup, Latitude = 35.2615, Longitude = -80.9842, ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 8, ScheduleConstants.LoadingTimeMinutes + 5, 0) },
+            new() { LocationName = "Gastonia Receiving", StopType = StopTypeConstants.Delivery, Latitude = 35.2621, Longitude = -81.1874, ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 9, 45, 0) },
+            new() { LocationName = "Pilot Travel Center, I-85", StopType = StopTypeConstants.FuelStop, Latitude = 35.0953, Longitude = -81.6316, ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 10, ScheduleConstants.LoadingTimeMinutes + 5, 0) },
+            new() { LocationName = "Spartanburg Freight Terminal", StopType = StopTypeConstants.Pickup, Latitude = 34.9596, Longitude = -82.0015, ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 11, 40, 0) },
+            new() { LocationName = "Greenville Distribution Hub", StopType = StopTypeConstants.Delivery, Latitude = 34.8361, Longitude = -82.3650, ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 13, 10, 0) },
+            new() { LocationName = "Anderson SC Warehouse", StopType = StopTypeConstants.Pickup, Latitude = 34.5034, Longitude = -82.6501, ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 14, 20, 0) },
+            new() { LocationName = "Asheville NC Depot", StopType = StopTypeConstants.Delivery, Latitude = 35.5732, Longitude = -82.5515, ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 16, 20, 0) },
+            new() { LocationName = "Wolfs Trucking Depot, Lenoir, NC", StopType = StopTypeConstants.PostTripInspection, Latitude = 35.9140, Longitude = -81.5390, ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 17, 50, 0) },
+        };
+    }
+
+    private static string GetMarkerBadge(string StopType) =>
+        StopType switch
+        {
+            StopTypeConstants.PreTripInspection => "badge-inspection",
+            StopTypeConstants.PostTripInspection => "badge-inspection",
+            StopTypeConstants.Pickup => "badge-loading",
+            StopTypeConstants.Delivery => "badge-unloading",
+            StopTypeConstants.FuelStop => "badge-fuel",
+            _ => ""
+        };
+}

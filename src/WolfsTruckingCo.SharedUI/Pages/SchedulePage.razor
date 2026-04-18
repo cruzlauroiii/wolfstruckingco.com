@@ -1,0 +1,370 @@
+@page "/Schedule"
+
+<div class="page-header">
+    <h1>Daily Schedule</h1>
+    <div class="page-subtitle">Jake Martinez &mdash; Tuesday, April 15, 2026 &mdash; Wolfs Trucking Co Depot, Lenoir, NC</div>
+</div>
+
+<div class="stats-grid">
+    <div class="card">
+        <div class="card-value">@TotalDrivingHours</div>
+        <div class="card-label">Driving Hours</div>
+    </div>
+    <div class="card">
+        <div class="card-value">@TotalMiles</div>
+        <div class="card-label">Total Miles</div>
+    </div>
+    <div class="card">
+        <div class="card-value">@DeliveryCount</div>
+        <div class="card-label">Deliveries</div>
+    </div>
+    <div class="card">
+        <div class="card-value">@FuelNeeded</div>
+        <div class="card-label">Fuel Gallons</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2 class="card-title">Shift Timeline</h2>
+    <table class="schedule-table">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Duration</th>
+                <th>Activity</th>
+                <th>Location</th>
+                <th>Miles</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Entry in ScheduleEntries)
+            {
+                <tr class="@(Entry.IsCompleted ? "completed-row" : "")">
+                    <td>@Entry.StartTime.ToString("h:mm tt") &ndash; @Entry.EndTime.ToString("h:mm tt")</td>
+                    <td>@Entry.DurationMinutes min</td>
+                    <td>@Entry.Activity</td>
+                    <td>@Entry.Location</td>
+                    <td>@(Entry.MilesFromPrevious > 0 ? Entry.MilesFromPrevious.ToString("F1") : "&mdash;")</td>
+                    <td><span class="badge @GetTypeBadge(Entry.StopType)">@Entry.StopType</span></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h2 class="card-title">HOS Compliance</h2>
+    <table class="schedule-table">
+        <thead>
+            <tr>
+                <th>Regulation</th>
+                <th>Limit</th>
+                <th>Used</th>
+                <th>Remaining</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Daily Driving</td>
+                <td>@ScheduleConstants.MaxDrivingHoursPerDay hrs</td>
+                <td>@TotalDrivingHours</td>
+                <td>@RemainingDriving</td>
+            </tr>
+            <tr>
+                <td>On-Duty Window</td>
+                <td>@ScheduleConstants.MaxOnDutyHoursPerDay hrs</td>
+                <td>@OnDutyHours</td>
+                <td>@RemainingOnDuty</td>
+            </tr>
+            <tr>
+                <td>Mandatory Break</td>
+                <td>@ScheduleConstants.MandatoryBreakMinutes min after @(ScheduleConstants.BreakAfterDrivingMinutes / ScheduleConstants.MinutesPerHour) hrs</td>
+                <td>Taken at 12:10 PM</td>
+                <td>Compliant</td>
+            </tr>
+            <tr>
+                <td>Weekly Driving</td>
+                <td>@ScheduleConstants.MaxDrivingHoursPerWeek hrs</td>
+                <td>@WeeklyDriving</td>
+                <td>@RemainingWeekly</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@code {
+    private string TotalDrivingHours = "7.9";
+    private string TotalMiles = "287";
+    private int DeliveryCount = 4;
+    private string FuelNeeded = "44.2";
+    private string RemainingDriving = "3.1 hrs";
+    private string OnDutyHours = "13.1";
+    private string RemainingOnDuty = "0.9 hrs";
+    private string WeeklyDriving = "31.4";
+    private string RemainingWeekly = "28.6 hrs";
+    private List<ScheduleEntry> ScheduleEntries = new();
+
+    protected override void OnInitialized()
+    {
+        ScheduleEntries = new List<ScheduleEntry>
+        {
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 5, 0, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 5, ScheduleConstants.PreTripInspectionMinutes, 0),
+                DurationMinutes = ScheduleConstants.PreTripInspectionMinutes,
+                Activity = "Pre-trip inspection",
+                Location = "Wolfs Trucking Depot, Lenoir, NC",
+                StopType = StopTypeConstants.PreTripInspection,
+                MilesFromPrevious = 0,
+                IsCompleted = true
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 5, ScheduleConstants.PreTripInspectionMinutes, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 5, 50, 0),
+                DurationMinutes = ScheduleConstants.LoadingTimeMinutes + 5,
+                Activity = "Drive to first pickup",
+                Location = "Hickory, NC warehouse",
+                StopType = StopTypeConstants.Pickup,
+                MilesFromPrevious = 22.4,
+                IsCompleted = true
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 5, 50, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 6, 20, 0),
+                DurationMinutes = ScheduleConstants.LoadingTimeMinutes,
+                Activity = "Load cargo - Blue Ridge Furniture order",
+                Location = "Hickory, NC warehouse",
+                StopType = StopTypeConstants.Pickup,
+                MilesFromPrevious = 0,
+                IsCompleted = true
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 6, 20, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 7, 45, 0),
+                DurationMinutes = 85,
+                Activity = "Drive to delivery 1",
+                Location = "Charlotte, NC distribution center",
+                StopType = StopTypeConstants.Delivery,
+                MilesFromPrevious = 68.3,
+                IsCompleted = true
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 7, 45, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 8, ScheduleConstants.PreTripInspectionMinutes, 0),
+                DurationMinutes = ScheduleConstants.UnloadingTimeMinutes,
+                Activity = "Unload delivery 1 - Blue Ridge Furniture",
+                Location = "Charlotte, NC distribution center",
+                StopType = StopTypeConstants.Delivery,
+                MilesFromPrevious = 0,
+                IsCompleted = true
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 8, ScheduleConstants.PreTripInspectionMinutes, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 8, ScheduleConstants.LoadingTimeMinutes + 5, 0),
+                DurationMinutes = 20,
+                Activity = "Drive to pickup 2",
+                Location = "Charlotte industrial park",
+                StopType = StopTypeConstants.Pickup,
+                MilesFromPrevious = 12.1,
+                IsCompleted = true
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 8, ScheduleConstants.LoadingTimeMinutes + 5, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 9, 5, 0),
+                DurationMinutes = ScheduleConstants.LoadingTimeMinutes,
+                Activity = "Load cargo 2 - Piedmont Industrial parts",
+                Location = "Charlotte industrial park",
+                StopType = StopTypeConstants.Pickup,
+                MilesFromPrevious = 0,
+                IsCompleted = true
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 9, 5, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 9, 45, 0),
+                DurationMinutes = 40,
+                Activity = "Drive to delivery 2",
+                Location = "Gastonia, NC",
+                StopType = StopTypeConstants.Delivery,
+                MilesFromPrevious = 28.7,
+                IsCompleted = true
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 9, 45, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 10, ScheduleConstants.PreTripInspectionMinutes, 0),
+                DurationMinutes = ScheduleConstants.UnloadingTimeMinutes,
+                Activity = "Unload delivery 2 - Piedmont Industrial",
+                Location = "Gastonia, NC",
+                StopType = StopTypeConstants.Delivery,
+                MilesFromPrevious = 0,
+                IsCompleted = false
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 10, ScheduleConstants.PreTripInspectionMinutes, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 10, ScheduleConstants.LoadingTimeMinutes + 5, 0),
+                DurationMinutes = 20,
+                Activity = "Drive to fuel stop",
+                Location = "Pilot Travel Center, I-85",
+                StopType = StopTypeConstants.FuelStop,
+                MilesFromPrevious = 14.2,
+                IsCompleted = false
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 10, ScheduleConstants.LoadingTimeMinutes + 5, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 10, 50, 0),
+                DurationMinutes = ScheduleConstants.PreTripInspectionMinutes,
+                Activity = "Fuel stop - diesel fill",
+                Location = "Pilot Travel Center, I-85",
+                StopType = StopTypeConstants.FuelStop,
+                MilesFromPrevious = 0,
+                IsCompleted = false
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 10, 50, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 11, 40, 0),
+                DurationMinutes = 50,
+                Activity = "Drive to pickup 3",
+                Location = "Spartanburg, SC",
+                StopType = StopTypeConstants.Pickup,
+                MilesFromPrevious = 42.8,
+                IsCompleted = false
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 11, 40, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 12, 10, 0),
+                DurationMinutes = ScheduleConstants.LoadingTimeMinutes,
+                Activity = "Load cargo 3 - Upstate Logistics freight",
+                Location = "Spartanburg, SC",
+                StopType = StopTypeConstants.Pickup,
+                MilesFromPrevious = 0,
+                IsCompleted = false
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 12, 10, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 12, 40, 0),
+                DurationMinutes = ScheduleConstants.MandatoryBreakMinutes,
+                Activity = "Mandatory 30-min lunch break",
+                Location = "Spartanburg, SC",
+                StopType = StopTypeConstants.LunchBreak,
+                MilesFromPrevious = 0,
+                IsCompleted = false
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 12, 40, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 13, 10, 0),
+                DurationMinutes = ScheduleConstants.UnloadingTimeMinutes,
+                Activity = "Drive to delivery 3",
+                Location = "Greenville, SC",
+                StopType = StopTypeConstants.Delivery,
+                MilesFromPrevious = 29.5,
+                IsCompleted = false
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 13, 10, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 13, 40, 0),
+                DurationMinutes = ScheduleConstants.UnloadingTimeMinutes,
+                Activity = "Unload delivery 3 - Upstate Logistics",
+                Location = "Greenville, SC",
+                StopType = StopTypeConstants.Delivery,
+                MilesFromPrevious = 0,
+                IsCompleted = false
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 13, 40, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 14, 20, 0),
+                DurationMinutes = 40,
+                Activity = "Drive to pickup 4",
+                Location = "Anderson, SC warehouse",
+                StopType = StopTypeConstants.Pickup,
+                MilesFromPrevious = 31.4,
+                IsCompleted = false
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 14, 20, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 14, 50, 0),
+                DurationMinutes = ScheduleConstants.LoadingTimeMinutes,
+                Activity = "Load cargo 4 - Mountain View Distribution",
+                Location = "Anderson, SC warehouse",
+                StopType = StopTypeConstants.Pickup,
+                MilesFromPrevious = 0,
+                IsCompleted = false
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 14, 50, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 16, 20, 0),
+                DurationMinutes = 90,
+                Activity = "Drive to delivery 4",
+                Location = "Asheville, NC",
+                StopType = StopTypeConstants.Delivery,
+                MilesFromPrevious = 67.2,
+                IsCompleted = false
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 16, 20, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 16, 50, 0),
+                DurationMinutes = ScheduleConstants.UnloadingTimeMinutes,
+                Activity = "Unload delivery 4 - Mountain View Dist.",
+                Location = "Asheville, NC",
+                StopType = StopTypeConstants.Delivery,
+                MilesFromPrevious = 0,
+                IsCompleted = false
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 16, 50, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 17, 50, 0),
+                DurationMinutes = ScheduleConstants.MinutesPerHour,
+                Activity = "Drive back to depot",
+                Location = "Lenoir, NC",
+                StopType = StopTypeConstants.ReturnToBase,
+                MilesFromPrevious = 58.4,
+                IsCompleted = false
+            },
+            new()
+            {
+                StartTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 17, 50, 0),
+                EndTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 18, 5, 0),
+                DurationMinutes = ScheduleConstants.PostTripInspectionMinutes,
+                Activity = "Post-trip inspection",
+                Location = "Wolfs Trucking Depot, Lenoir, NC",
+                StopType = StopTypeConstants.PostTripInspection,
+                MilesFromPrevious = 0,
+                IsCompleted = false
+            },
+        };
+    }
+
+    private static string GetTypeBadge(string StopType) =>
+        StopType switch
+        {
+            StopTypeConstants.PreTripInspection => "badge-inspection",
+            StopTypeConstants.PostTripInspection => "badge-inspection",
+            StopTypeConstants.Pickup => "badge-loading",
+            StopTypeConstants.Delivery => "badge-unloading",
+            StopTypeConstants.FuelStop => "badge-fuel",
+            StopTypeConstants.LunchBreak => "badge-break",
+            StopTypeConstants.MandatoryBreak => "badge-break",
+            StopTypeConstants.ReturnToBase => "badge-driving",
+            _ => ""
+        };
+}

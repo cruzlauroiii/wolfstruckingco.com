@@ -1,0 +1,95 @@
+@page "/Settings"
+
+<div class="page-header">
+    <h1>Settings</h1>
+    <div class="page-subtitle">Driver profile and application preferences</div>
+</div>
+
+<div class="card">
+    <h2 class="card-title">Driver Profile</h2>
+    <div class="settings-form">
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" @bind="DriverName" />
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" @bind="DriverEmail" />
+        </div>
+        <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" @bind="DriverPhone" />
+        </div>
+        <div class="form-group">
+            <label>CDL Number</label>
+            <input type="text" @bind="LicenseNumber" />
+        </div>
+        <div class="form-group">
+            <label>License Class</label>
+            <select @bind="LicenseClass">
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Home Base</label>
+            <input type="text" @bind="HomeBase" />
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2 class="card-title">HOS Preferences</h2>
+    <div class="settings-form">
+        <div class="form-group">
+            <label>Cycle Type</label>
+            <select @bind="CycleType">
+                <option>@ScheduleConstants.MaxDrivingHoursPerCycle-hour / @ScheduleConstants.CycleDays-day</option>
+                <option>@ScheduleConstants.MaxDrivingHoursPerWeek-hour / 7-day</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Preferred Speed (Highway)</label>
+            <input type="number" @bind="PreferredSpeed" />
+        </div>
+        <div class="form-group">
+            <label>Fuel Stop Threshold (%)</label>
+            <input type="number" @bind="FuelThreshold" />
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2 class="card-title">Voice Chat Settings</h2>
+    <div class="settings-form">
+        <div class="form-group">
+            <label>Voice</label>
+            <select @bind="SelectedVoice">
+                <option>@VoiceChatConstants.DefaultVoice</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>WebSocket Port</label>
+            <input type="number" @bind="WsPort" />
+        </div>
+    </div>
+</div>
+
+<div style="margin-top: 16px;">
+    <button class="btn btn-primary">Save Settings</button>
+</div>
+
+@code {
+    private string DriverName = "Jake Martinez";
+    private string DriverEmail = "jake.martinez@wolfstruckingco.com";
+    private string DriverPhone = "(828) 555-0147";
+    private string LicenseNumber = "NC-CDL-284719";
+    private string LicenseClass = "A";
+    private string HomeBase = "Lenoir, NC";
+    private string CycleType = "70-hour / 8-day";
+    private int PreferredSpeed = ScheduleConstants.HighwaySpeedMph;
+    private int FuelThreshold = ScheduleConstants.FuelStopThresholdPercent;
+    private string SelectedVoice = VoiceChatConstants.DefaultVoice;
+    private int WsPort = VoiceChatConstants.WebSocketPort;
+}

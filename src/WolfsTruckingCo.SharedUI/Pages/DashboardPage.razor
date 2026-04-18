@@ -1,0 +1,149 @@
+@page "/Dashboard"
+
+<div class="page-header">
+    <h1>Dashboard</h1>
+    <div class="page-subtitle">Fleet operations overview for today</div>
+</div>
+
+<div class="stats-grid">
+    <div class="card">
+        <div class="card-value">@ActiveDrivers</div>
+        <div class="card-label">Active Drivers</div>
+    </div>
+    <div class="card">
+        <div class="card-value">@PendingDeliveries</div>
+        <div class="card-label">Pending Deliveries</div>
+    </div>
+    <div class="card">
+        <div class="card-value">@InTransitCount</div>
+        <div class="card-label">In Transit</div>
+    </div>
+    <div class="card">
+        <div class="card-value">@CompletedToday</div>
+        <div class="card-label">Completed Today</div>
+    </div>
+    <div class="card">
+        <div class="card-value">@TotalMilesToday</div>
+        <div class="card-label">Total Miles Today</div>
+    </div>
+    <div class="card">
+        <div class="card-value">@FuelGallonsUsed</div>
+        <div class="card-label">Fuel Gallons Used</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2 class="card-title">Active Deliveries</h2>
+    <table class="schedule-table">
+        <thead>
+            <tr>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Origin</th>
+                <th>Destination</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Weight (lbs)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Delivery in Deliveries)
+            {
+                <tr>
+                    <td>@Delivery.OrderNumber</td>
+                    <td>@Delivery.CustomerName</td>
+                    <td>@Delivery.PickupAddress</td>
+                    <td>@Delivery.DeliveryAddress</td>
+                    <td><span class="badge @GetStatusBadge(Delivery.Status)">@Delivery.Status</span></td>
+                    <td><span class="badge @GetPriorityBadge(Delivery.Priority)">@Delivery.Priority</span></td>
+                    <td>@Delivery.WeightLbs</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h2 class="card-title">Driver Status</h2>
+    <table class="schedule-table">
+        <thead>
+            <tr>
+                <th>Driver</th>
+                <th>License</th>
+                <th>Home Base</th>
+                <th>Hours Available</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Driver in Drivers)
+            {
+                <tr>
+                    <td>@Driver.Name</td>
+                    <td>@Driver.LicenseNumber</td>
+                    <td>@Driver.HomeBase</td>
+                    <td>@Driver.HoursAvailable</td>
+                    <td>
+                        <span class="badge @(Driver.IsActive ? "badge-delivered" : "badge-pending")">
+                            @(Driver.IsActive ? "On Duty" : "Off Duty")
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    private int ActiveDrivers = 0;
+    private int PendingDeliveries = 0;
+    private int InTransitCount = 0;
+    private int CompletedToday = 0;
+    private int TotalMilesToday = 0;
+    private int FuelGallonsUsed = 0;
+    private List<DeliveryEntity> Deliveries = new();
+    private List<DriverEntity> Drivers = new();
+
+    protected override void OnInitialized()
+    {
+        Drivers = new List<DriverEntity>
+        {
+            new() { Name = "Jake Martinez", LicenseNumber = "NC-CDL-284719", LicenseClass = "A", HomeBase = "Lenoir, NC", HoursAvailable = ScheduleConstants.MaxDrivingHoursPerDay, IsActive = true },
+            new() { Name = "Sarah Chen", LicenseNumber = "NC-CDL-391042", LicenseClass = "A", HomeBase = "Hickory, NC", HoursAvailable = ScheduleConstants.MaxDrivingHoursPerDay, IsActive = true },
+            new() { Name = "Marcus Johnson", LicenseNumber = "SC-CDL-502837", LicenseClass = "A", HomeBase = "Charlotte, NC", HoursAvailable = ScheduleConstants.MaxDrivingHoursPerDay, IsActive = false },
+        };
+
+        Deliveries = new List<DeliveryEntity>
+        {
+            new() { OrderNumber = "WTC-2026-0441", CustomerName = "Blue Ridge Furniture", PickupAddress = "Hickory, NC", DeliveryAddress = "Charlotte, NC", Status = DeliveryConstants.StatusInTransit, Priority = DeliveryConstants.PriorityHigh, WeightLbs = 2400 },
+            new() { OrderNumber = "WTC-2026-0442", CustomerName = "Piedmont Industrial", PickupAddress = "Charlotte, NC", DeliveryAddress = "Gastonia, NC", Status = DeliveryConstants.StatusPending, Priority = DeliveryConstants.PriorityMedium, WeightLbs = 1800 },
+            new() { OrderNumber = "WTC-2026-0443", CustomerName = "Upstate Logistics", PickupAddress = "Spartanburg, SC", DeliveryAddress = "Greenville, SC", Status = DeliveryConstants.StatusPending, Priority = DeliveryConstants.PriorityMedium, WeightLbs = 3200 },
+            new() { OrderNumber = "WTC-2026-0444", CustomerName = "Mountain View Dist.", PickupAddress = "Anderson, SC", DeliveryAddress = "Asheville, NC", Status = DeliveryConstants.StatusPending, Priority = DeliveryConstants.PriorityHigh, WeightLbs = 4100 },
+        };
+
+        ActiveDrivers = Drivers.Count(D => D.IsActive);
+        PendingDeliveries = Deliveries.Count(D => D.Status == DeliveryConstants.StatusPending);
+        InTransitCount = Deliveries.Count(D => D.Status == DeliveryConstants.StatusInTransit);
+        CompletedToday = 0;
+        TotalMilesToday = 287;
+        FuelGallonsUsed = 44;
+    }
+
+    private static string GetStatusBadge(string Status) =>
+        Status switch
+        {
+            DeliveryConstants.StatusPending => "badge-pending",
+            DeliveryConstants.StatusInTransit => "badge-transit",
+            DeliveryConstants.StatusDelivered => "badge-delivered",
+            _ => ""
+        };
+
+    private static string GetPriorityBadge(string Priority) =>
+        Priority switch
+        {
+            DeliveryConstants.PriorityHigh => "badge-high",
+            DeliveryConstants.PriorityMedium => "badge-medium",
+            DeliveryConstants.PriorityLow => "badge-low",
+            _ => ""
+        };
+}

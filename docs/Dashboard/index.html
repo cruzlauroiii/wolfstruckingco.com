@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Wolfs Trucking - Dashboard</title>
+<script>if(localStorage.getItem('wolfs_authenticated')!=='true'){location.replace('../')}</script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--text:#e8e8e8;--dim:#8899aa;--nav:#0a0f14;--green:#22c55e;--blue:#3b82f6;--red:#ef4444;--purple:#a855f7;--gray:#6b7280;--border:#2a3a4a;--panel-bg:rgba(26,35,50,0.95);--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-left:env(safe-area-inset-left,0px);--safe-right:env(safe-area-inset-right,0px)}
+html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+button,a,.menu-step,.menu-link,.menu-logout,.tab,.tl-item,.checklist label,input{touch-action:manipulation}
+#map{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:1;transition:width .3s,height .3s}
+.leaflet-control-attribution{display:none!important}
+.leaflet-control-zoom{display:none!important}
+.leaflet-routing-container{display:none!important}
+
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,53,.6)}50%{box-shadow:0 0 0 14px rgba(255,107,53,0)}}
+.marker-current{animation:pulse 2s infinite}
+
+.burger-btn{position:fixed;top:calc(14px + var(--safe-top));left:calc(14px + var(--safe-left));z-index:900;width:44px;height:44px;border-radius:50%;background:var(--panel-bg);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);font-size:1.2rem;transition:background .2s}
+.burger-btn:hover{background:rgba(26,35,50,1)}
+
+.top-right-hud{position:fixed;top:calc(14px + var(--safe-top));right:calc(14px + var(--safe-right));z-index:900;display:flex;align-items:center;gap:8px}
+.step-badge{background:var(--accent);color:#fff;padding:4px 10px;border-radius:10px;font-size:.78rem;font-weight:700;min-width:44px;text-align:center;min-height:32px;display:flex;align-items:center;justify-content:center}
+.clock-badge{background:var(--panel-bg);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.06);color:var(--text);padding:4px 10px;border-radius:10px;font-size:.78rem;font-weight:600;min-height:32px;display:flex;align-items:center;justify-content:center}
+
+.menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1999;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.menu-overlay.open{opacity:1;visibility:visible}
+.menu{position:fixed;top:0;left:0;width:300px;height:100%;background:var(--nav);z-index:2000;transform:translateX(-100%);visibility:hidden;transition:transform .3s,visibility .3s;overflow-y:auto;display:flex;flex-direction:column;padding-top:var(--safe-top);padding-bottom:var(--safe-bottom);padding-left:var(--safe-left)}
+.menu.open{transform:translateX(0);visibility:visible}
+.menu-header{padding:20px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;flex-shrink:0}
+.menu-header-info{font-size:.85rem;line-height:1.4}
+.menu-header-info span{display:block;color:var(--dim);font-size:.75rem}
+.menu-steps{flex:1;overflow-y:auto;padding:8px 0}
+.menu-step{display:flex;align-items:center;gap:10px;padding:8px 16px;cursor:pointer;transition:background .15s;font-size:.8rem;min-height:44px}
+.menu-step:hover{background:rgba(255,255,255,.05)}
+.menu-step.active{background:rgba(255,107,53,.1);border-left:3px solid var(--accent)}
+.menu-step.completed{opacity:.55}
+.step-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;color:#fff}
+.step-num.inspection{background:var(--red)}
+.step-num.drive{background:var(--blue)}
+.step-num.load{background:var(--accent)}
+.step-num.unload{background:var(--accent)}
+.step-num.fuel{background:var(--purple)}
+.step-num.break{background:var(--gray)}
+.step-num.complete{background:var(--green)}
+.menu-step-info{flex:1;min-width:0}
+.menu-step-name{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.menu-step-time{color:var(--dim);font-size:.7rem}
+.menu-step-icon{font-size:.85rem;flex-shrink:0}
+.menu-divider{height:1px;background:var(--border);margin:8px 16px}
+.menu-link{display:flex;align-items:center;gap:10px;padding:12px 16px;color:var(--text);text-decoration:none;font-size:.85rem;transition:background .15s;cursor:pointer;min-height:44px}
+.menu-link:hover{background:rgba(255,255,255,.05)}
+.menu-link svg{width:20px;height:20px;opacity:.7}
+.menu-logout{color:var(--red);margin:8px 16px 16px;padding:12px;border-radius:8px;border:1px solid rgba(239,68,68,.3);background:rgba(239,68,68,.08);text-align:center;cursor:pointer;font-weight:600;font-size:.85rem;transition:background .15s;min-height:44px;display:flex;align-items:center;justify-content:center}
+.menu-logout:hover{background:rgba(239,68,68,.15)}
+
+.details-panel{position:fixed;z-index:800;background:var(--panel-bg);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;transition:all .3s ease;overflow:hidden}
+.details-panel.dock-bottom{bottom:0;left:0;right:0;height:35vh;border-radius:12px 12px 0 0}
+.details-panel.dock-right{top:0;right:0;bottom:0;width:380px;border-radius:12px 0 0 12px}
+.details-panel.dock-top{top:0;left:0;right:0;height:35vh;border-radius:0 0 12px 12px}
+.details-panel.dock-left{top:0;left:0;bottom:0;width:380px;border-radius:0 12px 12px 0}
+.details-panel.size-compact.dock-bottom,.details-panel.size-compact.dock-top{height:25vh}
+.details-panel.size-expanded.dock-bottom,.details-panel.size-expanded.dock-top{height:50vh}
+.details-panel.size-compact.dock-right,.details-panel.size-compact.dock-left{width:280px}
+.details-panel.size-expanded.dock-right,.details-panel.size-expanded.dock-left{width:480px}
+.details-panel.hidden{opacity:0;pointer-events:none}
+.details-panel.dock-bottom.hidden{transform:translateY(100%)}
+.details-panel.dock-top.hidden{transform:translateY(-100%)}
+.details-panel.dock-right.hidden{transform:translateX(100%)}
+.details-panel.dock-left.hidden{transform:translateX(-100%)}
+
+.panel-header{display:flex;align-items:center;justify-content:flex-end;gap:4px;padding:6px 8px;flex-shrink:0;min-height:44px}
+.panel-dock-btn{width:44px;height:44px;border-radius:8px;border:none;background:rgba(255,255,255,.06);color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .15s;flex-shrink:0}
+.panel-dock-btn:hover{background:rgba(255,255,255,.12);color:var(--text)}
+.panel-dock-btn svg{width:20px;height:20px;pointer-events:none}
+
+.panel-summary{padding:0 12px 6px;font-size:.82rem;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.panel-summary .step-num{width:28px;height:28px;font-size:.72rem}
+.panel-summary-text{flex:1}
+.panel-summary-text strong{display:block;font-size:.88rem}
+.panel-summary-text span{color:var(--dim);font-size:.75rem}
+
+.tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;padding:0 8px}
+.tab{flex:1;padding:9px 4px;text-align:center;font-size:.72rem;font-weight:600;color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;min-height:44px;display:flex;align-items:center;justify-content:center}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+.tab-content{flex:1;overflow-y:auto;padding:10px 12px;-webkit-overflow-scrolling:touch}
+.detail-card{padding:10px;background:rgba(255,255,255,.02);border-radius:8px;margin-bottom:8px}
+.detail-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.detail-badge{padding:2px 8px;border-radius:6px;font-size:.68rem;font-weight:700;color:#fff}
+.detail-title{font-size:.92rem;font-weight:700}
+.detail-meta{display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:.78rem}
+.detail-meta dt{color:var(--dim)}
+.detail-meta dd{font-weight:600}
+.detail-instructions{margin-top:6px;padding:6px;background:rgba(255,255,255,.03);border-radius:6px;font-size:.78rem;color:var(--dim);line-height:1.4}
+.btn-complete{width:100%;padding:12px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:8px;transition:background .15s;min-height:44px}
+.btn-complete:hover:not(:disabled){background:#e55a2b}
+.btn-complete:disabled{background:var(--gray);cursor:default;opacity:.6}
+.btn-map{width:100%;padding:10px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;margin-top:6px;min-height:44px}
+.checklist{margin-top:6px}
+.checklist label{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:.8rem;cursor:pointer;min-height:44px}
+.checklist input{accent-color:var(--accent);width:18px;height:18px}
+
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--border)}
+.tl-item{position:relative;padding:6px 0;cursor:pointer}
+.tl-item:hover .tl-name{color:var(--accent)}
+.tl-dot{position:absolute;left:-18px;top:10px;width:10px;height:10px;border-radius:50%;border:2px solid var(--border);background:var(--nav)}
+.tl-item.done .tl-dot{background:var(--green);border-color:var(--green)}
+.tl-item.current .tl-dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,107,53,.25)}
+.tl-time{font-size:.7rem;color:var(--dim)}
+.tl-name{font-size:.78rem;font-weight:600}
+.tl-detail{font-size:.7rem;color:var(--dim)}
+.tl-status{display:inline-block;padding:1px 5px;border-radius:4px;font-size:.62rem;font-weight:600;margin-left:4px}
+.tl-status.done{background:rgba(34,197,94,.15);color:var(--green)}
+.tl-status.active{background:rgba(255,107,53,.15);color:var(--accent)}
+.tl-status.pending{background:rgba(107,114,128,.15);color:var(--gray)}
+.tl-summary{margin-top:10px;padding:8px;background:rgba(255,255,255,.02);border-radius:6px;font-size:.78rem;display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.tl-summary dt{color:var(--dim)}
+.tl-summary dd{font-weight:600;text-align:right}
+
+.earn-hero{text-align:center;padding:14px;background:rgba(255,255,255,.02);border-radius:10px;margin-bottom:10px}
+.earn-hero .amount{font-size:2rem;font-weight:800;color:var(--accent)}
+.earn-hero .label{color:var(--dim);font-size:.78rem}
+.earn-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+.earn-box{background:rgba(255,255,255,.02);border-radius:6px;padding:8px;text-align:center}
+.earn-box .val{font-size:1rem;font-weight:700}
+.earn-box .lbl{font-size:.68rem;color:var(--dim)}
+.earn-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-bottom:10px}
+.earn-table td{padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.earn-table td:last-child{text-align:right;font-weight:600}
+.earn-table tr:last-child td{border:none;font-weight:700;color:var(--accent)}
+.earn-payout{padding:8px;background:rgba(255,255,255,.02);border-radius:6px;font-size:.78rem;color:var(--dim);line-height:1.5}
+
+.kpi-section{margin-bottom:12px}
+.kpi-section h3{font-size:.8rem;font-weight:700;margin-bottom:6px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.kpi{background:rgba(255,255,255,.02);border-radius:6px;padding:8px}
+.kpi-val{font-size:1rem;font-weight:700}
+.kpi-lbl{font-size:.68rem;color:var(--dim);margin-top:2px}
+.kpi.green .kpi-val{color:var(--green)}
+.kpi.blue .kpi-val{color:var(--blue)}
+.kpi.accent .kpi-val{color:var(--accent)}
+
+.completion-card{text-align:center;padding:24px 12px;background:rgba(255,255,255,.02);border-radius:10px;margin-bottom:8px}
+.completion-card h2{font-size:1.3rem;color:var(--green);margin-bottom:6px}
+.completion-card .icon{font-size:2.5rem;margin-bottom:10px}
+.completion-card .stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px;text-align:left}
+.completion-card .stat{padding:6px;background:rgba(255,255,255,.03);border-radius:6px}
+.completion-card .stat dt{font-size:.7rem;color:var(--dim)}
+.completion-card .stat dd{font-size:.88rem;font-weight:700}
+
+.show-panel-btn{position:fixed;z-index:810;width:44px;height:44px;border-radius:50%;background:var(--panel-bg);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.06);display:none;align-items:center;justify-content:center;cursor:pointer;color:var(--accent);font-size:1.1rem;font-weight:700;font-style:italic;transition:all .2s;bottom:calc(14px + var(--safe-bottom));left:calc(14px + var(--safe-left))}
+.show-panel-btn:hover{background:rgba(26,35,50,1);transform:scale(1.08)}
+
+.chat-btn{position:fixed;bottom:calc(14px + var(--safe-bottom));right:calc(14px + var(--safe-right));z-index:850;width:50px;height:50px;border-radius:50%;background:var(--accent);border:none;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;box-shadow:0 4px 16px rgba(255,107,53,.3)}
+.chat-btn:hover{transform:scale(1.08)}
+
+.chat-panel{position:fixed;top:0;right:0;bottom:0;width:340px;max-width:100vw;background:var(--panel-bg);backdrop-filter:blur(12px);border-left:1px solid rgba(255,255,255,.06);z-index:1500;display:flex;flex-direction:column;transform:translateX(100%);visibility:hidden;transition:transform .3s,visibility .3s;padding-top:var(--safe-top);padding-bottom:var(--safe-bottom);padding-right:var(--safe-right)}
+.chat-panel.open{transform:translateX(0);visibility:visible}
+.chat-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;min-height:50px}
+.chat-header-title{flex:1;font-size:.88rem;font-weight:700}
+.chat-status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.chat-status-dot.connected{background:var(--green)}
+.chat-status-dot.disconnected{background:var(--red)}
+.chat-header-status{font-size:.7rem;margin-left:8px;display:flex;align-items:center}
+.chat-close{background:none;border:none;color:var(--dim);font-size:1.2rem;cursor:pointer;padding:6px;border-radius:6px;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
+.chat-close:hover{color:var(--text);background:rgba(255,255,255,.06)}
+.chat-messages{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.chat-msg{max-width:85%;padding:8px 12px;border-radius:10px;font-size:.82rem;line-height:1.4;word-break:break-word}
+.chat-msg.system{align-self:center;background:rgba(255,255,255,.04);color:var(--dim);font-size:.72rem;border-radius:6px;max-width:100%;text-align:center}
+.chat-msg.assistant{align-self:flex-start;background:rgba(59,130,246,.15);color:var(--text);border-bottom-left-radius:2px}
+.chat-msg.user{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:2px}
+.chat-input-bar{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;flex-shrink:0}
+.chat-input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px 12px;color:var(--text);font-size:.82rem;outline:none;min-height:44px}
+.chat-input:focus{border-color:var(--accent)}
+.chat-input::placeholder{color:var(--dim)}
+.chat-send{width:44px;height:44px;border-radius:8px;background:var(--accent);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .15s;flex-shrink:0}
+.chat-send:hover{background:#e55a2b}
+
+@media(max-width:768px){
+.details-panel.dock-right,.details-panel.dock-left,.details-panel.dock-bottom,.details-panel.dock-top{width:100vw!important;border-radius:0}
+.details-panel.size-compact.dock-right,.details-panel.size-compact.dock-left{width:100vw!important}
+.details-panel.size-expanded.dock-right,.details-panel.size-expanded.dock-left{width:100vw!important}
+.details-panel.dock-right,.details-panel.dock-left{height:50vh!important}
+.chat-panel{width:100vw;left:0;right:0;border-left:none}
+.menu{width:100vw}
+.menu-overlay.open{background:rgba(0,0,0,.7)}
+.burger-btn{top:calc(10px + var(--safe-top));left:calc(10px + var(--safe-left))}
+.top-right-hud{top:calc(10px + var(--safe-top));right:calc(10px + var(--safe-right))}
+}
+@media(min-width:769px){
+.menu{width:320px}
+}
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<button class="burger-btn" onclick="toggleMenu()" aria-label="Menu">&#9776;</button>
+
+<div class="top-right-hud">
+<span class="step-badge" id="stepBadge">1/22</span>
+</div>
+
+<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+<nav class="menu" id="menu">
+<div class="menu-header">
+<div class="avatar">JM</div>
+<div class="menu-header-info">Jake Martinez<span>CDL-A &bull; Unit WTC-0847</span></div>
+</div>
+<div class="menu-steps" id="menuSteps"></div>
+<div class="menu-divider"></div>
+<div class="menu-link" onclick="ToggleChat();toggleMenu()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+Dispatch
+</div>
+<div class="menu-link" onclick="ShowTab(2);toggleMenu();ShowPanel()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+Earnings
+</div>
+<div class="menu-link" onclick="ShowTab(3);toggleMenu();ShowPanel()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+KPIs
+</div>
+<a class="menu-link" href="../Hiring/">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+Hiring
+</a>
+<a class="menu-link" href="../Investors/">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/><line x1="3" y1="22" x2="21" y2="22"/></svg>
+Investors
+</a>
+<a class="menu-link" href="../Settings/">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+Settings
+</a>
+<div class="menu-divider"></div>
+<div class="menu-logout" onclick="doLogout()">Logout</div>
+</nav>
+
+<div class="details-panel dock-bottom" id="detailsPanel">
+<div class="panel-header">
+<button class="panel-dock-btn" onclick="CycleDock()" title="Dock position" id="dockBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12H3M21 12h-2M12 19l-3-3M12 19l3-3M12 5L9 8M12 5l3 3"/></svg></button>
+<button class="panel-dock-btn" onclick="HidePanel()" title="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+</div>
+<div class="panel-summary" id="panelSummary"></div>
+<div class="tabs">
+<div class="tab active" onclick="ShowTab(0)">Current</div>
+<div class="tab" onclick="ShowTab(1)">Schedule</div>
+<div class="tab" onclick="ShowTab(2)">Earnings</div>
+<div class="tab" onclick="ShowTab(3)">KPIs</div>
+</div>
+<div class="tab-content" id="tabContent"></div>
+</div>
+
+<button class="show-panel-btn" id="showPanelBtn" onclick="ShowPanel()">i</button>
+
+<button class="call-btn" id="callBtn" onclick="ToggleCall()" style="position:fixed;bottom:calc(80px + var(--safe-bottom));right:calc(14px + var(--safe-right));z-index:800;width:52px;height:52px;border-radius:50%;background:#22c55e;border:none;cursor:pointer;color:#fff;font-size:1.4rem;box-shadow:0 4px 16px rgba(34,197,94,.4);transition:all .2s">&#128222;</button>
+<button class="chat-btn" id="chatBtn" onclick="ToggleChat()">&#128172;</button>
+<div class="chat-panel" id="chatPanel">
+<div class="chat-header">
+<div class="chat-header-title">Dispatch</div>
+<div style="display:flex;align-items:center;gap:8px">
+<button onclick="ToggleCall()" style="background:#22c55e;border:none;color:#fff;padding:4px 12px;border-radius:8px;font-size:.8rem;cursor:pointer;min-height:32px">&#128222; Call</button>
+<span class="chat-header-status" id="chatStatus"><span class="chat-status-dot disconnected" id="chatDot"></span></span>
+</div>
+<button class="chat-close" onclick="ToggleChat()">&times;</button>
+</div>
+<div id="callBanner" style="display:none;background:#1a3a2a;padding:12px 16px;text-align:center;border-bottom:2px solid rgba(34,197,94,.5)">
+<div style="font-weight:700;color:#22c55e;font-size:.9rem">&#127911; Listening...</div>
+<div style="color:var(--dim);font-size:.78rem;margin-top:4px">Voice dispatch active. Speak naturally.</div>
+<div id="interimTranscript" style="color:var(--dim);font-size:.8rem;font-style:italic;min-height:1.2em;margin-top:4px"></div>
+<button onclick="EndCall()" style="margin-top:8px;background:#ef4444;border:none;color:#fff;padding:6px 20px;border-radius:8px;cursor:pointer;font-size:.8rem;min-height:32px">End Call</button>
+</div>
+<div class="chat-messages" id="chatMessages"></div>
+<div class="chat-input-bar">
+<input class="chat-input" id="chatInput" type="text" placeholder="Type a message..." autocomplete="off">
+<button class="chat-send" onclick="SendChat()">&#10148;</button>
+</div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+<script>
+var UrlParams=new URLSearchParams(location.search);
+if(UrlParams.get('session')){localStorage.setItem('wolfs_authenticated','true');localStorage.setItem('wolfs_session',UrlParams.get('session'));localStorage.setItem('wolfs_email',UrlParams.get('email')||'');history.replaceState(null,'',location.pathname)}
+if(localStorage.getItem('wolfs_authenticated')!=='true'){location.href='../';throw''}
+
+var Steps=[
+{n:1,time:'5:00 AM',dur:'30 min',type:'inspection',name:'Pre-Trip Inspection',loc:'Wolfs Trucking Depot',addr:'100 Industrial Blvd, Lenoir, NC 28645',lat:35.9132,lng:-81.5387,dist:'',cargo:'',contact:'',instructions:'Check tires, brakes, lights, fluids, coupling. Log in ELD.',checklist:['Tires & wheels','Brakes','Lights & reflectors','Fluid levels','Coupling devices','ELD login']},
+{n:2,time:'5:30 AM',dur:'35 min',type:'drive',name:'Drive to Hickory',loc:'',addr:'',lat:35.7330,lng:-81.3412,dist:'22 mi',cargo:'',contact:'',instructions:'Take US-321 S to Hickory. Normal traffic expected.'},
+{n:3,time:'6:05 AM',dur:'25 min',type:'load',name:'Load at Hickory Warehouse',loc:'Southeast Freight Lines',addr:'450 Warehouse Dr, Hickory, NC 28602',lat:35.7330,lng:-81.3412,dist:'',cargo:'Order #WTC-4821 — 12 pallets, 18,400 lbs, dry goods',contact:'Mike Torres, Dock Supervisor',instructions:'Dock 7. Verify seal numbers against BOL.'},
+{n:4,time:'6:30 AM',dur:'55 min',type:'drive',name:'Drive to Charlotte',loc:'',addr:'',lat:35.2271,lng:-80.8431,dist:'78 mi',cargo:'',contact:'',instructions:'US-321 S to I-40 E to I-77 S. Watch for construction near Exit 28.'},
+{n:5,time:'7:25 AM',dur:'30 min',type:'unload',name:'Deliver to Charlotte DC',loc:'Metro Distribution Center',addr:'2200 Distribution Way, Charlotte, NC 28206',lat:35.2271,lng:-80.8431,dist:'',cargo:'Order #WTC-4821 — 12 pallets dry goods',contact:'Sarah Chen, Receiving Manager',instructions:'Dock 12. Get signature on POD. Photo of unloaded freight.'},
+{n:6,time:'7:55 AM',dur:'15 min',type:'drive',name:'Drive to CLT Logistics',loc:'',addr:'',lat:35.2665,lng:-80.8120,dist:'6 mi',cargo:'',contact:'',instructions:'Surface streets. 4th St to Graham St.'},
+{n:7,time:'8:10 AM',dur:'20 min',type:'load',name:'Load at CLT Logistics',loc:'CLT Logistics Hub',addr:'800 Logistics Pkwy, Charlotte, NC 28208',lat:35.2665,lng:-80.8120,dist:'',cargo:'Order #WTC-4822 — 8 pallets, 11,200 lbs, auto parts. Order #WTC-4823 — 4 pallets, 6,800 lbs, electronics (fragile)',contact:'Dave Wilson, Shipping Lead',instructions:'Two orders — load electronics last (first off). Temp-sensitive: keep under 85F.'},
+{n:8,time:'8:30 AM',dur:'30 min',type:'drive',name:'Drive to Gastonia',loc:'',addr:'',lat:35.2626,lng:-81.1873,dist:'28 mi',cargo:'',contact:'',instructions:'I-85 W to US-321 S. Moderate traffic near airport.'},
+{n:9,time:'9:00 AM',dur:'25 min',type:'unload',name:'Deliver to Gastonia',loc:'Gaston Industrial Park',addr:'1500 Industrial Dr, Gastonia, NC 28054',lat:35.2626,lng:-81.1873,dist:'',cargo:'Order #WTC-4822 — 8 pallets auto parts',contact:'Tom Baker, Warehouse Mgr',instructions:'Bay 3. Forklift unload. Verify count: 8 pallets.'},
+{n:10,time:'9:25 AM',dur:'25 min',type:'drive',name:'Drive to Shelby',loc:'',addr:'',lat:35.2847,lng:-81.5654,dist:'24 mi',cargo:'',contact:'',instructions:'US-74 W. Clear route.'},
+{n:11,time:'9:50 AM',dur:'15 min',type:'fuel',name:'Fuel Stop - Shelby',loc:'Pilot Travel Center',addr:'1890 E Dixon Blvd, Shelby, NC 28152',lat:35.2847,lng:-81.5654,dist:'',cargo:'',contact:'',instructions:'Estimated 54 gal. Use WTC fuel card. Check DEF level.'},
+{n:12,time:'10:05 AM',dur:'40 min',type:'drive',name:'Drive to Spartanburg',loc:'',addr:'',lat:34.9496,lng:-81.9321,dist:'42 mi',cargo:'',contact:'',instructions:'US-74 W to I-85 S. Cross into SC at mile 38.'},
+{n:13,time:'10:45 AM',dur:'20 min',type:'load',name:'Load at Spartanburg',loc:'Upstate Freight Terminal',addr:'600 Freight Rd, Spartanburg, SC 29303',lat:34.9496,lng:-81.9321,dist:'',cargo:'Order #WTC-4824 — 6 pallets, 9,600 lbs, textiles',contact:'Rosa Mendez, Dock Lead',instructions:'Dock 2. Stack textiles on left wall. Secure with straps.'},
+{n:14,time:'11:05 AM',dur:'30 min',type:'break',name:'Lunch Break',loc:'Spartanburg Rest Area',addr:'Near Upstate Freight Terminal, Spartanburg, SC',lat:34.9496,lng:-81.9321,dist:'',cargo:'',contact:'',instructions:'30-min mandatory break. ELD auto-logs.'},
+{n:15,time:'11:35 AM',dur:'45 min',type:'drive',name:'Drive to Greenville',loc:'',addr:'',lat:34.8526,lng:-82.3940,dist:'35 mi',cargo:'',contact:'',instructions:'I-85 S to I-385 S. Downtown Greenville exit.'},
+{n:16,time:'12:20 PM',dur:'30 min',type:'unload',name:'Deliver to Greenville',loc:'Greenville Commerce Center',addr:'300 Commerce Dr, Greenville, SC 29601',lat:34.8526,lng:-82.3940,dist:'',cargo:'Order #WTC-4823 — 4 pallets electronics (fragile)',contact:'Amy Rodriguez, Site Manager',instructions:'Fragile cargo. Supervised unload only. Get POD + photo.'},
+{n:17,time:'12:50 PM',dur:'35 min',type:'drive',name:'Drive to Anderson',loc:'',addr:'',lat:34.5034,lng:-82.6501,dist:'32 mi',cargo:'',contact:'',instructions:'I-85 S to SC-28 S. Rural route last 8 miles.'},
+{n:18,time:'1:25 PM',dur:'20 min',type:'load',name:'Load at Anderson',loc:'Anderson Supply Co',addr:'750 Supply Chain Rd, Anderson, SC 29621',lat:34.5034,lng:-82.6501,dist:'',cargo:'Order #WTC-4825 — 10 pallets, 15,000 lbs, building materials',contact:'Jim Crawford, Foreman',instructions:'Heavy load. Check axle weights. Secure with chains.'},
+{n:19,time:'1:45 PM',dur:'1h 30m',type:'drive',name:'Drive to Asheville',loc:'',addr:'',lat:35.5951,lng:-82.5515,dist:'75 mi',cargo:'',contact:'',instructions:'I-26 N through Blue Ridge. Steep grades — use engine brake. Watch for fog above 2500ft.'},
+{n:20,time:'3:15 PM',dur:'30 min',type:'unload',name:'Deliver to Asheville',loc:'Blue Ridge Distribution',addr:'1200 Sweeten Creek Rd, Asheville, NC 28803',lat:35.5951,lng:-82.5515,dist:'',cargo:'Order #WTC-4824 — 6 pallets textiles + Order #WTC-4825 — 10 pallets building materials',contact:'Kevin Park, Receiving',instructions:'Two orders. Textiles to Door A, building materials to Door C. Final delivery of the day.'},
+{n:21,time:'3:45 PM',dur:'1h 25m',type:'drive',name:'Return to Depot',loc:'',addr:'',lat:35.9132,lng:-81.5387,dist:'68 mi',cargo:'',contact:'',instructions:'I-40 E to US-321 N. Homebound. Watch speed through Marion.'},
+{n:22,time:'5:10 PM',dur:'20 min',type:'complete',name:'Post-Trip & Close Out',loc:'Wolfs Trucking Depot',addr:'100 Industrial Blvd, Lenoir, NC 28645',lat:35.9132,lng:-81.5387,dist:'',cargo:'',contact:'',instructions:'Post-trip inspection, fuel report, submit all BOLs, log off ELD.',checklist:['Post-trip inspection','Submit fuel report','Upload BOL photos','ELD logout','Key return']}
+];
+
+var Locations=[
+{name:'Lenoir, NC (Depot)',lat:35.9132,lng:-81.5387,steps:[1,22]},
+{name:'Hickory, NC',lat:35.7330,lng:-81.3412,steps:[2,3]},
+{name:'Charlotte DC',lat:35.2271,lng:-80.8431,steps:[4,5]},
+{name:'CLT Logistics',lat:35.2665,lng:-80.8120,steps:[6,7]},
+{name:'Gastonia, NC',lat:35.2626,lng:-81.1873,steps:[8,9]},
+{name:'Shelby, NC',lat:35.2847,lng:-81.5654,steps:[10,11]},
+{name:'Spartanburg, SC',lat:34.9496,lng:-81.9321,steps:[12,13,14]},
+{name:'Greenville, SC',lat:34.8526,lng:-82.3940,steps:[15,16]},
+{name:'Anderson, SC',lat:34.5034,lng:-82.6501,steps:[17,18]},
+{name:'Asheville, NC',lat:35.5951,lng:-82.5515,steps:[19,20]},
+{name:'Lenoir, NC (Return)',lat:35.9132,lng:-81.5387,steps:[21,22]}
+];
+
+var RouteWaypoints=[
+[35.9132,-81.5387],
+[35.7330,-81.3412],
+[35.2271,-80.8431],
+[35.2665,-80.8120],
+[35.2626,-81.1873],
+[35.2847,-81.5654],
+[34.9496,-81.9321],
+[34.8526,-82.3940],
+[34.5034,-82.6501],
+[35.5951,-82.5515],
+[35.9132,-81.5387]
+];
+
+var UrbanZones=[
+{name:'Charlotte',lat:35.2271,lng:-80.8431,radius:0.15,color:'#eab308'},
+{name:'CLT Airport',lat:35.2140,lng:-80.9431,radius:0.08,color:'#ef4444'},
+{name:'Spartanburg',lat:34.9496,lng:-81.9321,radius:0.10,color:'#eab308'},
+{name:'Greenville',lat:34.8526,lng:-82.3940,radius:0.12,color:'#eab308'},
+{name:'Asheville',lat:35.5951,lng:-82.5515,radius:0.10,color:'#eab308'},
+{name:'Gastonia',lat:35.2626,lng:-81.1873,radius:0.08,color:'#eab308'}
+];
+var MountainZone={latMin:35.0,latMax:35.6,lngMin:-82.8,lngMax:-82.2};
+
+var CurrentStep=parseInt(localStorage.getItem('wolfs_step')||'1');
+var ShiftComplete=false;
+var Map,Markers={},RoutingControl,TrafficLayers=[];
+var ActiveTab=0;
+var PanelDock='bottom';
+var PanelVisible=true;
+var PanelZoomed=false;
+var ChatOpen=false;
+var WsConn=null;
+var KokoroLoaded=false;
+var AutoHideTimer=null;
+var AutoHideDelay=30000;
+
+var DockCycle=['bottom','right','left'];
+var DockIndex=0;
+
+function InvalidateMap(){
+if(Map){
+setTimeout(function(){Map.invalidateSize()},50);
+setTimeout(function(){Map.invalidateSize()},300);
+}
+}
+
+function AdjustMapForDock(){
+var MapEl=document.getElementById('map');
+var Panel=document.getElementById('detailsPanel');
+if(!PanelVisible||Panel.classList.contains('hidden')){
+MapEl.style.top='0';MapEl.style.left='0';MapEl.style.width='100vw';MapEl.style.height='100vh';
+InvalidateMap();return;
+}
+var PanelW=Panel.offsetWidth;
+var PanelH=Panel.offsetHeight;
+if(PanelDock==='right'){
+MapEl.style.top='0';MapEl.style.left='0';MapEl.style.width='calc(100vw - '+PanelW+'px)';MapEl.style.height='100vh';
+}else if(PanelDock==='left'){
+MapEl.style.top='0';MapEl.style.left=PanelW+'px';MapEl.style.width='calc(100vw - '+PanelW+'px)';MapEl.style.height='100vh';
+}else if(PanelDock==='bottom'){
+MapEl.style.top='0';MapEl.style.left='0';MapEl.style.width='100vw';MapEl.style.height='calc(100vh - '+PanelH+'px)';
+}else if(PanelDock==='top'){
+MapEl.style.top=PanelH+'px';MapEl.style.left='0';MapEl.style.width='100vw';MapEl.style.height='calc(100vh - '+PanelH+'px)';
+}
+InvalidateMap();
+}
+
+function ResetAutoHide(){
+if(AutoHideTimer) clearTimeout(AutoHideTimer);
+AutoHideTimer=setTimeout(function(){
+if(PanelVisible) HidePanel();
+},AutoHideDelay);
+}
+
+function AutoDockForDrive(){
+var W=window.innerWidth;
+var H=window.innerHeight;
+if(W>H){
+PanelDock='right';DockIndex=1;
+}else{
+PanelDock='bottom';DockIndex=0;
+}
+ApplyDock();
+}
+
+function UpdateDockIcon(){
+var Btn=document.getElementById('dockBtn');
+if(!Btn) return;
+var Icons={bottom:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="15" x2="21" y2="15"/></svg>',right:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="15" y1="3" x2="15" y2="21"/></svg>',top:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>',left:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>'};
+Btn.innerHTML=Icons[PanelDock]||Icons.bottom;
+}
+
+function ApplyDock(){
+var Panel=document.getElementById('detailsPanel');
+Panel.className='details-panel dock-'+PanelDock+(PanelZoomed?' size-expanded':'');
+if(!PanelVisible) Panel.classList.add('hidden');
+UpdateDockIcon();
+AdjustMapForDock();
+setTimeout(function(){if(Map)Map.invalidateSize()},100);
+}
+
+function CycleDock(){
+ResetAutoHide();
+DockIndex=(DockIndex+1)%DockCycle.length;
+PanelDock=DockCycle[DockIndex];
+ApplyDock();
+}
+
+function ToggleZoom(){
+ResetAutoHide();
+PanelZoomed=!PanelZoomed;
+var Panel=document.getElementById('detailsPanel');
+if(PanelZoomed){
+Panel.classList.add('size-expanded');Panel.classList.remove('size-compact');
+}else{
+Panel.classList.remove('size-expanded');Panel.classList.remove('size-compact');
+}
+AdjustMapForDock();
+}
+
+function HidePanel(){
+PanelVisible=false;
+var Panel=document.getElementById('detailsPanel');
+Panel.classList.add('hidden');
+var ShowBtn=document.getElementById('showPanelBtn');
+ShowBtn.style.display='flex';
+var MapEl=document.getElementById('map');
+MapEl.style.top='0';MapEl.style.left='0';MapEl.style.width='100vw';MapEl.style.height='100vh';
+InvalidateMap();
+if(AutoHideTimer){clearTimeout(AutoHideTimer);AutoHideTimer=null}
+}
+var hidePanel=HidePanel;
+
+function ShowPanel(){
+PanelVisible=true;
+var Panel=document.getElementById('detailsPanel');
+Panel.classList.remove('hidden');
+var ShowBtn=document.getElementById('showPanelBtn');
+ShowBtn.style.display='none';
+AdjustMapForDock();
+ResetAutoHide();
+}
+var showPanel=ShowPanel;
+
+function Init(){
+Map=L.map('map',{zoomControl:false,attributionControl:false}).setView([Steps[CurrentStep-1].lat,Steps[CurrentStep-1].lng],10);
+L.tileLayer('https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(Map);
+
+setTimeout(function(){Map.invalidateSize()},100);
+setTimeout(function(){Map.invalidateSize()},500);
+setTimeout(function(){Map.invalidateSize()},2000);
+window.addEventListener('resize',function(){Map.invalidateSize();AdjustMapForDock()});
+
+var Waypoints=RouteWaypoints.map(function(w){return L.latLng(w[0],w[1])});
+
+RoutingControl=L.Routing.control({
+waypoints:Waypoints,
+router:L.Routing.osrmv1({serviceUrl:'https://router.project-osrm.org/route/v1',profile:'driving'}),
+routeWhileDragging:false,
+show:false,
+addWaypoints:false,
+draggableWaypoints:false,
+fitSelectedRoutes:false,
+createMarker:function(){return null},
+lineOptions:{styles:[{color:'rgba(0,0,0,0)',weight:0,opacity:0}],addWaypoints:false}
+}).addTo(Map);
+
+RoutingControl.on('routesfound',function(e){
+var Route=e.routes[0];
+var Coords=Route.coordinates;
+DrawTrafficRoute(Coords);
+DrawWaypointTrafficOverlay(Coords);
+var Bounds=L.latLngBounds([]);
+Coords.forEach(function(c){Bounds.extend(c)});
+Map.fitBounds(Bounds.pad(0.08));
+setTimeout(function(){Map.flyTo([Steps[CurrentStep-1].lat,Steps[CurrentStep-1].lng],11,{duration:1.2})},1500);
+});
+
+RoutingControl.on('routingerror',function(){
+var Coords=RouteWaypoints.map(function(w){return L.latLng(w[0],w[1])});
+DrawTrafficRoute(Coords);
+Map.fitBounds(L.latLngBounds(Coords).pad(0.08));
+});
+
+RefreshMarkers();
+BuildMenu();
+UpdateTopBar();
+ShowTab(0);
+StartClock();
+UpdatePanelSummary();
+InitChat();
+ConnectWs();
+AdjustMapForDock();
+ResetAutoHide();
+
+if(Steps[CurrentStep-1].type==='drive') AutoDockForDrive();
+}
+
+function DrawTrafficRoute(Coords){
+TrafficLayers.forEach(function(L){Map.removeLayer(L)});
+TrafficLayers=[];
+if(!Coords||Coords.length<2) return;
+
+var Segments=[];
+var CurrentColor=GetTrafficColor(Coords[0]);
+var CurrentSegment=[Coords[0]];
+
+for(var I=1;I<Coords.length;I++){
+var Color=GetTrafficColor(Coords[I]);
+if(Color===CurrentColor){
+CurrentSegment.push(Coords[I]);
+}else{
+CurrentSegment.push(Coords[I]);
+Segments.push({coords:CurrentSegment.slice(),color:CurrentColor});
+CurrentColor=Color;
+CurrentSegment=[Coords[I]];
+}
+}
+if(CurrentSegment.length>1){
+Segments.push({coords:CurrentSegment,color:CurrentColor});
+}
+
+Segments.forEach(function(Seg){
+var Pl=L.polyline(Seg.coords,{color:Seg.color,weight:5,opacity:0.85});
+Pl.addTo(Map);
+TrafficLayers.push(Pl);
+});
+}
+
+function GetTrafficColor(Coord){
+var Lat=Coord.lat||Coord[0];
+var Lng=Coord.lng||Coord[1];
+
+for(var I=0;I<UrbanZones.length;I++){
+var Z=UrbanZones[I];
+var D=Math.sqrt(Math.pow(Lat-Z.lat,2)+Math.pow(Lng-Z.lng,2));
+if(D<Z.radius) return Z.color;
+}
+
+if(Lat>=MountainZone.latMin&&Lat<=MountainZone.latMax&&Lng>=MountainZone.lngMin&&Lng<=MountainZone.lngMax){
+return '#eab308';
+}
+
+return '#22c55e';
+}
+
+var WaypointTrafficLayers=[];
+function DrawWaypointTrafficOverlay(Coords){
+WaypointTrafficLayers.forEach(function(Ly){Map.removeLayer(Ly)});
+WaypointTrafficLayers=[];
+if(!Coords||Coords.length<2) return;
+var WpLatLngs=RouteWaypoints.map(function(W){return L.latLng(W[0],W[1])});
+var WpIndices=[0];
+for(var W=1;W<WpLatLngs.length;W++){
+var BestIdx=0,BestDist=Infinity;
+for(var C=WpIndices[WpIndices.length-1];C<Coords.length;C++){
+var D=Coords[C].distanceTo(WpLatLngs[W]);
+if(D<BestDist){BestDist=D;BestIdx=C}
+}
+WpIndices.push(BestIdx);
+}
+var SegColors={};
+[2,3,4,5,6].forEach(function(I){SegColors[I]='#ef4444'});
+[7,8,9].forEach(function(I){SegColors[I]='#eab308'});
+[18,19].forEach(function(I){SegColors[I]='#eab308'});
+for(var S=0;S<WpIndices.length-1;S++){
+var Start=WpIndices[S];
+var End=WpIndices[S+1];
+if(Start>=End) continue;
+var Color=SegColors[S]||'#22c55e';
+var SegCoords=Coords.slice(Start,End+1);
+if(SegCoords.length<2) continue;
+var Pl=L.polyline(SegCoords,{color:Color,weight:6,opacity:0.8});
+Pl.addTo(Map);
+WaypointTrafficLayers.push(Pl);
+}
+}
+
+function BuildMenu(){
+var El=document.getElementById('menuSteps');
+El.innerHTML='';
+Steps.forEach(function(S){
+var Done=S.n<CurrentStep||(ShiftComplete&&S.n===22);
+var Active=S.n===CurrentStep&&!ShiftComplete;
+var Div=document.createElement('div');
+Div.className='menu-step'+(Done?' completed':'')+(Active?' active':'');
+Div.innerHTML='<div class="step-num '+(Done?'complete':S.type)+'">'+S.n+'</div><div class="menu-step-info"><div class="menu-step-name">'+S.name+'</div><div class="menu-step-time">'+S.time+' &bull; '+S.dur+(S.dist?' &bull; '+S.dist:'')+'</div></div><div class="menu-step-icon">'+(Done?'&#10003;':Active?'&#9654;':'&#9675;')+'</div>';
+Div.onclick=function(){GoToStep(S.n);toggleMenu()};
+El.appendChild(Div);
+});
+}
+
+function toggleMenu(){
+document.getElementById('menu').classList.toggle('open');
+document.getElementById('menuOverlay').classList.toggle('open');
+}
+
+function UpdateTopBar(){
+var Display=ShiftComplete?'22/22':CurrentStep+'/22';
+document.getElementById('stepBadge').textContent=Display;
+}
+
+function StartClock(){
+function Tick(){
+var D=new Date();
+}
+Tick();
+}
+
+function ShowTab(Idx){
+ActiveTab=Idx;
+document.querySelectorAll('.tab').forEach(function(T,I){T.className='tab'+(I===Idx?' active':'')});
+var El=document.getElementById('tabContent');
+if(Idx===0) RenderCurrentStep(El);
+else if(Idx===1) RenderSchedule(El);
+else if(Idx===2) RenderEarnings(El);
+else RenderKPIs(El);
+UpdatePanelSummary();
+ResetAutoHide();
+}
+var showTab=ShowTab;
+
+function UpdatePanelSummary(){
+if(ShiftComplete){
+document.getElementById('panelSummary').innerHTML='<div class="step-num complete">&#10003;</div><div class="panel-summary-text"><strong>Shift Complete</strong><span>All 22 steps done</span></div>';
+return;
+}
+var S=Steps[CurrentStep-1];
+document.getElementById('panelSummary').innerHTML='<div class="step-num '+S.type+'">'+S.n+'</div><div class="panel-summary-text"><strong>'+S.name+'</strong><span>'+S.time+' &bull; '+S.dur+'</span></div>';
+}
+
+function CheckInspectionReady(){
+var S=Steps[CurrentStep-1];
+if(!S||!S.checklist) return;
+var Btn=document.getElementById('btnComplete');
+if(!Btn) return;
+var Checks=document.querySelectorAll('.checklist input[type="checkbox"]');
+var AllChecked=true;
+Checks.forEach(function(C){if(!C.checked) AllChecked=false});
+Btn.disabled=!AllChecked;
+}
+var checkInspectionReady=CheckInspectionReady;
+
+function RenderCurrentStep(El){
+if(ShiftComplete){RenderCompletionCard(El);return}
+var S=Steps[CurrentStep-1];
+var Colors={inspection:'var(--red)',drive:'var(--blue)',load:'var(--accent)',unload:'var(--accent)',fuel:'var(--purple)',break:'var(--gray)',complete:'var(--green)'};
+var Html='<div class="detail-card"><div class="detail-header"><span class="detail-badge" style="background:'+Colors[S.type]+'">'+S.type.toUpperCase()+'</span><span class="detail-title">Step '+S.n+': '+S.name+'</span></div><dl class="detail-meta"><dt>Time</dt><dd>'+S.time+'</dd><dt>Duration</dt><dd>'+S.dur+'</dd>';
+if(S.loc) Html+='<dt>Location</dt><dd>'+S.loc+'</dd>';
+if(S.addr) Html+='<dt>Address</dt><dd>'+S.addr+'</dd>';
+if(S.dist) Html+='<dt>Distance</dt><dd>'+S.dist+'</dd>';
+if(S.contact) Html+='<dt>Contact</dt><dd>'+S.contact+'</dd>';
+Html+='</dl>';
+if(S.cargo) Html+='<div class="detail-instructions"><strong>Cargo:</strong> '+S.cargo+'</div>';
+if(S.instructions) Html+='<div class="detail-instructions">'+S.instructions+'</div>';
+if(S.checklist){
+Html+='<div class="checklist">';
+S.checklist.forEach(function(C,I){Html+='<label><input type="checkbox" id="chk'+I+'" onchange="checkInspectionReady()"> '+C+'</label>'});
+Html+='</div>';
+}
+Html+='</div>';
+Html+='<button class="btn-map" onclick="FlyToStep('+S.n+')">View on Map</button>';
+var IsInspection=S.type==='inspection'||S.type==='complete';
+var HasChecklist=S.checklist&&S.checklist.length>0;
+var DisabledAttr=(IsInspection&&HasChecklist)?' disabled':'';
+Html+='<button class="btn-complete" id="btnComplete" onclick="completeStep()"'+DisabledAttr+'>Complete Step '+S.n+'</button>';
+El.innerHTML=Html;
+}
+
+function RenderCompletionCard(El){
+El.innerHTML='<div class="completion-card"><div class="icon">&#127942;</div><h2>Shift Complete!</h2><p style="color:var(--dim);font-size:.88rem">Great work today, Jake. All 22 steps finished.</p><dl class="stats"><div class="stat"><dt>Total Distance</dt><dd>350 mi</dd></div><div class="stat"><dt>Deliveries</dt><dd>4 stops</dd></div><div class="stat"><dt>Drive Time</dt><dd>8h 10m</dd></div><div class="stat"><dt>Fuel Used</dt><dd>~54 gal</dd></div><div class="stat"><dt>Earnings</dt><dd style="color:var(--accent)">$587.50</dd></div><div class="stat"><dt>Safety</dt><dd style="color:var(--green)">No incidents</dd></div></dl></div><button class="btn-complete" onclick="ResetShift()" style="background:var(--blue)">Start New Shift</button>';
+}
+
+function RenderSchedule(El){
+var Html='<div class="timeline">';
+Steps.forEach(function(S){
+var Cls=S.n<CurrentStep||(ShiftComplete&&S.n===22)?'done':S.n===CurrentStep&&!ShiftComplete?'current':'';
+var St=S.n<CurrentStep||(ShiftComplete&&S.n===22)?'done':S.n===CurrentStep&&!ShiftComplete?'active':'pending';
+Html+='<div class="tl-item '+Cls+'" onclick="GoToStep('+S.n+')"><div class="tl-dot"></div><div class="tl-time">'+S.time+' &bull; '+S.dur+(S.dist?' &bull; '+S.dist:'')+'</div><div class="tl-name">'+S.n+'. '+S.name+' <span class="tl-status '+St+'">'+(St==='done'?'Done':St==='active'?'Active':'Pending')+'</span></div>'+(S.loc?'<div class="tl-detail">'+S.loc+'</div>':'')+'</div>';
+});
+Html+='</div><dl class="tl-summary"><dt>Total Distance</dt><dd>350 mi</dd><dt>Deliveries</dt><dd>4 stops</dd><dt>Drive Time</dt><dd>8h 10m</dd><dt>Est. Fuel</dt><dd>~54 gal</dd></dl>';
+El.innerHTML=Html;
+}
+
+function RenderEarnings(El){
+var Html='<div class="earn-hero"><div class="label">Today\'s Earnings</div><div class="amount">$587.50</div></div>';
+Html+='<div class="earn-row"><div class="earn-box"><div class="val">$2,437</div><div class="lbl">Week</div></div><div class="earn-box"><div class="val">$9,750</div><div class="lbl">Month</div></div><div class="earn-box"><div class="val">$43,875</div><div class="lbl">Year</div></div></div>';
+Html+='<table class="earn-table"><tr><td>Mileage Pay</td><td>350 mi &times; $1.25</td><td>$437.50</td></tr><tr><td>Stop Bonus</td><td>4 &times; $25</td><td>$100.00</td></tr><tr><td>Fuel Bonus</td><td>Under budget</td><td>$0.00</td></tr><tr><td>Safety Bonus</td><td>No incidents</td><td>$50.00</td></tr><tr><td>Total Today</td><td></td><td>$587.50</td></tr></table>';
+Html+='<div class="earn-payout"><strong>Next Payout:</strong> Friday, April 17<br><strong>Method:</strong> Direct Deposit, Bank of America ending 4829</div>';
+El.innerHTML=Html;
+}
+
+function RenderKPIs(El){
+var Html='<div class="kpi-section"><h3>Driver Performance</h3><div class="kpi-grid"><div class="kpi green"><div class="kpi-val">98.7%</div><div class="kpi-lbl">On-Time Rate</div></div><div class="kpi green"><div class="kpi-val">97/100</div><div class="kpi-lbl">Safety Score</div></div><div class="kpi green"><div class="kpi-val">6.8 mpg</div><div class="kpi-lbl">Fuel Efficiency</div></div><div class="kpi green"><div class="kpi-val">100%</div><div class="kpi-lbl">HOS Compliance</div></div><div class="kpi green"><div class="kpi-val">4.9/5.0</div><div class="kpi-lbl">Customer Rating</div></div></div></div>';
+Html+='<div class="kpi-section"><h3>Fleet &amp; Stakeholder</h3><div class="kpi-grid"><div class="kpi green"><div class="kpi-val">94%</div><div class="kpi-lbl">Fleet Utilization</div></div><div class="kpi blue"><div class="kpi-val">$2.85</div><div class="kpi-lbl">Revenue/Mile</div></div><div class="kpi accent"><div class="kpi-val">$1.92</div><div class="kpi-lbl">Cost/Mile</div></div><div class="kpi green"><div class="kpi-val">32.6%</div><div class="kpi-lbl">Profit Margin</div></div></div></div>';
+El.innerHTML=Html;
+}
+
+function GoToStep(N){
+if(N<1) N=1;
+if(N>Steps.length){
+ShiftComplete=true;
+CurrentStep=22;
+localStorage.setItem('wolfs_step','complete');
+BuildMenu();UpdateTopBar();ShowTab(0);ShowPanel();
+return;
+}
+ShiftComplete=false;
+CurrentStep=N;
+localStorage.setItem('wolfs_step',N);
+BuildMenu();UpdateTopBar();ShowTab(0);ShowPanel();
+FlyToStep(N);
+RefreshMarkers();
+if(Steps[N-1].type==='drive') AutoDockForDrive();
+}
+var goToStep=GoToStep;
+
+function FlyToStep(N){
+if(N<1||N>Steps.length) return;
+var S=Steps[N-1];
+Map.flyTo([S.lat,S.lng],13,{duration:1});
+}
+
+function CompleteStep(){
+if(ShiftComplete) return;
+if(CurrentStep>=22){
+ShiftComplete=true;
+localStorage.setItem('wolfs_step','complete');
+BuildMenu();UpdateTopBar();ShowTab(0);ShowPanel();
+RefreshMarkers();
+return;
+}
+var Next=CurrentStep+1;
+CurrentStep=Next;
+localStorage.setItem('wolfs_step',CurrentStep);
+BuildMenu();UpdateTopBar();ShowTab(0);
+FlyToStep(CurrentStep);
+RefreshMarkers();
+if(Steps[CurrentStep-1].type==='drive') AutoDockForDrive();
+}
+var completeStep=CompleteStep;
+
+function ResetShift(){
+ShiftComplete=false;
+CurrentStep=1;
+localStorage.setItem('wolfs_step','1');
+BuildMenu();UpdateTopBar();ShowTab(0);ShowPanel();
+FlyToStep(1);
+RefreshMarkers();
+}
+
+function RefreshMarkers(){
+Map.eachLayer(function(Ly){if(Ly._icon) try{Map.removeLayer(Ly)}catch(e){}});
+Object.keys(Markers).forEach(function(K){try{Map.removeLayer(Markers[K])}catch(e){}});
+Markers={};
+var Seen={};
+Locations.forEach(function(Loc,I){
+var Key=Loc.lat+','+Loc.lng;
+if(Seen[Key]&&Key==='35.9132,-81.5387'&&I>0) Key+='_return';
+if(Seen[Key]) return;
+Seen[Key]=true;
+var StepNums=Loc.steps;
+var IsCurrent=StepNums.indexOf(CurrentStep)>=0&&!ShiftComplete;
+var AllDone=ShiftComplete||StepNums.every(function(S){return S<CurrentStep});
+var Color=IsCurrent?'#ff6b35':AllDone?'#22c55e':'#6b7280';
+var Cls=IsCurrent?'marker-current':'';
+var Num=I+1;
+var Icon=L.divIcon({className:'',html:'<div class="'+Cls+'" style="width:34px;height:34px;border-radius:50%;background:'+Color+';display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;border:2px solid rgba(255,255,255,.35);cursor:pointer">'+Num+'</div>',iconSize:[34,34],iconAnchor:[17,17]});
+var PopupLines='<div style="font-family:sans-serif;font-size:13px;min-width:180px"><strong>'+Loc.name+'</strong>';
+StepNums.forEach(function(Sn){var Ss=Steps[Sn-1];var IsDone=Sn<CurrentStep||ShiftComplete;var IsCur=Sn===CurrentStep&&!ShiftComplete;var St=IsDone?'<span style="color:#22c55e">&#10003;</span>':IsCur?'<span style="color:#ff6b35">&#9654;</span>':'<span style="color:#6b7280">&#9675;</span>';PopupLines+='<div style="margin-top:4px">'+St+' <b>'+Ss.time+'</b> '+Ss.name+'</div>'});
+PopupLines+='<div style="margin-top:8px"><a href="#" onclick="OpenStepFromMap('+StepNums[0]+');return false" style="color:#ff6b35">View Details</a></div></div>';
+var M=L.marker([Loc.lat,Loc.lng],{icon:Icon}).addTo(Map).bindPopup(PopupLines);
+M.on('click',function(){ShowPanel();GoToStep(StepNums.indexOf(CurrentStep)>=0?CurrentStep:StepNums[0])});
+Loc.steps.forEach(function(Sn){Markers[Sn]=M});
+});
+}
+
+function OpenStepFromMap(N){
+Map.closePopup();
+GoToStep(N);
+ShowPanel();
+}
+
+var CallActive=false;
+var MediaStream=null;
+var SpeakingNow=false;
+var AudioContext=null;
+var AudioProcessor=null;
+
+function StartVoiceCall(){
+  navigator.mediaDevices.getUserMedia({audio:{sampleRate:16000,channelCount:1,echoCancellation:true,noiseSuppression:true}}).then(function(Stream){
+    MediaStream=Stream;
+    AudioContext=new (window.AudioContext||window.webkitAudioContext)({sampleRate:16000});
+    var Source=AudioContext.createMediaStreamSource(Stream);
+    AudioProcessor=AudioContext.createScriptProcessor(4096,1,1);
+
+    AudioProcessor.onaudioprocess=function(E){
+      if(!CallActive) return;
+      if(SpeakingNow) return;
+      var Samples=E.inputBuffer.getChannelData(0);
+      var Pcm=new Int16Array(Samples.length);
+      for(var I=0;I<Samples.length;I++){
+        var S=Math.max(-1,Math.min(1,Samples[I]));
+        Pcm[I]=S<0?S*0x8000:S*0x7FFF;
+      }
+      var Bytes=new Uint8Array(Pcm.buffer);
+      var Binary='';
+      for(var I=0;I<Bytes.length;I++) Binary+=String.fromCharCode(Bytes[I]);
+      var B64=btoa(Binary);
+      if(WsConn&&WsConn.readyState===1){
+        WsConn.send(JSON.stringify({type:'audio',data:B64}));
+      }
+    };
+
+    Source.connect(AudioProcessor);
+    AudioProcessor.connect(AudioContext.destination);
+
+    if(WsConn&&WsConn.readyState===1){
+      WsConn.send(JSON.stringify({type:'call_start',id:'call_'+Date.now()}));
+    }
+
+    SetCallState('listening');
+    AddChatMsg('system','Voice call connected via Anthropic STT.');
+  }).catch(function(Err){
+    AddChatMsg('system','Microphone access denied: '+Err.message);
+  });
+}
+
+function StopVoiceCall(){
+  if(AudioProcessor){AudioProcessor.disconnect();AudioProcessor=null}
+  if(AudioContext){AudioContext.close();AudioContext=null}
+  if(MediaStream){MediaStream.getTracks().forEach(function(T){T.stop()});MediaStream=null}
+  if(WsConn&&WsConn.readyState===1){
+    WsConn.send(JSON.stringify({type:'call_end'}));
+  }
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  SpeakingNow=false;
+}
+
+function SetCallState(State){
+  var Banner=document.getElementById('callBanner');
+  var BannerText=Banner.querySelector('div');
+  if(State==='listening'){
+    BannerText.innerHTML='&#127911; Listening...';
+    BannerText.style.color='#22c55e';
+    Banner.style.borderBottom='2px solid rgba(34,197,94,.5)';
+    Banner.style.background='#1a3a2a';
+  }else if(State==='speaking'){
+    BannerText.innerHTML='&#128264; AI Speaking...';
+    BannerText.style.color='#ff6b35';
+    Banner.style.borderBottom='2px solid rgba(255,107,53,.5)';
+    Banner.style.background='#2a1f1a';
+  }else if(State==='processing'){
+    BannerText.innerHTML='&#9203; Processing...';
+    BannerText.style.color='#3b82f6';
+    Banner.style.borderBottom='2px solid rgba(59,130,246,.5)';
+    Banner.style.background='#1a2332';
+  }
+}
+
+function SpeakTts(Text){
+  if(!window.speechSynthesis||!CallActive) return;
+  SpeakingNow=true;
+  SetCallState('speaking');
+  var Utt=new SpeechSynthesisUtterance(Text);
+  Utt.lang='en-US';
+  Utt.rate=1.0;
+  Utt.pitch=1.0;
+  var Voices=speechSynthesis.getVoices();
+  for(var I=0;I<Voices.length;I++){
+    if(Voices[I].lang.indexOf('en')===0&&Voices[I].name.indexOf('Male')>=0){Utt.voice=Voices[I];break}
+  }
+  Utt.onend=function(){
+    SpeakingNow=false;
+    if(CallActive) SetCallState('listening');
+  };
+  Utt.onerror=function(){
+    SpeakingNow=false;
+    if(CallActive) SetCallState('listening');
+  };
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(Utt);
+}
+
+function ToggleCall(){
+  if(!ChatOpen) ToggleChat();
+  CallActive=!CallActive;
+  var Banner=document.getElementById('callBanner');
+  var CallBtnMain=document.getElementById('callBtn');
+  if(CallActive){
+    Banner.style.display='block';
+    CallBtnMain.style.background='#ef4444';
+    CallBtnMain.innerHTML='&#128222;';
+    StartVoiceCall();
+  } else { EndCall(); }
+}
+function EndCall(){
+  CallActive=false;
+  StopVoiceCall();
+  var Banner=document.getElementById('callBanner');
+  var CallBtnMain=document.getElementById('callBtn');
+  if(Banner) Banner.style.display='none';
+  if(CallBtnMain){CallBtnMain.style.background='#22c55e';CallBtnMain.innerHTML='&#128222;';}
+  var InterimEl=document.getElementById('interimTranscript');
+  if(InterimEl) InterimEl.textContent='';
+  AddChatMsg('system','Voice call ended.');
+}
+
+function ToggleChat(){
+ChatOpen=!ChatOpen;
+var Panel=document.getElementById('chatPanel');
+var Btn=document.getElementById('chatBtn');
+if(ChatOpen){
+Panel.classList.add('open');
+Btn.style.display='none';
+document.getElementById('chatInput').focus();
+}else{
+Panel.classList.remove('open');
+Btn.style.display='flex';
+}
+InvalidateMap();
+}
+var toggleChat=ToggleChat;
+
+function InitChat(){
+var Msgs=document.getElementById('chatMessages');
+AddChatMsg('system','Connected to Wolfs Trucking Dispatch');
+AddChatMsg('assistant','Good morning Jake. 4 deliveries today, 350 miles. Ready when you are.');
+AddChatMsg('user','Starting pre-trip now.');
+AddChatMsg('assistant','Copy. Pre-trip logged. Weather clear, 72F. Traffic normal on I-77.');
+}
+
+function AddChatMsg(Role,Text,MsgId){
+var Msgs=document.getElementById('chatMessages');
+var Div=document.createElement('div');
+Div.className='chat-msg '+Role;
+Div.textContent=Text;
+if(MsgId) Div.setAttribute('data-msg-id',MsgId);
+Msgs.appendChild(Div);
+Msgs.scrollTop=Msgs.scrollHeight;
+if(Role==='assistant') TryTts(Text);
+}
+
+function SendChat(){
+var Input=document.getElementById('chatInput');
+var Text=Input.value.trim();
+if(!Text) return;
+var MsgId='unique_id_'+Date.now();
+AddChatMsg('user',Text,MsgId);
+Input.value='';
+if(WsConn&&WsConn.readyState===WebSocket.OPEN){
+WsConn.send(JSON.stringify({type:'chat',content:Text,id:MsgId}));
+}else{
+setTimeout(function(){
+var Responses=[
+'Copy that. Updating your dispatch log.',
+'Noted. I\'ll flag that for the fleet manager.',
+'Roger. ETA adjusted. Stay safe out there.',
+'Understood. Routing updated based on your input.',
+'Got it. I\'ve logged that in the system.'
+];
+AddChatMsg('assistant',Responses[Math.floor(Math.random()*Responses.length)],'msg_'+Date.now());
+},800+Math.random()*1200);
+}
+}
+var sendChat=SendChat;
+
+function UpdateChatStatus(Connected){
+var Dot=document.getElementById('chatDot');
+var Status=document.getElementById('chatStatus');
+if(Connected){
+Dot.className='chat-status-dot connected';
+Status.innerHTML='';Status.appendChild(Dot);Status.appendChild(document.createTextNode(' Connected'));
+}else{
+Dot.className='chat-status-dot disconnected';
+Status.innerHTML='';Status.appendChild(Dot);Status.appendChild(document.createTextNode(' Offline'));
+}
+}
+
+function ConnectWs(){
+try{
+WsConn=new WebSocket('wss://wolfstruckingco.nbth.workers.dev/ws?role=client');
+WsConn.onopen=function(){
+UpdateChatStatus(true);
+};
+WsConn.onmessage=function(E){
+try{
+var Data=JSON.parse(E.data);
+if(Data.type==='transcript'){
+var InterimEl=document.getElementById('interimTranscript');
+if(InterimEl) InterimEl.textContent=Data.content||'';
+return;
+}
+if(Data.type==='transcript_final'){
+AddChatMsg('user',Data.content);
+var InterimEl=document.getElementById('interimTranscript');
+if(InterimEl) InterimEl.textContent='';
+SetCallState('processing');
+return;
+}
+var Content=null;
+if(Data.type==='chat'&&Data.content){
+Content=Data.content;
+AddChatMsg('assistant',Content,Data.id||('msg_'+Date.now()));
+}else if(Data.content){
+Content=Data.content;
+AddChatMsg('assistant',Content,Data.id||('msg_'+Date.now()));
+}else if(typeof Data==='string'){
+Content=Data;
+AddChatMsg('assistant',Content,'msg_'+Date.now());
+}
+if(Content&&CallActive){SpeakTts(Content)}
+}catch(Err){
+AddChatMsg('assistant',E.data,'msg_'+Date.now());
+if(CallActive){SpeakTts(E.data)}
+}
+};
+WsConn.onclose=function(){
+UpdateChatStatus(false);
+setTimeout(ConnectWs,5000);
+};
+WsConn.onerror=function(){
+UpdateChatStatus(false);
+};
+}catch(Err){
+UpdateChatStatus(false);
+}
+}
+
+function TryTts(Text){
+if(CallActive) return;
+}
+
+document.getElementById('chatInput').addEventListener('keydown',function(E){
+if(E.key==='Enter'&&!E.shiftKey){E.preventDefault();SendChat()}
+});
+
+document.getElementById('detailsPanel').addEventListener('click',function(){ResetAutoHide()});
+document.getElementById('detailsPanel').addEventListener('touchstart',function(){ResetAutoHide()},{passive:true});
+document.getElementById('detailsPanel').addEventListener('scroll',function(){ResetAutoHide()},{passive:true,capture:true});
+document.getElementById('tabContent').addEventListener('scroll',function(){ResetAutoHide()},{passive:true});
+
+function doLogout(){
+localStorage.removeItem('wolfs_authenticated');
+localStorage.removeItem('wolfs_step');
+location.href='../';
+}
+
+var SavedStep=localStorage.getItem('wolfs_step');
+if(SavedStep==='complete'){
+ShiftComplete=true;
+CurrentStep=22;
+}else{
+CurrentStep=parseInt(SavedStep)||1;
+if(CurrentStep<1) CurrentStep=1;
+if(CurrentStep>22) CurrentStep=22;
+}
+
+if(window.speechSynthesis){speechSynthesis.onvoiceschanged=function(){speechSynthesis.getVoices()};speechSynthesis.getVoices()}
+Init();
+</script>
+</body>
+</html>

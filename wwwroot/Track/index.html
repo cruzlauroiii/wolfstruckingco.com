@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Track Your Shipment | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<link rel="apple-touch-icon" href="/wolfstruckingco.com/icon.svg">
+<link rel="manifest" href="/wolfstruckingco.com/manifest.json">
+<meta name="theme-color" content="#ff6b35">
+
+<meta name="description" content="Track your freight shipment in real-time. Enter your tracking number to see pickup status, in-transit location, and estimated delivery time.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://cruzlauroiii.github.io/wolfstruckingco.com/Track/">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--info:#3b82f6;--radius:12px}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh}
+
+.Nav{position:sticky;top:0;z-index:100;background:rgba(15,20,25,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.NavBrand{font-size:1.1rem;font-weight:800;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:10px}
+.NavBrand span{color:var(--accent)}
+.NavLinks{display:flex;gap:16px;align-items:center}
+.NavLinks a{color:var(--text-muted);font-size:.9rem;text-decoration:none;font-weight:500}
+.NavLinks a:hover{color:var(--accent)}
+
+.Hero{padding:40px 20px 20px;text-align:center;max-width:800px;margin:0 auto}
+.Hero h1{font-size:clamp(1.6rem,3vw,2.3rem);font-weight:900;margin-bottom:8px}
+.Hero p{color:var(--text-muted);font-size:.95rem}
+
+.TrackForm{max-width:600px;margin:24px auto;padding:0 20px;display:flex;gap:10px;flex-wrap:wrap}
+.TrackInput{flex:1;min-width:220px;padding:16px 20px;background:var(--card);border:2px solid var(--border);border-radius:12px;color:var(--text);font-size:1.05rem;font-family:inherit;outline:none;transition:border-color .2s}
+.TrackInput:focus{border-color:var(--accent)}
+.TrackInput::placeholder{color:var(--text-muted)}
+.TrackBtn{padding:16px 32px;border-radius:12px;background:var(--accent);border:none;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;min-height:56px;font-family:inherit;transition:background .2s}
+.TrackBtn:hover{background:var(--accent-hover)}
+
+.Result{max-width:960px;margin:20px auto 40px;padding:0 20px;display:none}
+.Result.Show{display:block}
+
+.ResHeader{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px}
+.ResId{font-size:.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.ResTitle{font-size:1.3rem;font-weight:800;margin-bottom:4px}
+.ResRoute{font-size:.9rem;color:var(--text-muted)}
+.ResStatus{padding:8px 18px;border-radius:50px;font-size:.85rem;font-weight:700;display:inline-block}
+.StPending{background:rgba(245,158,11,.15);color:var(--warning)}
+.StAvailable{background:rgba(59,130,246,.15);color:var(--info)}
+.StAccepted{background:rgba(255,107,53,.15);color:var(--accent)}
+.StInProgress{background:rgba(255,107,53,.15);color:var(--accent)}
+.StCompleted{background:rgba(34,197,94,.15);color:var(--success)}
+.StRejected{background:rgba(239,68,68,.15);color:var(--danger)}
+
+.Timeline{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+.Timeline h3{font-size:1rem;font-weight:700;margin-bottom:18px}
+.TlEvent{display:flex;gap:14px;padding:12px 0;border-left:2px solid var(--border);padding-left:20px;margin-left:12px;position:relative}
+.TlEvent::before{content:'';position:absolute;left:-7px;top:16px;width:12px;height:12px;border-radius:50%;background:var(--border);border:2px solid var(--bg)}
+.TlEvent.Done::before{background:var(--success)}
+.TlEvent.Current::before{background:var(--accent);box-shadow:0 0 0 4px rgba(255,107,53,.2)}
+.TlTitle{font-size:.95rem;font-weight:600}
+.TlTime{font-size:.8rem;color:var(--text-muted);margin-top:2px}
+.TlInfo{font-size:.82rem;color:var(--text-muted);margin-top:4px}
+
+.Details{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.Detail{}
+.DetLabel{font-size:.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.DetValue{font-size:.95rem;font-weight:600}
+
+.TrackMap{height:360px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.leaflet-control-attribution{display:none!important}
+
+.NoResult{max-width:600px;margin:40px auto;padding:24px;background:var(--card);border:1px solid var(--danger);border-radius:var(--radius);text-align:center;display:none}
+.NoResult.Show{display:block}
+.NoResult h3{color:var(--danger);font-size:1rem;font-weight:700;margin-bottom:6px}
+.NoResult p{color:var(--text-muted);font-size:.9rem}
+
+.Examples{max-width:600px;margin:8px auto 0;padding:0 20px;text-align:center;font-size:.8rem;color:var(--text-muted)}
+.Examples a{color:var(--accent);text-decoration:none;margin:0 6px;font-weight:600}
+.Examples a:hover{text-decoration:underline}
+
+.CtaBar{background:var(--card);border-top:1px solid var(--border);padding:24px 20px;text-align:center;margin-top:auto}
+.CtaBar p{font-size:.9rem;color:var(--text-muted);margin-bottom:12px}
+.CtaBar a{display:inline-block;padding:12px 24px;border-radius:10px;background:var(--accent);color:#fff;font-size:.9rem;font-weight:700;text-decoration:none;margin:0 6px}
+.CtaBar a:hover{background:var(--accent-hover)}
+.CtaBar a.Secondary{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+.CtaBar a.Secondary:hover{background:rgba(255,107,53,.1)}
+</style>
+</head>
+<body>
+<nav class="Nav">
+  <a class="NavBrand" href="/wolfstruckingco.com/"><span>W</span> Wolfs Trucking Co.</a>
+  <div class="NavLinks">
+    <a href="/wolfstruckingco.com/#ShipWithUs">Ship With Us</a>
+    <a href="/wolfstruckingco.com/Login/">Sign In</a>
+  </div>
+</nav>
+
+<section class="Hero">
+  <h1>Track Your Shipment</h1>
+  <p>Enter your tracking number to see real-time status and estimated delivery.</p>
+</section>
+
+<div class="TrackForm">
+  <input class="TrackInput" id="TrackInput" placeholder="e.g. SHP-0041 or job_1" onkeydown="if(event.key==='Enter')TrackShipment()">
+  <button class="TrackBtn" onclick="TrackShipment()">Track</button>
+</div>
+
+<div class="Examples">
+  Try a sample: <a onclick="TryExample('job_1')">job_1</a> · <a onclick="TryExample('job_3')">job_3</a> · <a onclick="TryExample('job_4')">job_4</a>
+</div>
+
+<div class="NoResult" id="NoResult">
+  <h3>Shipment Not Found</h3>
+  <p>We couldn't find a shipment with that tracking number. Please check the ID and try again, or contact support at (818) 624-0454.</p>
+</div>
+
+<div class="Result" id="Result">
+  <div class="ResHeader">
+    <div>
+      <div class="ResId" id="ResId">TRACKING #</div>
+      <div class="ResTitle" id="ResTitle">Shipment</div>
+      <div class="ResRoute" id="ResRoute"></div>
+    </div>
+    <div class="ResStatus" id="ResStatus">Status</div>
+  </div>
+
+  <div class="Details">
+    <div class="Detail"><div class="DetLabel">Pickup</div><div class="DetValue" id="DetPickup">-</div></div>
+    <div class="Detail"><div class="DetLabel">Delivery</div><div class="DetValue" id="DetDelivery">-</div></div>
+    <div class="Detail"><div class="DetLabel">Cargo</div><div class="DetValue" id="DetCargo">-</div></div>
+    <div class="Detail"><div class="DetLabel">Distance</div><div class="DetValue" id="DetDistance">-</div></div>
+    <div class="Detail"><div class="DetLabel">Scheduled</div><div class="DetValue" id="DetWindow">-</div></div>
+    <div class="Detail"><div class="DetLabel">Price</div><div class="DetValue" id="DetPrice">-</div></div>
+  </div>
+
+  <div class="Timeline" id="Timeline">
+    <h3>Shipment Timeline</h3>
+    <div id="TimelineContent"></div>
+  </div>
+
+  <div class="TrackMap" id="TrackMap"></div>
+</div>
+
+<div class="CtaBar">
+  <p>Not yet shipping with us? Get an instant quote and book a delivery in minutes.</p>
+  <a href="/wolfstruckingco.com/#ShipWithUs">Get a Quote</a>
+  <a class="Secondary" href="/wolfstruckingco.com/Login/#demo">Try Demo</a>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+var API = 'https://wolfstruckingco.nbth.workers.dev';
+var MapInst = null;
+
+function TryExample(Id) {
+  document.getElementById('TrackInput').value = Id;
+  TrackShipment();
+}
+
+function TrackShipment() {
+  var Id = document.getElementById('TrackInput').value.trim();
+  if (!Id) return;
+  // Normalize SHP-XXXX to underlying ID, or try as-is
+  document.getElementById('Result').classList.remove('Show');
+  document.getElementById('NoResult').classList.remove('Show');
+  fetch(API + '/api/jobs/' + encodeURIComponent(Id))
+    .then(function(R){ return R.json(); })
+    .then(function(Data){
+      if (Data.error || !Data.id) { ShowNotFound(); return; }
+      RenderShipment(Data);
+    })
+    .catch(function(){ ShowNotFound(); });
+  // Push tracking ID to URL
+  if (history.replaceState) history.replaceState({}, '', '?id=' + encodeURIComponent(Id));
+}
+
+function ShowNotFound() {
+  document.getElementById('Result').classList.remove('Show');
+  document.getElementById('NoResult').classList.add('Show');
+}
+
+function RenderShipment(S) {
+  document.getElementById('NoResult').classList.remove('Show');
+  document.getElementById('ResId').textContent = 'TRACKING # ' + S.id.toUpperCase();
+  document.getElementById('ResTitle').textContent = S.title || 'Shipment';
+  document.getElementById('ResRoute').textContent = (S.pickup || '') + ' → ' + (S.delivery || '');
+  var StatusEl = document.getElementById('ResStatus');
+  var Status = S.status || 'pending';
+  var StClass = {
+    'pending':'StPending','available':'StAvailable','accepted':'StAccepted',
+    'in_progress':'StInProgress','completed':'StCompleted','rejected':'StRejected'
+  }[Status] || 'StPending';
+  StatusEl.className = 'ResStatus ' + StClass;
+  var StLabel = { 'in_progress':'In Transit','available':'Available','accepted':'Driver Assigned','completed':'Delivered','pending':'Pending Approval','rejected':'Cancelled' }[Status] || Status;
+  StatusEl.textContent = StLabel;
+
+  document.getElementById('DetPickup').textContent = S.pickup || '-';
+  document.getElementById('DetDelivery').textContent = S.delivery || '-';
+  document.getElementById('DetCargo').textContent = S.cargo || '-';
+  document.getElementById('DetDistance').textContent = S.distance ? (S.distance + ' mi') : '-';
+  document.getElementById('DetWindow').textContent = S.window || S.schedule || (S.createdAt ? new Date(S.createdAt).toLocaleString() : '-');
+  document.getElementById('DetPrice').textContent = S.pay ? '$' + (typeof S.pay === 'number' ? S.pay.toFixed(2) : S.pay) : '-';
+
+  RenderTimeline(S);
+  RenderMap(S);
+  document.getElementById('Result').classList.add('Show');
+}
+
+function RenderTimeline(S) {
+  var Events = [
+    { key:'created', title:'Order Received', done: true, time: S.createdAt },
+    { key:'approved', title:'Approved by Operations', done: ['available','accepted','in_progress','completed'].indexOf(S.status) > -1, time: S.approvedAt },
+    { key:'assigned', title:'Driver Assigned', done: ['accepted','in_progress','completed'].indexOf(S.status) > -1, time: S.acceptedAt },
+    { key:'transit', title:'In Transit', done: S.status === 'completed', current: S.status === 'in_progress' || S.status === 'accepted', time: S.startedAt },
+    { key:'delivered', title:'Delivered', done: S.status === 'completed', time: S.completedAt }
+  ];
+  var H = '';
+  Events.forEach(function(E){
+    var Cls = E.done ? 'Done' : (E.current ? 'Current' : '');
+    var TimeStr = E.time ? new Date(E.time).toLocaleString() : (E.done ? 'Complete' : 'Pending');
+    H += '<div class="TlEvent ' + Cls + '">' +
+      '<div><div class="TlTitle">' + E.title + '</div><div class="TlTime">' + TimeStr + '</div></div>' +
+    '</div>';
+  });
+  document.getElementById('TimelineContent').innerHTML = H;
+}
+
+function RenderMap(S) {
+  if (MapInst) { MapInst.remove(); MapInst = null; }
+  var Lat1 = S.pickupLat || 35.2271, Lng1 = S.pickupLng || -80.8431;
+  var Lat2 = S.deliveryLat || 35.5951, Lng2 = S.deliveryLng || -82.5515;
+  MapInst = L.map('TrackMap', { zoomControl:true }).setView([(Lat1+Lat2)/2, (Lng1+Lng2)/2], 7);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19,subdomains:'abcd'}).addTo(MapInst);
+  var PuIcon = L.divIcon({html:'<div style="width:14px;height:14px;background:#22c55e;border-radius:50%;border:2px solid #fff;box-shadow:0 0 6px #22c55e"></div>',iconSize:[14,14],iconAnchor:[7,7],className:''});
+  var DlIcon = L.divIcon({html:'<div style="width:14px;height:14px;background:#ef4444;border-radius:50%;border:2px solid #fff;box-shadow:0 0 6px #ef4444"></div>',iconSize:[14,14],iconAnchor:[7,7],className:''});
+  L.marker([Lat1,Lng1],{icon:PuIcon}).addTo(MapInst).bindPopup('Pickup: ' + (S.pickup||''));
+  L.marker([Lat2,Lng2],{icon:DlIcon}).addTo(MapInst).bindPopup('Delivery: ' + (S.delivery||''));
+  L.polyline([[Lat1,Lng1],[Lat2,Lng2]],{color:'#ff6b35',weight:4,opacity:.8,dashArray: S.status !== 'completed' ? '8,6' : null}).addTo(MapInst);
+  if (S.status === 'in_progress' || S.status === 'accepted') {
+    var MidLat = (Lat1+Lat2)/2 + (Math.random()-.5)*.1;
+    var MidLng = (Lng1+Lng2)/2 + (Math.random()-.5)*.1;
+    var TruckIcon = L.divIcon({html:'<div style="width:32px;height:32px;background:#ff6b35;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 10px rgba(0,0,0,.5)">&#128666;</div>',iconSize:[32,32],iconAnchor:[16,16],className:''});
+    L.marker([MidLat,MidLng],{icon:TruckIcon}).addTo(MapInst).bindPopup('<b>In Transit</b><br>ETA: 45 min').openPopup();
+  }
+  setTimeout(function(){ MapInst.invalidateSize(); MapInst.fitBounds([[Lat1,Lng1],[Lat2,Lng2]],{padding:[40,40]}); }, 100);
+}
+
+// Auto-track if URL has ?id=
+(function() {
+  var Params = new URLSearchParams(window.location.search);
+  var Id = Params.get('id');
+  if (Id) {
+    document.getElementById('TrackInput').value = Id;
+    TrackShipment();
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+@page "/Itinerary"
+
+<div class="page-header">
+    <h1>Itinerary</h1>
+    <div class="page-subtitle">Jake Martinez &mdash; Tuesday, April 15, 2026 &mdash; 4 deliveries, 287 miles, 44.2 gal fuel</div>
+</div>
+
+<div class="itinerary-timeline">
+    @foreach (var Stop in Stops)
+    {
+        <div class="timeline-item">
+            <div class="timeline-time">@Stop.ArrivalTime.ToString("h:mm tt") &ndash; @Stop.DepartureTime.ToString("h:mm tt") (@Stop.DurationMinutes min)</div>
+            <div class="timeline-location">@Stop.LocationName</div>
+            <div class="timeline-detail">
+                <strong>@Stop.Activity</strong><br />
+                @Stop.Address<br />
+                @Stop.Notes
+            </div>
+            <div class="timeline-coords">@Stop.Latitude.ToString("F4"), @Stop.Longitude.ToString("F4")</div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<ItineraryStopEntity> Stops = new();
+
+    protected override void OnInitialized()
+    {
+        Stops = new List<ItineraryStopEntity>
+        {
+            new()
+            {
+                Order = 1,
+                StopType = StopTypeConstants.PreTripInspection,
+                LocationName = "Wolfs Trucking Depot",
+                Address = "1200 Industrial Blvd, Lenoir, NC 28645",
+                Latitude = 35.9140,
+                Longitude = -81.5390,
+                ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 5, 0, 0),
+                DepartureTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 5, ScheduleConstants.PreTripInspectionMinutes, 0),
+                DurationMinutes = ScheduleConstants.PreTripInspectionMinutes,
+                Activity = "Pre-trip inspection",
+                Notes = "Check tires, brakes, lights, fluid levels. Verify load securement equipment. Log DVIR."
+            },
+            new()
+            {
+                Order = 2,
+                StopType = StopTypeConstants.Pickup,
+                LocationName = "Blue Ridge Furniture Warehouse",
+                Address = "3450 US-70, Hickory, NC 28602",
+                Latitude = 35.7345,
+                Longitude = -81.3412,
+                ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 5, 50, 0),
+                DepartureTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 6, 20, 0),
+                DurationMinutes = ScheduleConstants.LoadingTimeMinutes,
+                Activity = "Load cargo - Blue Ridge Furniture order WTC-2026-0441",
+                Notes = "2,400 lbs furniture. Dock 7. Forklift assist. Verify pallet count and BOL."
+            },
+            new()
+            {
+                Order = 2,
+                StopType = StopTypeConstants.Delivery,
+                LocationName = "Charlotte Distribution Center",
+                Address = "8900 Statesville Rd, Charlotte, NC 28269",
+                Latitude = 35.3268,
+                Longitude = -80.8577,
+                ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 7, 45, 0),
+                DepartureTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 8, ScheduleConstants.PreTripInspectionMinutes, 0),
+                DurationMinutes = ScheduleConstants.UnloadingTimeMinutes,
+                Activity = "Unload delivery 1 - Blue Ridge Furniture",
+                Notes = "Receiving dock B. Signature required (over 50 lbs). Get POD stamp on BOL.",
+                DeliveryId = "WTC-2026-0441"
+            },
+            new()
+            {
+                Order = 2,
+                StopType = StopTypeConstants.Pickup,
+                LocationName = "Charlotte Industrial Park",
+                Address = "4200 Performance Rd, Charlotte, NC 28214",
+                Latitude = 35.2615,
+                Longitude = -80.9842,
+                ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 8, ScheduleConstants.LoadingTimeMinutes + 5, 0),
+                DepartureTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 9, 5, 0),
+                DurationMinutes = ScheduleConstants.LoadingTimeMinutes,
+                Activity = "Load cargo 2 - Piedmont Industrial parts WTC-2026-0442",
+                Notes = "1,800 lbs industrial parts. Bay 3. Secure with straps and edge protectors."
+            },
+            new()
+            {
+                Order = 2,
+                StopType = StopTypeConstants.Delivery,
+                LocationName = "Gastonia Receiving",
+                Address = "1100 Remount Rd, Gastonia, NC 28054",
+                Latitude = 35.2621,
+                Longitude = -81.1874,
+                ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 9, 45, 0),
+                DepartureTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 10, ScheduleConstants.PreTripInspectionMinutes, 0),
+                DurationMinutes = ScheduleConstants.UnloadingTimeMinutes,
+                Activity = "Unload delivery 2 - Piedmont Industrial",
+                Notes = "Dock 2. Forklift on site. Count pieces against manifest.",
+                DeliveryId = "WTC-2026-0442"
+            },
+            new()
+            {
+                Order = 2,
+                StopType = StopTypeConstants.FuelStop,
+                LocationName = "Pilot Travel Center",
+                Address = "I-85 Exit 10B, Gaffney, SC 29341",
+                Latitude = 35.0953,
+                Longitude = -81.6316,
+                ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 10, ScheduleConstants.LoadingTimeMinutes + 5, 0),
+                DepartureTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 10, 50, 0),
+                DurationMinutes = ScheduleConstants.PreTripInspectionMinutes,
+                Activity = "Fuel stop - diesel fill",
+                Notes = "Fill both saddle tanks. Check DEF level. Use fleet fuel card. Save receipt."
+            },
+            new()
+            {
+                Order = 2,
+                StopType = StopTypeConstants.Pickup,
+                LocationName = "Spartanburg Freight Terminal",
+                Address = "200 International Dr, Spartanburg, SC 29303",
+                Latitude = 34.9596,
+                Longitude = -82.0015,
+                ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 11, 40, 0),
+                DepartureTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 12, 10, 0),
+                DurationMinutes = ScheduleConstants.LoadingTimeMinutes,
+                Activity = "Load cargo 3 - Upstate Logistics freight WTC-2026-0443",
+                Notes = "3,200 lbs mixed freight. Verify seal numbers. Two pallets plus loose boxes."
+            },
+            new()
+            {
+                Order = 2,
+                StopType = StopTypeConstants.LunchBreak,
+                LocationName = "Spartanburg Rest Area",
+                Address = "200 International Dr, Spartanburg, SC 29303",
+                Latitude = 34.9596,
+                Longitude = -82.0015,
+                ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 12, 10, 0),
+                DepartureTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 12, 40, 0),
+                DurationMinutes = ScheduleConstants.MandatoryBreakMinutes,
+                Activity = "Mandatory 30-min lunch break",
+                Notes = "FMCSA mandatory break. 30 consecutive minutes off-duty. Log as off-duty in ELD."
+            },
+            new()
+            {
+                Order = 2,
+                StopType = StopTypeConstants.Delivery,
+                LocationName = "Greenville Distribution Hub",
+                Address = "500 Woodruff Rd, Greenville, SC 29607",
+                Latitude = 34.8361,
+                Longitude = -82.3650,
+                ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 13, 10, 0),
+                DepartureTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 13, 40, 0),
+                DurationMinutes = ScheduleConstants.UnloadingTimeMinutes,
+                Activity = "Unload delivery 3 - Upstate Logistics",
+                Notes = "Dock 12. Use pallet jack. Get receiver signature on BOL.",
+                DeliveryId = "WTC-2026-0443"
+            },
+            new()
+            {
+                Order = 2,
+                StopType = StopTypeConstants.Pickup,
+                LocationName = "Anderson SC Warehouse",
+                Address = "2800 Hwy 29, Anderson, SC 29621",
+                Latitude = 34.5034,
+                Longitude = -82.6501,
+                ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 14, 20, 0),
+                DepartureTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 14, 50, 0),
+                DurationMinutes = ScheduleConstants.LoadingTimeMinutes,
+                Activity = "Load cargo 4 - Mountain View Distribution WTC-2026-0444",
+                Notes = "4,100 lbs heavy equipment parts. Signature required. Secure with chains."
+            },
+            new()
+            {
+                Order = 2,
+                StopType = StopTypeConstants.Delivery,
+                LocationName = "Asheville NC Depot",
+                Address = "75 Thompson St, Asheville, NC 28803",
+                Latitude = 35.5732,
+                Longitude = -82.5515,
+                ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 16, 20, 0),
+                DepartureTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 16, 50, 0),
+                DurationMinutes = ScheduleConstants.UnloadingTimeMinutes,
+                Activity = "Unload delivery 4 - Mountain View Distribution",
+                Notes = "Loading dock A. Heavy items, use dock leveler. Get POD and photo confirmation.",
+                DeliveryId = "WTC-2026-0444"
+            },
+            new()
+            {
+                Order = 2,
+                StopType = StopTypeConstants.ReturnToBase,
+                LocationName = "Return to Wolfs Trucking Depot",
+                Address = "1200 Industrial Blvd, Lenoir, NC 28645",
+                Latitude = 35.9140,
+                Longitude = -81.5390,
+                ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 16, 50, 0),
+                DepartureTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 17, 50, 0),
+                DurationMinutes = ScheduleConstants.MinutesPerHour,
+                Activity = "Drive back to depot",
+                Notes = "I-40 East to US-321 North. 58.4 miles. Watch for construction zone near Marion."
+            },
+            new()
+            {
+                Order = 2,
+                StopType = StopTypeConstants.PostTripInspection,
+                LocationName = "Wolfs Trucking Depot",
+                Address = "1200 Industrial Blvd, Lenoir, NC 28645",
+                Latitude = 35.9140,
+                Longitude = -81.5390,
+                ArrivalTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 17, 50, 0),
+                DepartureTime = new DateTime(2026, 4, ScheduleConstants.PreTripInspectionMinutes, 18, 5, 0),
+                DurationMinutes = ScheduleConstants.PostTripInspectionMinutes,
+                Activity = "Post-trip inspection - shift complete",
+                Notes = "Check for damage, leaks, tire condition. Log DVIR. Turn in BOLs and fuel receipts."
+            },
+        };
+    }
+}

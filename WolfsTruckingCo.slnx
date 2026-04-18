@@ -1,0 +1,11 @@
+<Solution>
+  <Project Path="src/WolfsTruckingCo.Domain/WolfsTruckingCo.Domain.csproj" />
+  <Project Path="src/WolfsTruckingCo.Application/WolfsTruckingCo.Application.csproj" />
+  <Project Path="src/WolfsTruckingCo.Infrastructure/WolfsTruckingCo.Infrastructure.csproj" />
+  <Project Path="src/WolfsTruckingCo.Server/WolfsTruckingCo.Server.csproj" />
+  <Project Path="src/WolfsTruckingCo.SharedUI/WolfsTruckingCo.SharedUI.csproj" />
+  <Project Path="src/WolfsTruckingCo.Client/WolfsTruckingCo.Client.csproj" />
+  <Project Path="src/WolfsTruckingCo.Maui/WolfsTruckingCo.Maui.csproj" />
+  <Project Path="src/WolfsTruckingCo.Analyzers/WolfsTruckingCo.Analyzers.csproj" />
+  <Project Path="src/WolfsTruckingCo.Fingerprint/WolfsTruckingCo.Fingerprint.csproj" />
+</Solution>

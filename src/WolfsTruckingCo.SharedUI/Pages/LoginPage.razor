@@ -1,0 +1,32 @@
+@page "/Login"
+
+<div class="login-container">
+    <div class="login-box">
+        <div class="login-brand">Wolfs Trucking Co</div>
+        <div class="login-subtitle">Sign in to access your driver portal, dispatch dashboard, and fleet management tools.</div>
+
+        <div class="sso-grid">
+            <a class="btn btn-google" href="@RouteConstants.ApiAuthGoogle">
+                <span>G</span> Sign in with Google
+            </a>
+            <a class="btn btn-github" href="@RouteConstants.ApiAuthGitHub">
+                <span>&#x2687;</span> Sign in with GitHub
+            </a>
+            <a class="btn btn-azure" href="@RouteConstants.ApiAuthAzure">
+                <span>&#x25A0;</span> Sign in with Azure
+            </a>
+            <a class="btn btn-okta" href="@RouteConstants.ApiAuthOkta">
+                <span>&#x25C9;</span> Sign in with Okta
+            </a>
+        </div>
+
+        <div class="login-divider">
+            <span>SSO via OAuth 2.0 PKCE</span>
+        </div>
+
+        <p style="font-size: 13px; color: var(--wt-text-muted);">
+            Secure single sign-on with PKCE code challenge. Your credentials never touch our servers.
+            Google OIDC, GitHub OAuth, Azure AD OIDC, and Okta OIDC supported.
+        </p>
+    </div>
+</div>
