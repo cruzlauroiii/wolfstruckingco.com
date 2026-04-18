@@ -1,0 +1,27 @@
+@* Reusable map component. Drop in any page; calls WolfsInteropService to mount Leaflet. *@
+@inject SharedUI.Services.WolfsInteropService Js
+@implements IAsyncDisposable
+
+<div id="@ElementId" class="wt-map" style="@($"width:100%;height:{Height}px")"></div>
+
+@code {
+    [Parameter] public string ElementId { get; set; } = "wt-map-default";
+    [Parameter] public double Lat { get; set; } = 34.1808;
+    [Parameter] public double Lng { get; set; } = -118.3090;
+    [Parameter] public int Zoom { get; set; } = 17;
+    [Parameter] public int Height { get; set; } = 500;
+    [Parameter] public string Theme { get; set; } = "dark";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Js.MapInitAsync(ElementId, Lat, Lng, Zoom, Theme);
+        }
+    }
+
+    public ValueTask SetViewAsync(double Lat2, double Lng2, int Zoom2) => Js.MapSetViewAsync(ElementId, Lat2, Lng2, Zoom2);
+    public ValueTask AddPinAsync(double Lat2, double Lng2, string Color = "#ff6b35", string Label = "🚚") => Js.MapAddPinAsync(ElementId, Lat2, Lng2, Color, Label);
+
+    public async ValueTask DisposeAsync() => await Js.MapDestroyAsync(ElementId);
+}

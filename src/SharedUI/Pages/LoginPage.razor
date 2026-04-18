@@ -1,0 +1,31 @@
+@page "/Login"
+
+<div class="LoginWrap">
+    <div class="LoginCard">
+        <div class="Logo">W</div>
+        <h1>Sign in to your account</h1>
+        <p>Access your dashboard, dispatch system, and earnings.</p>
+
+        @if (!string.IsNullOrEmpty(Error))
+        {
+            <div class="ErrMsg">@Error</div>
+        }
+
+        <EditForm class="CredForm" Model="@Form" OnValidSubmit="SubmitAsync" autocomplete="off">
+            <InputText @bind-Value="Form.Email" type="email" placeholder="Email" autocomplete="email" />
+            <InputText @bind-Value="Form.Password" type="password" placeholder="Password" autocomplete="current-password" />
+            <button type="submit" disabled="@Busy">Sign in</button>
+        </EditForm>
+        <div class="CredHint">New here? <a href="SignUp">Create an account</a></div>
+
+        <div class="Divider">or use single sign-on</div>
+
+        <div class="SsoButtons">
+            <a class="SsoBtn" href="https://prtask.com/Api/Auth/Google?redirect=https://cruzlauroiii.github.io/wolfstruckingco.com/app/Login/">Google</a>
+            <a class="SsoBtn" href="https://prtask.com/Api/Auth/GitHub?redirect=https://cruzlauroiii.github.io/wolfstruckingco.com/app/Login/">GitHub</a>
+            <a class="SsoBtn" href="https://prtask.com/Api/Auth/Azure?redirect=https://cruzlauroiii.github.io/wolfstruckingco.com/app/Login/">Microsoft</a>
+            <a class="SsoBtn" href="https://prtask.com/Api/Auth/Okta?redirect=https://cruzlauroiii.github.io/wolfstruckingco.com/app/Login/">Okta</a>
+        </div>
+    </div>
+</div>
+

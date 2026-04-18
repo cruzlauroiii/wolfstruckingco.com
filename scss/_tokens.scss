@@ -1,0 +1,39 @@
+// Design tokens shared by every page — colour palette, radii, breakpoints.
+// Update these and rebuild to restyle the whole platform at once.
+
+$bg:           #0f1419;
+$card:         #1a2332;
+$border:       #2a3a4a;
+$text:         #e8e8e8;
+$text-muted:   #8899aa;
+$accent:       #ff6b35;
+$accent-hover: #ff8c5a;
+$success:      #22c55e;
+$info:         #3b82f6;
+$warning:      #f59e0b;
+$danger:       #ef4444;
+$radius:       12px;
+$radius-sm:    8px;
+$radius-pill:  999px;
+
+// Breakpoints
+$bp-sm: 480px;
+$bp-md: 720px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;
+
+// CSS custom properties — emit once so consumers can still reference var(--accent) etc.
+:root {
+  --bg: #{$bg};
+  --card: #{$card};
+  --border: #{$border};
+  --text: #{$text};
+  --text-muted: #{$text-muted};
+  --accent: #{$accent};
+  --accent-hover: #{$accent-hover};
+  --success: #{$success};
+  --info: #{$info};
+  --warning: #{$warning};
+  --danger: #{$danger};
+  --radius: #{$radius};
+}

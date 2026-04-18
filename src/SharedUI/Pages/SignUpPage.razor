@@ -1,0 +1,25 @@
+@page "/SignUp"
+
+<div class="LoginWrap">
+    <div class="LoginCard">
+        <h1 style="font-size:1.4rem;font-weight:800;margin-bottom:14px">Sign up</h1>
+        <EditForm Model="@Form" OnValidSubmit="SubmitAsync">
+            <div class="Field">
+                <label>Email</label>
+                <InputText @bind-Value="Form.Email" type="email" />
+            </div>
+            <div class="Field">
+                <label>Password</label>
+                <InputText @bind-Value="Form.Password" type="password" />
+            </div>
+            <button class="Btn" type="submit" disabled="@Busy">Create account</button>
+            @if (!string.IsNullOrEmpty(Error))
+            {
+                <p style="color:var(--wt-danger);margin-top:10px">@Error</p>
+            }
+        </EditForm>
+        <div class="Divider"><span>or</span></div>
+        <a class="Btn Ghost" href="/Login">I already have an account</a>
+    </div>
+</div>
+

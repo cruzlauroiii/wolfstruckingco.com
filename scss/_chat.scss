@@ -1,0 +1,134 @@
+// Dispatcher chat — matches dispatcher-chat.js at runtime. If you edit this, also sync
+// the inline CSS in dispatcher-chat.js, or have the JS component reference this class.
+
+@use 'tokens' as *;
+
+.WChat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $radius;
+  padding: 14px;
+  width: 100%;
+}
+
+.WChatLog {
+  flex: 1;
+  min-height: 200px;
+  max-height: 60vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px;
+}
+
+.WMsg {
+  max-width: 90%;
+  padding: 10px 14px;
+  border-radius: $radius-sm;
+  line-height: 1.45;
+  font-size: .92rem;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+
+  &.User  { align-self: flex-end;   background: $accent; color: #fff; }
+  &.Agent { align-self: flex-start; background: rgba(255, 107, 53, .08); border: 1px solid rgba(255, 107, 53, .3); color: $text; }
+
+  .WLabel {
+    display: block;
+    font-size: .7rem;
+    font-weight: 700;
+    opacity: .7;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    margin-bottom: 4px;
+  }
+}
+
+.WForm {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+
+  input {
+    flex: 1;
+    padding: 11px 14px;
+    border-radius: $radius-sm;
+    background: $bg;
+    border: 1px solid $border;
+    color: $text;
+    font-family: inherit;
+    font-size: .95rem;
+
+    &:focus { border-color: $accent; outline: none; }
+  }
+
+  button {
+    padding: 11px 16px;
+    border-radius: $radius-sm;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: .88rem;
+    border: 1px solid transparent;
+    flex-shrink: 0;
+  }
+
+  .WCall {
+    background: rgba(255, 107, 53, .1);
+    border-color: $accent;
+    color: $accent;
+
+    &.Loading    { background: #9ca3af; border-color: #9ca3af; color: #fff; animation: WSpin 1s linear infinite; }
+    &.Listening  { background: $danger;  border-color: $danger;  color: #fff; }
+    &.Speaking   { background: $success; border-color: $success; color: #fff; animation: WPulse 1s infinite; }
+    &.Processing { background: #9ca3af; border-color: #9ca3af; color: #fff; }
+    &.Replying   { background: $info;    border-color: $info;    color: #fff; animation: WPulse 1.2s infinite; }
+  }
+
+  .WSend {
+    background: $accent;
+    color: #fff;
+    border-color: $accent;
+  }
+}
+
+.WStatus { font-size: .74rem; color: $text-muted; min-height: 1em; }
+
+.WInlineUpload {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: rgba(255, 107, 53, .08);
+  border: 1px dashed $accent;
+  border-radius: $radius-sm;
+  font-size: .78rem;
+  flex-wrap: wrap;
+
+  > span {
+    flex: 1;
+    min-width: 160px;
+    color: $accent;
+    font-weight: 600;
+  }
+
+  label {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: $accent;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+  }
+}
+
+@keyframes WSpin { to { transform: rotate(360deg); } }
+@keyframes WPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, .35); }
+  50%      { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+}

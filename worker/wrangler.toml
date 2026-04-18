@@ -1,0 +1,15 @@
+name = "wolfstruckingco"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "wolfstruckingco-relay"
+
+# Anthropic API key pulled from Cloudflare Secrets Store (the vault).
+# No secret value lives in this file; the binding only references the store entry.
+[[secrets_store_secrets]]
+binding = "ANTHROPIC_API_KEY"
+store_id = "712018f9c5a94cdd8db341e70442e6ea"
+secret_name = "ANTHROPIC_API_KEY"

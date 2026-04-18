@@ -1,0 +1,41 @@
+// Form inputs — consistent across Login, SignUp, Employer/Post, etc.
+
+@use 'tokens' as *;
+
+.Field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+
+  label {
+    font-size: .82rem;
+    color: $text-muted;
+    font-weight: 600;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: $radius-sm;
+    background: $bg;
+    border: 1px solid $border;
+    color: $text;
+    font-family: inherit;
+    font-size: .95rem;
+
+    &:focus { border-color: $accent; outline: none; }
+  }
+
+  textarea { resize: vertical; min-height: 72px; }
+}
+
+.Row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+
+  @media (max-width: $bp-md) {
+    grid-template-columns: 1fr;
+  }
+}

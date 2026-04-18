@@ -1,0 +1,68 @@
+@page "/Map"
+
+<div class="Stage" style="padding:0;position:relative;height:100vh;overflow:hidden;background:linear-gradient(180deg,#eef2f7 0%,#dbe2ea 100%)">
+    @if (Latest is not null)
+    {
+        <svg viewBox="0 0 414 800" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" style="display:block;position:absolute;top:0;left:0;right:0;bottom:0">
+            <defs>
+                <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+                    <path d="M 44 0 L 0 0 0 44" fill="none" stroke="#dbe2ea" stroke-width="1"/>
+                </pattern>
+            </defs>
+            <g transform="translate(@CameraDx,@CameraDy)">
+                <rect x="-414" y="-800" width="1242" height="2400" fill="url(#grid)"/>
+                @if (LegBackgroundSvg is not null)
+                {
+                    @((MarkupString)LegBackgroundSvg)
+                }
+                <path d="@MainRoad" fill="none" stroke="#cfd8e3" stroke-width="28" stroke-linecap="round"/>
+                @if (LegLabelsSvg is not null)
+                {
+                    @((MarkupString)LegLabelsSvg)
+                }
+                <path d="@MainRoad" pathLength="100" stroke="#22c55e" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="@($"{Progress},100")"/>
+                <path d="@MainRoad" pathLength="100" stroke="@AheadColor" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="@($"0,{Progress} {100 - Progress},100")"/>
+                <circle cx="40" cy="700" r="14" fill="#22c55e" stroke="#fff" stroke-width="4"/>
+                <text x="40" y="705" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">A</text>
+                <text x="40" y="730" text-anchor="middle" fill="#0f172a" font-size="11" font-weight="800">@LegOrigin</text>
+                <circle cx="360" cy="150" r="14" fill="@AheadColor" stroke="#fff" stroke-width="4"/>
+                <text x="360" y="155" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">B</text>
+                <text x="360" y="130" text-anchor="middle" fill="#0f172a" font-size="11" font-weight="800">@LegDestination</text>
+                <g transform="translate(@(DriverX),@(DriverY))">
+                    <circle cx="0" cy="0" r="22" fill="#0ea5e9" opacity=".22"/>
+                    <circle cx="0" cy="0" r="14" fill="#0ea5e9" stroke="#fff" stroke-width="3"/>
+                    <text x="0" y="5" text-anchor="middle" font-size="15" font-weight="800" fill="#fff">@TurnIcon</text>
+                </g>
+            </g>
+        </svg>
+
+        <div style="position:absolute;top:10px;left:10px;right:10px;background:rgba(255,255,255,.96);border-radius:12px;padding:12px 14px;box-shadow:0 4px 14px rgba(0,0,0,.18);backdrop-filter:blur(6px)">
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px">
+                <div style="font-size:1.6rem;flex:none">@TurnIcon</div>
+                <div style="flex:1;min-width:0">
+                    <div style="font-size:.74rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;font-weight:700">In @RemainingDistance</div>
+                    <div style="font-weight:800;font-size:1rem;line-height:1.25">@TurnText</div>
+                </div>
+            </div>
+            <div style="display:flex;gap:14px;padding-top:8px;border-top:1px solid var(--border)">
+                <div style="flex:1">
+                    <div style="font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;font-weight:700">ETA</div>
+                    <div style="font-weight:800;font-size:1rem;color:var(--accent)">@RemainingEta min</div>
+                </div>
+                <div style="flex:1">
+                    <div style="font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;font-weight:700">Distance</div>
+                    <div style="font-weight:800;font-size:1rem">@RemainingDistance</div>
+                </div>
+                <div style="flex:1">
+                    <div style="font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;font-weight:700">Speed</div>
+                    <div style="font-weight:800;font-size:1rem">62 mph</div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p style="padding:14px">No active navigation.</p>
+    }
+</div>
+

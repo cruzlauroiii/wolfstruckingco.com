@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /Admin/
+Disallow: /Settings/
+
+Sitemap: https://cruzlauroiii.github.io/wolfstruckingco.com/sitemap.xml

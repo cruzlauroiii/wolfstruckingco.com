@@ -1,0 +1,38 @@
+@page "/Investors/KPI"
+
+<div class="Stage" style="padding:14px">
+    <h1 style="font-size:1.4rem;margin-bottom:6px">Platform KPIs</h1>
+    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:14px">Live revenue, payouts, and on-time performance.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+        <div class="Card" style="padding:14px;text-align:center">
+            <div style="color:var(--text-muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:6px">Net revenue</div>
+            <div style="color:var(--accent);font-size:1.6rem;font-weight:800;line-height:1.1">$46,065</div>
+        </div>
+        <div class="Card" style="padding:14px;text-align:center">
+            <div style="color:var(--text-muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:6px">Driver payouts</div>
+            <div style="color:#1e40af;font-size:1.6rem;font-weight:800;line-height:1.1">$2,520</div>
+        </div>
+        <div class="Card" style="padding:14px;text-align:center">
+            <div style="color:var(--text-muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:6px">On-time</div>
+            <div style="color:#14532d;font-size:1.6rem;font-weight:800;line-height:1.1">100%</div>
+        </div>
+        <div class="Card" style="padding:14px;text-align:center">
+            <div style="color:var(--text-muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:6px">Drivers active</div>
+            <div style="color:#9d174d;font-size:1.6rem;font-weight:800;line-height:1.1">4</div>
+        </div>
+    </div>
+
+    <h2 style="font-size:.78rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);font-weight:800;margin-bottom:8px">Recent activity</h2>
+    @foreach (var C in RecentCharges)
+    {
+        <div class="Card Compact" style="display:flex;gap:10px;align-items:flex-start;margin-bottom:6px;padding:10px 12px">
+            <div style="font-weight:800;color:var(--accent);font-size:.95rem;flex:none;min-width:80px">$@((C["amount"]?.GetValue<double>() ?? 0).ToString("N0"))</div>
+            <div style="flex:1;min-width:0">
+                <div style="font-weight:700;font-size:.86rem;line-height:1.3">@(C["terms"]?.ToString())</div>
+                <div style="color:var(--text-muted);font-size:.72rem;margin-top:2px">@(C["at"]?.ToString())</div>
+            </div>
+        </div>
+    }
+</div>
+

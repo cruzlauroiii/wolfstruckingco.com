@@ -1,0 +1,28 @@
+@* Reusable dark/light/auto theme cycler. *@
+@inject SharedUI.Services.WolfsInteropService Js
+
+<button type="button" class="wt-theme-chip" @onclick="CycleAsync" title="Switch theme">
+    @Icon @Label
+</button>
+
+@code {
+    private string Current = "auto";
+
+    protected override async Task OnInitializedAsync() => Current = await Js.ThemeReadAsync();
+
+    private async Task CycleAsync()
+    {
+        Current = Current switch
+        {
+            "auto" => "dark",
+            "dark" => "light",
+            "light" => "auto",
+            _ => "auto",
+        };
+        await Js.ThemeWriteAsync(Current);
+        StateHasChanged();
+    }
+
+    private string Icon => Current switch { "dark" => "🌙", "light" => "☀", _ => "🌗" };
+    private string Label => Current switch { "dark" => "Dark", "light" => "Light", _ => "Auto" };
+}

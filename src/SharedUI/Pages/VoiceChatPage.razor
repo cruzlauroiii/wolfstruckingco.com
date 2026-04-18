@@ -1,0 +1,62 @@
+@page "/VoiceChat"
+
+<div class="PageHeader">
+    <h1>Voice Chat</h1>
+    <div class="Sub">MCP-powered dispatch communication</div>
+</div>
+
+<div class="voicechat-container">
+    <div class="voicechat-status">
+        <div class="status-dot @(IsConnected ?"" : "offline")"></div>
+        <span>@(IsConnected ? "Connected to dispatch" : "Disconnected")</span>
+        <span style="margin-left: auto; font-size: 13px; color: var(--wt-text-muted);">
+            @VoiceChatConstants.ServerName v@VoiceChatConstants.ServerVersion
+        </span>
+    </div>
+
+    <div class="Card">
+        <h2 class="CardTitle">Connection Details</h2>
+        <table class="Table">
+            <tbody>
+                <tr>
+                    <td>Protocol</td>
+                    <td>MCP @VoiceChatConstants.McpProtocolVersion</td>
+                </tr>
+                <tr>
+                    <td>WebSocket Port</td>
+                    <td>@VoiceChatConstants.WebSocketPort</td>
+                </tr>
+                <tr>
+                    <td>Voice</td>
+                    <td>@VoiceChatConstants.DefaultVoice</td>
+                </tr>
+                <tr>
+                    <td>Timeout</td>
+                    <td>@VoiceChatConstants.MessageTimeoutSeconds seconds</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="voicechat-messages">
+        @foreach (var Message in Messages)
+        {
+            <div class="message @(Message.IsUser ?"message-user" : "message-system")">
+                <div style="font-size: 12px; opacity: 0.7; margin-bottom: 4px;">
+                    @(Message.IsUser ? "Driver" : "Dispatch") &mdash; @Message.Timestamp.ToString("h:mm tt")
+                </div>
+                @Message.Text
+            </div>
+        }
+    </div>
+
+    <div style="margin-top: 16px; display: flex; gap: 8px;">
+        <button class="Btn" @onclick="ToggleConnection">
+            @(IsConnected ? "Disconnect" : "Connect")
+        </button>
+        <button class="Btn Ghost" disabled="@(!IsConnected)">
+            Push to Talk
+        </button>
+    </div>
+</div>
+

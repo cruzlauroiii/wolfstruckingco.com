@@ -1,0 +1,764 @@
+[
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/?cb=001",
+    "narration": "Car seller lands on the Wolfs home page.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/SignUp/?cb=002",
+    "narration": "Car seller signs up. She runs a car business in Shanghai.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Login/?cb=003",
+    "narration": "Car seller signs in to post a car for sale.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/?cb=004",
+    "narration": "Car seller is back on the home page and taps Sell to talk to the agent.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=005",
+    "narration": "Car seller starts a chat with the agent to post the car.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=006",
+    "narration": "Agent asks what car and where it is picked up.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=007",
+    "narration": "Agent asks how much cash the driver should bring to the factory.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=008",
+    "narration": "Agent asks who the buyer is and where the car goes.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=009",
+    "narration": "Agent asks the price and how the buyer pays.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=010",
+    "narration": "Agent writes the job and seller publishes it.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Marketplace/?cb=011",
+    "narration": "Seller sees the published BYD Han EV listing live in the marketplace.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/SignUp/?cb=012",
+    "narration": "Driver from China signs up.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Login/?cb=013",
+    "narration": "Driver from China signs in.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Apply/?cb=014",
+    "narration": "Driver from China taps Apply to be a driver.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Applicant/?cb=015",
+    "narration": "Driver from China chats with the Agent. Agent asks his name and years driving.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Applicant/?cb=016",
+    "narration": "Agent asks for his license and China export pass.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Applicant/?cb=017",
+    "narration": "Driver from China sends both scans.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Documents/?cb=018",
+    "narration": "Driver from China uploads his driver\u0027s license and China export pass.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Apply/?cb=019",
+    "narration": "Driver from China sees his application is pending admin approval.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/SignUp/?cb=020",
+    "narration": "Driver from Los Angeles signs up.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Login/?cb=021",
+    "narration": "Driver from Los Angeles signs in.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Apply/?cb=022",
+    "narration": "Driver from Los Angeles taps Apply to be a driver.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Applicant/?cb=023",
+    "narration": "Driver from Los Angeles chats with the Agent and shares his details.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Applicant/?cb=024",
+    "narration": "Agent asks for his TWIC port pass and drayage card.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Applicant/?cb=025",
+    "narration": "Driver from Los Angeles sends both scans.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Documents/?cb=026",
+    "narration": "Driver from Los Angeles uploads his license, port pass, and drayage card.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Apply/?cb=027",
+    "narration": "Driver from Los Angeles sees his application is pending admin approval.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/SignUp/?cb=028",
+    "narration": "Team driver in Phoenix signs up.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Login/?cb=029",
+    "narration": "Team driver in Phoenix signs in.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Apply/?cb=030",
+    "narration": "Team driver in Phoenix taps Apply to be a driver.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Applicant/?cb=031",
+    "narration": "Team driver in Phoenix chats with the Agent and shares his details.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Applicant/?cb=032",
+    "narration": "Agent asks for the team-driver papers.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Applicant/?cb=033",
+    "narration": "Team driver in Phoenix sends the papers.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Documents/?cb=034",
+    "narration": "Team driver in Phoenix uploads team papers and both licenses.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Apply/?cb=035",
+    "narration": "Team driver in Phoenix sees his application is pending admin approval.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/SignUp/?cb=036",
+    "narration": "Driver in Wilmington signs up.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Login/?cb=037",
+    "narration": "Driver in Wilmington signs in.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Apply/?cb=038",
+    "narration": "Driver in Wilmington taps Apply to be a driver.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Applicant/?cb=039",
+    "narration": "Driver in Wilmington chats with the Agent and shares his details.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Applicant/?cb=040",
+    "narration": "Agent asks for the auto-handling cert.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Applicant/?cb=041",
+    "narration": "Driver in Wilmington sends the cert.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Documents/?cb=042",
+    "narration": "Driver in Wilmington uploads his license and auto-handling cert.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Apply/?cb=043",
+    "narration": "Driver in Wilmington sees his application is pending admin approval.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Login/?cb=044",
+    "narration": "Admin signs in to approve the new drivers.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Admin/?cb=045",
+    "narration": "Admin lands on the home page and sees four pending applicants.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/HiringHall/?cb=046",
+    "narration": "Admin sees all four drivers in the list.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/HiringHall/?cb=047",
+    "narration": "Admin clicks Approve all and assigns badges in one batch.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/HiringHall/?cb=048",
+    "narration": "All four drivers are hired at the same time.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Apply/?cb=049",
+    "narration": "Driver from China sees he is hired and goes to the driver home.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dashboard/?cb=050",
+    "narration": "Driver from China lands on the driver home page.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Apply/?cb=051",
+    "narration": "Driver from Los Angeles sees he is hired.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dashboard/?cb=052",
+    "narration": "Driver from Los Angeles lands on the driver home page.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Apply/?cb=053",
+    "narration": "Team driver in Phoenix sees he is hired.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dashboard/?cb=054",
+    "narration": "Team driver in Phoenix lands on the driver home page.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Apply/?cb=055",
+    "narration": "Driver in Wilmington sees he is hired.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dashboard/?cb=056",
+    "narration": "Driver in Wilmington lands on the driver home page.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/?cb=057",
+    "narration": "Car buyer lands on the Wolfs home page.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/SignUp/?cb=058",
+    "narration": "Car buyer signs up. He wants to buy a car.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Login/?cb=059",
+    "narration": "Car buyer signs in to find a car.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Marketplace/?cb=060",
+    "narration": "Car buyer lands on the marketplace and sees the car the seller posted.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Buy/ShipTo/?cb=061",
+    "narration": "Car buyer enters his shipping address.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Buy/Contact/?cb=062",
+    "narration": "Car buyer enters his contact for delivery.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Buy/Window/?cb=063",
+    "narration": "Car buyer picks his delivery day and time.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Buy/Pay/?cb=064",
+    "narration": "Car buyer picks pay on delivery.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Buy/Notes/?cb=065",
+    "narration": "Car buyer adds special instructions and confirms the order.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=066",
+    "narration": "Driver from China starts the map.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=067",
+    "narration": "Voice says: head west to the highway.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=068",
+    "narration": "Voice says: take the exit toward Hefei.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=069",
+    "narration": "Voice says: continue for three hundred kilometers.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=070",
+    "narration": "Voice says: arrive at the BYD factory.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=071",
+    "narration": "Driver from China tells Agent he is at the factory.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=072",
+    "narration": "Agent confirms the cash payment to the factory.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=073",
+    "narration": "Driver from China places the GPS tracker inside the car.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=074",
+    "narration": "Voice says: head east to Shanghai port.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=075",
+    "narration": "Voice says: take the bridge to terminal four.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=076",
+    "narration": "Voice says: arrive at the port.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=077",
+    "narration": "Driver from China loads the car into the ship\u0027s container.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Track/?cb=078",
+    "narration": "The ship leaves Shanghai.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Track/?cb=079",
+    "narration": "Car buyer watches the ship cross the ocean.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Track/?cb=080",
+    "narration": "The ship is halfway to Los Angeles.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Track/?cb=081",
+    "narration": "The ship arrives at Los Angeles.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=082",
+    "narration": "Agent tells driver from Los Angeles the ship is here.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=083",
+    "narration": "Driver from Los Angeles starts the map.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=084",
+    "narration": "Voice says: head north to the port.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=085",
+    "narration": "Voice says: show the port pass at gate B.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=086",
+    "narration": "Voice says: pick up the car from the yard.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=087",
+    "narration": "Driver from Los Angeles tells Agent he picked up the car.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=088",
+    "narration": "Voice says: head east on the highway to Phoenix.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Track/?cb=089",
+    "narration": "GPS telemetry detects heavy congestion ahead on I-10. ETA recomputed automatically.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Schedule/?cb=090",
+    "narration": "System recomputes downstream legs from live traffic.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=091",
+    "narration": "Agent tells the buyer the new ETA.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=092",
+    "narration": "Voice says: arrive at Phoenix.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=093",
+    "narration": "Driver from Los Angeles finishes his leg.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=094",
+    "narration": "Agent tells team driver in Phoenix to start.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=095",
+    "narration": "Team driver in Phoenix starts the map.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=096",
+    "narration": "Voice says: head east on the highway.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=097",
+    "narration": "Voice says: continue east on I-40 through Albuquerque.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=098",
+    "narration": "Voice says: continue to Memphis.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=099",
+    "narration": "Voice says: arrive at the Memphis yard.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=100",
+    "narration": "Team driver in Phoenix finishes the leg.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=101",
+    "narration": "Agent tells driver in Wilmington to start the last leg.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=102",
+    "narration": "Driver in Wilmington starts the map.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=103",
+    "narration": "Voice says: head east on the highway.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=104",
+    "narration": "Voice says: turn south to Wilmington.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=105",
+    "narration": "Voice says: turn onto Oak Street.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Map/?cb=106",
+    "narration": "Voice says: arrive at fourteen-eighteen Oak Street.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=107",
+    "narration": "Driver in Wilmington calls the buyer from the door.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=108",
+    "narration": "Car buyer comes to the door.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=109",
+    "narration": "Car buyer looks at the car.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=110",
+    "narration": "Car buyer pays at the door.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=111",
+    "narration": "Driver in Wilmington takes a delivery photo.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=112",
+    "narration": "Driver in Wilmington hands over the keys.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=113",
+    "narration": "Admin opens the dashboard.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=114",
+    "narration": "All four drivers were paid.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=115",
+    "narration": "Driver from China was paid for leg one.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=116",
+    "narration": "Driver from Los Angeles was paid for leg two.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=117",
+    "narration": "Team driver in Phoenix was paid for leg three.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=118",
+    "narration": "Driver in Wilmington was paid for leg four.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=119",
+    "narration": "Driver from China is paid back for the factory cash.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=120",
+    "narration": "All shipping costs are paid.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=121",
+    "narration": "Customs fees are paid.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=122",
+    "narration": "The buyer paid in full.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=123",
+    "narration": "The platform earned its share.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=124",
+    "narration": "Every delivery was on time.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=125",
+    "narration": "Every payment cleared.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Marketplace/?cb=126",
+    "narration": "The listing is closed.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://localhost:8443/wolfstruckingco.com/Track/?cb=127",
+    "narration": "The order is delivered.",
+    "wait": 3
+  }
+]

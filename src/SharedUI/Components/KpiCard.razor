@@ -1,0 +1,16 @@
+@* Reusable KPI tile — used by Investors/KPI, admin Audit, Driver Performance. *@
+
+<div class="Stat">
+    <div class="Label">@Label</div>
+    <div class="Value">@Value</div>
+    @if (!string.IsNullOrEmpty(Sub))
+    {
+        <div style="margin-top:6px;color:var(--success);font-size:.78rem">@Sub</div>
+    }
+</div>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public string? Sub { get; set; }
+}

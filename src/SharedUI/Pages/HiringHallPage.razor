@@ -1,0 +1,25 @@
+@page "/HiringHall"
+
+
+<div class="Stage" style="padding:14px">
+    <h1 style="font-size:1.4rem;margin-bottom:4px">Hiring Hall</h1>
+    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:14px">All applicants. Approve them in one batch — badges and roles get assigned together.</p>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+        @foreach (var A in Applicants)
+        {
+            <div class="Card Compact" style="display:flex;gap:10px;align-items:center;padding:10px 12px">
+                <div style="width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;flex:none">@FirstLetter(A["name"]?.ToString())</div>
+                <div style="flex:1;min-width:0">
+                    <div style="font-weight:700;font-size:.92rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">@(A["name"]?.ToString())</div>
+                    <div style="color:var(--text-muted);font-size:.78rem">@(A["location"]?.ToString()) · @(A["experienceYears"]?.ToString())y · @(A["email"]?.ToString())</div>
+                </div>
+                <span style="font-size:.74rem;font-weight:700;padding:4px 10px;border-radius:10px;background:@(IsApproved(A) ? "rgba(34,197,94,.14)" : "rgba(255,107,53,.14)");color:@(IsApproved(A) ? "#14532d" : "var(--accent)")">@(IsApproved(A) ? "Approved" : "Pending")</span>
+            </div>
+        }
+    </div>
+
+    <button class="Btn Block">Approve all · assign badges + roles</button>
+    <button class="Btn Ghost Block" style="margin-top:8px">Review one by one</button>
+</div>
+

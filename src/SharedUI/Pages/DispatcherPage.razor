@@ -1,0 +1,39 @@
+@page "/Dispatcher"
+
+<div class="Stage" style="padding:14px">
+    <h1 style="font-size:1.4rem;margin-bottom:6px">Agent</h1>
+    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:14px">Live call. Talk to your driver hands-free.</p>
+
+    <div class="Card" style="padding:14px;text-align:center;margin-bottom:14px;background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);color:#fff;border:none">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:800;margin:0 auto 8px">@Initials</div>
+        <div style="font-weight:700;font-size:1rem;margin-bottom:2px">@(Recipient ?? "Driver")</div>
+        <div style="opacity:.7;font-size:.78rem">On call · 0:42</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+        @foreach (var Pair in Pairs)
+        {
+            <div style="align-self:flex-start;max-width:80%;background:#f3f6fa;border:1px solid var(--border);border-radius:14px 14px 14px 4px;padding:10px 14px;font-size:.9rem">
+                <strong style="color:var(--accent);font-size:.74rem;display:block;margin-bottom:2px">Agent</strong>
+                @Pair.Q
+            </div>
+            <div style="align-self:flex-end;max-width:80%;background:var(--accent);color:#fff;border-radius:14px 14px 4px 14px;padding:10px 14px;font-size:.9rem">
+                <strong style="font-size:.74rem;display:block;margin-bottom:2px;opacity:.85">Driver</strong>
+                @Pair.A
+                @if (!string.IsNullOrEmpty(Pair.Attachment))
+                {
+                    <div style="margin-top:6px;padding:6px 10px;background:rgba(0,0,0,.18);border-radius:8px;font-size:.78rem;display:flex;gap:6px;align-items:center">
+                        <span style="font-size:1rem">📎</span>
+                        <span>@Pair.Attachment</span>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <div style="display:flex;gap:8px;align-items:center;background:#fff;border:1px solid var(--border);border-radius:24px;padding:6px 10px">
+        <button class="Btn Ghost" style="border-radius:50%;width:40px;height:40px;padding:0;font-size:1.1rem;flex:none">📎</button>
+        <input type="text" style="flex:1;border:none;outline:none;padding:10px;font-size:.9rem" placeholder="Type or attach a photo…" />
+        <button class="Btn" style="border-radius:50%;width:44px;height:44px;padding:0;font-size:1rem;flex:none">🎙️</button>
+    </div>
+</div>

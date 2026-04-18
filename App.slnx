@@ -1,0 +1,11 @@
+<Solution>
+  <Project Path="src/Domain/Domain.csproj" />
+  <Project Path="src/Application/Application.csproj" />
+  <Project Path="src/Infrastructure/Infrastructure.csproj" />
+  <Project Path="src/Server/Server.csproj" />
+  <Project Path="src/SharedUI/SharedUI.csproj" />
+  <Project Path="src/Client/Client.csproj" />
+  <Project Path="src/Maui/Maui.csproj" />
+  <Project Path="src/Analyzers/Analyzers.csproj" />
+  <Project Path="src/Fingerprint/Fingerprint.csproj" />
+</Solution>

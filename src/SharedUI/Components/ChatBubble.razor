@@ -1,0 +1,36 @@
+@* Shared chat bubble — used by both Applicant intake and Dispatcher pages. *@
+
+<div class="msg @CssRole">
+    <span class="msg-label">@Label</span>
+    @if (!string.IsNullOrEmpty(Thumbnail))
+    {
+        <div class="msg-attach">
+            <img src="@Thumbnail" alt="@Filename" />
+            <div class="msg-attach-info">
+                <div class="msg-attach-name">📎 @Filename</div>
+                <div class="msg-attach-meta">@SizeKb KB · @Kind</div>
+            </div>
+            @if (OnRemove.HasDelegate)
+            {
+                <button type="button" class="msg-remove" @onclick="OnRemove">✕ Remove</button>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="msg-text">@Content</div>
+    }
+</div>
+
+@code {
+    [Parameter] public string Role { get; set; } = "user";
+    [Parameter] public string Content { get; set; } = "";
+    [Parameter] public string? Filename { get; set; }
+    [Parameter] public string? Thumbnail { get; set; }
+    [Parameter] public string? Kind { get; set; }
+    [Parameter] public int SizeKb { get; set; }
+    [Parameter] public EventCallback OnRemove { get; set; }
+
+    private string CssRole => Role == "user" ? "msg-user" : "msg-agent";
+    private string Label => Role == "user" ? "You" : "Dispatcher";
+}

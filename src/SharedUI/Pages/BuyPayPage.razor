@@ -1,0 +1,17 @@
+@page "/Buy/Pay"
+
+<div class="Stage" style="padding:14px">
+    <h1 style="font-size:1.4rem;margin-bottom:6px">How will you pay?</h1>
+    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:14px">Step 4 of 5 — pay on delivery or in advance.</p>
+    <div style="display:flex;gap:4px;margin-bottom:14px"><div style="flex:1;height:4px;background:var(--accent)"></div><div style="flex:1;height:4px;background:var(--accent)"></div><div style="flex:1;height:4px;background:var(--accent)"></div><div style="flex:1;height:4px;background:var(--accent)"></div><div style="flex:1;height:4px;background:var(--border)"></div></div>
+
+    <div class="Card" style="padding:14px">
+        <div class="PayChoice">
+            <label class="Active"><input type="radio" name="pay" checked /> Pay on delivery (RTP)</label>
+            <label><input type="radio" name="pay" /> Wire in advance</label>
+        </div>
+        <div class="Field"><label>Total to pay at door</label><input type="text" value="$48,500" /></div>
+        <div class="Field"><label>Receipt sent to</label><input type="email" value="sam@buyers.example" /></div>
+        <button class="Btn Block">Next · special instructions</button>
+    </div>
+</div>

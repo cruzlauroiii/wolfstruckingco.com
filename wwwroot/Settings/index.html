@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://basemaps.cartocdn.com" crossorigin>
+<link rel="preconnect" href="https://router.project-osrm.org" crossorigin>
+<link rel="preconnect" href="https://wolfstruckingco.nbth.workers.dev" crossorigin>
+<meta name="description" content="Account settings for Wolfs Trucking Co. — manage your profile, payouts, and notification preferences.">
+<meta property="og:title" content="Settings | Wolfs Trucking Co.">
+<meta property="og:description" content="Account settings for Wolfs Trucking Co. — manage your profile, payouts, and notification preferences.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/wolfstruckingco.com/icon.svg">
+<meta name="twitter:card" content="summary">
+<title>Settings | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<link rel="apple-touch-icon" href="/wolfstruckingco.com/icon.svg">
+<link rel="manifest" href="/wolfstruckingco.com/manifest.json">
+<meta name="theme-color" content="#ff6b35">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--danger:#ef4444;--radius:12px}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+
+.Header{background:var(--card);border-bottom:1px solid var(--border);padding:0 20px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.HeaderLeft{display:flex;align-items:center;gap:16px}
+.BtnBack{color:var(--text-muted);font-size:.9rem;min-height:44px;min-width:44px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;text-decoration:none}
+.BtnBack:hover{color:var(--accent)}
+.HeaderTitle{font-size:1.1rem;font-weight:700}
+
+.Container{max-width:640px;margin:0 auto;padding:24px 20px}
+
+.Section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.SectionHeader{padding:20px;border-bottom:1px solid var(--border)}
+.SectionHeader h2{font-size:1rem;font-weight:700}
+.SectionHeader p{font-size:.8rem;color:var(--text-muted);margin-top:4px}
+.SectionBody{padding:20px}
+
+.FormRow{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.FormRow:last-child{margin-bottom:0}
+.FormLabel{font-size:.85rem;font-weight:600;color:var(--text-muted)}
+.FormInput{padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.95rem;outline:none;min-height:48px;font-family:inherit;transition:border-color .2s}
+.FormInput:focus{border-color:var(--accent)}
+.FormInput::placeholder{color:var(--text-muted)}
+select.FormInput{cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238899aa' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+
+.ToggleRow{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)}
+.ToggleRow:last-child{border-bottom:none}
+.ToggleInfo h3{font-size:.9rem;font-weight:600}
+.ToggleInfo p{font-size:.8rem;color:var(--text-muted);margin-top:2px}
+.Toggle{width:52px;height:28px;border-radius:14px;background:var(--border);cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;min-width:52px;display:flex;align-items:center}
+.Toggle.On{background:var(--success)}
+.ToggleKnob{width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;left:3px;transition:left .2s}
+.Toggle.On .ToggleKnob{left:27px}
+
+.BtnSave{width:100%;padding:14px;border-radius:12px;background:var(--accent);border:none;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;min-height:52px;transition:background .2s;font-family:inherit;margin-top:8px}
+.BtnSave:hover{background:var(--accent-hover)}
+
+.BtnDanger{width:100%;padding:14px;border-radius:12px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--danger);font-size:1rem;font-weight:700;cursor:pointer;min-height:52px;transition:background .2s;font-family:inherit}
+.BtnDanger:hover{background:rgba(239,68,68,.2)}
+
+.VoicePreview{display:flex;align-items:center;gap:12px;margin-top:12px}
+.BtnPreview{padding:10px 20px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-size:.85rem;cursor:pointer;min-height:44px;font-family:inherit;transition:border-color .2s}
+.BtnPreview:hover{border-color:var(--accent)}
+
+.Toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--success);color:#fff;padding:14px 28px;border-radius:12px;font-weight:600;font-size:.9rem;transition:transform .3s ease;z-index:9999}
+.Toast.Show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="Header">
+  <div class="HeaderLeft">
+    <a class="BtnBack" href="/wolfstruckingco.com/Dashboard/">&#8592; Back</a>
+    <div class="HeaderTitle">Settings</div>
+  </div>
+</div>
+
+<div class="Container">
+
+  <div class="Section">
+    <div class="SectionHeader">
+      <h2>Profile</h2>
+      <p>Your personal and professional information.</p>
+    </div>
+    <div class="SectionBody">
+      <div class="FormRow">
+        <label class="FormLabel">Full Name</label>
+        <input class="FormInput" type="text" id="SettingName" placeholder="Your full name">
+      </div>
+      <div class="FormRow">
+        <label class="FormLabel">Email Address</label>
+        <input class="FormInput" type="email" id="SettingEmail" placeholder="your@email.com" readonly style="opacity:.6">
+      </div>
+      <div class="FormRow">
+        <label class="FormLabel">CDL Class</label>
+        <select class="FormInput" id="SettingCdl">
+          <option value="">Select CDL Class</option>
+          <option value="A">Class A - Combination Vehicles</option>
+          <option value="B">Class B - Single Vehicles</option>
+          <option value="C">Class C - Small Vehicles</option>
+          <option value="none">No CDL</option>
+        </select>
+      </div>
+      <div class="FormRow">
+        <label class="FormLabel">Preferred Unit</label>
+        <select class="FormInput" id="SettingUnit">
+          <option value="imperial">Imperial (miles, lbs)</option>
+          <option value="metric">Metric (km, kg)</option>
+        </select>
+      </div>
+      <button class="BtnSave" onclick="SaveProfile()">Save Profile</button>
+    </div>
+  </div>
+
+  <div class="Section">
+    <div class="SectionHeader">
+      <h2>Notifications</h2>
+      <p>Control what alerts you receive and how.</p>
+    </div>
+    <div class="SectionBody">
+      <div class="ToggleRow">
+        <div class="ToggleInfo">
+          <h3>New Job Alerts</h3>
+          <p>Get notified when jobs matching your preferences are posted.</p>
+        </div>
+        <div class="Toggle On" id="ToggleJobs" onclick="ToggleSetting(this)"><div class="ToggleKnob"></div></div>
+      </div>
+      <div class="ToggleRow">
+        <div class="ToggleInfo">
+          <h3>Dispatch Messages</h3>
+          <p>Receive notifications for dispatch chat messages.</p>
+        </div>
+        <div class="Toggle On" id="ToggleDispatch" onclick="ToggleSetting(this)"><div class="ToggleKnob"></div></div>
+      </div>
+      <div class="ToggleRow">
+        <div class="ToggleInfo">
+          <h3>Route Updates</h3>
+          <p>Alerts for traffic, detours, and route changes during delivery.</p>
+        </div>
+        <div class="Toggle On" id="ToggleRoute" onclick="ToggleSetting(this)"><div class="ToggleKnob"></div></div>
+      </div>
+      <div class="ToggleRow">
+        <div class="ToggleInfo">
+          <h3>Earnings Reports</h3>
+          <p>Weekly and monthly earnings summary notifications.</p>
+        </div>
+        <div class="Toggle On" id="ToggleEarnings" onclick="ToggleSetting(this)"><div class="ToggleKnob"></div></div>
+      </div>
+      <div class="ToggleRow">
+        <div class="ToggleInfo">
+          <h3>Sound Effects</h3>
+          <p>Play sounds for notifications and alerts.</p>
+        </div>
+        <div class="Toggle" id="ToggleSound" onclick="ToggleSetting(this)"><div class="ToggleKnob"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="Section">
+    <div class="SectionHeader">
+      <h2>Voice Settings</h2>
+      <p>Configure text-to-speech and voice input for dispatch calls.</p>
+    </div>
+    <div class="SectionBody">
+      <div class="FormRow">
+        <label class="FormLabel">TTS Voice</label>
+        <select class="FormInput" id="SettingVoice" onchange="PreviewVoice()"></select>
+      </div>
+      <div class="FormRow">
+        <label class="FormLabel">Speech Rate</label>
+        <div style="display:flex;align-items:center;gap:12px">
+          <input type="range" id="SettingRate" min="0.5" max="2" step="0.1" value="1" style="flex:1;min-height:44px;accent-color:var(--accent)" aria-label="SettingRate">
+          <span id="RateValue" style="font-size:.85rem;color:var(--text-muted);min-width:40px;text-align:right">1.0x</span>
+        </div>
+      </div>
+      <div class="FormRow">
+        <label class="FormLabel">Speech Pitch</label>
+        <div style="display:flex;align-items:center;gap:12px">
+          <input type="range" id="SettingPitch" min="0.5" max="2" step="0.1" value="1" style="flex:1;min-height:44px;accent-color:var(--accent)" aria-label="SettingPitch">
+          <span id="PitchValue" style="font-size:.85rem;color:var(--text-muted);min-width:40px;text-align:right">1.0x</span>
+        </div>
+      </div>
+      <div class="VoicePreview">
+        <button class="BtnPreview" onclick="TestVoice()">&#9654; Test Voice</button>
+        <span style="font-size:.8rem;color:var(--text-muted)">Plays a sample dispatch message</span>
+      </div>
+      <div class="ToggleRow" style="margin-top:12px">
+        <div class="ToggleInfo">
+          <h3>Auto-Read Messages</h3>
+          <p>Automatically speak incoming dispatch messages during voice calls.</p>
+        </div>
+        <div class="Toggle On" id="ToggleAutoRead" onclick="ToggleSetting(this)"><div class="ToggleKnob"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="Section">
+    <div class="SectionHeader">
+      <h2>Account</h2>
+    </div>
+    <div class="SectionBody">
+      <button class="BtnDanger" onclick="ConfirmLogout()">Sign Out of All Devices</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="Toast" id="Toast">Settings saved</div>
+
+<script>
+(function AuthCheck() {
+  if (!localStorage.getItem('wolfs_session')) {
+    window.location.href = '/wolfstruckingco.com/Login/';
+    return;
+  }
+  var Email = localStorage.getItem('wolfs_email') || '';
+  document.getElementById('SettingEmail').value = Email;
+  var Settings = JSON.parse(localStorage.getItem('wolfs_settings') || '{}');
+  if (Settings.Name) document.getElementById('SettingName').value = Settings.Name;
+  if (Settings.Cdl) document.getElementById('SettingCdl').value = Settings.Cdl;
+  if (Settings.Unit) document.getElementById('SettingUnit').value = Settings.Unit;
+})();
+
+function PopulateVoices() {
+  var Select = document.getElementById('SettingVoice');
+  var Voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+  Select.innerHTML = '';
+  if (Voices.length === 0) {
+    Select.innerHTML = '<option value="">Default Voice</option>';
+    return;
+  }
+  Voices.forEach(function(V, I) {
+    var Opt = document.createElement('option');
+    Opt.value = I;
+    Opt.textContent = V.name + ' (' + V.lang + ')';
+    Select.appendChild(Opt);
+  });
+  var Saved = localStorage.getItem('wolfs_voice_index');
+  if (Saved) Select.value = Saved;
+}
+
+if (window.speechSynthesis) {
+  PopulateVoices();
+  window.speechSynthesis.onvoiceschanged = PopulateVoices;
+}
+
+document.getElementById('SettingRate').oninput = function() {
+  document.getElementById('RateValue').textContent = parseFloat(this.value).toFixed(1) + 'x';
+};
+document.getElementById('SettingPitch').oninput = function() {
+  document.getElementById('PitchValue').textContent = parseFloat(this.value).toFixed(1) + 'x';
+};
+
+function ToggleSetting(El) {
+  El.classList.toggle('On');
+}
+
+function SaveProfile() {
+  var Settings = {
+    Name: document.getElementById('SettingName').value,
+    Cdl: document.getElementById('SettingCdl').value,
+    Unit: document.getElementById('SettingUnit').value
+  };
+  localStorage.setItem('wolfs_settings', JSON.stringify(Settings));
+  localStorage.setItem('wolfs_voice_index', document.getElementById('SettingVoice').value);
+  localStorage.setItem('wolfs_voice_rate', document.getElementById('SettingRate').value);
+  localStorage.setItem('wolfs_voice_pitch', document.getElementById('SettingPitch').value);
+  localStorage.setItem('wolfs_name', Settings.Name);
+  // Persist to R2 in real mode
+  if (localStorage.getItem('wolfs_demo') !== 'true') {
+    var Email = localStorage.getItem('wolfs_email') || '';
+    fetch('https://wolfstruckingco.nbth.workers.dev/api/users').then(function(R){return R.json()}).then(function(Data){
+      if (!Data.items) return;
+      var User = Data.items.find(function(U){ return U.email === Email; });
+      if (User) {
+        fetch('https://wolfstruckingco.nbth.workers.dev/api/users/' + User.id, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ name: Settings.Name, cdl: Settings.Cdl, unit: Settings.Unit, updatedAt: new Date().toISOString() }) }).catch(function(){});
+      }
+    }).catch(function(){});
+  }
+  ShowToast('Settings saved');
+}
+
+function TestVoice() {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  var U = new SpeechSynthesisUtterance('Route updated. Take Interstate 710 South to avoid construction on Interstate 5. Estimated arrival 2:15 PM.');
+  var Voices = window.speechSynthesis.getVoices();
+  var VoiceIndex = parseInt(document.getElementById('SettingVoice').value);
+  if (Voices[VoiceIndex]) U.voice = Voices[VoiceIndex];
+  U.rate = parseFloat(document.getElementById('SettingRate').value);
+  U.pitch = parseFloat(document.getElementById('SettingPitch').value);
+  U.lang = 'en-US';
+  window.speechSynthesis.speak(U);
+}
+
+function PreviewVoice() {
+  TestVoice();
+}
+
+function ConfirmLogout() {
+  if (confirm('Sign out of all devices? You will need to sign in again.')) {
+    localStorage.removeItem('wolfs_session');
+    localStorage.removeItem('wolfs_email');
+    localStorage.removeItem('wolfs_role');
+    localStorage.removeItem('wolfs_onboarded');
+    localStorage.removeItem('wolfs_settings');
+    window.location.href = '/wolfstruckingco.com/Login/';
+  }
+}
+
+function ShowToast(Text) {
+  var Toast = document.getElementById('Toast');
+  Toast.textContent = Text;
+  Toast.classList.add('Show');
+  setTimeout(function() { Toast.classList.remove('Show'); }, 2500);
+}
+</script>
+</body>
+</html>

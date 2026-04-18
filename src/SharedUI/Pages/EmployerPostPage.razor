@@ -1,0 +1,161 @@
+@page "/Employer/Post"
+@inject SharedUI.Services.WolfsInteropService Wolfs
+
+@{
+    var Step = SharedUI.Services.WolfsRenderContext.CurrentStep % 5;
+    var Section = Step switch { 0 => "Vehicle", 1 => "Pickup at the factory", 2 => "Shipping", 3 => "Drop-off at the buyer", _ => "Pay & badges" };
+}
+
+<div class="Stage" style="padding:14px">
+    <h1 style="font-size:1.4rem;margin-bottom:6px">Post a job · @Section</h1>
+    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:8px">Step @(Step + 1) of 5 — fill out @Section.ToLower(), then continue.</p>
+    <div style="display:flex;gap:4px;margin-bottom:14px">
+        @for (int I = 0; I < 5; I++)
+        {
+            <div style="flex:1;height:4px;border-radius:2px;background:@(I <= Step ? "var(--accent)" : "var(--border)")"></div>
+        }
+    </div>
+
+    <div class="Card" style="padding:14px;margin-bottom:12px;@(Step == 0 ? "" : "display:none")">
+        <h2 style="font-size:1rem;margin-bottom:10px">Vehicle</h2>
+        <div class="Field">
+            <label>Title shown to drivers</label>
+            <input type="text" value="2024 BYD Han EV (China origin)" />
+        </div>
+        <div class="Row">
+            <div class="Field"><label>Year</label><input type="text" value="2024" /></div>
+            <div class="Field"><label>Color</label><input type="text" value="Crystal White" /></div>
+        </div>
+        <div class="Field">
+            <label>VIN</label>
+            <input type="text" value="LGXC76ED7N4123456" />
+        </div>
+        <div class="Field">
+            <label>Condition</label>
+            <select><option>Factory sealed — never driven</option><option>New — delivery miles</option><option>Used</option></select>
+        </div>
+    </div>
+
+    <div class="Card" style="padding:14px;margin-bottom:12px;@(Step == 1 ? "" : "display:none")">
+        <h2 style="font-size:1rem;margin-bottom:10px">Pickup at the factory</h2>
+        <div class="Field">
+            <label>Pickup address</label>
+            <input type="text" list="from-options" value="BYD Hefei plant, Anhui, China" placeholder="Start typing a city or facility…" />
+            <datalist id="from-options">
+                <option value="BYD Hefei plant, Anhui, China"></option>
+                <option value="BYD Shenzhen plant, China"></option>
+                <option value="Shanghai Yangshan deep-water port, China"></option>
+                <option value="Port of Shenzhen, China"></option>
+                <option value="Port of Hong Kong, Kwai Chung"></option>
+                <option value="Port of Singapore, Tuas Mega Terminal"></option>
+                <option value="Port of Rotterdam, Maasvlakte"></option>
+                <option value="Port of Hamburg, Germany"></option>
+                <option value="Port of Felixstowe, United Kingdom"></option>
+                <option value="Port of Antwerp-Bruges, Belgium"></option>
+                <option value="Port of Long Beach, California"></option>
+                <option value="Port of Los Angeles — terminal 401"></option>
+                <option value="Port of Oakland, California"></option>
+                <option value="Port of Seattle / Tacoma"></option>
+                <option value="Port of New York / New Jersey, APM Elizabeth"></option>
+                <option value="Port of Savannah, Georgia"></option>
+                <option value="Port of Manzanillo, Mexico"></option>
+                <option value="Port of Santos, Brazil"></option>
+                <option value="Port of Mumbai (Nhava Sheva), India"></option>
+                <option value="Port of Dubai (Jebel Ali), UAE"></option>
+            </datalist>
+        </div>
+        <div class="Row">
+            <div class="Field"><label>Gate / dock</label><input type="text" value="Gate B · Dock 3" /></div>
+            <div class="Field"><label>Pickup hours</label><input type="text" value="08:00 – 18:00" /></div>
+        </div>
+        <div class="Field">
+            <label>Factory contact</label>
+            <input type="text" value="Mr. Liu · BYD export desk" />
+        </div>
+        <div class="Row">
+            <div class="Field"><label>Phone</label><input type="text" value="+86 551 555 0142" /></div>
+            <div class="Field"><label>WeChat</label><input type="text" value="byd-hefei-export" /></div>
+        </div>
+        <div class="Field">
+            <label>Cash to pay at pickup</label>
+            <input type="text" value="$18,000 USD" />
+        </div>
+        <div class="Field">
+            <label>Special instructions</label>
+            <textarea rows="2">Bring printed COR and customs broker letter. Photograph the seal numbers before leaving. Do not break the factory wrap.</textarea>
+        </div>
+    </div>
+
+    <div class="Card" style="padding:14px;margin-bottom:12px;@(Step == 2 ? "" : "display:none")">
+        <h2 style="font-size:1rem;margin-bottom:10px">Shipping</h2>
+        <div class="Row">
+            <div class="Field"><label>Container size</label><select><option>40-ft high-cube</option><option>40-ft standard</option><option>20-ft</option></select></div>
+            <div class="Field"><label>Quantity</label><input type="text" value="1" /></div>
+        </div>
+        <div class="Field">
+            <label>Customs broker</label>
+            <input type="text" value="Sinotrans International" />
+        </div>
+        <div class="Field">
+            <label>Declared value</label>
+            <input type="text" value="$48,500 USD" />
+        </div>
+    </div>
+
+    <div class="Card" style="padding:14px;margin-bottom:12px;@(Step == 3 ? "" : "display:none")">
+        <h2 style="font-size:1rem;margin-bottom:10px">Drop-off at the buyer</h2>
+        <div class="Field">
+            <label>Drop-off address</label>
+            <input type="text" list="to-options" value="1418 Oak Street, Wilmington NC 28401" placeholder="Start typing an address…" />
+            <datalist id="to-options">
+                <option value="1418 Oak Street, Wilmington NC 28401"></option>
+                <option value="100 W 33rd St, New York NY 10001"></option>
+                <option value="200 Spring Street, San Francisco CA 94110"></option>
+                <option value="350 5th Ave, New York NY 10118"></option>
+                <option value="1 Apple Park Way, Cupertino CA 95014"></option>
+                <option value="Trafalgar Square, London WC2N, United Kingdom"></option>
+                <option value="Champs-Élysées, 75008 Paris, France"></option>
+                <option value="Ginza, Chuo City, Tokyo, Japan"></option>
+                <option value="Marina Bay Sands, Singapore"></option>
+                <option value="Bondi Beach, Sydney NSW, Australia"></option>
+                <option value="Avenida Paulista, São Paulo, Brazil"></option>
+                <option value="Plaza Mayor, Madrid, Spain"></option>
+                <option value="Brandenburg Gate, Berlin, Germany"></option>
+                <option value="Connaught Place, New Delhi, India"></option>
+                <option value="Burj Khalifa, Dubai, UAE"></option>
+                <option value="Toronto-Dominion Centre, Toronto ON, Canada"></option>
+                <option value="The Bund, Shanghai, China"></option>
+            </datalist>
+        </div>
+        <div class="Field">
+            <label>Buyer contact</label>
+            <input type="text" value="Sam · Wilmington" />
+        </div>
+        <div class="Row">
+            <div class="Field"><label>Phone</label><input type="text" value="+1 910 555 0148" /></div>
+            <div class="Field"><label>Reach until</label><input type="text" value="22:00 local" /></div>
+        </div>
+    </div>
+
+    <div class="Card" style="padding:14px;margin-bottom:12px;@(Step == 4 ? "" : "display:none")">
+        <h2 style="font-size:1rem;margin-bottom:10px">Pay & badges</h2>
+        <div class="Row">
+            <div class="Field"><label>Total pay</label><input type="text" value="$2,520" /></div>
+            <div class="Field"><label>Legs</label><input type="text" value="4" /></div>
+        </div>
+        <div class="Field">
+            <label>Required badges</label>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">
+                <span style="background:#eef2ff;color:#1e40af;padding:6px 10px;border-radius:14px;font-size:.78rem;font-weight:700">CDL</span>
+                <span style="background:#fef3c7;color:#92400e;padding:6px 10px;border-radius:14px;font-size:.78rem;font-weight:700">Port pass</span>
+                <span style="background:#ecfccb;color:#3f6212;padding:6px 10px;border-radius:14px;font-size:.78rem;font-weight:700">Interstate</span>
+                <span style="background:#fce7f3;color:#9d174d;padding:6px 10px;border-radius:14px;font-size:.78rem;font-weight:700">Team driver</span>
+                <span style="background:#dbeafe;color:#1e3a8a;padding:6px 10px;border-radius:14px;font-size:.78rem;font-weight:700">Auto-handling</span>
+                <span style="background:#fee2e2;color:#7f1d1d;padding:6px 10px;border-radius:14px;font-size:.78rem;font-weight:700">China export</span>
+            </div>
+        </div>
+    </div>
+
+    <button class="Btn Block">Publish job</button>
+</div>
+

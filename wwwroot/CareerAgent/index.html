@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://basemaps.cartocdn.com" crossorigin>
+<link rel="preconnect" href="https://router.project-osrm.org" crossorigin>
+<link rel="preconnect" href="https://wolfstruckingco.nbth.workers.dev" crossorigin>
+<meta name="description" content="Wolfs Career Agent — AI-driven role placement and interview prep for trucking professionals.">
+<meta property="og:title" content="Career Agent | Wolfs Trucking Co.">
+<meta property="og:description" content="Wolfs Career Agent — AI-driven role placement and interview prep for trucking professionals.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/wolfstruckingco.com/icon.svg">
+<meta name="twitter:card" content="summary">
+<title>Career Agent | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<meta name="theme-color" content="#ff6b35">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--info:#3b82f6;--warning:#f59e0b;--radius:12px}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh}
+.TopBar{position:sticky;top:0;z-index:10;background:rgba(15,20,25,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+.Brand{font-weight:800;font-size:1.05rem;display:flex;align-items:center;gap:8px}
+.Brand .Logo{width:28px;height:28px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:.85rem}
+.TopActions{display:flex;gap:10px;align-items:center;font-size:.85rem;color:var(--text-muted)}
+.TopActions a{color:var(--text-muted);text-decoration:none;padding:8px 12px;border-radius:8px}
+.TopActions a:hover{color:var(--accent)}
+.Stage{max-width:960px;margin:0 auto;padding:28px 20px 80px}
+
+.Steps{display:flex;gap:6px;margin-bottom:28px;flex-wrap:wrap}
+.Step{flex:1;min-width:140px;padding:10px 14px;border-radius:8px;background:var(--card);border:1px solid var(--border);font-size:.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px}
+.Step.Active{border-color:var(--accent);color:var(--text)}
+.Step.Done{border-color:var(--success);color:var(--success)}
+.Step b{font-weight:700}
+
+.Card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+.Card h2{font-size:1.1rem;font-weight:700;margin-bottom:6px}
+.Card p.Sub{color:var(--text-muted);font-size:.85rem;margin-bottom:16px}
+
+.Field{margin-bottom:14px}
+.Field label{display:block;font-size:.82rem;margin-bottom:6px;color:var(--text-muted);font-weight:600}
+.Field input,.Field select,.Field textarea{width:100%;padding:11px 14px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.95rem}
+.Field textarea{resize:vertical;min-height:72px}
+.Field input:focus,.Field select:focus,.Field textarea:focus{border-color:var(--accent);outline:none}
+.FormRow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.FormRow{grid-template-columns:1fr}}
+
+.Btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-weight:700;font-size:.95rem;cursor:pointer;font-family:inherit;min-height:44px}
+.Btn:hover{background:var(--accent-hover)}
+.Btn.Ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.Btn.Ghost:hover{border-color:var(--accent);color:var(--accent)}
+.Btn[disabled]{opacity:.5;cursor:not-allowed}
+
+.AgentBubble{background:rgba(255,107,53,.08);border:1px solid rgba(255,107,53,.3);border-radius:var(--radius);padding:18px;margin-bottom:14px;white-space:pre-wrap;line-height:1.55;font-size:.95rem}
+.AgentBubble h3{color:var(--accent);font-size:.85rem;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+
+.JobList{display:grid;gap:12px}
+.JobCard{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px}
+.JobCard h3{font-size:1rem;margin-bottom:4px}
+.JobMeta{font-size:.82rem;color:var(--text-muted);margin-bottom:8px}
+.JobDesc{font-size:.88rem;margin-bottom:10px;line-height:1.5}
+.JobRationale{font-size:.86rem;background:rgba(59,130,246,.08);border-left:3px solid var(--info);padding:10px 12px;border-radius:6px;line-height:1.5;white-space:pre-wrap}
+.JobRationaleLabel{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--info);margin-bottom:4px}
+
+.ChatLog{display:flex;flex-direction:column;gap:10px;max-height:440px;overflow-y:auto;padding:4px}
+.Msg{padding:10px 14px;border-radius:10px;max-width:85%;line-height:1.45;white-space:pre-wrap;font-size:.92rem}
+.Msg.User{background:var(--bg);align-self:flex-end;border:1px solid var(--border)}
+.Msg.Agent{background:rgba(255,107,53,.08);border:1px solid rgba(255,107,53,.3);align-self:flex-start}
+.ChatInput{display:flex;gap:8px;margin-top:14px}
+.ChatInput input{flex:1;padding:12px 16px;border-radius:10px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit}
+.ChatInput input:focus{border-color:var(--accent);outline:none}
+
+.Spinner{display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,107,53,.25);border-top-color:var(--accent);animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.Badge{display:inline-block;padding:3px 8px;border-radius:12px;font-size:.72rem;margin-right:6px;margin-bottom:4px;background:rgba(255,107,53,.1);color:var(--accent);border:1px solid rgba(255,107,53,.3)}
+.Badge.Tag{background:rgba(59,130,246,.1);color:var(--info);border-color:rgba(59,130,246,.3)}
+
+.Hint{font-size:.75rem;color:var(--text-muted);margin-top:8px}
+
+.Hidden{display:none}
+</style>
+</head>
+<body>
+
+<div class="TopBar">
+  <a class="Brand" href="/wolfstruckingco.com/"><span class="Logo">W</span> Career Agent</a>
+  <div class="TopActions">
+    <a href="/wolfstruckingco.com/HiringHall/">Hiring Hall</a>
+    <a href="/wolfstruckingco.com/Dashboard/">Dashboard</a>
+    <a href="/wolfstruckingco.com/Login/">Sign In</a>
+  </div>
+</div>
+
+<div id="KeyModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;max-width:520px;width:100%;padding:28px">
+    <h3 style="font-size:1.1rem;margin-bottom:6px">Use your own Anthropic API key</h3>
+    <p style="color:var(--text-muted);font-size:.85rem;line-height:1.5;margin-bottom:16px">The demo works without a key (template fallback). To see real Claude responses in Steps 2-4, paste an Anthropic key below. It's stored only in your browser (<code style="color:var(--accent)">localStorage</code>) and sent as a request header — never logged by this site.</p>
+    <input id="KeyInput" type="password" placeholder="sk-ant-..." style="width:100%;padding:12px 14px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;margin-bottom:12px">
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="Btn Ghost" onclick="ClearKey()">Clear</button>
+      <button class="Btn Ghost" onclick="CloseKeyModal()">Cancel</button>
+      <button class="Btn" onclick="SaveKey()">Save &amp; enable</button>
+    </div>
+    <p style="font-size:.75rem;color:var(--text-muted);margin-top:12px">Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color:var(--accent)">console.anthropic.com/settings/keys</a>.</p>
+  </div>
+</div>
+<script>
+function OpenKeyModal() {
+  const m = document.getElementById('KeyModal');
+  m.style.display = 'flex';
+  document.getElementById('KeyInput').value = WolfsAI.getKey() || '';
+}
+function CloseKeyModal() { document.getElementById('KeyModal').style.display = 'none'; }
+function SaveKey() {
+  const v = document.getElementById('KeyInput').value.trim();
+  WolfsAI.setKey(v);
+  UpdateAiStatus();
+  CloseKeyModal();
+}
+function ClearKey() { WolfsAI.setKey(''); UpdateAiStatus(); CloseKeyModal(); }
+function UpdateAiStatus() {
+  const el = document.getElementById('AiStatus');
+  if (!el) return;
+  if (WolfsAI.hasKey()) { el.textContent = '🔑 Real Claude on'; el.style.color = 'var(--success)'; }
+  else { el.textContent = '🔑 Use real Claude'; el.style.color = ''; }
+}
+document.getElementById('KeyModal').addEventListener('click', ev => { if (ev.target.id === 'KeyModal') CloseKeyModal(); });
+// Wait for WolfsAI to load before updating status
+(function waitForAi(){ if (window.WolfsAI) UpdateAiStatus(); else setTimeout(waitForAi, 50); })();
+</script>
+
+<div class="Stage">
+
+  <div class="Steps">
+    <div class="Step Active" id="Step1"><b>1.</b>Onboarding</div>
+    <div class="Step" id="Step2"><b>2.</b>Agent activation</div>
+    <div class="Step" id="Step3"><b>3.</b>Job matches</div>
+    <div class="Step" id="Step4"><b>4.</b>Agent chat</div>
+  </div>
+
+  <!-- Step 1: Onboarding -->
+  <div class="Card" id="OnboardCard">
+    <h2>Tell your career agent about yourself</h2>
+    <p class="Sub">This forms the basis for your personalized match surface and career advice. Takes ~60 seconds.</p>
+    <form id="OnboardForm">
+      <div class="FormRow">
+        <div class="Field"><label>Full name</label><input name="name" id="CareerNameInput" required aria-label="Name"></div>
+        <div class="Field"><label>Primary role</label>
+          <select name="role">
+            <option>Port truck driver</option>
+            <option>Long-haul OTR driver</option>
+            <option>Local/regional driver</option>
+            <option>Dispatcher</option>
+            <option>Gatekeeper</option>
+            <option>Warehouse operations</option>
+          </select>
+        </div>
+      </div>
+      <div class="FormRow">
+        <div class="Field"><label>Years of experience</label><input type="number" name="experienceYears" value="8" min="0" max="50" aria-label="Years of experience"></div>
+        <div class="Field"><label>Location</label><input name="location" required value="Wilmington, NC" aria-label="Location"></div>
+      </div>
+      <div class="Field"><label>Credentials you hold (comma-separated)</label>
+        <input name="credentials" value="Class A CDL, TWIC, Hazmat, Medical Exam Cert" aria-label="Credentials">
+      </div>
+      <div class="Field"><label>Career goals — where do you want to be in 2-3 years?</label>
+        <textarea name="careerGoals" required>Move into an Operations Supervisor role at a mid-size port logistics firm without relocating. Want more structured leadership experience.</textarea>
+      </div>
+      <button class="Btn" type="submit">Continue &rarr;</button>
+    </form>
+  </div>
+
+  <!-- Step 2: Agent activation -->
+  <div class="Card Hidden" id="AgentCard">
+    <h2>Your personal career agent</h2>
+    <p class="Sub">A senior-coach-style AI that reads your profile, surfaces matches, and drafts moves on your behalf.</p>
+    <div class="AgentBubble" id="AgentSummary"><span class="Spinner"></span>Generating your profile summary…</div>
+    <button class="Btn" id="ToMatches">See my matches &rarr;</button>
+  </div>
+
+  <!-- Step 3: Job matches -->
+  <div class="Card Hidden" id="MatchesCard">
+    <h2>Top matches for you</h2>
+    <p class="Sub">Why each fits — per-match AI rationale grounded in your profile.</p>
+    <div id="MatchList" class="JobList"></div>
+    <button class="Btn Ghost" id="ToChat" style="margin-top:16px">Talk to your agent &rarr;</button>
+  </div>
+
+  <!-- Step 4: Chat -->
+  <div class="Card Hidden" id="ChatCard">
+    <h2>Chat with your career agent</h2>
+    <p class="Sub">Ask about a specific job, or open-ended coaching. Conversation is multi-turn and grounded in your profile.</p>
+    <div class="ChatLog" id="ChatLog"></div>
+    <form class="ChatInput" id="ChatForm" style="display:flex;gap:8px;align-items:stretch">
+      <input id="ChatInput" placeholder='e.g. "Should I apply for the Operations Supervisor role?"' autocomplete="off" required style="flex:1">
+      <button type="button" id="CallBtn" title="Live voice — click to start, click End to send" style="padding:10px 14px;border-radius:10px;background:rgba(255,107,53,.1);border:1px solid var(--accent);color:var(--accent);font-weight:700;cursor:pointer;font-size:.9rem;font-family:inherit">&#9742; Call</button>
+      <button class="Btn" type="submit">Send</button>
+    </form>
+    <div id="CareerCallStatus" style="font-size:.72rem;color:var(--text-muted);margin-top:4px"></div>
+    <style>@keyframes pulseCall{0%,100%{box-shadow:0 0 0 0 rgba(255,107,53,.6)}50%{box-shadow:0 0 0 10px rgba(255,107,53,0)}}</style>
+    <script>
+    (function(){
+      const SIDECAR=(location.protocol==='https:'?'/sidecar':'http://localhost:9334');
+      const callBtn=document.getElementById('CallBtn');
+      const status=document.getElementById('CareerCallStatus');
+      const chatInput=document.getElementById('ChatInput');
+      let stream=null, rec=null, chunks=[], active=false;
+      function setBtn(label,bg,border,color,anim){ callBtn.textContent=label; callBtn.style.background=bg; callBtn.style.borderColor=border; callBtn.style.color=color; callBtn.style.animation=anim||'none'; }
+      function idle(){ setBtn('☎ Call','rgba(255,107,53,.1)','var(--accent)','var(--accent)'); }
+      async function start(){
+        try { const r=await fetch(SIDECAR+'/health',{cache:'no-store'}); if(!r.ok) throw 0; } catch { status.textContent='⚠️ Voice sidecar not running'; return; }
+        try {
+          if(!stream) stream=await navigator.mediaDevices.getUserMedia({audio:true});
+          rec=new MediaRecorder(stream); chunks=[];
+          rec.ondataavailable=ev=>{ if(ev.data.size) chunks.push(ev.data); };
+          rec.onstop=async ()=>{
+            setBtn('⏳ Processing…','var(--text-muted)','var(--text-muted)','#fff');
+            status.textContent='Transcribing…';
+            const blob=new Blob(chunks,{type:'audio/webm'});
+            try {
+              const r=await fetch(SIDECAR+'/stt',{method:'POST',headers:{'Content-Type':'audio/webm'},body:blob});
+              if(!r.ok) throw new Error('stt '+r.status);
+              const {text}=await r.json();
+              if(!text){ status.textContent='No speech detected.'; idle(); return; }
+              chatInput.value=text;
+              status.textContent='Message: "'+text.slice(0,60)+'"';
+              document.getElementById('ChatForm').requestSubmit();
+              idle();
+            } catch(ex){ status.textContent='Error: '+ex.message; idle(); }
+          };
+          rec.start(); active=true;
+          setBtn('☎ End','#ef4444','#ef4444','#fff');
+          status.textContent='🔴 Recording — speak now, click End to send';
+        } catch(ex){ status.textContent='❌ Mic access denied'; idle(); }
+      }
+      function stop(){ try { if(rec && rec.state==='recording') rec.stop(); } catch {} active=false; }
+      callBtn.addEventListener('click',()=>{ if(active) stop(); else start(); });
+    })();
+    </script>
+    <p class="Hint">Transcript is persisted in your browser (IndexedDB) and will be here when you return.</p>
+  </div>
+
+</div>
+
+<script src="/wolfstruckingco.com/auth-header.js"></script>
+<script src="/wolfstruckingco.com/db.js"></script>
+<script src="/wolfstruckingco.com/ai.js"></script>
+<script>
+(async function() {
+  await WolfsDB.seed();
+
+  let CurrentWorker = null;
+  let CurrentJobs = [];
+  let FocusJob = null;
+  let ChatHistory = [];
+
+  const OnboardCard = document.getElementById('OnboardCard');
+  const AgentCard = document.getElementById('AgentCard');
+  const MatchesCard = document.getElementById('MatchesCard');
+  const ChatCard = document.getElementById('ChatCard');
+
+  function ShowStep(n) {
+    ['Step1','Step2','Step3','Step4'].forEach((id, i) => {
+      const el = document.getElementById(id);
+      el.classList.remove('Active');
+      if (i + 1 < n) el.classList.add('Done');
+      if (i + 1 === n) el.classList.add('Active');
+    });
+  }
+
+  // Try to resume a prior session
+  const ResumeId = await WolfsDB.kvGet('careeragent_worker_id');
+  if (ResumeId) {
+    const existing = await WolfsDB.get('workers', ResumeId);
+    if (existing && existing.careerGoals) {
+      CurrentWorker = existing;
+      const profile = await WolfsDB.get('agentProfiles', existing.id);
+      if (profile) {
+        OnboardCard.classList.add('Hidden');
+        AgentCard.classList.remove('Hidden');
+        document.getElementById('AgentSummary').textContent = profile.summary;
+        ShowStep(2);
+      }
+    }
+  }
+
+  // Pre-fill the name from the current session so staff/admin reviewers don't see someone
+  // else's seeded name when they visit this page.
+  (function prefillCareerName() {
+    var n = (localStorage.getItem('wolfs_name') || '').trim();
+    var e = (localStorage.getItem('wolfs_email') || '').trim();
+    var role = (localStorage.getItem('wolfs_role') || '').trim();
+    var guess = n || (e ? e.split('@')[0] : '') || role || '';
+    var cap = guess ? guess.charAt(0).toUpperCase() + guess.slice(1) : '';
+    var input = document.getElementById('CareerNameInput');
+    if (input && !input.value) input.value = cap;
+  })();
+
+  document.getElementById('OnboardForm').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const fd = new FormData(ev.target);
+    const credentials = (fd.get('credentials') || '').toString().split(',').map(s => s.trim()).filter(Boolean);
+    const worker = {
+      id: 'wkr_' + WolfsDB.uuid(),
+      name: fd.get('name'),
+      roles: [fd.get('role')],
+      experienceYears: parseInt(fd.get('experienceYears'), 10),
+      location: fd.get('location'),
+      careerGoals: fd.get('careerGoals'),
+      badges: credentials,
+      approved: true,
+      createdAt: new Date().toISOString(),
+    };
+    await WolfsDB.put('workers', worker);
+    await WolfsDB.kvSet('careeragent_worker_id', worker.id);
+    CurrentWorker = worker;
+    OnboardCard.classList.add('Hidden');
+    AgentCard.classList.remove('Hidden');
+    ShowStep(2);
+    ActivateAgent();
+  });
+
+  async function ActivateAgent() {
+    const target = document.getElementById('AgentSummary');
+    target.innerHTML = '<span class="Spinner"></span>Your career agent is reading your profile…';
+    const text = await WolfsAI.generateProfileSummary(CurrentWorker);
+    target.textContent = text;
+    await WolfsDB.put('agentProfiles', { workerId: CurrentWorker.id, summary: text, createdAt: new Date().toISOString() });
+  }
+
+  document.getElementById('ToMatches').addEventListener('click', async () => {
+    MatchesCard.classList.remove('Hidden');
+    ShowStep(3);
+    const allJobs = await WolfsDB.all('jobs');
+    // Score simple: same-state gets a boost, then role keyword overlap.
+    const workerState = (CurrentWorker.location || '').split(',').pop().trim();
+    CurrentJobs = allJobs
+      .map(j => {
+        let s = 0;
+        if ((j.location || '').includes(workerState)) s += 5;
+        const roleWords = (CurrentWorker.roles || []).join(' ').toLowerCase();
+        if (roleWords && j.desc && j.desc.toLowerCase().split(/\W+/).some(w => roleWords.includes(w) && w.length > 3)) s += 1;
+        return { ...j, _score: s };
+      })
+      .sort((a, b) => b._score - a._score)
+      .slice(0, 5);
+    const list = document.getElementById('MatchList');
+    list.innerHTML = '';
+    for (const job of CurrentJobs) {
+      const card = document.createElement('div');
+      card.className = 'JobCard';
+      card.innerHTML = `
+        <h3>${job.title}</h3>
+        <div class="JobMeta">${job.company} &middot; ${job.location} &middot; ${job.payRange} &middot; ${job.shift}</div>
+        <div class="JobDesc">${job.desc}</div>
+        <div class="JobRationaleLabel">Why this fits you</div>
+        <div class="JobRationale" id="rat_${job.id}"><span class="Spinner"></span>Generating rationale…</div>
+        <div style="margin-top:12px"><button class="Btn Ghost" data-jobid="${job.id}" style="font-size:.85rem;padding:8px 14px">Discuss with agent &rarr;</button></div>
+      `;
+      list.appendChild(card);
+      WolfsAI.generateMatchRationale(CurrentWorker, job).then(text => {
+        const slot = document.getElementById('rat_' + job.id);
+        if (slot) slot.textContent = text;
+      });
+    }
+    list.querySelectorAll('button[data-jobid]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        FocusJob = CurrentJobs.find(j => j.id === btn.dataset.jobid);
+        document.getElementById('ChatInput').value = `Should I apply for the ${FocusJob.title} role at ${FocusJob.company}?`;
+        document.getElementById('ToChat').click();
+      });
+    });
+  });
+
+  document.getElementById('ToChat').addEventListener('click', async () => {
+    ChatCard.classList.remove('Hidden');
+    ShowStep(4);
+    ChatCard.scrollIntoView({ behavior: 'smooth' });
+    // Restore chat if any
+    const prior = await WolfsDB.get('chatSessions', 'chat_' + CurrentWorker.id);
+    if (prior && prior.messages) {
+      ChatHistory = prior.messages;
+      RenderChat();
+    }
+  });
+
+  function RenderChat() {
+    const log = document.getElementById('ChatLog');
+    log.innerHTML = '';
+    for (const m of ChatHistory) {
+      const div = document.createElement('div');
+      div.className = 'Msg ' + (m.role === 'user' ? 'User' : 'Agent');
+      div.textContent = m.content;
+      log.appendChild(div);
+    }
+    log.scrollTop = log.scrollHeight;
+  }
+
+  document.getElementById('ChatForm').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const inp = document.getElementById('ChatInput');
+    const msg = inp.value.trim();
+    if (!msg) return;
+    inp.value = '';
+    ChatHistory.push({ role: 'user', content: msg });
+    RenderChat();
+    const log = document.getElementById('ChatLog');
+    const placeholder = document.createElement('div');
+    placeholder.className = 'Msg Agent';
+    placeholder.innerHTML = '<span class="Spinner"></span>Thinking…';
+    log.appendChild(placeholder);
+    log.scrollTop = log.scrollHeight;
+    const reply = await WolfsAI.chat(CurrentWorker, FocusJob, ChatHistory.slice(0, -1), msg);
+    placeholder.remove();
+    ChatHistory.push({ role: 'assistant', content: reply });
+    RenderChat();
+    await WolfsDB.put('chatSessions', { id: 'chat_' + CurrentWorker.id, messages: ChatHistory, updatedAt: new Date().toISOString() });
+  });
+})();
+</script>
+
+</body>
+</html>

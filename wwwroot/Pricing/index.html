@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://basemaps.cartocdn.com" crossorigin>
+<link rel="preconnect" href="https://router.project-osrm.org" crossorigin>
+<link rel="preconnect" href="https://wolfstruckingco.nbth.workers.dev" crossorigin>
+<title>Freight Shipping Rates & Pricing | $1.45/mi | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<link rel="apple-touch-icon" href="/wolfstruckingco.com/icon.svg">
+<link rel="manifest" href="/wolfstruckingco.com/manifest.json">
+<meta name="theme-color" content="#ff6b35">
+<script src="/wolfstruckingco.com/theme.js" defer></script>
+
+<meta name="description" content="Transparent freight pricing. $1.45 per mile base rate, $35 weight surcharge over 10,000 lbs, $25 per additional stop, 30% rush premium. Instant quote calculator — no broker markup.">
+<meta name="keywords" content="freight shipping rates, trucking pricing, LTL rates, FTL rates, per mile freight cost, freight quote calculator, trucking cost per mile, reefer freight rates, flatbed rates">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<link rel="canonical" href="https://cruzlauroiii.github.io/wolfstruckingco.com/Pricing/">
+<meta property="og:title" content="Freight Pricing | Wolfs Trucking Co. — $1.45/mile transparent rates">
+<meta property="og:description" content="Clear, transparent trucking rates. Get an instant quote in seconds. No hidden fees, no broker markup.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"PriceSpecification",
+  "name":"Wolfs Trucking Freight Rates",
+  "price":"1.45",
+  "priceCurrency":"USD",
+  "unitText":"per mile",
+  "description":"Base rate per mile for freight trucking. Weight surcharges apply over 10,000 lbs. Multi-stop deliveries and rush orders have additional fees."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"How much does trucking cost per mile?","acceptedAnswer":{"@type":"Answer","text":"Wolfs Trucking Co. charges a base rate of $1.45 per mile, significantly below industry-average broker rates of $2.00-$2.50/mile."}},
+    {"@type":"Question","name":"What freight weight surcharges apply?","acceptedAnswer":{"@type":"Answer","text":"$35 surcharge for loads between 10,000-20,000 lbs. $75 surcharge for loads over 20,000 lbs. No surcharge under 10,000 lbs."}},
+    {"@type":"Question","name":"Is there a multi-stop fee?","acceptedAnswer":{"@type":"Answer","text":"Yes — $25 per additional delivery stop. First stop included in base price. Great for distribution runs."}},
+    {"@type":"Question","name":"What is rush delivery pricing?","acceptedAnswer":{"@type":"Answer","text":"Rush delivery adds 30% to the base price for next-available-truck priority dispatch."}}
+  ]
+}
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--warning:#f59e0b;--radius:12px}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(15,20,25,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.NavBrand{font-size:1.1rem;font-weight:800;display:flex;align-items:center;gap:10px;color:var(--text)}
+.NavBrand span{color:var(--accent)}
+.NavLinks{display:flex;gap:18px;align-items:center}
+.NavLinks a{color:var(--text-muted);font-size:.9rem;font-weight:500}
+.NavLinks a:hover{color:var(--accent)}
+.NavCta{background:var(--accent);color:#fff!important;padding:8px 18px;border-radius:8px;font-weight:700}
+.NavCta:hover{background:var(--accent-hover)}
+
+.Hero{padding:60px 20px 40px;text-align:center;max-width:900px;margin:0 auto;background:linear-gradient(180deg,rgba(255,107,53,.06) 0%,transparent 80%)}
+.Hero h1{font-size:clamp(2rem,4vw,3rem);font-weight:900;margin-bottom:14px;line-height:1.15}
+.Hero h1 span{color:var(--accent)}
+.Hero p{color:var(--text-muted);font-size:1.05rem;max-width:620px;margin:0 auto}
+
+.RateCards{max-width:1100px;margin:30px auto;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.Rate{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;text-align:center;transition:border-color .2s}
+.Rate:hover{border-color:var(--accent)}
+.Rate h3{font-size:.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-weight:700}
+.Rate .Price{font-size:2rem;font-weight:900;color:var(--accent)}
+.Rate .Unit{font-size:.85rem;color:var(--text-muted);margin-top:4px}
+.Rate p{font-size:.82rem;color:var(--text-muted);margin-top:10px;line-height:1.5}
+
+.Calc{max-width:720px;margin:40px auto;padding:0 20px}
+.CalcCard{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;overflow:hidden}
+.CalcHead{margin-bottom:22px}
+.CalcHead h2{font-size:1.4rem;font-weight:800;margin-bottom:6px}
+.CalcHead p{font-size:.9rem;color:var(--text-muted)}
+.CalcGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.CalcFull{grid-column:1/-1}
+.CalcField{display:flex;flex-direction:column;gap:6px}
+.CalcField label{font-size:.8rem;color:var(--text-muted);font-weight:600}
+.CalcField input,.CalcField select{padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.95rem;font-family:inherit;outline:none}
+.CalcField input:focus,.CalcField select:focus{border-color:var(--accent)}
+.CalcCheck{display:flex;align-items:center;gap:8px;padding:12px 0;font-size:.9rem}
+.CalcCheck input{width:20px;height:20px;cursor:pointer;accent-color:var(--accent)}
+.CalcResult{margin-top:18px;padding:22px;background:var(--bg);border:2px solid var(--accent);border-radius:12px;text-align:center;display:none}
+.CalcResult.Show{display:block}
+.CalcResult .Total{font-size:2.4rem;font-weight:900;color:var(--accent)}
+.CalcResult .Breakdown{font-size:.85rem;color:var(--text-muted);margin-top:10px;line-height:1.7}
+.CalcResult .BookBtn{display:inline-block;margin-top:16px;padding:14px 32px;border-radius:10px;background:var(--accent);color:#fff;font-size:.95rem;font-weight:700;min-height:48px}
+.CalcResult .BookBtn:hover{background:var(--accent-hover);color:#fff}
+
+.Compare{max-width:1000px;margin:40px auto;padding:0 20px}
+.Compare h2{text-align:center;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;margin-bottom:10px}
+.Compare .Sub{text-align:center;color:var(--text-muted);font-size:.95rem;margin-bottom:28px}
+.CompareTable{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.CompareTable th,.CompareTable td{padding:14px 18px;text-align:left;font-size:.9rem;border-bottom:1px solid var(--border)}
+.CompareTable th{background:rgba(0,0,0,.25);font-size:.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.CompareTable tr:last-child td{border-bottom:none}
+.CompareTable .Us{color:var(--success);font-weight:700}
+.CompareTable .Them{color:var(--text-muted)}
+
+.Faq{max-width:820px;margin:40px auto;padding:0 20px}
+.Faq h2{text-align:center;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;margin-bottom:24px}
+.FaqItem{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden}
+.FaqQ{padding:18px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:.95rem;user-select:none}
+.FaqQ:hover{background:rgba(255,107,53,.04)}
+.FaqQ .Arrow{color:var(--accent);font-size:1.1rem;transition:transform .2s}
+.FaqItem.Open .Arrow{transform:rotate(180deg)}
+.FaqA{padding:0 20px 18px;color:var(--text-muted);font-size:.92rem;line-height:1.7;display:none}
+.FaqItem.Open .FaqA{display:block}
+
+.CtaBar{background:var(--card);border-top:1px solid var(--border);padding:40px 20px;text-align:center;margin-top:60px}
+.CtaBar h3{font-size:1.4rem;font-weight:800;margin-bottom:10px}
+.CtaBar p{color:var(--text-muted);font-size:.95rem;margin-bottom:20px}
+.CtaBar a{display:inline-block;padding:14px 28px;border-radius:10px;font-weight:700;font-size:.95rem;margin:0 6px}
+.CtaPrimary{background:var(--accent);color:#fff!important}
+.CtaPrimary:hover{background:var(--accent-hover)}
+.CtaSecondary{background:transparent;border:2px solid var(--accent);color:var(--accent)!important}
+.CtaSecondary:hover{background:rgba(255,107,53,.1)}
+
+@media(max-width:600px){
+  .CalcGrid{grid-template-columns:1fr}
+  .CompareTable{font-size:.82rem}
+  .CompareTable th,.CompareTable td{padding:10px 12px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="NavBrand" href="/wolfstruckingco.com/"><span>W</span> Wolfs Trucking Co.</a>
+  <div class="NavLinks">
+    <a href="/wolfstruckingco.com/Pricing/">Pricing</a>
+    <a href="/wolfstruckingco.com/Track/">Track</a>
+    <a href="/wolfstruckingco.com/#ShipWithUs">Ship</a>
+    <a class="NavCta" href="/wolfstruckingco.com/Login/">Sign In</a>
+  </div>
+</nav>
+
+<section class="Hero">
+  <h1>Transparent Freight Pricing<br><span>$1.45 per mile.</span> No hidden fees.</h1>
+  <p>Industry brokers charge $2.00-$2.50/mile. We eliminate the middleman and pass the savings to you. Clear, predictable rates with instant quotes.</p>
+</section>
+
+<div class="RateCards">
+  <div class="Rate"><h3>Base Rate</h3><div class="Price">$1.45</div><div class="Unit">per mile</div><p>All loads, all lanes. Same rate whether 10 miles or 1,000.</p></div>
+  <div class="Rate"><h3>Weight Surcharge</h3><div class="Price">$35-$75</div><div class="Unit">when over 10K lbs</div><p>$35 for 10K-20K lbs, $75 over 20K lbs. Most standard loads pay nothing extra.</p></div>
+  <div class="Rate"><h3>Multi-Stop Fee</h3><div class="Price">$25</div><div class="Unit">per extra stop</div><p>First stop included. Add up to 10 delivery stops for distribution runs.</p></div>
+  <div class="Rate"><h3>Rush Premium</h3><div class="Price">+30%</div><div class="Unit">same-day dispatch</div><p>Next available truck. Pay standard rate for scheduled or next-day.</p></div>
+</div>
+
+<div class="Calc">
+  <div class="CalcCard">
+    <div class="CalcHead">
+      <h2>Instant Quote Calculator</h2>
+      <p>Enter your shipment details for an exact price quote — no signup required.</p>
+    </div>
+    <div class="CalcGrid">
+      <div class="CalcField CalcFull"><label>Distance (miles)</label><input id="CalcDist" type="number" placeholder="e.g. 100" min="1" value="100"></div>
+      <div class="CalcField"><label>Weight (lbs)</label><input id="CalcWeight" type="number" placeholder="e.g. 5000" min="0" value="5000"></div>
+      <div class="CalcField"><label>Delivery Stops</label><input id="CalcStops" type="number" min="1" max="10" value="1" aria-label="Number"></div>
+      <div class="CalcField CalcFull CalcCheck"><input type="checkbox" id="CalcRush"><label for="CalcRush" style="cursor:pointer;color:var(--text)">Rush delivery (+30%) — next available truck</label></div>
+    </div>
+    <div class="CalcResult" id="CalcResult">
+      <div class="Total" id="CalcTotal">$0.00</div>
+      <div class="Breakdown" id="CalcBreakdown"></div>
+      <a class="BookBtn" href="/wolfstruckingco.com/#ShipWithUs">Book This Shipment &#8594;</a>
+    </div>
+  </div>
+</div>
+
+<div class="Compare">
+  <h2>Why We Beat Broker Rates</h2>
+  <p class="Sub">Most freight goes through 2-3 brokers — each taking 15-30%. We own our trucks, so you pay one transparent rate.</p>
+  <table class="CompareTable">
+    <thead><tr><th>Cost Factor</th><th>Wolfs Trucking</th><th>Typical Broker</th></tr></thead>
+    <tbody>
+      <tr><td><b>Base rate per mile</b></td><td class="Us">$1.45</td><td class="Them">$2.00 - $2.50</td></tr>
+      <tr><td><b>Fuel surcharge</b></td><td class="Us">Included</td><td class="Them">+5-10%</td></tr>
+      <tr><td><b>Broker markup</b></td><td class="Us">$0</td><td class="Them">15-30%</td></tr>
+      <tr><td><b>Hidden fees</b></td><td class="Us">None</td><td class="Them">Lumper, detention, accessorial</td></tr>
+      <tr><td><b>Quote time</b></td><td class="Us">Instant</td><td class="Them">2-4 hours</td></tr>
+      <tr><td><b>Real-time tracking</b></td><td class="Us">Free</td><td class="Them">$0-$50/shipment</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="Faq">
+  <h2>Pricing FAQ</h2>
+  <div class="FaqItem" onclick="this.classList.toggle('Open')"><div class="FaqQ">How is distance calculated? <span class="Arrow">&#9662;</span></div><div class="FaqA">We use real driving distance via OSRM routing — not straight-line miles. Includes actual road network, highway preferences, and avoids restricted zones.</div></div>
+  <div class="FaqItem" onclick="this.classList.toggle('Open')"><div class="FaqQ">Do you charge for empty miles or deadhead? <span class="Arrow">&#9662;</span></div><div class="FaqA">No. Our $1.45/mile rate covers the loaded miles only. We absorb deadhead costs as part of operating 52 trucks with efficient dispatch.</div></div>
+  <div class="FaqItem" onclick="this.classList.toggle('Open')"><div class="FaqQ">What about loading/unloading time (detention)? <span class="Arrow">&#9662;</span></div><div class="FaqA">First 2 hours included at pickup and delivery. After that, $50/hour detention. Most shippers finish in under 1 hour with appointment scheduling.</div></div>
+  <div class="FaqItem" onclick="this.classList.toggle('Open')"><div class="FaqQ">Do you offer volume discounts? <span class="Arrow">&#9662;</span></div><div class="FaqA">Yes. 10% discount on 10+ loads/month, 15% on 50+ loads/month. Contact (818) 624-0454 to set up a dedicated account.</div></div>
+  <div class="FaqItem" onclick="this.classList.toggle('Open')"><div class="FaqQ">What payment methods do you accept? <span class="Arrow">&#9662;</span></div><div class="FaqA">Credit card (instant), ACH/wire transfer, and Net 30 terms for approved accounts with established credit.</div></div>
+  <div class="FaqItem" onclick="this.classList.toggle('Open')"><div class="FaqQ">Is there insurance included? <span class="Arrow">&#9662;</span></div><div class="FaqA">Standard cargo insurance up to $100K included. Higher coverage available on request for high-value shipments (electronics, pharma, automotive).</div></div>
+</div>
+
+<div class="CtaBar">
+  <h3>Ready to Ship?</h3>
+  <p>Get an instant quote in seconds. No signup required.</p>
+  <a class="CtaPrimary" href="/wolfstruckingco.com/#ShipWithUs">Book a Shipment</a>
+  <a class="CtaSecondary" href="/wolfstruckingco.com/Login/#demo">Try Client Portal Demo</a>
+</div>
+
+<script>
+var API = 'https://wolfstruckingco.nbth.workers.dev';
+
+function Calc() {
+  var Dist = parseInt(document.getElementById('CalcDist').value) || 0;
+  var Weight = parseInt(document.getElementById('CalcWeight').value) || 0;
+  var Stops = Math.max(1, parseInt(document.getElementById('CalcStops').value) || 1);
+  var Rush = document.getElementById('CalcRush').checked;
+
+  if (Dist < 1) {
+    document.getElementById('CalcResult').classList.remove('Show');
+    return;
+  }
+
+  var Rate = 1.45;
+  var WSurcharge = Weight > 20000 ? 75 : Weight > 10000 ? 35 : 0;
+  var StopFee = (Stops - 1) * 25;
+  var Base = Dist * Rate + WSurcharge + StopFee;
+  var RushFee = Rush ? Base * 0.3 : 0;
+  var Total = Math.round((Base + RushFee) * 100) / 100;
+
+  document.getElementById('CalcTotal').textContent = '$' + Total.toFixed(2);
+  var Parts = [Dist + ' mi &times; $' + Rate + '/mi = $' + (Dist * Rate).toFixed(2)];
+  if (WSurcharge) Parts.push('Weight surcharge: +$' + WSurcharge);
+  if (StopFee) Parts.push((Stops - 1) + ' extra stops: +$' + StopFee);
+  if (RushFee) Parts.push('Rush premium (30%): +$' + RushFee.toFixed(2));
+  document.getElementById('CalcBreakdown').innerHTML = Parts.join('<br>');
+  document.getElementById('CalcResult').classList.add('Show');
+}
+
+document.getElementById('CalcDist').addEventListener('input', Calc);
+document.getElementById('CalcWeight').addEventListener('input', Calc);
+document.getElementById('CalcStops').addEventListener('input', Calc);
+document.getElementById('CalcRush').addEventListener('change', Calc);
+Calc();
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+@page "/Apply"
+
+<div class="Stage" style="padding:14px">
+    @if (Status == StatusFresh)
+    {
+        <h1 style="font-size:1.4rem;margin-bottom:6px">Want to drive for Wolfs?</h1>
+        <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:14px">Apply once. The agent interviews you, asks for your scans, and tells the admin you're ready.</p>
+
+        <div class="Card" style="padding:16px;margin-bottom:14px">
+            <h2 style="font-size:1rem;margin-bottom:10px">What you need to apply</h2>
+            <ul style="padding-left:20px;color:var(--text-muted);font-size:.86rem;line-height:1.7;margin:0">
+                <li>Your driver's license (front and back)</li>
+                <li>Your medical card</li>
+                <li>Any port pass, drayage card, or interstate authority you have</li>
+                <li>Auto-handling cert if you do final-mile</li>
+                <li>Team-driver papers if you drive with a partner</li>
+                <li>China export pass for cross-border China pickups</li>
+            </ul>
+        </div>
+
+        <a href="Applicant" class="Btn Block">Start application — chat with agent</a>
+    }
+    else if (Status == StatusPending)
+    {
+        <h1 style="font-size:1.4rem;margin-bottom:6px">Application sent</h1>
+        <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:14px">Admin is reviewing your scans and badges. You'll get a notification when you're hired.</p>
+
+        <div class="Card" style="background:#fef3c7;border:1px solid #f59e0b;padding:16px;margin-bottom:14px">
+            <div style="display:flex;gap:10px;align-items:flex-start">
+                <div style="font-size:1.6rem;line-height:1">⏳</div>
+                <div>
+                    <div style="font-weight:700;color:#92400e">Pending admin approval</div>
+                    <div style="color:#92400e;font-size:.84rem;margin-top:2px">Most reviews finish within an hour during business hours.</div>
+                </div>
+            </div>
+        </div>
+
+        <a href="Applicant" class="Btn Ghost Block">View my chat</a>
+        <a href="Documents" class="Btn Ghost Block" style="margin-top:8px">View my documents</a>
+    }
+    else
+    {
+        <h1 style="font-size:1.4rem;margin-bottom:6px">@Greeting</h1>
+        <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:14px">@SubtitleHired</p>
+        <div class="Card" style="background:#dcfce7;border:1px solid #16a34a;padding:14px;margin-bottom:14px">
+            <div style="display:flex;gap:10px;align-items:center">
+                <div style="font-size:1.6rem">🎉</div>
+                <div>
+                    <div style="font-weight:800;color:#14532d">Badges assigned: @Badges</div>
+                    <div style="color:#14532d;font-size:.84rem;margin-top:2px">First job offer is waiting on your driver home.</div>
+                </div>
+            </div>
+        </div>
+        <a href="Dashboard" class="Btn Block">Go to driver home</a>
+    }
+</div>

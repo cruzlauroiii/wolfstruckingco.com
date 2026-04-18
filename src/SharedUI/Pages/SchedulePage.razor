@@ -1,0 +1,31 @@
+@page "/Schedule"
+
+<div class="Stage" style="padding:14px">
+    <h1 style="font-size:1.4rem;margin-bottom:6px">Today's schedule</h1>
+    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:14px">Active job · 4-leg international relay · ETA tracked live.</p>
+
+    @if (Latest is not null)
+    {
+        <div class="Card" style="background:rgba(255,107,53,.08);border:2px solid var(--accent);padding:14px;margin-bottom:14px">
+            <div style="font-size:.78rem;text-transform:uppercase;letter-spacing:1px;color:var(--accent);font-weight:800;margin-bottom:4px">Up next</div>
+            <div style="font-weight:700;font-size:1.05rem;margin-bottom:6px">@(Latest["from"]?.ToString()) → @(Latest["to"]?.ToString())</div>
+            <div style="color:var(--text-muted);font-size:.86rem">@(Latest["mileage"]?.ToString()) mi · @(Latest["driveHours"]?.ToString()) hr · grace @(Latest["graceMinutes"]?.ToString()) min</div>
+            <div style="color:var(--text-muted);font-size:.82rem;margin-top:4px">Starts @(Latest["startsAt"]?.ToString())</div>
+            <button class="Btn Block" style="margin-top:10px">Accept job</button>
+        </div>
+    }
+
+    <h2 style="font-size:1rem;margin-bottom:10px;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.7px">Earlier today</h2>
+    @foreach (var S in Earlier)
+    {
+        <div class="Card Compact" style="display:flex;gap:10px;align-items:center;margin-bottom:8px">
+            <div style="width:8px;height:36px;background:#22c55e;border-radius:4px;flex:none"></div>
+            <div style="flex:1;min-width:0">
+                <div style="font-weight:700;font-size:.92rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">@(S["from"]?.ToString()) → @(S["to"]?.ToString())</div>
+                <div style="color:var(--text-muted);font-size:.78rem">@(S["mileage"]?.ToString()) mi · @(S["driveHours"]?.ToString()) hr · @(S["startsAt"]?.ToString())</div>
+            </div>
+            <span style="font-size:.78rem;font-weight:700;color:#14532d;background:rgba(34,197,94,.12);padding:4px 10px;border-radius:10px">Done</span>
+        </div>
+    }
+</div>
+

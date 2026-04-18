@@ -1,0 +1,32 @@
+@page "/Admin"
+
+<div class="Stage" style="padding:14px">
+    <h1 style="font-size:1.4rem;margin-bottom:6px">Admin home</h1>
+    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:14px">Welcome back. Here's what needs your attention today.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+        <div class="Card" style="padding:14px;text-align:center">
+            <div style="color:var(--text-muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:4px">Pending applicants</div>
+            <div style="color:var(--accent);font-size:1.6rem;font-weight:800;line-height:1.1">@PendingApplicants</div>
+        </div>
+        <div class="Card" style="padding:14px;text-align:center">
+            <div style="color:var(--text-muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:4px">Active jobs</div>
+            <div style="color:#1e40af;font-size:1.6rem;font-weight:800;line-height:1.1">@ActiveJobs</div>
+        </div>
+        <div class="Card" style="padding:14px;text-align:center">
+            <div style="color:var(--text-muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:4px">On-time rate</div>
+            <div style="color:#14532d;font-size:1.6rem;font-weight:800;line-height:1.1">100%</div>
+        </div>
+        <div class="Card" style="padding:14px;text-align:center">
+            <div style="color:var(--text-muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:4px">Net revenue</div>
+            <div style="color:#9d174d;font-size:1.6rem;font-weight:800;line-height:1.1">$46k</div>
+        </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px">
+        <a href="HiringHall" class="Btn Block">Review @PendingApplicants applicants</a>
+        <a href="Investors/KPI" class="Btn Ghost Block">Open KPI dashboard</a>
+        <a href="Dispatcher" class="Btn Ghost Block">Open dispatcher console</a>
+    </div>
+</div>
+

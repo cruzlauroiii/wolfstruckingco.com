@@ -1,0 +1,57 @@
+@page "/Marketplace"
+@using Domain.Models
+
+<div class="Stage">
+    <h1>Marketplace</h1>
+    <p class="Sub">Buy items posted by employers — pay by card or cash on delivery. Every purchase auto-creates a delivery job for a Wolfs driver to pick up from the seller and bring it to you.</p>
+
+
+    <div class="Panel Active">
+        @if (!Listings.Any())
+        {
+            <div class="Empty">No items for sale right now. Be the first to post a listing.</div>
+        }
+        else
+        {
+            <div class="Grid">
+                @foreach (var L in Listings)
+                {
+                    <div class="Listing">
+                        <div class="Photo">@((MarkupString)ProductSvg(L.Title))</div>
+                        <div class="Body">
+                            <h3>@L.Title</h3>
+                            <div class="Price">@($"${L.Price:N2}")</div>
+                            <div class="Stock">In stock · pickup from seller</div>
+                            <div class="Desc">@L.Description</div>
+                            <div class="Actions"><button class="Btn" @onclick="() => BuyAsync(L.Id)">Buy now</button></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="Panel" style="display:none">
+        @if (!CanSell)
+        {
+            <div class="AuthWarn">Sign in as employer or staff to post a listing — <a href="Login" style="color:var(--warning);text-decoration:underline">sign in</a>.</div>
+        }
+        else
+        {
+            <form class="Card" @onsubmit="PostListingAsync" @onsubmit:preventDefault>
+                <h2>Post a listing</h2>
+                <div class="Field"><label>Title</label><input @bind="Draft.Title" required placeholder="e.g. Refurbished Dell laptop" /></div>
+                <div class="Field"><label>Description</label><textarea @bind="Draft.Description" placeholder="Condition, dimensions, anything the buyer should know"></textarea></div>
+                <div class="Row">
+                    <div class="Field"><label>Price ($)</label><input type="number" step="0.01" min="0" @bind="Draft.Price" required /></div>
+                    <div class="Field"><label>Stock count</label><input type="number" min="1" step="1" value="1" /></div>
+                </div>
+                <div class="Field"><label>Pickup address</label><input required placeholder="Your warehouse or address" /></div>
+                <button type="submit" class="Btn">Post listing</button>
+            </form>
+        }
+    </div>
+
+</div>
+
+

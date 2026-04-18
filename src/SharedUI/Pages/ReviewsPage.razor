@@ -1,0 +1,17 @@
+@page "/Reviews"
+
+<MarketingHero Title="Customer"
+               Highlight="reviews"
+               Subtitle="4.8 / 5 across 147 reviews. Honest feedback from shippers and drivers." />
+
+<div class="Grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+    @foreach (var R in Items)
+    {
+        <div class="Card">
+            <div style="font-size:1.1rem;color:var(--wt-accent);margin-bottom:8px">@(new string('★', R.Stars))<span style="opacity:.3">@(new string('★', 5 - R.Stars))</span></div>
+            <p style="font-style:italic;color:var(--wt-text);margin-bottom:12px">"@R.Quote"</p>
+            <div class="CardLabel">— @R.Author, @R.Role</div>
+        </div>
+    }
+</div>
+

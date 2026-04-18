@@ -1,0 +1,31 @@
+@page "/Investors/Users"
+
+<div class="PageHeader">
+    <h1>User roster</h1>
+    <div class="Sub">Live signup activity by role — admin, driver, customer.</div>
+</div>
+
+<div class="Stats">
+    <KpiCard Label="Total users" Value="@Total.ToString()" />
+    <KpiCard Label="Admins" Value="@AdminCount.ToString()" />
+    <KpiCard Label="Drivers" Value="@DriverCount.ToString()" />
+    <KpiCard Label="Customers" Value="@UserCount.ToString()" />
+</div>
+
+<div class="Card">
+    <h2 class="CardTitle">Recent signups</h2>
+    <table class="Table">
+        <thead><tr><th>Email</th><th>Role</th><th>Created</th></tr></thead>
+        <tbody>
+            @foreach (var U in Users.Take(20))
+            {
+                <tr>
+                    <td>@(Get(U, "email"))</td>
+                    <td><span class="badge">@(Get(U, "role"))</span></td>
+                    <td>@(Get(U, "createdAt"))</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

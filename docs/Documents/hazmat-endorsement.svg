@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 900" width="700" height="900">
+  <rect width="700" height="900" fill="#fff"/>
+  <rect x="0" y="0" width="700" height="90" fill="#ea580c"/>
+  <text x="350" y="40" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="24" fill="#fff">HAZMAT ENDORSEMENT CERTIFICATION</text>
+  <text x="350" y="66" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#ffedd5">TSA Threat Assessment Complete · 49 CFR §383.93</text>
+  <g font-family="Arial,sans-serif" fill="#1f2937">
+    <text x="50" y="140" font-size="16" font-weight="bold">HOLDER</text>
+    <text x="260" y="140" font-size="16">VEGA, JORDAN A</text>
+    <text x="50" y="174" font-size="16" font-weight="bold">CDL</text>
+    <text x="260" y="174" font-size="16">D1234567 · California</text>
+    <text x="50" y="208" font-size="16" font-weight="bold">ENDORSEMENT CODE</text>
+    <text x="280" y="208" font-size="22" font-weight="bold" fill="#ea580c">H</text>
+    <rect x="50" y="245" width="600" height="110" rx="6" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+    <text x="72" y="278" font-size="15">This holder has passed the knowledge test under 49 CFR §383.121</text>
+    <text x="72" y="302" font-size="15">and §383.93 and completed a TSA security threat assessment,</text>
+    <text x="72" y="326" font-size="15">clearing them to transport hazardous materials in commerce.</text>
+    <text x="50" y="395" font-size="16" font-weight="bold">KNOWLEDGE TEST PASSED</text>
+    <text x="320" y="395" font-size="16">02/14/2023</text>
+    <text x="50" y="427" font-size="16" font-weight="bold">TSA CLEARANCE ON FILE</text>
+    <text x="320" y="427" font-size="16">02/08/2023</text>
+    <text x="50" y="459" font-size="16" font-weight="bold">EXPIRATION</text>
+    <text x="320" y="459" font-size="16">02/08/2028 (renews with TWIC)</text>
+    <line x1="40" y1="500" x2="660" y2="500" stroke="#ea580c"/>
+    <text x="50" y="540" font-size="18" font-weight="bold" fill="#ea580c">AUTHORIZED MATERIAL CLASSES</text>
+    <text x="50" y="575" font-size="15">Class 1 — Explosives (Division 1.4 and 1.6 only)</text>
+    <text x="50" y="600" font-size="15">Class 2 — Gases (compressed, liquefied, dissolved)</text>
+    <text x="50" y="625" font-size="15">Class 3 — Flammable liquids (gasoline, diesel, fuels)</text>
+    <text x="50" y="650" font-size="15">Class 8 — Corrosives</text>
+    <text x="50" y="675" font-size="15">Class 9 — Miscellaneous hazardous materials</text>
+    <line x1="40" y1="715" x2="660" y2="715" stroke="#ccc"/>
+    <text x="50" y="755" font-size="14" fill="#555">Driver's signature: </text>
+    <text x="180" y="755" font-size="22" font-family="cursive" fill="#1e40af" font-style="italic">Jordan Vega</text>
+    <text x="50" y="790" font-size="14" fill="#555">Issued by: California DMV — Endorsement on driver's CDL</text>
+  </g>
+  <text x="350" y="870" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="13" fill="#c41f2d">★ SAMPLE DOCUMENT — WOLFS TRUCKING APPLICATION TEST USE ONLY ★</text>
+</svg>
