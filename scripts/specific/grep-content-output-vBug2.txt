@@ -1,0 +1,2 @@
+index.html:37:    <label class="Btn Ghost ChatBtnRound" title="Attach photo / receipt" for="ChatAttachInput">📎</label>
+index.html:38:    <input id="ChatAttachInput" class="HiddenInput" type="file" />

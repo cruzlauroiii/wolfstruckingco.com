@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://basemaps.cartocdn.com" crossorigin>
+<link rel="preconnect" href="https://router.project-osrm.org" crossorigin>
+<link rel="preconnect" href="https://wolfstruckingco.nbth.workers.dev" crossorigin>
+<title>Container Drayage Los Angeles & Long Beach | TWIC Fleet | $285+ | Wolfs Trucking</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<link rel="apple-touch-icon" href="/wolfstruckingco.com/icon.svg">
+<link rel="manifest" href="/wolfstruckingco.com/manifest.json">
+<meta name="theme-color" content="#ff6b35">
+
+<meta name="description" content="Port of LA and Long Beach container drayage. TWIC-certified fleet, chassis provided, same-day and next-day available. $285+ per drayage. Serving all 13 terminals including APM, TraPac, Yusen, Fenix, Everport, Pier 400, Pier J.">
+<meta name="keywords" content="container drayage Los Angeles, Port of LA drayage, Long Beach drayage, TWIC trucking LA, container chassis provider, Pier 400 drayage, Pier J drayage, APM Terminals trucking, TraPac drayage, ocean container transport LA">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<link rel="canonical" href="https://cruzlauroiii.github.io/wolfstruckingco.com/Services/Drayage-Los-Angeles/">
+<meta property="og:title" content="Container Drayage Los Angeles & Long Beach | $285+ | TWIC Fleet">
+<meta property="og:description" content="Same-day drayage from Port of LA/LB. TWIC certified. Chassis provided. 99.1% on-time. $285+ per container.">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Service",
+  "serviceType":"Container Drayage",
+  "name":"Port of Los Angeles and Long Beach Container Drayage",
+  "description":"TWIC-certified container drayage from Port of Los Angeles and Long Beach terminals to inland warehouses and distribution centers across Southern California.",
+  "provider":{"@type":"Organization","name":"Wolfs Trucking Co.","url":"https://wolfstruckingco.com"},
+  "areaServed":[
+    {"@type":"Place","name":"Port of Los Angeles","geo":{"@type":"GeoCoordinates","latitude":33.7405,"longitude":-118.2716}},
+    {"@type":"Place","name":"Port of Long Beach","geo":{"@type":"GeoCoordinates","latitude":33.7701,"longitude":-118.1937}},
+    {"@type":"City","name":"Los Angeles"},
+    {"@type":"City","name":"Long Beach"},
+    {"@type":"City","name":"Commerce"},
+    {"@type":"City","name":"Ontario"},
+    {"@type":"City","name":"Fontana"}
+  ],
+  "offers":{"@type":"Offer","priceSpecification":{"@type":"PriceSpecification","price":"285","priceCurrency":"USD","minPrice":"285"}}
+}
+</script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--info:#3b82f6;--radius:12px}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+nav{position:sticky;top:0;z-index:100;background:rgba(15,20,25,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.NavBrand{font-size:1.1rem;font-weight:800;display:flex;align-items:center;gap:10px;color:var(--text)}
+.NavBrand span{color:var(--accent)}
+.NavLinks{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.NavLinks a{color:var(--text-muted);font-size:.9rem;font-weight:500}
+.NavLinks a:hover{color:var(--accent)}
+.NavCta{background:var(--accent);color:#fff!important;padding:8px 18px;border-radius:8px;font-weight:700}
+
+.Breadcrumb{max-width:1100px;margin:0 auto;padding:14px 20px 0;font-size:.8rem;color:var(--text-muted)}
+.Breadcrumb a{color:var(--text-muted)}
+.Breadcrumb a:hover{color:var(--accent)}
+
+.Hero{padding:30px 20px 30px;text-align:center;max-width:900px;margin:0 auto}
+.HeroBadge{display:inline-block;background:rgba(59,130,246,.15);color:var(--info);padding:6px 18px;border-radius:50px;font-size:.82rem;font-weight:700;margin-bottom:18px;border:1px solid rgba(59,130,246,.3)}
+.Hero h1{font-size:clamp(2rem,4vw,2.8rem);font-weight:900;margin-bottom:14px;line-height:1.15}
+.Hero h1 span{color:var(--accent)}
+.Hero p{color:var(--text-muted);font-size:1rem;max-width:620px;margin:0 auto 22px}
+.HeroCta{display:inline-flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.HeroCta a{display:inline-block;padding:14px 28px;border-radius:10px;font-weight:700;font-size:.95rem}
+.CtaPrimary{background:var(--accent);color:#fff}
+.CtaPrimary:hover{background:var(--accent-hover);color:#fff}
+.CtaSecondary{background:transparent;border:2px solid var(--accent);color:var(--accent)}
+.CtaSecondary:hover{background:rgba(255,107,53,.1)}
+
+.StatsRow{max-width:1100px;margin:20px auto;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.Stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center}
+.Stat .Num{font-size:1.7rem;font-weight:900;color:var(--accent);line-height:1}
+.Stat .Lbl{font-size:.75rem;color:var(--text-muted);margin-top:6px;text-transform:uppercase;letter-spacing:.5px}
+
+.Section{max-width:1000px;margin:40px auto;padding:0 20px}
+.Section h2{font-size:clamp(1.4rem,2.2vw,1.9rem);font-weight:800;margin-bottom:10px;text-align:center}
+.Section .Sub{color:var(--text-muted);font-size:.95rem;text-align:center;margin-bottom:24px;max-width:640px;margin-left:auto;margin-right:auto}
+
+.PortMap{height:380px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.leaflet-control-attribution{display:none!important}
+
+.Terminals{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.Terminal{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;transition:border-color .2s}
+.Terminal:hover{border-color:var(--accent)}
+.TermName{font-size:.95rem;font-weight:700;margin-bottom:4px}
+.TermLoc{font-size:.78rem;color:var(--text-muted);margin-bottom:6px}
+.TermTag{font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:50px;background:rgba(34,197,94,.15);color:var(--success);display:inline-block}
+
+.Feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.Feat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px}
+.FeatIcon{font-size:1.8rem;margin-bottom:10px}
+.Feat h3{font-size:.95rem;font-weight:800;margin-bottom:4px}
+.Feat p{font-size:.85rem;color:var(--text-muted);line-height:1.55}
+
+.Rates{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:720px;margin:0 auto}
+.RatesTable{width:100%;border-collapse:collapse}
+.RatesTable th,.RatesTable td{padding:12px 16px;text-align:left;font-size:.9rem;border-bottom:1px solid var(--border)}
+.RatesTable th{color:var(--text-muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.RatesTable tr:last-child td{border-bottom:none}
+.RatesTable .Price{color:var(--accent);font-weight:800}
+
+.Process{max-width:900px;margin:0 auto}
+.Steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+.Step{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 18px;text-align:center;position:relative}
+.StepNum{position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font-weight:900;font-size:.9rem;display:flex;align-items:center;justify-content:center;border:3px solid var(--bg)}
+.Step h3{font-size:.92rem;font-weight:700;margin:8px 0 4px}
+.Step p{font-size:.78rem;color:var(--text-muted);line-height:1.5}
+
+.BigCta{background:var(--card);border-top:1px solid var(--border);padding:40px 20px;text-align:center;margin-top:60px}
+.BigCta h3{font-size:1.5rem;font-weight:800;margin-bottom:10px}
+.BigCta p{color:var(--text-muted);margin-bottom:20px;max-width:520px;margin-left:auto;margin-right:auto}
+.BigCta a{display:inline-block;padding:14px 26px;border-radius:10px;font-weight:700;margin:0 6px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="NavBrand" href="/wolfstruckingco.com/"><span>W</span> Wolfs Trucking Co.</a>
+  <div class="NavLinks">
+    <a href="/wolfstruckingco.com/Services/">Services</a>
+    <a href="/wolfstruckingco.com/Pricing/">Pricing</a>
+    <a href="/wolfstruckingco.com/Track/">Track</a>
+    <a href="/wolfstruckingco.com/Contact/">Contact</a>
+    <a class="NavCta" href="/wolfstruckingco.com/#ShipWithUs">Get Quote</a>
+  </div>
+</nav>
+
+<div class="Breadcrumb">
+  <a href="/wolfstruckingco.com/">Home</a> &rarr; <a href="/wolfstruckingco.com/Services/">Services</a> &rarr; Drayage Los Angeles
+</div>
+
+<section class="Hero">
+  <div class="HeroBadge">&#9875; TWIC-Certified Fleet &middot; All 13 Port Terminals</div>
+  <h1>Container Drayage<br><span>Port of LA &amp; Long Beach</span></h1>
+  <p>Same-day and next-day drayage to warehouses across Southern California. TWIC-certified drivers, chassis provided, real-time tracking. $285+ per container, no hidden fees.</p>
+  <div class="HeroCta">
+    <a class="CtaPrimary" href="/wolfstruckingco.com/#ShipWithUs">Get Drayage Quote</a>
+    <a class="CtaSecondary" href="tel:+18186240454">Call (818) 624-0454</a>
+  </div>
+</section>
+
+<div class="StatsRow">
+  <div class="Stat"><div class="Num">13</div><div class="Lbl">Port Terminals Served</div></div>
+  <div class="Stat"><div class="Num">$285+</div><div class="Lbl">Starting Rate</div></div>
+  <div class="Stat"><div class="Num">22 mi</div><div class="Lbl">Avg Haul</div></div>
+  <div class="Stat"><div class="Num">99.1%</div><div class="Lbl">On-Time</div></div>
+  <div class="Stat"><div class="Num">2-4 hr</div><div class="Lbl">Avg Turn Time</div></div>
+</div>
+
+<section class="Section">
+  <h2>Service Map</h2>
+  <p class="Sub">Primary pickup locations at the ports, delivery across Southern California.</p>
+  <div class="PortMap" id="PortMap"></div>
+</section>
+
+<section class="Section">
+  <h2>Terminals We Serve</h2>
+  <p class="Sub">All 13 major container terminals at Port of LA and Port of Long Beach.</p>
+  <div class="Terminals">
+    <div class="Terminal"><div class="TermName">APM Terminals</div><div class="TermLoc">Pier 400, Port of LA</div><span class="TermTag">Active</span></div>
+    <div class="Terminal"><div class="TermName">TraPac</div><div class="TermLoc">Berth 136-147, Port of LA</div><span class="TermTag">Active</span></div>
+    <div class="Terminal"><div class="TermName">Yusen Terminals (YTI)</div><div class="TermLoc">Berth 212-225, Port of LA</div><span class="TermTag">Active</span></div>
+    <div class="Terminal"><div class="TermName">Fenix Marine Services</div><div class="TermLoc">Pier 300, Port of LA</div><span class="TermTag">Active</span></div>
+    <div class="Terminal"><div class="TermName">Everport Terminal</div><div class="TermLoc">Berth 226-236, Port of LA</div><span class="TermTag">Active</span></div>
+    <div class="Terminal"><div class="TermName">West Basin Container</div><div class="TermLoc">Pier A, Port of LA</div><span class="TermTag">Active</span></div>
+    <div class="Terminal"><div class="TermName">Pier J</div><div class="TermLoc">Port of Long Beach</div><span class="TermTag">Active</span></div>
+    <div class="Terminal"><div class="TermName">Pier G</div><div class="TermLoc">Port of Long Beach</div><span class="TermTag">Active</span></div>
+    <div class="Terminal"><div class="TermName">Pier F</div><div class="TermLoc">Port of Long Beach</div><span class="TermTag">Active</span></div>
+    <div class="Terminal"><div class="TermName">Pier T (TTI)</div><div class="TermLoc">Total Terminals International, LB</div><span class="TermTag">Active</span></div>
+    <div class="Terminal"><div class="TermName">SSA Marine (Pier A)</div><div class="TermLoc">Port of Long Beach</div><span class="TermTag">Active</span></div>
+    <div class="Terminal"><div class="TermName">LBCT (Middle Harbor)</div><div class="TermLoc">Pier E/F, Port of Long Beach</div><span class="TermTag">Active</span></div>
+    <div class="Terminal"><div class="TermName">Intermodal Yards</div><div class="TermLoc">ICTF, Hobart, East LA</div><span class="TermTag">Active</span></div>
+  </div>
+</section>
+
+<section class="Section">
+  <h2>What You Get</h2>
+  <p class="Sub">Full-service drayage — no broker markup, no surprises.</p>
+  <div class="Feats">
+    <div class="Feat"><div class="FeatIcon">&#127381;</div><h3>TWIC Certified Drivers</h3><p>Every driver holds current Transportation Worker Identification Credential for unescorted port access.</p></div>
+    <div class="Feat"><div class="FeatIcon">&#128740;</div><h3>Chassis Provided</h3><p>We supply chassis at the terminal. 40-ft and 20-ft configurations. No separate chassis pool fees.</p></div>
+    <div class="Feat"><div class="FeatIcon">&#128736;</div><h3>Hazmat Endorsed</h3><p>Drivers with H endorsement for hazmat containers. Full placarding and documentation support.</p></div>
+    <div class="Feat"><div class="FeatIcon">&#128205;</div><h3>Real-Time GPS</h3><p>Track your container from gate-out to delivery. Customer-facing tracking link included.</p></div>
+    <div class="Feat"><div class="FeatIcon">&#9889;</div><h3>Same-Day &amp; Next-Day</h3><p>Same-day for morning gate-outs. Next-day confirmed for afternoon containers. Weekend service available.</p></div>
+    <div class="Feat"><div class="FeatIcon">&#128202;</div><h3>Free Pier Pass</h3><p>We handle Pier Pass (TMF) scheduling. No charge for our service, pass fees billed at cost.</p></div>
+    <div class="Feat"><div class="FeatIcon">&#128302;</div><h3>Scale &amp; Weight Service</h3><p>Certified weigh tickets available for overweight compliance. Tier-1 port scale partners.</p></div>
+    <div class="Feat"><div class="FeatIcon">&#128664;</div><h3>Demurrage Avoidance</h3><p>Dispatch prioritizes containers approaching last free day. We handle terminal appointments.</p></div>
+  </div>
+</section>
+
+<section class="Section">
+  <h2>Drayage Rates</h2>
+  <p class="Sub">Transparent pricing. No broker markup, no fuel surcharge.</p>
+  <div class="Rates">
+    <table class="RatesTable">
+      <thead><tr><th>Destination</th><th>Distance</th><th>Rate</th></tr></thead>
+      <tbody>
+        <tr><td>Commerce 3PL</td><td>22 mi</td><td class="Price">$285</td></tr>
+        <tr><td>Compton / Carson</td><td>15 mi</td><td class="Price">$245</td></tr>
+        <tr><td>Vernon</td><td>25 mi</td><td class="Price">$295</td></tr>
+        <tr><td>Downtown LA</td><td>28 mi</td><td class="Price">$315</td></tr>
+        <tr><td>City of Industry</td><td>35 mi</td><td class="Price">$345</td></tr>
+        <tr><td>Fontana / Ontario</td><td>55-65 mi</td><td class="Price">$425</td></tr>
+        <tr><td>Riverside</td><td>70 mi</td><td class="Price">$465</td></tr>
+        <tr><td>Mira Loma / Eastvale</td><td>62 mi</td><td class="Price">$445</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:.78rem;color:var(--text-muted);margin-top:14px">All rates include chassis, fuel, and basic Pier Pass coordination. TMF/PortCheck/demurrage billed at cost. Hazmat and overweight surcharges apply.</p>
+  </div>
+</section>
+
+<section class="Section">
+  <h2>How It Works</h2>
+  <p class="Sub">5 steps from container gate-out to warehouse delivery.</p>
+  <div class="Process">
+    <div class="Steps">
+      <div class="Step"><div class="StepNum">1</div><h3>Quote &amp; Book</h3><p>Send us container number, terminal, and destination. Instant quote.</p></div>
+      <div class="Step"><div class="StepNum">2</div><h3>Terminal Appointment</h3><p>We book Pier Pass appointment matching your container's availability window.</p></div>
+      <div class="Step"><div class="StepNum">3</div><h3>Gate-Out</h3><p>TWIC driver picks up container with chassis, verifies seal, confirms on GPS.</p></div>
+      <div class="Step"><div class="StepNum">4</div><h3>Delivery</h3><p>Direct haul to your warehouse. Real-time tracking shared with your team.</p></div>
+      <div class="Step"><div class="StepNum">5</div><h3>Return &amp; POD</h3><p>Driver returns empty chassis to pool. Proof-of-delivery with signature emailed.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="BigCta">
+  <h3>Need drayage from Port of LA or Long Beach?</h3>
+  <p>Get an instant quote in 30 seconds. Send us your container number and destination — we'll handle the rest.</p>
+  <a class="CtaPrimary" href="/wolfstruckingco.com/#ShipWithUs">Get Drayage Quote</a>
+  <a class="CtaSecondary" href="tel:+18186240454">Call (818) 624-0454</a>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/wolfstruckingco.com/wolfs-map.js"></script>
+<script>
+setTimeout(function() {
+  var Map = L.map('PortMap',{zoomControl:true,scrollWheelZoom:false}).setView([33.85,-118.15],10);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19,subdomains:'abcd'}).addTo(Map);
+  var PortIcon = L.divIcon({html:'<div style="width:32px;height:32px;background:#3b82f6;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.5)">&#9875;</div>',iconSize:[32,32],iconAnchor:[16,16],className:''});
+  var DestIcon = L.divIcon({html:'<div style="width:20px;height:20px;background:#22c55e;border-radius:50%;border:2px solid #fff;box-shadow:0 0 6px #22c55e"></div>',iconSize:[20,20],iconAnchor:[10,10],className:''});
+  var HqIcon = L.divIcon({html:'<div style="width:28px;height:28px;background:#ff6b35;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,.5)">W</div>',iconSize:[28,28],iconAnchor:[14,14],className:''});
+  // Ports
+  L.marker([33.7405,-118.2716],{icon:PortIcon}).addTo(Map).bindPopup('<b>Port of Los Angeles</b><br>APM, TraPac, YTI, Fenix, Everport');
+  L.marker([33.7701,-118.1937],{icon:PortIcon}).addTo(Map).bindPopup('<b>Port of Long Beach</b><br>Pier J, G, F, T, LBCT, SSA Marine');
+  // Destinations
+  var Dests = [
+    [34.0006,-118.1590,'Commerce 3PL - 22 mi - $285'],
+    [33.8959,-118.2201,'Compton / Carson - 15 mi - $245'],
+    [34.0033,-118.2253,'Vernon - 25 mi - $295'],
+    [34.0522,-118.2437,'Downtown LA - 28 mi - $315'],
+    [34.0252,-117.5674,'Fontana DC - 55 mi - $425'],
+    [33.9806,-117.3755,'Riverside - 70 mi - $465']
+  ];
+  Dests.forEach(function(D){
+    L.marker([D[0],D[1]],{icon:DestIcon}).addTo(Map).bindPopup('<b>' + D[2] + '</b>');
+  });
+  // HQ
+  L.marker([34.1808,-118.3090],{icon:HqIcon}).addTo(Map).bindPopup('<b>Wolfs Trucking HQ</b><br>Burbank, CA');
+  setTimeout(function(){ Map.invalidateSize(); }, 200);
+}, 300);
+</script>
+</body>
+</html>

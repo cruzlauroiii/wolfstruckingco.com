@@ -1,0 +1,4 @@
+SharedUI/Components/MainLayout.razor:18:        @if (Authed)
+SharedUI/Components/MainLayout.razor:33:    private bool Authed;
+SharedUI/Components/MainLayout.razor:43:        Role = Auth.Role; Email = Auth.Email; Authed = !string.IsNullOrEmpty(Role);
+SharedUI/Components/MainLayout.razor:50:        Authed = false; Email = null; Role = null;

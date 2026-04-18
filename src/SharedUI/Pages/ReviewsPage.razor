@@ -1,0 +1,16 @@
+@page "/Reviews"
+
+<MarketingHero Title="Customer"
+               Highlight="reviews"
+               Subtitle="4.8 / 5 across 147 reviews. Honest feedback from shippers and drivers." />
+
+<div class="Grid AutoFitGrid">
+    @foreach (var R in Items)
+    {
+        <div class="Card">
+            <div class="ReviewStars">@(new string('★', R.Stars))<span class="Dim">@(new string('★', 5 - R.Stars))</span></div>
+            <p class="ReviewQuote">"@R.Quote"</p>
+            <div class="CardLabel">— @R.Author, @R.Role</div>
+        </div>
+    }
+</div>

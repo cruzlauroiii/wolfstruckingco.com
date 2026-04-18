@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wolfs Trucking Co</title>
+    <!-- Default base for local dev. The publish step rewrites this to "/wolfstruckingco.com/" for Pages. -->
+    <base href="/wolfstruckingco.com/app/" />
+    <link rel="stylesheet" href="_content/SharedUI/css/app.css" />
+    <style>
+      .WChat{display:flex;flex-direction:column;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;width:100%}
+      .WChat .WChatLog{flex:1;min-height:240px;max-height:60vh;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px}
+      .WChat .WMsg{max-width:90%;padding:10px 14px;border-radius:10px;line-height:1.45;font-size:.92rem;word-wrap:break-word;white-space:pre-wrap}
+      .WChat .WMsg.User{align-self:flex-end;background:var(--accent);color:#fff}
+      .WChat .WMsg.Agent{align-self:flex-start;background:rgba(154,58,16,.08);border:1px solid rgba(154,58,16,.3);color:var(--text)}
+      .WChat .WMsg .WLabel{display:block;font-size:.72rem;font-weight:700;opacity:.85;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+      .WChat .WForm{display:flex;gap:8px;align-items:stretch}
+      .WChat .WForm input{flex:1;padding:12px 14px;border-radius:10px;background:#fff;border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.95rem;min-height:48px}
+      .WChat .WForm input:focus{border-color:var(--accent);outline:none}
+      .WChat .WForm button{padding:12px 16px;border-radius:10px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.88rem;border:1px solid transparent;min-height:48px}
+      .WChat .WForm .WCall{background:rgba(154,58,16,.1);border-color:var(--accent);color:var(--accent)}
+      .WChat .WForm .WSend{background:var(--accent);color:#fff;border-color:var(--accent)}
+      .WChat .WStatus{font-size:.78rem;color:var(--text-muted);min-height:1em}
+      .WChat .WInlineUpload{display:flex;gap:8px;align-items:center;margin-top:8px;padding:8px 10px;background:rgba(154,58,16,.08);border:1px dashed var(--accent);border-radius:8px;font-size:.82rem;flex-wrap:wrap}
+      .WChat .WInlineUpload>span{flex:1;min-width:160px;color:var(--accent);font-weight:600}
+      .WChat .WInlineUpload label{padding:8px 12px;border-radius:6px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
+      .WChat .Scope{font-size:.78rem;color:var(--text-muted);padding:8px 10px;background:rgba(0,0,0,.03);border-radius:6px}
+      .WChat .Spinner{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid rgba(154,58,16,.25);border-top-color:var(--accent);animation:WSpin .7s linear infinite;margin-right:6px;vertical-align:middle}
+      @keyframes WSpin{to{transform:rotate(360deg)}}
+    </style>
+</head>
+<body>
+    <div id="app">Loading…</div>
+    <!-- Leaflet (sole non-.NET dep, loaded via CDN). All other JS is emitted from C# (WolfsJsBootstrap) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+      // Pre-hydration handler: clicking an SSO button on the static /Login/
+      // page sets demo session in localStorage and redirects, so the link
+      // works before Blazor WASM has loaded.
+      (function(){
+        try {
+          var m = location.search.match(/[?&]sso=([a-z]+)/i);
+          if (m) {
+            var p = m[1].toLowerCase();
+            localStorage.setItem('wolfs_session', 'sso-' + p + '-' + Date.now());
+            localStorage.setItem('wolfs_role', 'user');
+            localStorage.setItem('wolfs_email', 'demo@' + p + '.example');
+            var base = location.pathname.replace(/Login\/?$/, '');
+            location.replace(base + 'Marketplace/');
+          }
+        } catch(e) {}
+      })();
+    </script>
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
+</html>

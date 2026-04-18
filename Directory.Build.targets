@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1102;NU1603</WarningsNotAsErrors>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(UsingMicrosoftNETSdkBlazorWebAssembly)' == 'true'">
+    <KnownRuntimePack Update="Microsoft.NETCore.App">
+      <LatestRuntimeFrameworkVersion Condition="'%(TargetFramework)' == 'net11.0'">11.0.0-preview.3.26207.106</LatestRuntimeFrameworkVersion>
+    </KnownRuntimePack>
+  </ItemGroup>
+</Project>

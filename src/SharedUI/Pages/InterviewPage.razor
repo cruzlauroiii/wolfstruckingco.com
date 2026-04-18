@@ -1,0 +1,22 @@
+@page "/Interview"
+
+<div class="Stage ChatStage">
+    <h1>Chat with Agent</h1>
+    <p class="ChatLede">Quick safety questions. Speak or type your answer.</p>
+
+    <div class="ChatStream">
+        <div class="ChatBubble Agent">
+            <strong>Agent</strong>
+            @(Latest?["subject"]?.ToString() ?? "Tell me about your driving experience.")
+        </div>
+        <div class="ChatBubble User">
+            <strong>You</strong>
+            @(Latest?["note"]?.ToString() ?? "")
+        </div>
+    </div>
+
+    <div class="ChatInputRow">
+        <input type="text" placeholder="Type your answer…" />
+        <button class="Btn ChatBtnRound Send">🎙️</button>
+    </div>
+</div>

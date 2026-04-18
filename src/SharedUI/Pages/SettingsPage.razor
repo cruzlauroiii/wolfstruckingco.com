@@ -1,0 +1,23 @@
+@page "/Settings"
+
+<div class="PageHeader">
+    <h1>Settings</h1>
+    <div class="Sub">Account, theme, and notification preferences.</div>
+</div>
+
+<div class="Card">
+    <div class="Field">
+        <label for="settings-email">Email</label>
+        <input id="settings-email" value="@Email" readonly aria-readonly="true" />
+    </div>
+    <div class="Field">
+        <label for="settings-role">Role</label>
+        <input id="settings-role" value="@Role" readonly aria-readonly="true" />
+    </div>
+    <div class="Field">
+        <label for="settings-theme">Theme</label>
+        <div id="settings-theme"><ThemeChip /></div>
+    </div>
+    <button class="Btn Ghost" @onclick="SignOutAsync">Sign out</button>
+</div>
+

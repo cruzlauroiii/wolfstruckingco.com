@@ -1,0 +1,34 @@
+dump-file.cs:5:if (args.Length == 0 || args[0] is "-h" or "--help")
+dump-file.cs:8:    await Console.Out.WriteLineAsync("       dotnet run scripts/dump-file.cs scripts/<config>.cs   (reads const Path/Mode/LineStart/LineEnd/BytePos/ByteLen/Pattern)");
+dump-file.cs:9:    return args.Length == 0 ? 1 : 0;
+dump-file.cs:12:if (args[0].EndsWith(".cs", StringComparison.OrdinalIgnoreCase) && File.Exists(args[0]))
+dump-file.cs:14:    var SpecBody = await File.ReadAllTextAsync(args[0]);
+dump-file.cs:20:    // A .cs file is treated as a config spec only if it declares `const string Path`.
+dump-file.cs:22:    if (Strs.TryGetValue("Path", out var SpecPath))
+dump-file.cs:27:            "full" => [SpecPath],
+dump-file.cs:28:            "tail" => [SpecPath, "--tail", $"{Nums.GetValueOrDefault("TailN", 20).ToString(System.Globalization.CultureInfo.InvariantCulture)}"],
+dump-file.cs:29:            "lines" => [SpecPath, "--lines", $"{Nums.GetValueOrDefault("LineStart", 1).ToString(System.Globalization.CultureInfo.InvariantCulture)}", $"{Nums.GetValueOrDefault("LineEnd", int.MaxValue).ToString(System.Globalization.CultureInfo.InvariantCulture)}"],
+dump-file.cs:30:            "bytes" => [SpecPath, "--bytes", $"{Nums.GetValueOrDefault("BytePos", 0).ToString(System.Globalization.CultureInfo.InvariantCulture)}", $"{(Nums.GetValueOrDefault("BytePos", 0) + Nums.GetValueOrDefault("ByteLen", 1024 * 1024)).ToString(System.Globalization.CultureInfo.InvariantCulture)}"],
+dump-file.cs:31:            "grep" => [SpecPath, "--grep", Strs.GetValueOrDefault("Pattern", string.Empty)],
+dump-file.cs:35:        args = Forward;
+dump-file.cs:39:var Path = args[0];
+dump-file.cs:40:if (!File.Exists(Path)) { await Console.Error.WriteLineAsync($"not found: {Path}"); return 2; }
+dump-file.cs:42:if (args.Contains("--tail"))
+dump-file.cs:44:    var Idx = Array.IndexOf(args, "--tail");
+dump-file.cs:45:    var N = int.Parse(args[Idx + 1], System.Globalization.CultureInfo.InvariantCulture);
+dump-file.cs:46:    await using var FsTail = new FileStream(Path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+dump-file.cs:53:if (args.Contains("--lines"))
+dump-file.cs:55:    var Idx = Array.IndexOf(args, "--lines");
+dump-file.cs:56:    var L1 = int.Parse(args[Idx + 1], System.Globalization.CultureInfo.InvariantCulture);
+dump-file.cs:57:    var L2 = int.Parse(args[Idx + 2], System.Globalization.CultureInfo.InvariantCulture);
+dump-file.cs:58:    var Lines = await File.ReadAllLinesAsync(Path);
+dump-file.cs:65:if (args.Contains("--bytes"))
+dump-file.cs:67:    var Idx = Array.IndexOf(args, "--bytes");
+dump-file.cs:68:    var B1 = long.Parse(args[Idx + 1], System.Globalization.CultureInfo.InvariantCulture);
+dump-file.cs:69:    var B2 = long.Parse(args[Idx + 2], System.Globalization.CultureInfo.InvariantCulture);
+dump-file.cs:70:    await using var Fs = File.OpenRead(Path);
+dump-file.cs:77:if (args.Contains("--grep"))
+dump-file.cs:79:    var Idx = Array.IndexOf(args, "--grep");
+dump-file.cs:80:    var Re = new Regex(args[Idx + 1], RegexOptions.IgnoreCase);
+dump-file.cs:81:    var Lines = await File.ReadAllLinesAsync(Path);
+dump-file.cs:89:await using var Fs2 = new FileStream(Path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);

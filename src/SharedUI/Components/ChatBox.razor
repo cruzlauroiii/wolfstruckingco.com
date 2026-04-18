@@ -1,0 +1,28 @@
+@using SharedUI.Services
+
+<div class="ChatStream" id="ChatStream">
+    @foreach (var Turn in Live)
+    {
+        if (Turn.Role == RoleAssistant)
+        {
+            <div class="ChatBubble Agent">
+                <strong>@AssistantLabel</strong>
+                @((MarkupString)RenderRich(Turn.Content))
+            </div>
+        }
+        else
+        {
+            <div class="ChatBubble User">
+                <strong>@UserLabel</strong>
+                @Turn.Content
+            </div>
+        }
+    }
+</div>
+
+<div class="ChatInputRow">
+    <input type="text" name="msg" @bind="Draft" @bind:event="oninput" @onkeydown="OnKeyAsync" placeholder="@Placeholder" />
+    <button type="button" class="Btn Ghost ChatBtnRound @(InCall ? "InCall" : "")" title="@(InCall ? "Listening — tap to end" : CallTitle)" @onclick="StartCallAsync">@(InCall ? "🎙️" : "📞")</button>
+    <label class="Btn Ghost ChatBtnRound" title="@AttachTitle" for="ChatAttachInput">📎</label><InputFile id="ChatAttachInput" OnChange="OnFilesAttachedAsync" class="HiddenInput" multiple accept="image/*,application/pdf" />
+    <button class="Btn ChatBtnRound Send" type="button" title="Send" disabled="@Sending" @onclick="SendAsync">@(Sending ? "⏳" : "➤")</button>
+</div>

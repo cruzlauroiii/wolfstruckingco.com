@@ -1,0 +1,91 @@
+build-all-scenes.cs:36:if (!File.Exists(ScenesPath)) { await Console.Error.WriteLineAsync("scenes-final.json missing"); return 1; }
+build-all-scenes.cs:47:    if (P.ExitCode != 0) { await Console.Error.WriteLineAsync(Exe + ": " + Err.Trim()); }
+build-all-scenes.cs:58:    if (!File.Exists(Png)) { await Console.Error.WriteLineAsync("missing frame " + Pad); Failures++; continue; }
+build-all-scenes.cs:99:if (Failures > 0) { await Console.Error.WriteLineAsync($"failures: {Failures.ToString(System.Globalization.CultureInfo.InvariantCulture)}"); return 6; }
+build-scene-video.cs:24:if (!File.Exists(ScenesPath)) { await Console.Error.WriteLineAsync("scenes-final.json missing"); return 1; }
+build-scene-video.cs:28:if (SceneN > Scenes.Length) { await Console.Error.WriteLineAsync($"scene {SceneN} > {Scenes.Length}"); return 2; }
+build-scene-video.cs:32:if (!File.Exists(Png)) { await Console.Error.WriteLineAsync($"frame missing: {Png}"); return 3; }
+build-scene-video.cs:87:if (Proc.ExitCode != 0) { await Console.Error.WriteLineAsync(Err); return Proc.ExitCode; }
+build-scene-video.cs:90:Console.WriteLine($"scene-{Pad}.mp4 — {Size:F0} KB, {Duration:F1}s — {Out}");
+build-video.cs:32:if (!Directory.Exists(FrameDir)) { Console.Error.WriteLine($"frames missing: {FrameDir}"); return 1; }
+build-video.cs:49:if (Picked is not null) { Synth.Voice = Picked; Console.WriteLine($"voice: {Picked.DisplayName} ({Picked.Language}, {Picked.Gender})"); }
+build-video.cs:65:    if (!File.Exists(Png)) { Console.Error.WriteLine($"missing frame {Pad}"); continue; }
+build-video.cs:103:    if (N % 20 == 0 || N == Scenes.Length) { Console.WriteLine($"  ✓ {Pad}/{Scenes.Length} synth — running {Total:F1}s"); }
+build-video.cs:111:Console.WriteLine($"\nconcat: {Scenes.Length} frames, total {Total:F1}s = {Total / 60:F2} min");
+build-video.cs:112:Console.WriteLine($"running ffmpeg → {Out}");
+build-video.cs:124:if (Proc.ExitCode != 0) { Console.Error.WriteLine(Err); return Proc.ExitCode; }
+build-video.cs:127:Console.WriteLine($"\n✓ walkthrough.mp4 — {Size:F1} MB, {Total:F1}s ({Total / 60:F2} min) with TTS narration");
+build-video.cs:128:Console.WriteLine($"  open: {Out}");
+concat-walkthrough.cs:19:    if (!File.Exists(Mp4)) { await Console.Error.WriteLineAsync("missing " + Pad); return 1; }
+concat-walkthrough.cs:40:if (P.ExitCode != 0) { await Console.Error.WriteLineAsync(Err); return P.ExitCode; }
+list-voices.cs:7:    Console.WriteLine($"{V.DisplayName} ({V.Language}, {V.Gender})");
+run-crud-pipeline.cs:88:    if (!string.IsNullOrEmpty(WipeOut)) { Console.Write(WipeOut); }
+run-crud-pipeline.cs:89:    if (!string.IsNullOrEmpty(WipeErr)) { await Console.Error.WriteAsync(WipeErr); }
+run-crud-pipeline.cs:90:    if (WipeProc.ExitCode != 0) { await Console.Error.WriteLineAsync($"wipe-db failed: exit {WipeProc.ExitCode}"); return WipeProc.ExitCode; }
+run-crud-pipeline.cs:417:        Console.Error.WriteLine($"  ✗ {Pad} no page registered at route {Route}");
+run-crud-pipeline.cs:513:            Console.Error.WriteLine($"    ✗ pnf gate: {Pad} {Route} still PNF after 3 attempts");
+scenes.cs:226:Console.WriteLine($"wrote {Out.Count} scenes — total {Total:0}s = {Total / 60:0.00} min");
+serve-local.cs:32:    Console.Error.WriteLine($"Content root not found: {Root}");
+serve-local.cs:170:Console.WriteLine($"Serving {Root}");
+serve-local.cs:171:Console.WriteLine($"  HTTPS: https://localhost:{HttpsPort}/wolfstruckingco.com/");
+serve-local.cs:172:Console.WriteLine($"  HTTP:  http://localhost:{HttpPort}/wolfstruckingco.com/  (→ HTTPS)");
+serve-local.cs:173:Console.WriteLine("Stop with Ctrl+C.");
+test-agent.cs:34:    Console.Error.WriteLine("chrome-devtools serve mode not running. Start it first:");
+test-agent.cs:35:    Console.Error.WriteLine("  dotnet run C:/repo/public/chrome-devtools-cli/chrome-devtools.cs -- serve");
+test-agent.cs:50:Console.WriteLine($"opening {DispatcherUrl}");
+test-agent.cs:54:Console.WriteLine("extracting visible page text...");
+test-agent.cs:60:    Console.Error.WriteLine("FAIL: no visible page text extracted from /Dispatcher/");
+test-agent.cs:63:Console.WriteLine($"extracted {ExtractedText.Length} chars: {ExtractedText[..Math.Min(160, ExtractedText.Length)]}...");
+test-agent.cs:83:Console.WriteLine($"POST {AiEndpoint}");
+test-agent.cs:86:Console.WriteLine($"status: {(int)AiResp.StatusCode} {AiResp.StatusCode}");
+test-agent.cs:90:    Console.Error.WriteLine("FAIL: /ai returned non-2xx");
+test-agent.cs:91:    Console.Error.WriteLine(AiBody.Length > 600 ? AiBody[..600] + "..." : AiBody);
+test-agent.cs:102:    Console.Error.WriteLine("FAIL: empty reply");
+test-agent.cs:103:    Console.Error.WriteLine("body: " + (AiBody.Length > 400 ? AiBody[..400] + "..." : AiBody));
+test-agent.cs:106:if (Reply.Length > 2000) { Console.Error.WriteLine($"FAIL: reply too long ({Reply.Length} chars)"); return 6; }
+test-agent.cs:112:    Console.Error.WriteLine("FAIL: reply doesn't reference any Wolfs domain terms");
+test-agent.cs:113:    Console.Error.WriteLine("reply: " + Reply);
+test-agent.cs:120:    if (Lower.Contains(Bad.ToLowerInvariant())) { Console.Error.WriteLine($"FAIL: reply leaked guardrail/secret: {Bad}"); return 8; }
+test-agent.cs:123:Console.WriteLine();
+test-agent.cs:124:Console.WriteLine("PASS — reply is contextual, in-scope, and no guardrail leakage.");
+test-agent.cs:125:Console.WriteLine($"  reply len: {Reply.Length} chars");
+test-agent.cs:126:Console.WriteLine($"  reply: {Reply[..Math.Min(280, Reply.Length)]}...");
+verify-sso-render.cs:83:Console.WriteLine($"static check:");
+verify-sso-render.cs:84:Console.WriteLine($"  scene.sso (struct field) = '{SceneEl.GetProperty("sso").GetString()}'");
+verify-sso-render.cs:85:Console.WriteLine($"  resolved route           = '{Route}'");
+verify-sso-render.cs:86:Console.WriteLine($"  resolved provider        = '{Provider}'");
+verify-sso-render.cs:89:    Console.Error.WriteLine($"FAIL: expected provider 'google', got '{Provider}'");
+verify-sso-render.cs:103:Console.WriteLine($"fallback narration check:");
+verify-sso-render.cs:104:Console.WriteLine($"  narration                = '{FallbackEl.GetProperty("narration").GetString()}'");
+verify-sso-render.cs:105:Console.WriteLine($"  resolved provider (regex)= '{FallbackProvider}'");
+verify-sso-render.cs:108:    Console.Error.WriteLine($"FAIL: expected fallback provider 'okta', got '{FallbackProvider}'");
+verify-sso-render.cs:124:    Console.Error.WriteLine($"FAIL: expected non-Login route to return '', got '{NonLoginProvider}'");
+verify-sso-render.cs:127:Console.WriteLine($"non-Login route check: provider = '' (correct)");
+verify-sso-render.cs:134:    Console.Error.WriteLine($"FAIL: LoginPage.razor not found at {LoginRazor}");
+verify-sso-render.cs:142:Console.WriteLine($"LoginPage.razor markup check:");
+verify-sso-render.cs:143:Console.WriteLine($"  SSO buttons found        = {FoundProviders.Length} ({string.Join(",", FoundProviders)})");
+verify-sso-render.cs:144:Console.WriteLine($"  email input present      = {HasEmailInput}");
+verify-sso-render.cs:145:Console.WriteLine($"  password input present   = {HasPwInput}");
+verify-sso-render.cs:151:        Console.Error.WriteLine($"FAIL: LoginPage.razor missing SSO button for '{Exp}'");
+verify-sso-render.cs:157:    Console.Error.WriteLine($"WARN: LoginPage.razor still has email/password inputs (#209 not yet landed?). Pipeline now skips fill on SSO scenes regardless.");
+verify-sso-render.cs:186:    Console.Error.WriteLine($"WARN: dotnet run scenes.cs did not finish within 60s — skipping coverage check");
+verify-sso-render.cs:190:    Console.Error.WriteLine($"WARN: scenes.cs run did not produce {ScenesTmp} — skipping coverage check");
+verify-sso-render.cs:215:            Console.Error.WriteLine($"  MISS  Login scene #{LoginIdx}: '{SN}' — narration regex did not match");
+verify-sso-render.cs:220:            Console.WriteLine($"  ok    Login scene #{LoginIdx}: '{SN[..Math.Min(60, SN.Length)]}…' → {P}");
+verify-sso-render.cs:223:    Console.WriteLine($"freshly-regenerated scenes coverage: {LoginIdx - LoginMisses}/{LoginIdx} Login scenes resolved a provider");
+verify-sso-render.cs:226:        Console.Error.WriteLine($"FAIL: {LoginMisses} Login scene(s) without an SSO provider — pipeline would emit auth.signin instead of auth.sso.<provider>");
+verify-sso-render.cs:245:    Console.WriteLine($"chrome cdp check: not available ({E.Message[..Math.Min(80, E.Message.Length)]})");
+verify-sso-render.cs:250:    Console.WriteLine();
+verify-sso-render.cs:251:    Console.WriteLine("SKIP: chrome:9222 not running. Static logic verified, but live");
+verify-sso-render.cs:252:    Console.WriteLine("      localStorage population check requires the same chrome/serve-local");
+verify-sso-render.cs:253:    Console.WriteLine("      stack the full pipeline uses. Re-run with chrome up to do an");
+verify-sso-render.cs:254:    Console.WriteLine("      end-to-end frame check.");
+verify-sso-render.cs:255:    Console.WriteLine();
+verify-sso-render.cs:256:    Console.WriteLine("verdict: PASS (static checks)");
+verify-sso-render.cs:305:Console.WriteLine($"login page probe: {ProbeJson}");
+verify-sso-render.cs:322:Console.WriteLine($"localStorage state: {SsoState}");
+verify-sso-render.cs:326:    Console.Error.WriteLine($"FAIL: localStorage population failed ({SsoState})");
+verify-sso-render.cs:334:    Console.Error.WriteLine($"FAIL: wolfs_session does not have expected prefix sso-google-, got '{SessionVal}'");
+verify-sso-render.cs:349:Console.WriteLine();
+verify-sso-render.cs:350:Console.WriteLine($"frame: {FramePath}");
+verify-sso-render.cs:351:Console.WriteLine($"verdict: PASS (static + live)");

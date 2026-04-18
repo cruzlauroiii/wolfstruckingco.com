@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://basemaps.cartocdn.com" crossorigin>
+<link rel="preconnect" href="https://router.project-osrm.org" crossorigin>
+<link rel="preconnect" href="https://wolfstruckingco.nbth.workers.dev" crossorigin>
+<meta name="description" content="Client dashboard for Wolfs Trucking Co. — track shipments, post jobs, and review delivery history.">
+<meta property="og:title" content="Client Portal | Wolfs Trucking Co.">
+<meta property="og:description" content="Client dashboard for Wolfs Trucking Co. — track shipments, post jobs, and review delivery history.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/wolfstruckingco.com/icon.svg">
+<meta name="twitter:card" content="summary">
+<title>Client Portal | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<link rel="apple-touch-icon" href="/wolfstruckingco.com/icon.svg">
+<link rel="manifest" href="/wolfstruckingco.com/manifest.json">
+<meta name="theme-color" content="#ff6b35">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--info:#3b82f6;--radius:12px}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+.App{display:flex;height:100vh;height:100dvh}
+
+.Sidebar{width:240px;background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.SBrand{padding:18px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.SBLogo{width:36px;height:36px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;color:#fff}
+.SBTitle{font-size:.92rem;font-weight:700}
+.SBSub{font-size:.7rem;color:var(--text-muted)}
+.SNav{flex:1;padding:8px 0}
+.SNavItem{display:flex;align-items:center;gap:12px;padding:11px 18px;color:var(--text-muted);cursor:pointer;font-size:.85rem;font-weight:500;min-height:44px;transition:all .2s;border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.SNavItem:hover{background:rgba(255,107,53,.05);color:var(--text)}
+.SNavItem.Active{background:rgba(255,107,53,.1);color:var(--accent);border-right:3px solid var(--accent)}
+.SNavIcon{font-size:1rem;width:22px;text-align:center}
+.SFoot{padding:14px 16px;border-top:1px solid var(--border)}
+.SFoot a{color:var(--text-muted);font-size:.78rem;text-decoration:none;display:block;padding:4px 0;min-height:36px;display:flex;align-items:center}
+.SFoot a:hover{color:var(--accent)}
+
+.Main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.TopBar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);flex-shrink:0}
+.TopTitle{font-size:1.2rem;font-weight:800}
+.TopRight{display:flex;align-items:center;gap:10px}
+.BtnNew{padding:10px 20px;border-radius:8px;background:var(--accent);border:none;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;min-height:40px;font-family:inherit;transition:background .2s}
+.BtnNew:hover{background:var(--accent-hover)}
+.Avatar{width:34px;height:34px;border-radius:50%;background:var(--info);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:#fff}
+
+.Content{flex:1;overflow-y:auto;padding:20px}
+.Tab{display:none}.Tab.Active{display:block}
+
+.KpiRow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.KpiCard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.KpiLabel{font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.KpiValue{font-size:1.8rem;font-weight:900}
+.KpiNote{font-size:.72rem;color:var(--success);margin-top:4px}
+
+.ClientMap{height:300px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);margin-bottom:20px}
+.leaflet-control-attribution{display:none!important}
+
+.DataTable{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.DataTable th{text-align:left;padding:12px 14px;font-size:.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.2)}
+.DataTable td{padding:12px 14px;font-size:.83rem;border-bottom:1px solid var(--border)}
+.DataTable tr:last-child td{border-bottom:none}
+.DataTable tr:hover td{background:rgba(255,107,53,.03)}
+.StatusBadge{padding:3px 10px;border-radius:50px;font-size:.72rem;font-weight:600;display:inline-block}
+.StPending{background:rgba(245,158,11,.15);color:var(--warning)}
+.StActive{background:rgba(59,130,246,.15);color:var(--info)}
+.StCompleted{background:rgba(34,197,94,.15);color:var(--success)}
+.StCancelled{background:rgba(239,68,68,.15);color:var(--danger)}
+
+/* Booking Form */
+.BookingOverlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:5000;align-items:center;justify-content:center}
+.BookingOverlay.Open{display:flex}
+.BookingModal{background:var(--card);border:1px solid var(--border);border-radius:16px;width:95%;max-width:700px;max-height:90vh;overflow-y:auto;padding:0}
+.BmHeader{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.BmHeader h2{font-size:1.15rem;font-weight:800}
+.BmClose{width:40px;height:40px;background:none;border:none;color:var(--text);font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.BmBody{padding:24px}
+.BmGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.BmFull{grid-column:1/-1}
+.BmField{display:flex;flex-direction:column;gap:5px}
+.BmField label{font-size:.8rem;color:var(--text-muted);font-weight:600}
+.BmField input,.BmField textarea,.BmField select{padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.9rem;font-family:inherit;outline:none;transition:border-color .2s}
+.BmField input:focus,.BmField textarea:focus,.BmField select:focus{border-color:var(--accent)}
+.BmField input::placeholder,.BmField textarea::placeholder{color:var(--text-muted)}
+.BmField textarea{resize:vertical;min-height:60px}
+.BmStopsWrap{grid-column:1/-1}
+.BmStopRow{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+.BmStopRow input{flex:1;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.9rem;font-family:inherit;outline:none}
+.BmStopRow input:focus{border-color:var(--accent)}
+.BmStopDel{width:36px;height:36px;border-radius:8px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--danger);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.BtnAddStop{padding:8px 16px;border-radius:8px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:var(--info);font-size:.8rem;font-weight:600;cursor:pointer;font-family:inherit;margin-top:4px}
+.QuoteBox{grid-column:1/-1;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;display:none}
+.QuoteBox.Show{display:block}
+.QuotePrice{font-size:2rem;font-weight:900;color:var(--accent)}
+.QuoteBreakdown{font-size:.78rem;color:var(--text-muted);margin-top:6px}
+.PaySection{grid-column:1/-1;display:none}
+.PaySection.Show{display:block}
+.PayGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.PayFull{grid-column:1/-1}
+.BmActions{grid-column:1/-1;display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
+.BtnQuote,.BtnBook{padding:12px 28px;border-radius:10px;border:none;cursor:pointer;font-size:.92rem;font-weight:700;min-height:46px;font-family:inherit;transition:all .2s}
+.BtnQuote{background:var(--bg);border:2px solid var(--accent);color:var(--accent)}
+.BtnQuote:hover{background:rgba(255,107,53,.1)}
+.BtnBook{background:var(--accent);color:#fff}
+.BtnBook:hover{background:var(--accent-hover)}
+.BtnBook:disabled{opacity:.4;cursor:default}
+
+.MobileToggle{display:none;width:44px;height:44px;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer}
+@media(max-width:768px){
+  .Sidebar{position:fixed;left:-240px;z-index:3000;height:100%;transition:left .3s}.Sidebar.Open{left:0}
+  .MobileToggle{display:flex;align-items:center;justify-content:center}
+  .KpiRow{grid-template-columns:1fr 1fr}
+  .BmGrid{grid-template-columns:1fr}
+}
+@media(max-width:480px){.KpiRow{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="App">
+  <div class="Sidebar" id="Sidebar">
+    <div class="SBrand">
+      <div class="SBLogo">W</div>
+      <div><div class="SBTitle">Wolfs Trucking</div><div class="SBSub">Client Portal</div></div>
+    </div>
+    <div class="SNav">
+      <button class="SNavItem Active" onclick="ShowTab('dashboard',this)"><span class="SNavIcon">&#128200;</span> Dashboard</button>
+      <button class="SNavItem" onclick="ShowTab('shipments',this)"><span class="SNavIcon">&#128666;</span> My Shipments</button>
+      <button class="SNavItem" onclick="ShowTab('invoices',this)"><span class="SNavIcon">&#128176;</span> Invoices</button>
+      <button class="SNavItem" onclick="ShowTab('tracking',this)"><span class="SNavIcon">&#128205;</span> Live Tracking</button>
+    </div>
+    <div class="SFoot">
+      <a href="/wolfstruckingco.com/">Homepage</a>
+      <a href="#" onclick="Logout()" style="color:var(--danger)">Sign Out</a>
+    </div>
+  </div>
+
+  <div class="Main">
+    <div class="TopBar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="MobileToggle" onclick="document.getElementById('Sidebar').classList.toggle('Open')" aria-label="Open menu">&#9776;</button>
+        <div class="TopTitle" id="TopTitle">Dashboard</div>
+      </div>
+      <div class="TopRight">
+        <button class="BtnNew" onclick="OpenBooking()">+ New Shipment</button>
+        <div class="Avatar" id="UserAvatar">N</div>
+      </div>
+    </div>
+
+    <div class="Content">
+      <!-- Dashboard -->
+      <div class="Tab Active" id="TabDashboard">
+        <div class="KpiRow">
+          <div class="KpiCard"><div class="KpiLabel">Total Spent</div><div class="KpiValue" style="color:var(--accent)" id="KpiSpent">$1,587.50</div><div class="KpiNote">This month</div></div>
+          <div class="KpiCard"><div class="KpiLabel">Shipments</div><div class="KpiValue" style="color:var(--info)" id="KpiShipments">12</div><div class="KpiNote">4 active</div></div>
+          <div class="KpiCard"><div class="KpiLabel">On-Time Rate</div><div class="KpiValue" style="color:var(--success)">98.5%</div><div class="KpiNote">&#9650; 1.2% vs last month</div></div>
+          <div class="KpiCard"><div class="KpiLabel">Avg Delivery</div><div class="KpiValue" style="color:var(--warning)">2.4 hrs</div><div class="KpiNote">Within target</div></div>
+        </div>
+        <div class="ClientMap" id="ClientMap"></div>
+        <h3 style="font-size:.95rem;font-weight:700;margin-bottom:12px">Recent Shipments</h3>
+        <table class="DataTable"><thead><tr><th>ID</th><th>Route</th><th>Cargo</th><th>Status</th><th>Price</th><th>Date</th></tr></thead>
+        <tbody id="RecentBody"></tbody></table>
+      </div>
+
+      <!-- Shipments -->
+      <div class="Tab" id="TabShipments">
+        <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+          <input style="flex:1;min-width:200px;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem;outline:none" placeholder="Search shipments..." oninput="FilterShipments(this.value)">
+          <select style="padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem;cursor:pointer" onchange="FilterShipmentStatus(this.value)"><option value="">All Status</option><option value="pending">Pending</option><option value="in_progress">In Progress</option><option value="completed">Completed</option></select>
+        </div>
+        <table class="DataTable"><thead><tr><th>ID</th><th>Pickup</th><th>Delivery</th><th>Stops</th><th>Cargo</th><th>Status</th><th>Price</th><th>Scheduled</th></tr></thead>
+        <tbody id="ShipmentsBody"></tbody></table>
+      </div>
+
+      <!-- Invoices -->
+      <div class="Tab" id="TabInvoices">
+        <table class="DataTable"><thead><tr><th>Invoice #</th><th>Shipment</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+        <tbody id="InvoicesBody"></tbody></table>
+      </div>
+
+      <!-- Live Tracking -->
+      <div class="Tab" id="TabTracking">
+        <div class="ClientMap" id="TrackingMap" style="height:calc(100vh - 160px)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Booking Modal -->
+<div class="BookingOverlay" id="BookingOverlay">
+  <div class="BookingModal">
+    <div class="BmHeader"><h2>New Shipment</h2><button class="BmClose" onclick="CloseBooking()" aria-label="Close booking">&#10005;</button></div>
+    <div class="BmBody">
+      <div class="BmGrid">
+        <div class="BmField"><label>Pickup Address</label><input id="BkPickup" placeholder="123 Main St, City, State ZIP"></div>
+        <div class="BmField"><label>Schedule Date &amp; Time</label><input id="BkSchedule" type="datetime-local" aria-label="Date and time"></div>
+        <div class="BmStopsWrap">
+          <label style="font-size:.8rem;color:var(--text-muted);font-weight:600;margin-bottom:6px;display:block">Delivery Stop(s)</label>
+          <div id="StopsList">
+            <div class="BmStopRow"><input placeholder="Delivery address #1"><button class="BmStopDel" onclick="RemoveStop(this)" style="visibility:hidden" aria-label="Remove stop">&#10005;</button></div>
+          </div>
+          <button class="BtnAddStop" onclick="AddStop()">+ Add Another Stop</button>
+        </div>
+        <div class="BmField"><label>Cargo Description</label><input id="BkCargo" placeholder="e.g. 6 pallets electronics"></div>
+        <div class="BmField"><label>Weight (lbs)</label><input id="BkWeight" type="number" placeholder="5000" min="1"></div>
+        <div class="BmField"><label>Cargo Type</label>
+          <select id="BkType"><option value="dry">Dry Van</option><option value="reefer">Refrigerated</option><option value="flatbed">Flatbed</option><option value="ltl">LTL</option><option value="express">Express</option></select>
+        </div>
+        <div class="BmField"><label>Priority</label>
+          <select id="BkPriority"><option value="standard">Standard</option><option value="rush">Rush (+30%)</option><option value="scheduled">Scheduled</option></select>
+        </div>
+        <div class="BmField BmFull"><label>Special Instructions</label><textarea id="BkInstructions" placeholder="Liftgate required, fragile, temperature controlled..."></textarea></div>
+
+        <div class="QuoteBox" id="QuoteBox">
+          <div class="QuotePrice" id="QuotePrice">$0.00</div>
+          <div class="QuoteBreakdown" id="QuoteBreakdown"></div>
+        </div>
+
+        <div class="PaySection" id="PaySection">
+          <h4 style="font-size:.92rem;font-weight:700;margin-bottom:4px">Payment</h4>
+          <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:10px">Secure card payment</p>
+          <div class="PayGrid">
+            <div class="PayFull"><input id="PayCard" placeholder="Card number" maxlength="19" oninput="FmtCard(this)" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.9rem;outline:none;letter-spacing:1px"></div>
+            <div><input id="PayExp" placeholder="MM / YY" maxlength="7" oninput="FmtExp(this)" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.9rem;outline:none"></div>
+            <div><input id="PayCvc" placeholder="CVC" maxlength="4" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.9rem;outline:none"></div>
+          </div>
+          <p style="font-size:.7rem;color:var(--text-muted);margin-top:8px;text-align:center">&#128274; Encrypted &amp; secure. We never store card details.</p>
+        </div>
+
+        <div class="BmActions">
+          <button class="BtnQuote" onclick="GetQuote()">Get Quote</button>
+          <button class="BtnBook" id="BtnBook" onclick="BookShipment()" disabled>Book Shipment</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/wolfstruckingco.com/wolfs-map.js"></script>
+<script src="/wolfstruckingco.com/demo.js"></script>
+<script>
+var API = 'https://wolfstruckingco.nbth.workers.dev';
+var QuoteData = null;
+
+(function AuthCheck() {
+  if (!localStorage.getItem('wolfs_session')) { window.location.href = '/wolfstruckingco.com/Login/'; return; }
+  var N = localStorage.getItem('wolfs_name') || localStorage.getItem('wolfs_email') || 'Client';
+  document.getElementById('UserAvatar').textContent = N.charAt(0).toUpperCase();
+})();
+
+// Sample shipments
+var Shipments = [
+  {id:'SHP-0041',pickup:'Blesse Mfg, Charlotte NC',delivery:'Southeast DC, Charlotte NC',stops:1,cargo:'Auto parts, 12 pallets',status:'completed',price:437.50,date:'2026-04-10',lat1:35.27,lng1:-80.85,lat2:35.23,lng2:-80.84},
+  {id:'SHP-0042',pickup:'Blesse Mfg, Charlotte NC',delivery:'Gaston County, Gastonia NC',stops:1,cargo:'Building materials, 8 pallets',status:'completed',price:312.50,date:'2026-04-11',lat1:35.27,lng1:-80.81,lat2:35.26,lng2:-81.19},
+  {id:'SHP-0043',pickup:'Anderson SC',delivery:'Asheville NC',stops:1,cargo:'Electronics, HIGH VALUE',status:'in_progress',price:562.50,date:'2026-04-14',lat1:34.50,lng1:-82.65,lat2:35.60,lng2:-82.55},
+  {id:'SHP-0044',pickup:'Hickory NC',delivery:'Greensboro NC',stops:2,cargo:'Furniture, 15 pallets',status:'pending',price:487.50,date:'2026-04-16',lat1:35.73,lng1:-81.32,lat2:36.07,lng2:-79.79},
+  {id:'SHP-0045',pickup:'Spartanburg SC',delivery:'Greenville SC → Columbia SC',stops:2,cargo:'Machine components',status:'in_progress',price:385.00,date:'2026-04-15',lat1:34.95,lng1:-81.93,lat2:34.00,lng2:-81.03},
+];
+
+var Invoices = [
+  {id:'INV-2026-041',shipment:'SHP-0041',amount:437.50,status:'paid',date:'2026-04-10'},
+  {id:'INV-2026-042',shipment:'SHP-0042',amount:312.50,status:'paid',date:'2026-04-11'},
+  {id:'INV-2026-043',shipment:'SHP-0043',amount:562.50,status:'pending',date:'2026-04-14'},
+  {id:'INV-2026-044',shipment:'SHP-0044',amount:487.50,status:'pending',date:'2026-04-16'},
+  {id:'INV-2026-045',shipment:'SHP-0045',amount:385.00,status:'pending',date:'2026-04-15'},
+];
+
+function ShowTab(Tab, El) {
+  document.querySelectorAll('.Tab').forEach(function(T){T.classList.remove('Active')});
+  document.querySelectorAll('.SNavItem').forEach(function(N){N.classList.remove('Active')});
+  document.getElementById('Tab' + Tab.charAt(0).toUpperCase() + Tab.slice(1)).classList.add('Active');
+  if (El) El.classList.add('Active');
+  var Titles = {dashboard:'Dashboard',shipments:'My Shipments',invoices:'Invoices',tracking:'Live Tracking'};
+  document.getElementById('TopTitle').textContent = Titles[Tab] || Tab;
+  document.getElementById('Sidebar').classList.remove('Open');
+  if (Tab === 'tracking') setTimeout(InitTrackingMap, 200);
+}
+
+function RenderRecent() {
+  var H = '';
+  Shipments.forEach(function(S) {
+    var Sc = S.status === 'completed' ? 'StCompleted' : S.status === 'in_progress' ? 'StActive' : 'StPending';
+    var Sl = S.status === 'in_progress' ? 'In Transit' : S.status.charAt(0).toUpperCase() + S.status.slice(1);
+    H += '<tr><td style="font-size:.78rem">' + S.id + '</td><td>' + S.pickup + ' → ' + S.delivery + '</td><td>' + S.cargo + '</td><td><span class="StatusBadge ' + Sc + '">' + Sl + '</span></td><td style="color:var(--accent);font-weight:700">$' + S.price.toFixed(2) + '</td><td>' + S.date + '</td></tr>';
+  });
+  document.getElementById('RecentBody').innerHTML = H;
+}
+
+function RenderShipments() {
+  var H = '';
+  Shipments.forEach(function(S) {
+    var Sc = S.status === 'completed' ? 'StCompleted' : S.status === 'in_progress' ? 'StActive' : 'StPending';
+    var Sl = S.status === 'in_progress' ? 'In Transit' : S.status.charAt(0).toUpperCase() + S.status.slice(1);
+    H += '<tr><td style="font-size:.78rem">' + S.id + '</td><td>' + S.pickup + '</td><td>' + S.delivery + '</td><td>' + S.stops + '</td><td>' + S.cargo + '</td><td><span class="StatusBadge ' + Sc + '">' + Sl + '</span></td><td style="color:var(--accent);font-weight:700">$' + S.price.toFixed(2) + '</td><td>' + S.date + '</td></tr>';
+  });
+  document.getElementById('ShipmentsBody').innerHTML = H;
+}
+
+function RenderInvoices() {
+  var H = '';
+  Invoices.forEach(function(I) {
+    var Sc = I.status === 'paid' ? 'StCompleted' : 'StPending';
+    H += '<tr><td><b>' + I.id + '</b></td><td>' + I.shipment + '</td><td style="color:var(--accent);font-weight:700">$' + I.amount.toFixed(2) + '</td><td><span class="StatusBadge ' + Sc + '">' + I.status + '</span></td><td>' + I.date + '</td></tr>';
+  });
+  document.getElementById('InvoicesBody').innerHTML = H;
+}
+
+function FilterShipments(Q) { Q = Q.toLowerCase(); document.querySelectorAll('#ShipmentsBody tr').forEach(function(R) { R.style.display = R.textContent.toLowerCase().indexOf(Q) !== -1 ? '' : 'none'; }); }
+function FilterShipmentStatus(S) { document.querySelectorAll('#ShipmentsBody tr').forEach(function(R) { if (!S) { R.style.display = ''; return; } var B = R.querySelector('.StatusBadge'); R.style.display = B && B.textContent.toLowerCase().replace(' ','_') === S ? '' : 'none'; }); }
+
+var ClientMapInst = null;
+function InitClientMap() {
+  ClientMapInst = L.map('ClientMap',{zoomControl:true}).setView([35.0,  -81.5], 7);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19,subdomains:'abcd'}).addTo(ClientMapInst);
+  Shipments.forEach(function(S) {
+    if (!S.lat1) return;
+    var Color = S.status === 'in_progress' ? '#3b82f6' : S.status === 'completed' ? '#22c55e' : '#f59e0b';
+    var Ic = L.divIcon({html:'<div style="width:14px;height:14px;background:'+Color+';border-radius:50%;border:2px solid #fff;box-shadow:0 0 6px '+Color+'"></div>',iconSize:[14,14],iconAnchor:[7,7],className:''});
+    L.marker([S.lat1,S.lng1],{icon:Ic}).addTo(ClientMapInst).bindPopup('<b>' + S.id + '</b><br>' + S.pickup);
+    if (S.status === 'in_progress') {
+      L.polyline([[S.lat1,S.lng1],[S.lat2,S.lng2]],{color:'#3b82f6',weight:3,dashArray:'8,6',opacity:.8}).addTo(ClientMapInst);
+    }
+  });
+}
+
+var TrackingMapInst = null;
+function InitTrackingMap() {
+  if (TrackingMapInst) return;
+  TrackingMapInst = L.map('TrackingMap',{zoomControl:true}).setView([35.0,-81.5],7);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19,subdomains:'abcd'}).addTo(TrackingMapInst);
+  Shipments.filter(function(S){return S.status==='in_progress'}).forEach(function(S) {
+    var mid = [(S.lat1+S.lat2)/2, (S.lng1+S.lng2)/2];
+    var TruckIc = L.divIcon({html:'<div style="width:30px;height:30px;background:#ff6b35;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,.4)">&#128666;</div>',iconSize:[30,30],iconAnchor:[15,15],className:''});
+    L.marker(mid,{icon:TruckIc}).addTo(TrackingMapInst).bindPopup('<b>' + S.id + '</b><br>' + S.cargo + '<br>ETA: 45 min');
+    L.polyline([[S.lat1,S.lng1],mid,[S.lat2,S.lng2]],{color:'#ff6b35',weight:4,opacity:.8}).addTo(TrackingMapInst);
+    var Pu = L.divIcon({html:'<div style="width:10px;height:10px;background:#22c55e;border-radius:50%;border:2px solid #fff"></div>',iconSize:[10,10],iconAnchor:[5,5],className:''});
+    var Dl = L.divIcon({html:'<div style="width:10px;height:10px;background:#ef4444;border-radius:50%;border:2px solid #fff"></div>',iconSize:[10,10],iconAnchor:[5,5],className:''});
+    L.marker([S.lat1,S.lng1],{icon:Pu}).addTo(TrackingMapInst).bindPopup('Pickup: '+S.pickup);
+    L.marker([S.lat2,S.lng2],{icon:Dl}).addTo(TrackingMapInst).bindPopup('Delivery: '+S.delivery);
+  });
+}
+
+function OpenBooking() { document.getElementById('BookingOverlay').classList.add('Open'); }
+function CloseBooking() { document.getElementById('BookingOverlay').classList.remove('Open'); QuoteData = null; document.getElementById('QuoteBox').classList.remove('Show'); document.getElementById('PaySection').classList.remove('Show'); document.getElementById('BtnBook').disabled = true; }
+
+function AddStop() {
+  var List = document.getElementById('StopsList');
+  var N = List.children.length + 1;
+  var Row = document.createElement('div');
+  Row.className = 'BmStopRow';
+  Row.innerHTML = '<input placeholder="Delivery address #' + N + '"><button class="BmStopDel" onclick="RemoveStop(this)" aria-label="Remove stop">&#10005;</button>';
+  List.appendChild(Row);
+}
+
+function RemoveStop(Btn) { Btn.parentElement.remove(); }
+
+function GetQuote() {
+  var Pickup = document.getElementById('BkPickup').value.trim();
+  var Stops = document.getElementById('StopsList').querySelectorAll('input');
+  if (!Pickup || !Stops[0].value.trim()) { return; }
+  var Dist = 20 + Math.floor(Math.random() * 180);
+  var Weight = parseInt(document.getElementById('BkWeight').value) || 0;
+  var Rush = document.getElementById('BkPriority').value === 'rush';
+  var StopCount = Stops.length;
+  var Rate = 1.45;
+  var WSurcharge = Weight > 20000 ? 75 : Weight > 10000 ? 35 : 0;
+  var StopFee = (StopCount - 1) * 25;
+  var Base = Dist * Rate + WSurcharge + StopFee;
+  var RushFee = Rush ? Base * 0.3 : 0;
+  var Total = Math.round((Base + RushFee) * 100) / 100;
+  QuoteData = { total: Total, distance: Dist };
+  document.getElementById('QuotePrice').textContent = '$' + Total.toFixed(2);
+  document.getElementById('QuoteBreakdown').textContent = Dist + ' mi × $' + Rate + '/mi' + (WSurcharge ? ' + $' + WSurcharge + ' weight' : '') + (StopFee ? ' + $' + StopFee + ' multi-stop' : '') + (RushFee ? ' + $' + RushFee.toFixed(2) + ' rush' : '');
+  document.getElementById('QuoteBox').classList.add('Show');
+  document.getElementById('PaySection').classList.add('Show');
+  document.getElementById('BtnBook').disabled = false;
+}
+
+function BookShipment() {
+  if (!QuoteData) return;
+  var Pickup = document.getElementById('BkPickup').value.trim();
+  var Stops = []; document.getElementById('StopsList').querySelectorAll('input').forEach(function(I) { if (I.value.trim()) Stops.push(I.value.trim()); });
+  var NewShip = {
+    id: 'SHP-' + (1000 + Shipments.length + 1),
+    pickup: Pickup, delivery: Stops.join(' → '), stops: Stops.length,
+    cargo: document.getElementById('BkCargo').value || 'General freight',
+    status: 'pending', price: QuoteData.total,
+    date: new Date().toISOString().slice(0, 10),
+    lat1: 35.2 + Math.random() * 0.5, lng1: -81.5 + Math.random() * 1,
+    lat2: 35.0 + Math.random() * 0.8, lng2: -80.5 + Math.random() * 1.5
+  };
+  Shipments.unshift(NewShip);
+  var InvNum = 'INV-2026-' + String(46 + Invoices.length).padStart(3, '0');
+  Invoices.unshift({ id: InvNum, shipment: NewShip.id, amount: NewShip.price, status: 'pending', date: NewShip.date });
+  RenderRecent(); RenderShipments(); RenderInvoices();
+  CloseBooking();
+
+  var IsDemo = localStorage.getItem('wolfs_demo') === 'true';
+  var ClientEmail = localStorage.getItem('wolfs_email') || 'client@example.com';
+
+  // Send to MCP relay (notification to admin + driver dispatch)
+  fetch(API + '/send', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ type:'client_job', id: NewShip.id, content: JSON.stringify(NewShip) }) }).catch(function(){});
+
+  // Persist to R2 via REST API (real business data)
+  if (!IsDemo) {
+    fetch(API + '/api/jobs', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: NewShip.id, title:'Client Shipment: '+NewShip.pickup+' -> '+NewShip.delivery, status:'pending', pickup:NewShip.pickup, delivery:NewShip.delivery, stops:NewShip.stops, cargo:NewShip.cargo, weight: document.getElementById('BkWeight').value||'0', pay: NewShip.price, clientEmail: ClientEmail, instructions: document.getElementById('BkInstructions').value||'', createdAt: new Date().toISOString() }) }).catch(function(){});
+    fetch(API + '/api/invoices', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: InvNum, jobId: NewShip.id, clientEmail: ClientEmail, amount: NewShip.price, status:'pending', createdAt: new Date().toISOString() }) }).catch(function(){});
+  }
+}
+
+function FmtCard(E) { var V = E.value.replace(/\D/g,'').substring(0,16); E.value = V.replace(/(\d{4})(?=\d)/g,'$1 '); }
+function FmtExp(E) { var V = E.value.replace(/\D/g,'').substring(0,4); E.value = V.length >= 3 ? V.substring(0,2) + ' / ' + V.substring(2) : V; }
+
+function Logout() {
+  localStorage.removeItem('wolfs_session'); localStorage.removeItem('wolfs_email'); localStorage.removeItem('wolfs_role'); localStorage.removeItem('wolfs_demo'); localStorage.removeItem('wolfs_name');
+  window.location.href = '/wolfstruckingco.com/Login/';
+}
+
+RenderRecent(); RenderShipments(); RenderInvoices();
+setTimeout(InitClientMap, 300);
+
+// Fetch real shipments from R2 in non-demo mode
+function FetchR2Shipments() {
+  if (localStorage.getItem('wolfs_demo') === 'true') return;
+  var ClientEmail = localStorage.getItem('wolfs_email') || '';
+  fetch(API + '/api/jobs').then(function(R){return R.json()}).then(function(Data){
+    if (!Data.items) return;
+    var Mine = Data.items.filter(function(J){ return J.clientEmail === ClientEmail; });
+    if (Mine.length === 0) return;
+    Mine.forEach(function(J) {
+      if (Shipments.some(function(S){ return S.id === J.id; })) return;
+      Shipments.unshift({
+        id: J.id, pickup: J.pickup || '', delivery: J.delivery || '', stops: J.stops || 1,
+        cargo: J.cargo || '', status: J.status || 'pending',
+        price: typeof J.pay === 'number' ? J.pay : parseFloat((J.pay||'0')) || 0,
+        date: J.createdAt ? J.createdAt.slice(0, 10) : new Date().toISOString().slice(0, 10),
+        lat1: 35.2 + Math.random() * 0.5, lng1: -81.5 + Math.random() * 1,
+        lat2: 35.0 + Math.random() * 0.8, lng2: -80.5 + Math.random() * 1.5
+      });
+    });
+    RenderRecent(); RenderShipments();
+  }).catch(function(){});
+
+  fetch(API + '/api/invoices').then(function(R){return R.json()}).then(function(Data){
+    if (!Data.items) return;
+    var Mine = Data.items.filter(function(I){ return I.clientEmail === ClientEmail; });
+    Mine.forEach(function(I) {
+      if (Invoices.some(function(V){ return V.id === I.id; })) return;
+      Invoices.unshift({ id: I.id, shipment: I.jobId || '', amount: I.amount || 0, status: I.status || 'pending', date: (I.createdAt||'').slice(0, 10) });
+    });
+    RenderInvoices();
+  }).catch(function(){});
+}
+setInterval(FetchR2Shipments, 15000);
+FetchR2Shipments();
+
+// Demo mode
+if (DemoGuide.IsDemo()) {
+  setTimeout(function() {
+    DemoGuide.Init('Client', [
+      {title:'1. Client Portal — Noah Blesse', text:'Logistics command center for Blesse Manufacturing. Book shipments, track drivers real-time, manage invoices, see KPIs. All persisted to R2.', target:'.SBrand'},
+      {title:'2. Sidebar Navigation', text:'4 sections: Dashboard (KPIs), My Shipments (history), Invoices (billing), Live Tracking (map). Scrollable menu.', target:'.SNav'},
+      {title:'3. Total Spent KPI', text:'Monthly spending: $1,587.50. Avg shipment $317 at $1.45/mile. Budget tracking at-a-glance.', target:'.KpiCard:nth-child(1)'},
+      {title:'4. Shipments Count', text:'12 this month, 4 active. Historical volume forecasts your logistics needs.', target:'.KpiCard:nth-child(2)'},
+      {title:'5. On-Time 98.5%', text:'Your shipments arrive on time 98.5%. We track every delivery vs scheduled window. Industry: 95%+.', target:'.KpiCard:nth-child(3)'},
+      {title:'6. Avg Delivery 2.4hr', text:'Pickup to delivery average. Critical for JIT manufacturing. Regional runs under 3 hours.', target:'.KpiCard:nth-child(4)'},
+      {title:'7. Live Shipment Map', text:'Green=completed, blue=in-transit with routes, yellow=pending. Click markers for details.', target:'#ClientMap'},
+      {title:'8. Recent Shipments', text:'Last 5 shipments with ID, route, cargo, status, price, date. Full list in My Shipments.', target:'#RecentBody'},
+      {title:'9. Create New Shipment', text:'Core workflow — booking pays the business! Click "+ New Shipment" to open booking form.', target:'.BtnNew', action:function(){ OpenBooking(); }},
+      {title:'10. Pickup Address', text:'Complete pickup address with business name + street. Drivers navigate exactly. Geocoded for accuracy.', target:'#BkPickup', action:function(){ document.getElementById('BkPickup').value = 'Blesse Manufacturing, 1200 Industrial Dr, Charlotte NC 28206'; }},
+      {title:'11. Schedule', text:'Pick exact pickup window. Same-day rush, next-day, or scheduled weeks ahead. Integrated with driver dispatch.', target:'#BkSchedule', action:function(){ var d=new Date();d.setDate(d.getDate()+1);document.getElementById('BkSchedule').value = d.toISOString().slice(0,16); }},
+      {title:'12. Multi-Stop Delivery', text:'Up to 10 delivery addresses. Each $25 additional. Perfect for distribution runs to multiple warehouses.', target:'#StopsList', action:function(){ document.getElementById('StopsList').querySelector('input').value = 'Greenville Commerce Park, 200 Verdae Blvd, Greenville SC 29607'; }},
+      {title:'13. Add More Stops', text:'Chain more deliveries. System optimizes route for minimum miles and time.', target:'.BtnAddStop', action:function(){ AddStop(); document.getElementById('StopsList').children[1].querySelector('input').value = 'Spartanburg DC, 600 International Dr, Spartanburg SC 29303'; }},
+      {title:'14. Cargo Description', text:'Specific: pallets, handling, hazmat. Driver equipment, DOT docs, and insurance depend on this.', target:'#BkCargo', action:function(){ document.getElementById('BkCargo').value = '8 pallets precision auto parts, forklift-friendly'; }},
+      {title:'15. Weight (lbs)', text:'Total weight determines truck size, fuel, oversize permits. >20K lbs adds $75 surcharge.', target:'#BkWeight', action:function(){ document.getElementById('BkWeight').value = '6500'; }},
+      {title:'16. Cargo Type', text:'Dry Van, Refrigerated (temp), Flatbed (oversized), LTL (less-than-truckload), Express. Determines truck and driver.', target:'#BkType'},
+      {title:'17. Priority & Rush', text:'Standard, Rush (+30%, next truck), Scheduled (fixed time). Rush for emergencies and critical production.', target:'#BkPriority'},
+      {title:'18. Special Instructions', text:'Liftgate, temperature, appointments, gate codes, security. Goes directly to driver.', target:'#BkInstructions', action:function(){ document.getElementById('BkInstructions').value = 'Liftgate required. Call 30 min before arrival. Dock 4.'; }},
+      {title:'19. Get Instant Quote', text:'Transparent pricing: distance × $1.45 + weight + stops + rush. No hidden fees. 15%+ cheaper than brokers.', target:'.BtnQuote', action:function(){ GetQuote(); }},
+      {title:'20. Quote Breakdown', text:'See exactly what you pay: miles × rate + weight + stops + rush. Full transparency.', target:'#QuoteBox'},
+      {title:'21. Payment Card', text:'PCI-compliant secure form. Encrypted in transit. Never stored. Pay now or Net 30 for approved accounts.', target:'#PaySection', action:function(){ document.getElementById('PayCard').value = '4242 4242 4242 4242'; document.getElementById('PayExp').value = '12 / 28'; document.getElementById('PayCvc').value = '123'; }},
+      {title:'22. Book Shipment', text:'Creates job, persists to R2, sends to admin for approval, emails confirmation. Visible in tracking within seconds.', target:'.BtnBook', action:function(){ BookShipment(); }},
+      {title:'23. My Shipments', text:'Complete history. Search by ID, cargo, route. Filter by status. Export for accounting.', target:null, action:function(){ ShowTab('shipments', document.querySelectorAll('.SNavItem')[1]); }},
+      {title:'24. Shipment Details', text:'ID, pickup, delivery (stops indicator), cargo, status, price, date. Click for expanded driver info.', target:'#ShipmentsBody'},
+      {title:'25. Invoices Tab', text:'All invoices. Paid (green) / pending (yellow). Download PDFs, track AR, reconcile payments.', target:null, action:function(){ ShowTab('invoices', document.querySelectorAll('.SNavItem')[2]); }},
+      {title:'26. Invoice Management', text:'INV-YYYY-NNN pattern. Links to shipment. Integrates with QuickBooks and Xero.', target:'#InvoicesBody'},
+      {title:'27. Live Tracking', text:'Full-screen map with truck icons moving real-time. Click any for driver name, ETA, cargo status.', target:null, action:function(){ ShowTab('tracking', document.querySelectorAll('.SNavItem')[3]); }},
+      {title:'28. Real-Time Positions', text:'GPS updates every 30 seconds. Exact location. Route lines show planned path. ETAs recalc with traffic.', target:'#TrackingMap'},
+      {title:'Client Demo Complete!', text:'ALL 28 features shown: 4 KPIs, map, booking with multi-stop, quoting, payment, history, invoices, live tracking. Your logistics are handled!', target:null, action:function(){ ShowTab('dashboard', document.querySelectorAll('.SNavItem')[0]); }}
+    ]);
+  }, 800);
+}
+</script>
+</body>
+</html>

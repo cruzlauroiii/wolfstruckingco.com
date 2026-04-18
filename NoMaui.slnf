@@ -1,0 +1,15 @@
+{
+  "solution": {
+    "path": "slnx",
+    "projects": [
+      "src/Domain/Domain.csproj",
+      "src/Application/Application.csproj",
+      "src/Infrastructure/Infrastructure.csproj",
+      "src/Server/Server.csproj",
+      "src/SharedUI/SharedUI.csproj",
+      "src/Client/Client.csproj",
+      "src/Analyzers/Analyzers.csproj",
+      "src/Fingerprint/Fingerprint.csproj"
+    ]
+  }
+}

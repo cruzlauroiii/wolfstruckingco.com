@@ -1,0 +1,15 @@
+@page "/FAQ"
+
+<MarketingHero Title="Frequently asked"
+               Highlight="questions"
+               Subtitle="Quick answers about pricing, hiring, service area, and how the platform works." />
+
+<div class="Card">
+    @foreach (var Q in Questions)
+    {
+        <details class="FaqItem">
+            <summary>@Q.Q</summary>
+            <p>@Q.A</p>
+        </details>
+    }
+</div>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://basemaps.cartocdn.com" crossorigin>
+<link rel="preconnect" href="https://router.project-osrm.org" crossorigin>
+<link rel="preconnect" href="https://wolfstruckingco.nbth.workers.dev" crossorigin>
+<meta name="description" content="Voice-first dispatcher — call your AI dispatcher to get role-scoped answers about jobs, drivers, and earnings.">
+<meta property="og:title" content="Dispatcher | Wolfs Trucking Co.">
+<meta property="og:description" content="Voice-first dispatcher — call your AI dispatcher to get role-scoped answers about jobs, drivers, and earnings.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/wolfstruckingco.com/icon.svg">
+<meta name="twitter:card" content="summary">
+<title>Dispatcher | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<meta name="theme-color" content="#ff6b35">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--radius:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.TopBar{position:sticky;top:0;z-index:10;background:rgba(15,20,25,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.Brand{font-weight:800;display:flex;align-items:center;gap:8px}
+.Brand .Logo{width:28px;height:28px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:.85rem}
+.Brand a{color:var(--text);text-decoration:none}
+.Stage{max-width:1600px;margin:0 auto;padding:24px 32px 40px}
+.Stage h1{font-size:1.6rem;font-weight:800;margin-bottom:6px}
+.Stage>p{color:var(--text-muted);margin-bottom:20px;line-height:1.55}
+.Scope{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:.82rem;color:var(--text-muted)}
+.Scope .Role{color:var(--accent);font-weight:700;text-transform:uppercase;font-size:.75rem;letter-spacing:.5px;margin-right:6px}
+.ChatLog{display:flex;flex-direction:column;gap:12px;max-height:760px;overflow-y:auto;padding:8px}
+.Msg{padding:14px 18px;border-radius:10px;max-width:100%;width:100%;line-height:1.55;white-space:pre-wrap;font-size:1rem;align-self:stretch}
+.Msg.User{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--text-muted)}
+.Msg.Agent{background:rgba(255,107,53,.08);border:1px solid rgba(255,107,53,.3);border-left:4px solid var(--accent)}
+.Msg .Label{font-size:.7rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;display:block}
+form{display:flex;gap:8px;margin-top:14px}
+form input{flex:1;padding:12px 14px;border-radius:10px;background:var(--card);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.95rem}
+form input:focus{border-color:var(--accent);outline:none}
+form button{padding:12px 22px;border-radius:10px;background:var(--accent);color:#fff;border:none;font-weight:700;cursor:pointer;font-size:.95rem;font-family:inherit}
+form button:hover{background:var(--accent-hover)}
+.Spinner{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid rgba(255,107,53,.25);border-top-color:var(--accent);animation:spin .7s linear infinite;margin-right:6px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.AuthWarn{padding:14px 18px;background:rgba(245,158,11,.1);border:1px solid #f59e0b;border-radius:10px;margin-bottom:18px;color:#f59e0b}
+.CallBar{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+.CallBtn{padding:10px 16px;border-radius:999px;background:rgba(255,107,53,.1);border:1px solid var(--accent);color:var(--accent);font-weight:700;cursor:pointer;font-size:.85rem;font-family:inherit;display:inline-flex;align-items:center;gap:8px}
+.CallBtn:hover{background:rgba(255,107,53,.2)}
+.CallBtn.Live{background:var(--accent);color:#fff;animation:pulseCall 1.4s infinite}
+@keyframes pulseCall{0%,100%{box-shadow:0 0 0 0 rgba(255,107,53,.6)}50%{box-shadow:0 0 0 12px rgba(255,107,53,0)}}
+.CallStatus{font-size:.78rem;color:var(--text-muted)}
+/* Docked call widget — does NOT cover the chat so the transcript stays visible during the call. */
+.CallOverlay{position:fixed;bottom:18px;right:18px;left:18px;max-width:420px;margin-left:auto;background:var(--card);border:2px solid var(--accent);border-radius:14px;padding:12px 14px;display:none;flex-direction:column;gap:8px;z-index:20;box-shadow:0 10px 30px rgba(0,0,0,.55)}
+.CallOverlay.Open{display:flex}
+.CallPanel{display:flex;align-items:center;gap:10px;width:100%}
+.CallPanel .Dot{width:36px;height:36px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1rem;color:#fff;flex-shrink:0;animation:pulseCall 1.4s infinite}
+.CallPanel h2{font-size:.92rem;font-weight:700;margin:0}
+.CallPanel .Sub{color:var(--text-muted);font-size:.74rem;line-height:1.3;margin:0}
+.CallPanel .CenterCol{flex:1;min-width:0}
+.CallPanel .Actions{display:flex;gap:6px;flex-shrink:0}
+.CallPanel .Actions button{padding:7px 10px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-weight:700;cursor:pointer;font-family:inherit;font-size:.74rem}
+.CallPanel .Actions .Hangup{background:#ef4444;border-color:#ef4444;color:#fff}
+.CallPanel .Actions .Hold{background:var(--accent);border-color:var(--accent);color:#fff}
+.CallLog{max-height:120px;overflow-y:auto;text-align:left;font-size:.76rem;color:var(--text-muted);line-height:1.4;padding:8px;background:var(--bg);border-radius:6px;border:1px solid var(--border)}
+.CallLog .U{color:var(--text)}
+.CallLog .A{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="TopBar">
+  <div class="Brand"><span class="Logo">W</span><a href="/wolfstruckingco.com/">Wolfs Dispatcher</a></div>
+  <div><a style="color:var(--text-muted);text-decoration:none;padding:8px 12px;font-size:.88rem" href="/wolfstruckingco.com/Login/">Switch user</a></div>
+</div>
+<div class="Stage">
+  <h1>Chat with Dispatcher</h1>
+  <p>Ask your Dispatcher anything. Answers are scoped to what your role is allowed to see — no cross-user leaks.</p>
+  <div class="Scope" id="Scope">Checking your role…</div>
+
+  <!-- Shared dispatcher chat component — one implementation, used by every role. -->
+  <div id="Chat"></div>
+  <div id="AuthWarn" class="AuthWarn" style="display:none;margin-top:18px">Not signed in — <a href="/wolfstruckingco.com/Login/" style="color:var(--accent)">pick an account</a> first.</div>
+</div>
+
+<script src="/wolfstruckingco.com/dispatcher-chat.js"></script>
+<script>
+  // Mount the shared chat once the role is known — the Scope badge is updated by the existing
+  // auth-guard code below. The shared component handles input, Send, Call, STT/TTS, and inline
+  // credential uploads; this file just supplies the role.
+  (function mountShared() {
+    const role = (localStorage.getItem('wolfs_role') || 'driver').toLowerCase();
+    if (window.WolfsChat) {
+      window.WolfsChat.mount(document.getElementById('Chat'), {
+        role: role,
+        scopeBlurb: 'Signed in as ' + role + ' — answers are scoped to what that role is allowed to see.',
+      });
+    }
+  })();
+</script>
+
+<script src="/wolfstruckingco.com/auth-header.js"></script>
+<script>
+// The shared WolfsChat component above handles rendering, sending, voice, uploads. This
+// block only updates the Scope badge — everything else the page used to do inline was moved
+// into /wolfstruckingco.com/dispatcher-chat.js when the shared component landed.
+const SCOPE_TEXT = {
+  applicant: 'You see only your own applicant record — status, uploads, interview transcript.',
+  driver: 'You see your profile, your timesheets, your total earnings, and open jobs you qualify for.',
+  client: 'You see your customer org, jobs you posted, payments you made, and timesheets for your jobs.',
+  employer: 'You see your customer org, jobs you posted, payments you made, and timesheets for your jobs.',
+  admin: 'You see every operational collection — applicants, workers, jobs, timesheets, charges, audit.',
+  staff: 'You see every operational collection — applicants, workers, jobs, timesheets, charges, audit.',
+  investor: 'You see aggregate metrics only — totals, counts. No individual PII.',
+};
+
+(function updateScope(){
+  const sess = localStorage.getItem('wolfs_session');
+  const role = (localStorage.getItem('wolfs_role') || '').toLowerCase();
+  const scopeEl = document.getElementById('Scope');
+  const warnEl = document.getElementById('AuthWarn');
+  if (!sess) {
+    if (warnEl) warnEl.style.display = 'block';
+    if (scopeEl) scopeEl.textContent = 'Sign in to chat with Dispatcher.';
+    return;
+  }
+  if (scopeEl) scopeEl.innerHTML = `<span class="Role">${role}</span>${SCOPE_TEXT[role] || 'scope TBD'}`;
+})();
+</script>
+</body>
+</html>

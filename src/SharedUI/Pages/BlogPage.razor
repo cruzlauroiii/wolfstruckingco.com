@@ -1,0 +1,16 @@
+@page "/Blog"
+
+<MarketingHero Title="From the"
+               Highlight="blog"
+               Subtitle="Practical guides on freight, drayage, CDL pay, and how the marketplace works." />
+
+<div class="Grid">
+    @foreach (var P in Posts)
+    {
+        <a class="Card SubLink" href="@P.Slug">
+            <div class="CardLabel">@P.Date</div>
+            <h3>@P.Title</h3>
+            <p>@P.Summary</p>
+        </a>
+    }
+</div>

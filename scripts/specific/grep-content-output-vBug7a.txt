@@ -1,0 +1,1 @@
+MarketplacePage.razor:35:                            <div class="Actions">@if (string.Equals(L.Status, "closed", StringComparison.Ordinal)) { <button class="Btn" disabled>Sold</button> } else { <a class="Btn" href="/wolfstruckingco.com/Buy/ShipTo/?listing=@L.Id">Buy now</a> }</div>

@@ -1,0 +1,1 @@
+{"mcpServers":{"wolfstruckingco":{"command":"C:\\work\\dotnet\\sdk\\artifacts\\bin\\redist\\Release\\dotnet\\dotnet.exe","args":["run","C:\\work\\wolfstruckingco.com\\wolfstruckingco.cs","--","mcp"]}}}

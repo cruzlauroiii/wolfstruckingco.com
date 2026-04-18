@@ -1,0 +1,30 @@
+@page "/Schedule"
+
+<div class="Stage PageStage">
+    <h1>Today's schedule</h1>
+    <p>Active job · 4-leg international relay · ETA tracked live.</p>
+
+    @if (Latest is not null)
+    {
+        <div class="Card ScheduleHero">
+            <div class="ScheduleKicker">Up next</div>
+            <div class="ScheduleRoute">@(Latest["from"]?.ToString()) → @(Latest["to"]?.ToString())</div>
+            <div class="ScheduleMeta">@(Latest["mileage"]?.ToString()) mi · @(Latest["driveHours"]?.ToString()) hr · grace @(Latest["graceMinutes"]?.ToString()) min</div>
+            <div class="ScheduleStarts">Starts @(Latest["startsAt"]?.ToString())</div>
+            <button class="Btn Block">Accept job</button>
+        </div>
+    }
+
+    <h2 class="SectionLabel">Earlier today</h2>
+    @foreach (var S in Earlier)
+    {
+        <div class="Card Compact LegRow">
+            <div class="LegBar"></div>
+            <div class="LegBody">
+                <div class="LegRoute">@(S["from"]?.ToString()) → @(S["to"]?.ToString())</div>
+                <div class="LegMeta">@(S["mileage"]?.ToString()) mi · @(S["driveHours"]?.ToString()) hr · @(S["startsAt"]?.ToString())</div>
+            </div>
+            <span class="DonePill">Done</span>
+        </div>
+    }
+</div>

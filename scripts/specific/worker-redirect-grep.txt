@@ -1,0 +1,14 @@
+worker.js:151:      // 'user' is the default role written by the /oauth/<provider>/callback handler
+worker.js:280:      // 'user' is the default role written by SSO callback; accept it here so the
+worker.js:313:    // === OAuth start: redirect to provider's authorize endpoint =====
+worker.js:323:          '<p>Register the OAuth app at <a href="' + cfg.consoleUrl + '">' + cfg.consoleUrl + '</a> with redirect URI:</p>' +
+worker.js:324:          '<pre>https://wolfstruckingco.nbth.workers.dev/oauth/' + provider + '/callback</pre>' +
+worker.js:325:          '<p><a href="https://cruzlauroiii.github.io/wolfstruckingco.com/Login/">&larr; Back to login</a></p></body></html>',
+worker.js:332:        redirect_uri: 'https://wolfstruckingco.nbth.workers.dev/oauth/' + provider + '/callback',
+worker.js:337:      return Response.redirect(cfg.authUrl + '?' + params.toString(), 302);
+worker.js:339:    if (url.pathname.startsWith('/oauth/') && url.pathname.endsWith('/callback') && request.method === 'GET') {
+worker.js:340:      const provider = url.pathname.slice('/oauth/'.length, -'/callback'.length).toLowerCase();
+worker.js:355:          redirect_uri: 'https://wolfstruckingco.nbth.workers.dev/oauth/' + provider + '/callback',
+worker.js:373:        'location.replace(\'https://cruzlauroiii.github.io/wolfstruckingco.com/Login/?sso=' + provider + '&email=' + encodeURIComponent(email) + '&session=' + encodeURIComponent(session) + '\');' +
+worker.js:571:    // === Marketplace: buy a listing → creates purchase + delivery job ===
+worker.js:599:        title: 'Marketplace pickup — ' + (listing.title || 'item'),

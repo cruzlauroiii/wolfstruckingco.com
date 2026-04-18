@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://basemaps.cartocdn.com" crossorigin>
+<link rel="preconnect" href="https://router.project-osrm.org" crossorigin>
+<link rel="preconnect" href="https://wolfstruckingco.nbth.workers.dev" crossorigin>
+<meta name="description" content="Create your Wolfs Trucking Co. account — email and password is all you need to start.">
+<meta property="og:title" content="Sign Up | Wolfs Trucking Co.">
+<meta property="og:description" content="Create your Wolfs Trucking Co. account — email and password is all you need to start.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/wolfstruckingco.com/icon.svg">
+<meta name="twitter:card" content="summary">
+<title>Sign Up | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<meta name="theme-color" content="#ff6b35">
+<script src="/wolfstruckingco.com/theme.js" defer></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--info:#3b82f6;--warning:#f59e0b;--danger:#ef4444;--radius:12px}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.Wrap{width:100%;max-width:460px}
+.Card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px 28px;text-align:center}
+.Logo{width:56px;height:56px;border-radius:14px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.6rem;color:#fff;margin:0 auto 16px}
+h1{font-size:1.35rem;font-weight:800;margin-bottom:6px}
+.Card>p{color:var(--text-muted);font-size:.85rem;margin-bottom:20px}
+.Form{display:grid;gap:10px;text-align:left}
+.Form label{font-size:.78rem;color:var(--text-muted);font-weight:600}
+.Form input{padding:11px 13px;border-radius:10px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.93rem;width:100%}
+.Form input:focus{border-color:var(--accent);outline:none}
+.Form button{padding:12px 18px;border-radius:10px;background:var(--accent);color:#fff;border:none;font-weight:700;cursor:pointer;font-size:.95rem;font-family:inherit;margin-top:6px}
+.Form button:hover{background:var(--accent-hover)}
+.Form button[disabled]{opacity:.6;cursor:not-allowed}
+.Footer{margin-top:16px;font-size:.82rem;color:var(--text-muted)}
+.Footer a{color:var(--accent);text-decoration:none;font-weight:700}
+.ErrMsg{background:rgba(239,68,68,.1);border:1px solid var(--danger);color:var(--danger);padding:10px 14px;border-radius:8px;font-size:.82rem;margin-bottom:12px;display:none;text-align:left}
+.OkMsg{background:rgba(34,197,94,.1);border:1px solid var(--success);color:var(--success);padding:10px 14px;border-radius:8px;font-size:.82rem;margin-bottom:12px;display:none;text-align:left}
+</style>
+</head>
+<body>
+<div class="Wrap">
+<div class="Card">
+  <div class="Logo">W</div>
+  <h1>Create an account</h1>
+  <p>Email and a password — that's it.</p>
+
+  <div class="ErrMsg" id="ErrMsg"></div>
+  <div class="OkMsg" id="OkMsg"></div>
+
+  <form class="Form" id="SignUpForm" autocomplete="off">
+    <div>
+      <label>Email</label>
+      <input name="email" id="Email" type="email" placeholder="you@example.com" required autocomplete="email">
+    </div>
+    <div>
+      <label>Password</label>
+      <input name="password" id="Password" type="password" placeholder="" required autocomplete="new-password">
+    </div>
+    <button type="submit" id="SubmitBtn">Create account</button>
+  </form>
+
+  <div class="Footer">
+    Already have an account? <a href="/wolfstruckingco.com/Login/">Sign in</a>
+  </div>
+</div>
+</div>
+
+<script src="/wolfstruckingco.com/db.js"></script>
+<script>
+function showError(msg){ var e=document.getElementById('ErrMsg'); e.textContent=msg; e.style.display='block'; document.getElementById('OkMsg').style.display='none'; }
+function showOk(msg){ var e=document.getElementById('OkMsg'); e.textContent=msg; e.style.display='block'; document.getElementById('ErrMsg').style.display='none'; }
+
+async function hashPw(pw) {
+  var buf = new TextEncoder().encode(pw + ':wolfs-salt');
+  var h = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+var WORKER_BASE = 'https://wolfstruckingco.nbth.workers.dev';
+
+document.getElementById('SignUpForm').addEventListener('submit', async function(ev){
+  ev.preventDefault();
+  var fd = new FormData(ev.target);
+  var btn = document.getElementById('SubmitBtn');
+  btn.disabled = true;
+  try {
+    var email = (fd.get('email') || '').toLowerCase().trim();
+    var pw = fd.get('password') || '';
+    if (!email || !pw) throw new Error('email and password required');
+    // The deployed worker validates username against /^[a-z0-9_.-]{2,40}$/ — no @, +.
+    // Sanitize the email into a safe username while still storing the full address.
+    var username = email.replace(/[^a-z0-9_.-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
+    if (username.length < 2) username = ('user-' + Date.now().toString(36)).slice(0, 40);
+    var hash = await hashPw(pw);
+    var res = await fetch(WORKER_BASE + '/api/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      // Every newly-created account is a plain user. Admin and driver roles are assigned by
+      // an admin from the back office, never on the signup form.
+      body: JSON.stringify({ username: username, passwordHash: hash, uiRole: 'user', email: email }),
+    });
+    var out; try { out = await res.json(); } catch { out = {}; }
+    if (!res.ok) {
+      if (res.status === 409) throw new Error('an account with this email already exists');
+      throw new Error(out.error || ('signup failed: ' + res.status));
+    }
+    showOk('Account created. Redirecting to sign-in…');
+    setTimeout(function(){ window.location.href = '/wolfstruckingco.com/Login/'; }, 1000);
+  } catch (ex) {
+    showError(ex.message || String(ex));
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

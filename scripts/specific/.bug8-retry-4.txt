@@ -1,0 +1,1 @@
+MEMORY.md:14:- [Each task runs/fixes immediately in a background sub-agent](feedback_tasks_run_immediately.md) — N tasks ⇒ N agents in flight, including blocked tasks (their agent does prep/planning); no idle queue ever

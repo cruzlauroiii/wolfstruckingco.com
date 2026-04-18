@@ -1,0 +1,24 @@
+@page "/HiringHall"
+
+
+<div class="Stage PageStage">
+    <h1>🧑 Hiring Hall</h1>
+    <p>All applicants. Approve them in one batch — badges and roles get assigned together.</p>
+
+    <div class="QuickLinks">
+        @foreach (var A in Applicants)
+        {
+            <div class="Card Compact ApplicantRow">
+                <div class="ApplicantAvatar">@FirstLetter(A["name"]?.ToString())</div>
+                <div class="ApplicantBody">
+                    <div class="ApplicantName">@(A["name"]?.ToString())</div>
+                    <div class="ApplicantMeta">@(A["location"]?.ToString()) · @(A["experienceYears"]?.ToString())y · @(A["email"]?.ToString())</div>
+                </div>
+                <span class="@(IsApproved(A) ? "DonePill" : "PendingPill")">@(IsApproved(A) ? "Approved" : "Pending")</span>
+            </div>
+        }
+    </div>
+
+    <button class="Btn Block">✅ Approve all · assign badges + roles</button>
+    <button class="Btn Ghost Block FieldGap">👀 Review one by one</button>
+</div>

@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://basemaps.cartocdn.com" crossorigin>
+<link rel="preconnect" href="https://router.project-osrm.org" crossorigin>
+<link rel="preconnect" href="https://wolfstruckingco.nbth.workers.dev" crossorigin>
+<meta name="description" content="Admin console for Wolfs Trucking Co. — review applicants, approve drivers, monitor operations.">
+<meta property="og:title" content="Admin Backoffice | Wolfs Trucking Co.">
+<meta property="og:description" content="Admin console for Wolfs Trucking Co. — review applicants, approve drivers, monitor operations.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/wolfstruckingco.com/icon.svg">
+<meta name="twitter:card" content="summary">
+<title>Admin Backoffice | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<link rel="apple-touch-icon" href="/wolfstruckingco.com/icon.svg">
+<link rel="manifest" href="/wolfstruckingco.com/manifest.json">
+<meta name="theme-color" content="#ff6b35">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--info:#3b82f6;--radius:12px}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+.App{display:flex;height:100vh;height:100dvh}
+
+.Sidebar{width:260px;background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;height:100vh;height:100dvh}
+.SidebarNav{overflow-y:auto;-webkit-overflow-scrolling:touch}
+.SidebarBrand{padding:20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.SBLogo{width:40px;height:40px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;color:#fff}
+.SBTitle{font-size:1rem;font-weight:700}
+.SBSub{font-size:.75rem;color:var(--text-muted)}
+.SidebarNav{flex:1;padding:12px 0}
+.SNavItem{display:flex;align-items:center;gap:14px;padding:12px 20px;color:var(--text-muted);cursor:pointer;font-size:.9rem;font-weight:500;min-height:48px;transition:all .2s;border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.SNavItem:hover{background:rgba(255,107,53,.05);color:var(--text)}
+.SNavItem.Active{background:rgba(255,107,53,.1);color:var(--accent);border-right:3px solid var(--accent)}
+.SNavIcon{font-size:1.1rem;width:24px;text-align:center}
+.SidebarFooter{padding:16px 20px;border-top:1px solid var(--border)}
+.SidebarFooter a{color:var(--text-muted);font-size:.8rem;text-decoration:none;min-height:44px;display:flex;align-items:center}
+.SidebarFooter a:hover{color:var(--accent)}
+
+.Main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.TopBar{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--border);flex-shrink:0}
+.TopTitle{font-size:1.3rem;font-weight:800}
+.TopActions{display:flex;align-items:center;gap:12px}
+.BtnRefresh{padding:10px 20px;border-radius:8px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:.85rem;cursor:pointer;min-height:44px;font-family:inherit;transition:border-color .2s}
+.BtnRefresh:hover{border-color:var(--accent)}
+.AdminAvatar{width:36px;height:36px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:#fff}
+
+.Content{flex:1;overflow-y:auto;padding:24px}
+.TabContent{display:none}
+.TabContent.Active{display:block}
+
+.KpiRow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.KpiCard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;position:relative;overflow:hidden}
+.KpiCard::after{content:'';position:absolute;top:0;right:0;width:60px;height:60px;border-radius:0 0 0 60px;opacity:.1}
+.KpiLabel{font-size:.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.KpiValue{font-size:2rem;font-weight:900}
+.KpiChange{font-size:.75rem;margin-top:8px;display:flex;align-items:center;gap:4px}
+.KpiUp{color:var(--success)}
+.KpiDown{color:var(--danger)}
+
+.AdminMap{height:400px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);margin-bottom:24px}
+.leaflet-control-attribution{display:none!important}
+
+.MetricsRow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.MetricCard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center}
+.MetricNum{font-size:1.5rem;font-weight:900}
+.MetricLabel{font-size:.8rem;color:var(--text-muted);margin-top:4px}
+
+.DataTable{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.DataTable th{text-align:left;padding:14px 16px;font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.2)}
+.DataTable td{padding:14px 16px;font-size:.85rem;border-bottom:1px solid var(--border)}
+.DataTable tr:last-child td{border-bottom:none}
+.DataTable tr:hover td{background:rgba(255,107,53,.03)}
+
+.StatusBadge{padding:4px 12px;border-radius:50px;font-size:.75rem;font-weight:600;display:inline-block}
+.StatusActive{background:rgba(34,197,94,.15);color:var(--success)}
+.StatusPending{background:rgba(245,158,11,.15);color:var(--warning)}
+.StatusSuspended{background:rgba(239,68,68,.15);color:var(--danger)}
+.StatusCompleted{background:rgba(59,130,246,.15);color:var(--info)}
+.StatusTransit{background:rgba(255,107,53,.15);color:var(--accent)}
+.StatusAvail{background:rgba(34,197,94,.15);color:var(--success)}
+.StatusRejected{background:rgba(239,68,68,.15);color:var(--danger)}
+.StatusApproved{background:rgba(34,197,94,.15);color:var(--success)}
+
+.BtnAction{padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-size:.8rem;font-weight:600;min-height:36px;transition:opacity .2s;font-family:inherit}
+.BtnApprove{background:var(--success);color:#fff}
+.BtnApprove:hover{opacity:.85}
+.BtnReject{background:var(--danger);color:#fff;margin-left:6px}
+.BtnReject:hover{opacity:.85}
+
+.ExpandRow{display:none}
+.ExpandRow.Show{display:table-row}
+.ExpandRow td{background:rgba(0,0,0,.2);padding:20px 16px}
+.ExpandContent{font-size:.85rem;line-height:1.7;color:var(--text-muted)}
+
+.FilterBar{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.FilterSelect{padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem;min-height:44px;font-family:inherit;cursor:pointer}
+.FilterInput{padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem;min-height:44px;font-family:inherit;flex:1;min-width:200px}
+.FilterInput:focus,.FilterSelect:focus{outline:none;border-color:var(--accent)}
+.FilterInput::placeholder{color:var(--text-muted)}
+
+.ChatPanel{position:fixed;top:0;right:-420px;width:420px;height:100%;background:var(--card);border-left:1px solid var(--border);z-index:2000;transition:right .3s ease;display:flex;flex-direction:column}
+.ChatPanel.Open{right:0}
+.ChatHeader{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.ChatHeader h3{font-size:1rem;font-weight:700}
+.ChatClose{width:44px;height:44px;background:none;border:none;color:var(--text);font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.ChatMessages{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+.ChatMsg{max-width:85%;padding:10px 14px;border-radius:12px;font-size:.9rem;line-height:1.5;word-wrap:break-word}
+.ChatMsgBot{align-self:flex-start;background:var(--bg);border:1px solid var(--border);border-bottom-left-radius:4px}
+.ChatMsgUser{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:4px}
+.ChatInput{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--border)}
+.ChatInput input{flex:1;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:.9rem;outline:none;min-height:48px;font-family:inherit}
+.ChatInput input:focus{border-color:var(--accent)}
+.ChatInput input::placeholder{color:var(--text-muted)}
+.ChatSend{width:48px;height:48px;border-radius:50%;background:var(--accent);border:none;color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ChatSend:hover{background:var(--accent-hover)}
+
+.BtnChatFloat{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:var(--accent);border:none;color:#fff;font-size:1.5rem;cursor:pointer;z-index:1999;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(255,107,53,.3);transition:transform .2s}
+.BtnChatFloat:hover{transform:scale(1.1)}
+
+.MobileSidebar{display:none}
+.MobileToggle{display:none;width:44px;height:44px;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+
+@media(max-width:1024px){
+  .KpiRow,.MetricsRow{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .Sidebar{position:fixed;left:-260px;z-index:3000;height:100%;transition:left .3s ease}
+  .Sidebar.Open{left:0}
+  .MobileToggle{display:flex;align-items:center;justify-content:center}
+  .KpiRow,.MetricsRow{grid-template-columns:1fr}
+  .DataTable{font-size:.8rem}
+  .DataTable th,.DataTable td{padding:10px 12px}
+  .ChatPanel{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="App">
+  <div class="Sidebar" id="Sidebar">
+    <div class="SidebarBrand">
+      <div class="SBLogo">W</div>
+      <div><div class="SBTitle">Wolfs Trucking</div><div class="SBSub">Admin Backoffice</div></div>
+    </div>
+    <div class="SidebarNav">
+      <button class="SNavItem Active" onclick="ShowTab('overview',this)"><span class="SNavIcon">&#128200;</span> Overview</button>
+      <button class="SNavItem" onclick="ShowTab('drivers',this)"><span class="SNavIcon">&#128101;</span> Drivers</button>
+      <button class="SNavItem" onclick="ShowTab('interviews',this)"><span class="SNavIcon">&#128172;</span> Interviews</button>
+      <button class="SNavItem" onclick="ShowTab('jobs',this)"><span class="SNavIcon">&#128203;</span> Jobs</button>
+      <button class="SNavItem" onclick="ShowTab('clientjobs',this)"><span class="SNavIcon">&#128230;</span> Client Jobs</button>
+      <button class="SNavItem" onclick="ShowTab('leads',this)"><span class="SNavIcon">&#128231;</span> Leads</button>
+      <button class="SNavItem" onclick="ShowTab('audit',this)"><span class="SNavIcon">&#128196;</span> Audit Trail</button>
+    </div>
+    <div class="SidebarFooter">
+      <a href="/wolfstruckingco.com/Dashboard/">Driver Dashboard</a>
+      <a href="/wolfstruckingco.com/Settings/" style="margin-top:8px">Settings</a>
+      <a href="#" onclick="Logout()" style="margin-top:8px;color:var(--danger)">Sign Out</a>
+    </div>
+  </div>
+
+  <div class="Main">
+    <div class="TopBar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="MobileToggle" onclick="document.getElementById('Sidebar').classList.toggle('Open')" aria-label="Open menu">&#9776;</button>
+        <div class="TopTitle" id="TopTitle">Overview</div>
+      </div>
+      <div class="TopActions">
+        <button class="BtnRefresh" onclick="location.reload()">&#8635; Refresh</button>
+        <button class="BtnRefresh" onclick="OpenAdminChat()">&#128172; Chat</button>
+        <div class="AdminAvatar">A</div>
+      </div>
+    </div>
+
+    <div class="Content">
+      <div style="background:rgba(245,158,11,.1);border:1px solid var(--warning);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:.88rem;color:var(--warning);line-height:1.5">
+        <strong>⚠ Legacy demo page.</strong> This admin view still uses pre-seeded sample data (fake drivers, interviews, jobs, audit events) from an earlier iteration. Real live records are on <a href="/wolfstruckingco.com/HiringHall/" style="color:var(--warning);text-decoration:underline">Hiring Hall</a>, <a href="/wolfstruckingco.com/Investors/KPI/" style="color:var(--warning);text-decoration:underline">Investor KPIs</a>, and <a href="/wolfstruckingco.com/Investors/Users/" style="color:var(--warning);text-decoration:underline">User Management</a>.
+      </div>
+      <div class="TabContent Active" id="TabOverview">
+        <div class="KpiRow">
+          <div class="KpiCard"><div class="KpiLabel">Revenue YTD</div><div class="KpiValue" style="color:var(--success)">$4.2M</div><div class="KpiChange KpiUp">&#9650; 12.3% vs last year</div></div>
+          <div class="KpiCard"><div class="KpiLabel">Active Drivers</div><div class="KpiValue" style="color:var(--info)">47/52</div><div class="KpiChange KpiUp">&#9650; 3 new this month</div></div>
+          <div class="KpiCard"><div class="KpiLabel">On-Time Rate</div><div class="KpiValue" style="color:var(--accent)">97.3%</div><div class="KpiChange KpiUp">&#9650; 0.8% vs last month</div></div>
+          <div class="KpiCard"><div class="KpiLabel">Fleet Utilization</div><div class="KpiValue" style="color:var(--warning)">94%</div><div class="KpiChange KpiUp">&#9650; 2.1% vs last month</div></div>
+        </div>
+        <div class="AdminMap" id="AdminMap"></div>
+        <div class="MetricsRow">
+          <div class="MetricCard"><div class="MetricNum" style="color:var(--text)">189</div><div class="MetricLabel">Total Loads Today</div></div>
+          <div class="MetricCard"><div class="MetricNum" style="color:var(--success)">156</div><div class="MetricLabel">Completed</div></div>
+          <div class="MetricCard"><div class="MetricNum" style="color:var(--accent)">23</div><div class="MetricLabel">In Transit</div></div>
+          <div class="MetricCard"><div class="MetricNum" style="color:var(--warning)">10</div><div class="MetricLabel">Pending</div></div>
+        </div>
+      </div>
+
+      <div class="TabContent" id="TabDrivers">
+        <div class="FilterBar">
+          <input class="FilterInput" placeholder="Search drivers..." oninput="FilterDrivers(this.value)">
+          <select class="FilterSelect" onchange="FilterDriverStatus(this.value)"><option value="">All Status</option><option value="active">Active</option><option value="pending">Pending</option><option value="suspended">Suspended</option></select>
+        </div>
+        <table class="DataTable" id="DriversTable">
+          <thead><tr><th>Name</th><th>CDL</th><th>Status</th><th>Current Job</th><th>On-Time %</th><th>Earnings MTD</th></tr></thead>
+          <tbody id="DriversBody"></tbody>
+        </table>
+      </div>
+
+      <div class="TabContent" id="TabInterviews">
+        <div class="FilterBar">
+          <input class="FilterInput" placeholder="Search applicants..." oninput="FilterInterviews(this.value)">
+          <select class="FilterSelect" onchange="FilterInterviewStatus(this.value)"><option value="">All Status</option><option value="pending">Pending Review</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select>
+        </div>
+        <table class="DataTable" id="InterviewsTable">
+          <thead><tr><th>Applicant</th><th>Date</th><th>Score</th><th>Verdict</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="InterviewsBody"></tbody>
+        </table>
+      </div>
+
+      <div class="TabContent" id="TabJobs">
+        <div class="FilterBar">
+          <select class="FilterSelect" onchange="FilterJobStatus(this.value)"><option value="">All Status</option><option value="available">Available</option><option value="accepted">Accepted</option><option value="transit">In Transit</option><option value="completed">Completed</option></select>
+          <input class="FilterInput" type="date" value="2026-04-15" style="max-width:200px" aria-label="Date">
+          <input class="FilterInput" type="date" value="2026-04-15" style="max-width:200px" aria-label="Date">
+        </div>
+        <table class="DataTable" id="JobsTable">
+          <thead><tr><th>Title</th><th>Status</th><th>Driver</th><th>Pickup</th><th>Delivery</th><th>Pay</th></tr></thead>
+          <tbody id="JobsBody"></tbody>
+        </table>
+      </div>
+
+      <div class="TabContent" id="TabClientjobs">
+        <div class="FilterBar">
+          <input class="FilterInput" placeholder="Search client jobs..." oninput="FilterClientJobs(this.value)">
+          <select class="FilterSelect" onchange="FilterClientJobStatus(this.value)"><option value="">All Status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option><option value="assigned">Assigned</option></select>
+        </div>
+        <table class="DataTable" id="ClientJobsTable">
+          <thead><tr><th>Job ID</th><th>Client</th><th>Pickup</th><th>Delivery</th><th>Cargo</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="ClientJobsBody"></tbody>
+        </table>
+      </div>
+
+      <div class="TabContent" id="TabLeads">
+        <div class="FilterBar">
+          <input class="FilterInput" placeholder="Search leads..." oninput="FilterLeads(this.value)">
+          <select class="FilterSelect" onchange="FilterLeadStatus(this.value)">
+            <option value="">All Status</option>
+            <option value="new">New</option>
+            <option value="contacted">Contacted</option>
+            <option value="qualified">Qualified</option>
+            <option value="converted">Converted</option>
+            <option value="closed">Closed</option>
+          </select>
+          <select class="FilterSelect" onchange="FilterLeadInterest(this.value)">
+            <option value="">All Interest</option>
+            <option value="shipping">Shipping</option>
+            <option value="drayage">Drayage</option>
+            <option value="warehouse">Warehouse</option>
+            <option value="recurring">Dedicated Lane</option>
+            <option value="driving">Driving</option>
+            <option value="partnership">Partnership</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <table class="DataTable" id="LeadsTable">
+          <thead><tr><th>Date</th><th>Name</th><th>Company</th><th>Email</th><th>Phone</th><th>Interest</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="LeadsBody"><tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:30px">Loading leads from R2…</td></tr></tbody>
+        </table>
+      </div>
+
+      <div class="TabContent" id="TabAudit">
+        <div class="FilterBar">
+          <input class="FilterInput" placeholder="Search audit log..." id="AuditSearch" oninput="FilterAudit(this.value)">
+          <select class="FilterSelect"><option value="">All Users</option><option value="system">System</option><option value="admin">Admin</option><option value="driver">Driver</option></select>
+        </div>
+        <table class="DataTable" id="AuditTable">
+          <thead><tr><th>Timestamp</th><th>User</th><th>Action</th><th>Details</th></tr></thead>
+          <tbody id="AuditBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <button class="BtnChatFloat" onclick="OpenAdminChat()" aria-label="Open chat">&#128172;</button>
+
+  <div class="ChatPanel" id="ChatPanel">
+    <div class="ChatHeader">
+      <h3>Admin Command Center</h3>
+      <button class="ChatClose" onclick="CloseAdminChat()" aria-label="Close chat">&#10005;</button>
+    </div>
+    <div class="ChatMessages" id="ChatMessages">
+      <div class="ChatMsg ChatMsgBot">Admin AI ready. No guardrails. Full system access. What do you need?</div>
+    </div>
+    <div class="ChatInput">
+      <input type="text" id="AdminChatInput" placeholder="Command anything..." onkeydown="if(event.key==='Enter')SendAdminChat()">
+      <button class="ChatSend" onclick="SendAdminChat()" aria-label="Send message">&#10148;</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/wolfstruckingco.com/wolfs-map.js"></script>
+<script src="/wolfstruckingco.com/demo.js"></script>
+<script>
+var RelayUrl = 'https://wolfstruckingco.nbth.workers.dev';
+
+function SendToRelay(Data) {
+  fetch(RelayUrl + '/send', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(Data)
+  }).catch(function() {});
+}
+
+(function AuthCheck() {
+  var Session = localStorage.getItem('wolfs_session');
+  if (!Session) { window.location.href = '/wolfstruckingco.com/Login/'; return; }
+})();
+
+var Drivers = [
+  {Name:'Marcus Rodriguez',Cdl:'A',Status:'active',Job:'Container Drayage #4832',OnTime:98.2,Earnings:12450,Lat:33.78,Lng:-118.27,Kpi:'156 loads, 4.9 safety'},
+  {Name:'Tamika Johnson',Cdl:'B',Status:'active',Job:'Local LTL #4835',OnTime:99.1,Earnings:9820,Lat:34.22,Lng:-118.44,Kpi:'142 loads, 5.0 safety'},
+  {Name:'David Kim',Cdl:'A',Status:'active',Job:'Walmart Run #4838',OnTime:97.5,Earnings:11200,Lat:34.06,Lng:-117.58,Kpi:'148 loads, 4.8 safety'},
+  {Name:'Robert Wilson',Cdl:'A',Status:'active',Job:'Reefer #4841',OnTime:96.8,Earnings:13100,Lat:34.05,Lng:-118.24,Kpi:'162 loads, 4.7 safety'},
+  {Name:'Maria Garcia',Cdl:'B',Status:'active',Job:'Express Medical #4844',OnTime:99.5,Earnings:8900,Lat:34.07,Lng:-118.37,Kpi:'138 loads, 5.0 safety'},
+  {Name:'James Brown',Cdl:'A',Status:'active',Job:'-',OnTime:95.2,Earnings:10800,Lat:34.18,Lng:-118.32,Kpi:'151 loads, 4.6 safety'},
+  {Name:'Sarah Chen',Cdl:'A',Status:'pending',Job:'-',OnTime:0,Earnings:0,Lat:0,Lng:0,Kpi:'New hire, orientation scheduled'},
+  {Name:'Michael Torres',Cdl:'B',Status:'active',Job:'Flatbed #4847',OnTime:97.0,Earnings:9400,Lat:34.09,Lng:-117.89,Kpi:'144 loads, 4.8 safety'},
+  {Name:'Lisa Anderson',Cdl:'A',Status:'suspended',Job:'-',OnTime:88.5,Earnings:4200,Lat:0,Lng:0,Kpi:'Under review - MVR issue'},
+  {Name:'Kevin Nguyen',Cdl:'A',Status:'active',Job:'Regional LTL #4850',OnTime:98.8,Earnings:11600,Lat:34.27,Lng:-118.55,Kpi:'159 loads, 4.9 safety'}
+];
+
+var Interviews = [
+  {Name:'Carlos Mendez',Date:'2026-04-15',Score:92,Verdict:'Strong hire',Status:'pending',Transcript:'Q: Tell me your full name. A: Carlos Mendez. Q: CDL class? A: Class A, all endorsements... Q: Years of experience? A: 6 years OTR and regional... Q: Why Wolfs? A: I heard great things about the equipment and home time...'},
+  {Name:'Jennifer Walsh',Date:'2026-04-14',Score:87,Verdict:'Hire',Status:'pending',Transcript:'Q: Full name? A: Jennifer Walsh. Q: CDL? A: Class B. Q: Experience? A: 3 years local delivery for UPS Freight... Q: Any violations? A: Clean record, zero incidents...'},
+  {Name:'Derek Thompson',Date:'2026-04-14',Score:45,Verdict:'No hire',Status:'pending',Transcript:'Q: Full name? A: Derek Thompson. Q: CDL? A: Class A but endorsements expired... Q: Experience? A: 1 year... Q: MVR? A: I have a couple tickets...'},
+  {Name:'Patricia Lee',Date:'2026-04-13',Score:95,Verdict:'Strong hire',Status:'approved',Transcript:'Q: Full name? A: Patricia Lee. Q: CDL? A: Class A, hazmat, tanker, doubles... Q: Experience? A: 12 years, last 5 with JB Hunt...'},
+  {Name:'Anthony Davis',Date:'2026-04-13',Score:38,Verdict:'No hire',Status:'rejected',Transcript:'Q: Full name? A: Anthony Davis. Q: CDL? A: I dont have one yet... Q: Experience? A: None driving, I work in a warehouse...'},
+  {Name:'Rosa Martinez',Date:'2026-04-12',Score:88,Verdict:'Hire',Status:'approved',Transcript:'Q: Full name? A: Rosa Martinez. Q: CDL? A: Class B with air brakes. Q: Experience? A: 4 years local, Sysco delivery...'},
+  {Name:'William Johnson',Date:'2026-04-15',Score:78,Verdict:'Conditional hire',Status:'pending',Transcript:'Q: Full name? A: William Johnson. Q: CDL? A: Class A. Q: Experience? A: 2 years exactly, just got my 2-year mark... Q: MVR? A: One speeding ticket 2 years ago...'}
+];
+
+var JobsData = [
+  {Title:'Container Drayage #4832',Status:'transit',Driver:'Marcus Rodriguez',Pickup:'Port of LA',Delivery:'Commerce 3PL',Pay:285},
+  {Title:'Local LTL #4835',Status:'transit',Driver:'Tamika Johnson',Pickup:'Burbank DC',Delivery:'SFV Multi-Stop',Pay:340},
+  {Title:'Walmart Run #4838',Status:'transit',Driver:'David Kim',Pickup:'Wolfs Warehouse',Delivery:'Fontana DC',Pay:195},
+  {Title:'Reefer Produce #4841',Status:'transit',Driver:'Robert Wilson',Pickup:'LA Produce Market',Delivery:'Ralphs Compton',Pay:310},
+  {Title:'Express Medical #4844',Status:'transit',Driver:'Maria Garcia',Pickup:'McKesson DC',Delivery:'Cedars-Sinai',Pay:165},
+  {Title:'Flatbed Construction #4847',Status:'accepted',Driver:'Michael Torres',Pickup:'Home Depot Irwindale',Delivery:'Downtown LA',Pay:275},
+  {Title:'Regional LTL #4850',Status:'transit',Driver:'Kevin Nguyen',Pickup:'Burbank DC',Delivery:'Santa Barbara',Pay:420},
+  {Title:'Intermodal Container #4853',Status:'available',Driver:'-',Pickup:'Port of Long Beach',Delivery:'Ontario DC',Pay:295},
+  {Title:'Dry Van FTL #4856',Status:'available',Driver:'-',Pickup:'Wolfs Warehouse',Delivery:'Phoenix AZ',Pay:850},
+  {Title:'LTL Residential #4859',Status:'completed',Driver:'James Brown',Pickup:'Burbank DC',Delivery:'Pasadena Multi-Stop',Pay:280},
+  {Title:'Reefer Dairy #4862',Status:'completed',Driver:'Marcus Rodriguez',Pickup:'Dairy Farms Chino',Delivery:'Costco Burbank',Pay:225},
+  {Title:'Express Pharma #4865',Status:'available',Driver:'-',Pickup:'Cardinal Health LA',Delivery:'UCLA Medical',Pay:175}
+];
+
+var AuditLog = [
+  {Time:'2026-04-15 08:42:18',User:'System',Action:'Job Created',Details:'Intermodal Container #4853 posted - Port of Long Beach to Ontario DC - $295'},
+  {Time:'2026-04-15 08:38:05',User:'Marcus Rodriguez',Action:'Delivery Started',Details:'Container Drayage #4832 - Departed Port of LA'},
+  {Time:'2026-04-15 08:35:12',User:'System',Action:'Interview Completed',Details:'Carlos Mendez scored 92/100 - Verdict: Strong hire'},
+  {Time:'2026-04-15 08:30:00',User:'Tamika Johnson',Action:'Pre-Trip Complete',Details:'Local LTL #4835 - All 8 checklist items passed'},
+  {Time:'2026-04-15 08:22:44',User:'Admin',Action:'Driver Suspended',Details:'Lisa Anderson - MVR review triggered by 3rd violation report'},
+  {Time:'2026-04-15 08:15:33',User:'David Kim',Action:'Job Accepted',Details:'Walmart Run #4838 - Burbank to Fontana - $195'},
+  {Time:'2026-04-15 08:10:21',User:'System',Action:'Route Updated',Details:'Kevin Nguyen Regional LTL #4850 - I-101 traffic, rerouted via US-1'},
+  {Time:'2026-04-15 08:05:09',User:'Robert Wilson',Action:'Temperature Alert',Details:'Reefer #4841 - Temp fluctuation to 36F, returned to 34F'},
+  {Time:'2026-04-15 07:58:00',User:'System',Action:'Shift Started',Details:'47 drivers clocked in for morning shift'},
+  {Time:'2026-04-15 07:45:17',User:'Admin',Action:'Interview Approved',Details:'Patricia Lee - Score 95 - Onboarding scheduled Apr 17'},
+  {Time:'2026-04-15 07:30:00',User:'System',Action:'Daily Report',Details:'Yesterday: 178 loads completed, $48,200 revenue, 97.8% on-time'},
+  {Time:'2026-04-14 18:42:00',User:'James Brown',Action:'Delivery Completed',Details:'LTL Residential #4859 - Pasadena multi-stop - On-time'},
+  {Time:'2026-04-14 17:55:33',User:'Marcus Rodriguez',Action:'Delivery Completed',Details:'Reefer Dairy #4862 - Costco Burbank - 12 min early'},
+  {Time:'2026-04-14 16:30:00',User:'System',Action:'Fleet Alert',Details:'Truck #27 - Oil change due in 500 miles - Scheduled for Apr 18'},
+  {Time:'2026-04-14 15:22:11',User:'Admin',Action:'Interview Rejected',Details:'Anthony Davis - No CDL, no experience - Score 38'}
+];
+
+function ShowTab(Tab, El) {
+  document.querySelectorAll('.TabContent').forEach(function(T){T.classList.remove('Active')});
+  document.querySelectorAll('.SNavItem').forEach(function(N){N.classList.remove('Active')});
+  document.getElementById('Tab' + Tab.charAt(0).toUpperCase() + Tab.slice(1)).classList.add('Active');
+  if (El) El.classList.add('Active');
+  var Titles = {overview:'Overview',drivers:'Drivers',interviews:'Interviews',jobs:'Jobs',clientjobs:'Client Jobs',leads:'Leads',audit:'Audit Trail'};
+  document.getElementById('TopTitle').textContent = Titles[Tab] || Tab;
+  if (Tab === 'overview' && !window.AdminMapInit) InitAdminMap();
+  document.getElementById('Sidebar').classList.remove('Open');
+}
+
+function InitAdminMap() {
+  window.AdminMapInit = true;
+  var Map = L.map('AdminMap',{zoomControl:true}).setView([34.1,-118.2],10);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19,subdomains:'abcd'}).addTo(Map);
+  Drivers.forEach(function(D) {
+    if (D.Lat === 0) return;
+    var Color = D.Status === 'active' ? '#22c55e' : '#f59e0b';
+    var Icon = L.divIcon({
+      html:'<div style="width:28px;height:28px;background:'+Color+';border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,.4);color:#fff;font-weight:700">'+D.Name.charAt(0)+'</div>',
+      iconSize:[28,28],iconAnchor:[14,14],className:''
+    });
+    L.marker([D.Lat,D.Lng],{icon:Icon}).addTo(Map).bindPopup('<b>' + D.Name + '</b><br>' + D.Job + '<br>On-Time: ' + D.OnTime + '%');
+  });
+}
+
+function RenderDrivers() {
+  var Html = '';
+  Drivers.forEach(function(D, I) {
+    var StatusClass = D.Status === 'active' ? 'StatusActive' : D.Status === 'pending' ? 'StatusPending' : 'StatusSuspended';
+    Html += '<tr onclick="ToggleExpand(\'DriverExp_'+I+'\')" style="cursor:pointer">' +
+      '<td><b>' + D.Name + '</b></td>' +
+      '<td>Class ' + D.Cdl + '</td>' +
+      '<td><span class="StatusBadge '+StatusClass+'">' + D.Status + '</span></td>' +
+      '<td>' + D.Job + '</td>' +
+      '<td>' + D.OnTime + '%</td>' +
+      '<td>$' + D.Earnings.toLocaleString() + '</td>' +
+    '</tr>' +
+    '<tr class="ExpandRow" id="DriverExp_'+I+'"><td colspan="6"><div class="ExpandContent">' +
+      '<b>Performance:</b> ' + D.Kpi + '<br>' +
+      '<b>Earnings MTD:</b> $' + D.Earnings.toLocaleString() + '<br>' +
+      '<b>On-Time Rate:</b> ' + D.OnTime + '%<br>' +
+      '<b>Current Assignment:</b> ' + D.Job +
+    '</div></td></tr>';
+  });
+  document.getElementById('DriversBody').innerHTML = Html;
+}
+
+function RenderInterviews() {
+  var Html = '';
+  Interviews.forEach(function(Iv, I) {
+    var StatusClass = Iv.Status === 'approved' ? 'StatusApproved' : Iv.Status === 'rejected' ? 'StatusRejected' : 'StatusPending';
+    var ScoreColor = Iv.Score >= 80 ? 'var(--success)' : Iv.Score >= 60 ? 'var(--warning)' : 'var(--danger)';
+    var Actions = '';
+    if (Iv.Status === 'pending') {
+      Actions = '<button class="BtnAction BtnApprove" onclick="event.stopPropagation();ApproveInterview('+I+')">Approve</button>' +
+                '<button class="BtnAction BtnReject" onclick="event.stopPropagation();RejectInterview('+I+')">Reject</button>';
+    } else {
+      Actions = '<span style="color:var(--text-muted);font-size:.8rem">' + Iv.Status + '</span>';
+    }
+    Html += '<tr onclick="ToggleExpand(\'IntExp_'+I+'\')" style="cursor:pointer">' +
+      '<td><b>' + Iv.Name + '</b></td>' +
+      '<td>' + Iv.Date + '</td>' +
+      '<td style="color:'+ScoreColor+';font-weight:700">' + Iv.Score + '/100</td>' +
+      '<td>' + Iv.Verdict + '</td>' +
+      '<td><span class="StatusBadge '+StatusClass+'">' + Iv.Status + '</span></td>' +
+      '<td>' + Actions + '</td>' +
+    '</tr>' +
+    '<tr class="ExpandRow" id="IntExp_'+I+'"><td colspan="6"><div class="ExpandContent">' +
+      '<b>Full Transcript:</b><br>' + Iv.Transcript.replace(/Q:/g, '<br><b>Q:</b>').replace(/A:/g, '<br><b>A:</b>') +
+    '</div></td></tr>';
+  });
+  document.getElementById('InterviewsBody').innerHTML = Html;
+}
+
+function RenderJobs() {
+  var Html = '';
+  JobsData.forEach(function(J) {
+    var StatusClass = J.Status === 'completed' ? 'StatusCompleted' : J.Status === 'transit' ? 'StatusTransit' : J.Status === 'available' ? 'StatusAvail' : 'StatusPending';
+    var StatusLabel = J.Status === 'transit' ? 'In Transit' : J.Status.charAt(0).toUpperCase() + J.Status.slice(1);
+    Html += '<tr>' +
+      '<td><b>' + J.Title + '</b></td>' +
+      '<td><span class="StatusBadge '+StatusClass+'">' + StatusLabel + '</span></td>' +
+      '<td>' + J.Driver + '</td>' +
+      '<td>' + J.Pickup + '</td>' +
+      '<td>' + J.Delivery + '</td>' +
+      '<td style="color:var(--accent);font-weight:700">$' + J.Pay + '</td>' +
+    '</tr>';
+  });
+  document.getElementById('JobsBody').innerHTML = Html;
+}
+
+function RenderAudit() {
+  var Html = '';
+  AuditLog.forEach(function(A) {
+    Html += '<tr>' +
+      '<td style="white-space:nowrap;font-size:.8rem">' + A.Time + '</td>' +
+      '<td><b>' + A.User + '</b></td>' +
+      '<td>' + A.Action + '</td>' +
+      '<td style="color:var(--text-muted)">' + A.Details + '</td>' +
+    '</tr>';
+  });
+  document.getElementById('AuditBody').innerHTML = Html;
+}
+
+function ToggleExpand(Id) {
+  var El = document.getElementById(Id);
+  El.classList.toggle('Show');
+}
+
+function ApproveInterview(I) {
+  Interviews[I].Status = 'approved';
+  RenderInterviews();
+  AuditLog.unshift({Time:new Date().toISOString().replace('T',' ').substring(0,19),User:'Admin',Action:'Interview Approved',Details:Interviews[I].Name + ' - Score ' + Interviews[I].Score});
+  RenderAudit();
+  if (localStorage.getItem('wolfs_demo') !== 'true' && Interviews[I].InterviewId) {
+    fetch(RelayUrl + '/api/interviews/' + Interviews[I].InterviewId, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ status:'approved', approvedBy:'admin', approvedAt: new Date().toISOString() }) }).catch(function(){});
+    if (Interviews[I].UserId) {
+      fetch(RelayUrl + '/api/users/' + Interviews[I].UserId, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ status:'active', activatedAt: new Date().toISOString() }) }).catch(function(){});
+    }
+  }
+}
+
+function RejectInterview(I) {
+  Interviews[I].Status = 'rejected';
+  RenderInterviews();
+  AuditLog.unshift({Time:new Date().toISOString().replace('T',' ').substring(0,19),User:'Admin',Action:'Interview Rejected',Details:Interviews[I].Name + ' - Score ' + Interviews[I].Score});
+  RenderAudit();
+  if (localStorage.getItem('wolfs_demo') !== 'true' && Interviews[I].InterviewId) {
+    fetch(RelayUrl + '/api/interviews/' + Interviews[I].InterviewId, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ status:'rejected', rejectedBy:'admin', rejectedAt: new Date().toISOString() }) }).catch(function(){});
+    if (Interviews[I].UserId) {
+      fetch(RelayUrl + '/api/users/' + Interviews[I].UserId, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ status:'rejected' }) }).catch(function(){});
+    }
+  }
+}
+
+function FilterDrivers(Q) {
+  Q = Q.toLowerCase();
+  document.querySelectorAll('#DriversBody tr:not(.ExpandRow)').forEach(function(R) {
+    R.style.display = R.textContent.toLowerCase().indexOf(Q) !== -1 ? '' : 'none';
+  });
+}
+
+function FilterDriverStatus(S) {
+  document.querySelectorAll('#DriversBody tr:not(.ExpandRow)').forEach(function(R) {
+    if (!S) { R.style.display = ''; return; }
+    R.style.display = R.querySelector('.StatusBadge').textContent === S ? '' : 'none';
+  });
+}
+
+function FilterInterviews(Q) {
+  Q = Q.toLowerCase();
+  document.querySelectorAll('#InterviewsBody tr:not(.ExpandRow)').forEach(function(R) {
+    R.style.display = R.textContent.toLowerCase().indexOf(Q) !== -1 ? '' : 'none';
+  });
+}
+
+function FilterInterviewStatus(S) {
+  document.querySelectorAll('#InterviewsBody tr:not(.ExpandRow)').forEach(function(R) {
+    if (!S) { R.style.display = ''; return; }
+    R.style.display = R.querySelector('.StatusBadge').textContent === S ? '' : 'none';
+  });
+}
+
+function FilterJobStatus(S) {
+  var Map = {'available':'Available','accepted':'Accepted','transit':'In Transit','completed':'Completed'};
+  document.querySelectorAll('#JobsBody tr').forEach(function(R) {
+    if (!S) { R.style.display = ''; return; }
+    R.style.display = R.querySelector('.StatusBadge').textContent === Map[S] ? '' : 'none';
+  });
+}
+
+function FilterAudit(Q) {
+  Q = Q.toLowerCase();
+  document.querySelectorAll('#AuditBody tr').forEach(function(R) {
+    R.style.display = R.textContent.toLowerCase().indexOf(Q) !== -1 ? '' : 'none';
+  });
+}
+
+var ClientJobs = [
+  {Id:'cj_1713168000001',Client:'Acme Corp',Email:'shipping@acmecorp.com',Phone:'(310) 555-0142',Pickup:'1200 Industrial Blvd, Commerce CA',Delivery:'8800 Sunset Blvd, West Hollywood CA',Cargo:'Office furniture, 6 pallets',Weight:'4200',Price:156.25,Instructions:'Liftgate required at delivery. Call 30 min before arrival.',Status:'pending',Created:'2026-04-15 09:22:00'},
+  {Id:'cj_1713168000002',Client:'FreshFarms LLC',Email:'logistics@freshfarms.com',Phone:'(818) 555-0298',Pickup:'LA Wholesale Produce Market',Delivery:'Whole Foods, Pasadena CA',Cargo:'Refrigerated produce, mixed vegetables',Weight:'8500',Price:218.75,Instructions:'Temperature must stay below 38F. Deliver before 6 AM.',Status:'pending',Created:'2026-04-15 08:45:00'},
+  {Id:'cj_1713168000003',Client:'BuildRight Inc',Email:'dispatch@buildright.com',Phone:'(626) 555-0177',Pickup:'Home Depot Supply, Irwindale CA',Delivery:'Construction site, 500 S Grand Ave, Downtown LA',Cargo:'Lumber and drywall, oversized',Weight:'12000',Price:287.50,Instructions:'Flatbed required. Tarping needed. Delivery window 7-10 AM only.',Status:'approved',Created:'2026-04-14 16:30:00'},
+  {Id:'cj_1713168000004',Client:'MedSupply Direct',Email:'orders@medsupply.com',Phone:'(213) 555-0333',Pickup:'Cardinal Health DC, Santa Fe Springs',Delivery:'Kaiser Permanente, Los Angeles CA',Cargo:'Medical supplies, fragile',Weight:'2100',Price:112.50,Instructions:'White glove delivery. Must sign for receipt. No stacking.',Status:'approved',Created:'2026-04-14 14:15:00'},
+  {Id:'cj_1713168000005',Client:'TechWare Solutions',Email:'warehouse@techware.io',Phone:'(310) 555-0455',Pickup:'LAX Cargo Terminal',Delivery:'TechWare HQ, El Segundo CA',Cargo:'Server racks, 3 units',Weight:'1800',Price:93.75,Instructions:'Handle with extreme care. Climate controlled preferred.',Status:'rejected',Created:'2026-04-13 11:00:00'}
+];
+
+function RenderClientJobs() {
+  var Html = '';
+  ClientJobs.forEach(function(J, I) {
+    var StatusClass = J.Status === 'approved' ? 'StatusApproved' : J.Status === 'rejected' ? 'StatusRejected' : J.Status === 'assigned' ? 'StatusTransit' : 'StatusPending';
+    var Actions = '';
+    if (J.Status === 'pending') {
+      Actions = '<button class="BtnAction BtnApprove" onclick="event.stopPropagation();ApproveClientJob('+I+')">Approve</button>' +
+                '<button class="BtnAction BtnReject" onclick="event.stopPropagation();RejectClientJob('+I+')">Reject</button>';
+    } else {
+      Actions = '<span style="color:var(--text-muted);font-size:.8rem">' + J.Status + '</span>';
+    }
+    Html += '<tr onclick="ToggleExpand(\'CJExp_'+I+'\')" style="cursor:pointer">' +
+      '<td style="font-size:.8rem">' + J.Id + '</td>' +
+      '<td><b>' + J.Client + '</b><br><span style="font-size:.75rem;color:var(--text-muted)">' + J.Email + '</span></td>' +
+      '<td>' + J.Pickup + '</td>' +
+      '<td>' + J.Delivery + '</td>' +
+      '<td>' + J.Cargo + '</td>' +
+      '<td style="color:var(--accent);font-weight:700">$' + J.Price.toFixed(2) + '</td>' +
+      '<td><span class="StatusBadge '+StatusClass+'">' + J.Status + '</span></td>' +
+      '<td>' + Actions + '</td>' +
+    '</tr>' +
+    '<tr class="ExpandRow" id="CJExp_'+I+'"><td colspan="8"><div class="ExpandContent">' +
+      '<b>Client:</b> ' + J.Client + ' | ' + J.Phone + ' | ' + J.Email + '<br>' +
+      '<b>Weight:</b> ' + J.Weight + ' lbs<br>' +
+      '<b>Special Instructions:</b> ' + J.Instructions + '<br>' +
+      '<b>Submitted:</b> ' + J.Created +
+    '</div></td></tr>';
+  });
+  document.getElementById('ClientJobsBody').innerHTML = Html;
+}
+
+function ApproveClientJob(I) {
+  ClientJobs[I].Status = 'approved';
+  RenderClientJobs();
+  AuditLog.unshift({Time:new Date().toISOString().replace('T',' ').substring(0,19),User:'Admin',Action:'Client Job Approved',Details:ClientJobs[I].Id + ' - ' + ClientJobs[I].Client + ' - $' + ClientJobs[I].Price.toFixed(2)});
+  RenderAudit();
+  SendToRelay({type:'admin',content:'Approved client job '+ClientJobs[I].Id,id:'admin_'+Date.now()});
+  if (localStorage.getItem('wolfs_demo') !== 'true') {
+    fetch(RelayUrl + '/api/jobs/' + ClientJobs[I].Id, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ status:'approved', approvedBy:'admin', approvedAt: new Date().toISOString() }) }).catch(function(){});
+  }
+}
+
+function RejectClientJob(I) {
+  ClientJobs[I].Status = 'rejected';
+  RenderClientJobs();
+  AuditLog.unshift({Time:new Date().toISOString().replace('T',' ').substring(0,19),User:'Admin',Action:'Client Job Rejected',Details:ClientJobs[I].Id + ' - ' + ClientJobs[I].Client});
+  RenderAudit();
+  if (localStorage.getItem('wolfs_demo') !== 'true') {
+    fetch(RelayUrl + '/api/jobs/' + ClientJobs[I].Id, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ status:'rejected', rejectedBy:'admin', rejectedAt: new Date().toISOString() }) }).catch(function(){});
+  }
+}
+
+function FilterClientJobs(Q) {
+  Q = Q.toLowerCase();
+  document.querySelectorAll('#ClientJobsBody tr:not(.ExpandRow)').forEach(function(R) {
+    R.style.display = R.textContent.toLowerCase().indexOf(Q) !== -1 ? '' : 'none';
+  });
+}
+
+function FilterClientJobStatus(S) {
+  document.querySelectorAll('#ClientJobsBody tr:not(.ExpandRow)').forEach(function(R) {
+    if (!S) { R.style.display = ''; return; }
+    R.style.display = R.querySelector('.StatusBadge').textContent === S ? '' : 'none';
+  });
+}
+
+function OpenAdminChat() { document.getElementById('ChatPanel').classList.add('Open'); }
+function CloseAdminChat() { document.getElementById('ChatPanel').classList.remove('Open'); }
+
+var DemoAdminReplies = [
+  'Command executed. Today revenue: $48,200. 23 loads in transit, 156 completed, 10 pending.',
+  'Report generated. Top driver this week: Marcus Rodriguez ($12,450 earned, 32 loads, 98.2% on-time).',
+  'Fleet status: 47/52 active, 3 in maintenance, 2 available. All trucks passed morning pre-trip.',
+  'Pending applicants: 4 interviews ready for review. Carlos Mendez scored 92/100 — recommend hire.',
+  'Client jobs queue: 3 pending approval. Acme Corp $156.25, FreshFarms $218.75, BuildRight $287.50.',
+  'Alert sent to all drivers. Safety briefing scheduled for Monday 7 AM. RSVPs tracking.',
+  'Admin AI ready. Full system access. What command?'
+];
+var DemoAdminIdx = 0;
+
+function SendAdminChat() {
+  var Input = document.getElementById('AdminChatInput');
+  var Text = Input.value.trim();
+  if (!Text) return;
+  Input.value = '';
+  var Container = document.getElementById('ChatMessages');
+  var Msg = document.createElement('div');
+  Msg.className = 'ChatMsg ChatMsgUser';
+  Msg.textContent = Text;
+  Container.appendChild(Msg);
+  Container.scrollTop = Container.scrollHeight;
+  if (localStorage.getItem('wolfs_demo') === 'true') {
+    setTimeout(function() {
+      var Reply = document.createElement('div');
+      Reply.className = 'ChatMsg ChatMsgBot';
+      Reply.textContent = DemoAdminReplies[DemoAdminIdx % DemoAdminReplies.length];
+      Container.appendChild(Reply);
+      Container.scrollTop = Container.scrollHeight;
+      DemoAdminIdx++;
+    }, 900 + Math.random() * 400);
+  } else {
+    SendToRelay({type:'admin',content:Text,id:'admin_'+Date.now()});
+  }
+}
+
+function PollRelay() {
+  fetch(RelayUrl + '/poll?role=client')
+    .then(function(R) { return R.json(); })
+    .then(function(Data) {
+      if (Data.messages) {
+        Data.messages.forEach(function(Raw) {
+          try {
+            var Parsed = JSON.parse(Raw);
+            if (Parsed.type === 'client_job') {
+              var JobData = typeof Parsed.content === 'string' ? JSON.parse(Parsed.content) : Parsed.content;
+              ClientJobs.unshift({
+                Id: Parsed.id || 'cj_' + Date.now(),
+                Client: JobData.contact || 'Unknown',
+                Email: JobData.email || '',
+                Phone: JobData.phone || '',
+                Pickup: JobData.pickup || '',
+                Delivery: JobData.delivery || '',
+                Cargo: JobData.cargo || '',
+                Weight: JobData.weight || '0',
+                Price: JobData.price || 0,
+                Instructions: JobData.instructions || '',
+                Status: 'pending',
+                Created: new Date().toISOString().replace('T',' ').substring(0,19)
+              });
+              RenderClientJobs();
+              AuditLog.unshift({Time:new Date().toISOString().replace('T',' ').substring(0,19),User:'System',Action:'Client Job Received',Details:Parsed.id + ' from ' + (JobData.contact || 'Unknown')});
+              RenderAudit();
+              return;
+            }
+            var Text = Parsed.content || '';
+            if (!Text) return;
+            var Container = document.getElementById('ChatMessages');
+            var Msg = document.createElement('div');
+            Msg.className = 'ChatMsg ChatMsgBot';
+            Msg.textContent = Text;
+            Container.appendChild(Msg);
+            Container.scrollTop = Container.scrollHeight;
+          } catch(E) {}
+        });
+      }
+    })
+    .catch(function() {})
+    .finally(function() { setTimeout(PollRelay, 2000); });
+}
+
+function Logout() {
+  localStorage.removeItem('wolfs_session');
+  localStorage.removeItem('wolfs_email');
+  localStorage.removeItem('wolfs_role');
+  window.location.href = '/wolfstruckingco.com/Login/';
+}
+
+RenderDrivers();
+RenderInterviews();
+RenderJobs();
+RenderClientJobs();
+RenderAudit();
+PollRelay();
+setTimeout(function() { InitAdminMap(); }, 500);
+
+// Pull real client jobs + KPIs from R2 (skip in demo mode)
+function FetchR2ClientJobs() {
+  if (localStorage.getItem('wolfs_demo') === 'true') return;
+  fetch(RelayUrl + '/api/jobs').then(function(R){return R.json()}).then(function(Data){
+    if (!Data.items) return;
+    var R2Jobs = Data.items.filter(function(J){ return J.clientEmail; });
+    R2Jobs.forEach(function(J){
+      if (!ClientJobs.some(function(E){ return E.Id === J.id; })) {
+        ClientJobs.unshift({
+          Id: J.id, Client: J.clientEmail.split('@')[0], Email: J.clientEmail,
+          Phone: J.clientPhone || '', Pickup: J.pickup || '', Delivery: J.delivery || '',
+          Cargo: J.cargo || '', Weight: J.weight || '0', Price: J.pay || 0,
+          Instructions: J.instructions || '', Status: J.status || 'pending',
+          Created: J.createdAt ? J.createdAt.replace('T', ' ').substring(0, 19) : ''
+        });
+      }
+    });
+    RenderClientJobs();
+  }).catch(function(){});
+}
+
+function FetchR2Interviews() {
+  if (localStorage.getItem('wolfs_demo') === 'true') return;
+  fetch(RelayUrl + '/api/interviews').then(function(R){return R.json()}).then(function(Data){
+    if (!Data.items) return;
+    Data.items.forEach(function(Iv){
+      if (Interviews.some(function(E){ return E.InterviewId === Iv.id; })) return;
+      Interviews.unshift({
+        Name: Iv.email ? Iv.email.split('@')[0].replace(/[._]/g,' ').replace(/\b\w/g, function(C){return C.toUpperCase()}) : 'Applicant',
+        Date: Iv.date || (Iv.completedAt||'').slice(0,10),
+        Score: Iv.score || 75,
+        Verdict: Iv.verdict || 'Pending',
+        Status: Iv.status || 'pending',
+        Transcript: Iv.transcript || '',
+        InterviewId: Iv.id,
+        UserId: null
+      });
+    });
+    RenderInterviews();
+  }).catch(function(){});
+  // Link user records to interviews
+  fetch(RelayUrl + '/api/users').then(function(R){return R.json()}).then(function(Data){
+    if (!Data.items) return;
+    Data.items.forEach(function(U){
+      if (!U.interviewId) return;
+      var match = Interviews.find(function(I){ return I.InterviewId === U.interviewId; });
+      if (match) match.UserId = U.id;
+    });
+  }).catch(function(){});
+}
+
+function FetchR2Kpis() {
+  if (localStorage.getItem('wolfs_demo') === 'true') return;
+  fetch(RelayUrl + '/api/kpi/kpi').then(function(R){return R.json()}).then(function(K){
+    if (!K.revenue) return;
+    // Update KPI cards with live R2 data if available
+    var RevEl = document.querySelector('.KpiCard:nth-child(1) .KpiValue');
+    if (RevEl && K.revenue.ytd) RevEl.textContent = '$' + (K.revenue.ytd/1000000).toFixed(2) + 'M';
+    var DrvEl = document.querySelector('.KpiCard:nth-child(2) .KpiValue');
+    if (DrvEl && K.fleet) DrvEl.textContent = K.fleet.activeDrivers + '/' + K.fleet.trucks;
+    var OnTimeEl = document.querySelector('.KpiCard:nth-child(3) .KpiValue');
+    if (OnTimeEl && K.deliveries) OnTimeEl.textContent = K.deliveries.onTimeRate + '%';
+    var UtilEl = document.querySelector('.KpiCard:nth-child(4) .KpiValue');
+    if (UtilEl && K.fleet) UtilEl.textContent = K.fleet.utilization + '%';
+  }).catch(function(){});
+}
+
+var Leads = [];
+
+function FetchR2Leads() {
+  fetch(RelayUrl + '/api/contacts').then(function(R){return R.json()}).then(function(Data){
+    if (!Data.items) return;
+    Leads = Data.items.sort(function(a,b){ return (b.createdAt||'').localeCompare(a.createdAt||''); });
+    RenderLeads();
+  }).catch(function(){});
+}
+
+function RenderLeads() {
+  var Body = document.getElementById('LeadsBody');
+  if (!Body) return;
+  if (Leads.length === 0) {
+    Body.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:30px">No leads yet. Contact form submissions will appear here.</td></tr>';
+    return;
+  }
+  var H = '';
+  Leads.forEach(function(L, I){
+    var StatusClass = {'new':'StatusPending','contacted':'StatusTransit','qualified':'StatusApproved','converted':'StatusActive','closed':'StatusRejected'}[L.status||'new'] || 'StatusPending';
+    var Actions = '';
+    if ((L.status||'new') === 'new') {
+      Actions = '<button class="BtnAction BtnApprove" onclick="event.stopPropagation();MarkLead('+I+',\'contacted\')">Contacted</button>' +
+                '<button class="BtnAction BtnReject" onclick="event.stopPropagation();MarkLead('+I+',\'closed\')" style="background:#6b7280">Close</button>';
+    } else if ((L.status||'new') === 'contacted') {
+      Actions = '<button class="BtnAction BtnApprove" onclick="event.stopPropagation();MarkLead('+I+',\'qualified\')">Qualified</button>' +
+                '<button class="BtnAction BtnApprove" onclick="event.stopPropagation();MarkLead('+I+',\'converted\')" style="background:var(--success)">Converted</button>';
+    } else {
+      Actions = '<span style="color:var(--text-muted);font-size:.8rem">' + (L.status||'new') + '</span>';
+    }
+    H += '<tr onclick="ToggleExpand(\'LeadExp_'+I+'\')" style="cursor:pointer">' +
+      '<td style="font-size:.78rem;color:var(--text-muted);white-space:nowrap">' + ((L.createdAt||'').slice(0,10) || '-') + '</td>' +
+      '<td><b>' + (L.name||'-') + '</b></td>' +
+      '<td>' + (L.company||'-') + '</td>' +
+      '<td><a href="mailto:' + (L.email||'') + '" style="color:var(--accent)">' + (L.email||'-') + '</a></td>' +
+      '<td>' + (L.phone||'-') + '</td>' +
+      '<td><span class="StatusBadge StatusTransit">' + (L.interest||'other') + '</span></td>' +
+      '<td><span class="StatusBadge ' + StatusClass + '">' + (L.status||'new') + '</span></td>' +
+      '<td>' + Actions + '</td>' +
+    '</tr>' +
+    '<tr class="ExpandRow" id="LeadExp_'+I+'"><td colspan="8"><div class="ExpandContent">' +
+      '<b>Message:</b> ' + (L.message||'(no message)') +
+      (L.phone ? '<br><b>Phone:</b> <a href="tel:' + L.phone + '">' + L.phone + '</a>' : '') +
+      '<br><b>Source:</b> ' + (L.source||'contact_page') +
+      '<br><b>Lead ID:</b> ' + L.id +
+    '</div></td></tr>';
+  });
+  Body.innerHTML = H;
+}
+
+function MarkLead(I, Status) {
+  Leads[I].status = Status;
+  RenderLeads();
+  AuditLog.unshift({Time:new Date().toISOString().replace('T',' ').substring(0,19),User:'Admin',Action:'Lead '+Status,Details:Leads[I].name + ' <' + Leads[I].email + '>'});
+  RenderAudit();
+  if (localStorage.getItem('wolfs_demo') !== 'true' && Leads[I].id) {
+    fetch(RelayUrl + '/api/contacts/' + Leads[I].id, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ status: Status, updatedAt: new Date().toISOString() }) }).catch(function(){});
+  }
+}
+
+function FilterLeads(Q) { Q = Q.toLowerCase(); document.querySelectorAll('#LeadsBody tr:not(.ExpandRow)').forEach(function(R){ R.style.display = R.textContent.toLowerCase().indexOf(Q) !== -1 ? '' : 'none'; }); }
+function FilterLeadStatus(S) { document.querySelectorAll('#LeadsBody tr:not(.ExpandRow)').forEach(function(R){ if (!S) { R.style.display = ''; return; } var badges = R.querySelectorAll('.StatusBadge'); var last = badges[badges.length-1]; R.style.display = last && last.textContent === S ? '' : 'none'; }); }
+function FilterLeadInterest(S) { document.querySelectorAll('#LeadsBody tr:not(.ExpandRow)').forEach(function(R){ if (!S) { R.style.display = ''; return; } R.style.display = R.textContent.toLowerCase().indexOf(S) !== -1 ? '' : 'none'; }); }
+
+setInterval(FetchR2ClientJobs, 10000);
+setInterval(FetchR2Kpis, 10000);
+setInterval(FetchR2Interviews, 10000);
+setInterval(FetchR2Leads, 10000);
+FetchR2ClientJobs();
+FetchR2Kpis();
+FetchR2Interviews();
+FetchR2Leads();
+
+if (typeof DemoGuide !== 'undefined' && DemoGuide.IsDemo()) {
+  setTimeout(function() {
+    DemoGuide.Init('Admin', [
+      {title:'1. Admin Backoffice', text:'Welcome Kei. Operations command center for 52 trucks, 47 drivers, 189 daily loads, all client shipments. Data persisted to Cloudflare R2.', target:'.SidebarBrand'},
+      {title:'2. Sidebar Navigation', text:'6 sections: Overview, Drivers, Interviews, Jobs, Client Jobs, Audit. Quick links: Driver Dashboard, Settings, Sign Out.', target:'.SidebarNav'},
+      {title:'3. Revenue ($4.2M YTD)', text:'Year-to-date revenue up 12.3% vs last year. Top-line money metric — all KPIs support this goal.', target:'.KpiCard:nth-child(1)'},
+      {title:'4. Active Drivers 47/52', text:'47 of 52 deployed. 3 new hires this month. 5 in maintenance rotation. Fleet scales with demand.', target:'.KpiCard:nth-child(2)'},
+      {title:'5. On-Time Rate 97.3%', text:'Industry target 95%+. We hit 97.3%. Each 1% = $50K+ in contract renewals.', target:'.KpiCard:nth-child(3)'},
+      {title:'6. Fleet Utilization 94%', text:'Trucks earning vs idle. 94% excellent — 6% reserved for maintenance and surge capacity.', target:'.KpiCard:nth-child(4)'},
+      {title:'7. Live Fleet Map', text:'All 47 drivers real-time on map. Green=active, yellow=available. Click marker for driver details.', target:'#AdminMap'},
+      {title:'8. Daily Metrics', text:'Today: 189 loads, 156 completed, 23 in transit, 10 pending. Keep pending <15 for smooth ops.', target:'.MetricsRow'},
+      {title:'9. Drivers Tab', text:'Roster with CDL, status, current job, on-time %, MTD earnings. Click row for full details.', target:null, action:function(){ ShowTab('drivers', document.querySelectorAll('.SNavItem')[1]); }},
+      {title:'10. Search & Filter', text:'Search by name, filter by status. Essential for 50+ driver roster. Full performance history each.', target:'.FilterBar'},
+      {title:'11. Performance Data', text:'Marcus: 156 loads, 4.9 safety. Tamika: 142 loads, 5.0 safety. Rankings drive bonuses and routes.', target:'#DriversTable'},
+      {title:'12. Interviews Tab', text:'AI hiring interviews with scores (0-100), verdicts (Strong hire/Hire/Conditional/No hire), full transcripts.', target:null, action:function(){ ShowTab('interviews', document.querySelectorAll('.SNavItem')[2]); }},
+      {title:'13. Review Transcript', text:'Click any row to expand transcript. See exactly what AI asked and applicant answered. Critical for hiring.', target:'#InterviewsTable', action:function(){ ToggleExpand('IntExp_0'); }},
+      {title:'14. Approve/Reject', text:'Pending applicants show Approve (green) / Reject (red). Approve instantly activates driver access. Reject logs reason.', target:'.BtnApprove', action:function(){ var B = document.querySelectorAll('.BtnApprove'); if(B.length) B[0].click(); }},
+      {title:'15. Jobs Tab', text:'12 jobs by status: available, accepted, transit, completed. Filter by status or date range.', target:null, action:function(){ ShowTab('jobs', document.querySelectorAll('.SNavItem')[3]); }},
+      {title:'16. Client Jobs (Revenue)', text:'Client shipment requests with pricing. THIS is where money enters the business. Approve to dispatch.', target:null, action:function(){ ShowTab('clientjobs', document.querySelectorAll('.SNavItem')[4]); }},
+      {title:'17. Client Job Details', text:'Click any to expand: contact, weight, instructions, submission time. Verify before approval.', target:'#ClientJobsTable', action:function(){ ToggleExpand('CJExp_0'); }},
+      {title:'18. Approve Client Shipment', text:'Approve accepts revenue and creates driver load. Core workflow: client pays → admin approves → driver delivers.', target:'.BtnApprove', action:function(){ var B = document.querySelectorAll('.BtnApprove'); if(B.length) B[0].click(); }},
+      {title:'19. Audit Trail', text:'Every action logged: job created, driver approved, delivery, payment, admin commands. Compliance + liability protection.', target:null, action:function(){ ShowTab('audit', document.querySelectorAll('.SNavItem')[5]); }},
+      {title:'20. Audit Search', text:'Search full audit history by user, action, details. Filter by user type. Complete accountability.', target:'#AuditSearch'},
+      {title:'21. Refresh Data', text:'Pulls latest from Cloudflare R2. Persistent, shared across admins. Real-time when drivers/clients act.', target:'.BtnRefresh'},
+      {title:'22. Admin AI Chat', text:'Chat with AI for commands: "Pause all flatbed jobs", "Generate Q2 revenue report". Full system access.', target:'.BtnChatFloat', action:function(){ OpenAdminChat(); }},
+      {title:'23. Chat Panel', text:'No guardrails. AI executes any admin operation. All commands logged in audit trail.', target:'#ChatPanel', action:function(){ CloseAdminChat(); }},
+      {title:'Admin Demo Complete!', text:'ALL 23 features shown: 4 KPIs, fleet map, daily metrics, drivers/interviews/jobs/client-jobs/audit tabs, approvals, search/filter, AI chat. Ready to run the business!', target:null, action:function(){ ShowTab('overview', document.querySelectorAll('.SNavItem')[0]); }}
+    ]);
+  }, 800);
+}
+</script>
+</body>
+</html>

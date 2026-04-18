@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://basemaps.cartocdn.com" crossorigin>
+<link rel="preconnect" href="https://router.project-osrm.org" crossorigin>
+<link rel="preconnect" href="https://wolfstruckingco.nbth.workers.dev" crossorigin>
+<meta name="description" content="Wolfs Hiring Hall — review applicant credentials, assign badges, and onboard drivers.">
+<meta property="og:title" content="Hiring Hall | Wolfs Trucking Co.">
+<meta property="og:description" content="Wolfs Hiring Hall — review applicant credentials, assign badges, and onboard drivers.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/wolfstruckingco.com/icon.svg">
+<meta name="twitter:card" content="summary">
+<title>Hiring Hall | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<meta name="theme-color" content="#ff6b35">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--info:#3b82f6;--warning:#f59e0b;--danger:#ef4444;--radius:10px}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text)}
+.TopBar{position:sticky;top:0;z-index:10;background:rgba(15,20,25,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.Brand{font-weight:800;font-size:1.05rem;display:flex;align-items:center;gap:8px}
+.Brand .Logo{width:28px;height:28px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:.85rem}
+.Brand a{color:var(--text);text-decoration:none}
+.TopActions a{color:var(--text-muted);text-decoration:none;padding:8px 12px;font-size:.85rem}
+.TopActions a:hover{color:var(--accent)}
+
+.Tabs{display:flex;gap:2px;background:var(--card);border-bottom:1px solid var(--border);padding:0 12px;overflow-x:auto;scrollbar-width:thin}
+.Tab{padding:14px 18px;cursor:pointer;font-size:.88rem;color:var(--text-muted);border-bottom:2px solid transparent;white-space:nowrap;font-weight:600}
+.Tab:hover{color:var(--text)}
+.Tab.Active{color:var(--accent);border-bottom-color:var(--accent)}
+
+.Stage{max-width:1600px;margin:0 auto;padding:20px 32px 40px}
+.Panel{display:none}
+.Panel.Active{display:block}
+.PanelHead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.PanelHead h2{font-size:1.2rem;font-weight:700}
+.PanelHead p{color:var(--text-muted);font-size:.88rem;margin-top:4px}
+
+.Btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-weight:700;font-size:.88rem;cursor:pointer;font-family:inherit;min-height:40px}
+.Btn:hover{background:var(--accent-hover)}
+.Btn.Ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.Btn.Ghost:hover{border-color:var(--accent);color:var(--accent)}
+.Btn.Small{padding:6px 12px;font-size:.78rem;min-height:32px}
+.Btn.Danger{background:var(--danger)}
+.Btn.Success{background:var(--success)}
+.Btn.Info{background:var(--info)}
+
+.Grid{display:grid;gap:12px}
+.Grid.Two{grid-template-columns:1fr 1fr}
+.Grid.Three{grid-template-columns:repeat(3,1fr)}
+@media(max-width:720px){.Grid.Two,.Grid.Three{grid-template-columns:1fr}}
+
+.Card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.Card h3{font-size:.98rem;font-weight:700;margin-bottom:6px}
+.CardMeta{color:var(--text-muted);font-size:.82rem;margin-bottom:10px}
+.CardActions{display:flex;gap:6px;flex-wrap:wrap}
+
+.Pill{display:inline-block;padding:3px 9px;border-radius:11px;font-size:.72rem;font-weight:600;margin:2px 4px 2px 0}
+.Pill.Credential{background:rgba(255,107,53,.15);color:var(--accent);border:1px solid rgba(255,107,53,.3)}
+.Pill.Tag{background:rgba(59,130,246,.15);color:var(--info);border:1px solid rgba(59,130,246,.3)}
+.Pill.Approved{background:rgba(34,197,94,.15);color:var(--success);border:1px solid rgba(34,197,94,.3)}
+.Pill.Role{background:rgba(245,158,11,.15);color:var(--warning);border:1px solid rgba(245,158,11,.3)}
+
+.Field{margin-bottom:12px}
+.Field label{display:block;font-size:.8rem;margin-bottom:5px;color:var(--text-muted);font-weight:600}
+.Field input,.Field select,.Field textarea{width:100%;padding:10px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.9rem}
+.Field textarea{resize:vertical;min-height:60px}
+.Field input:focus,.Field select:focus,.Field textarea:focus{border-color:var(--accent);outline:none}
+.CheckList{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;max-height:200px;overflow-y:auto;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:8px}
+.CheckList label{display:flex;align-items:center;gap:6px;font-size:.82rem;cursor:pointer;color:var(--text);padding:4px}
+
+.Modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
+.Modal.Open{display:flex}
+.ModalBody{background:var(--card);border-radius:var(--radius);max-width:640px;width:100%;max-height:90vh;overflow-y:auto;padding:24px;border:1px solid var(--border)}
+.ModalHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.ModalHead h3{font-size:1.1rem}
+.Close{background:none;border:none;color:var(--text-muted);font-size:1.5rem;cursor:pointer;line-height:1}
+.Close:hover{color:var(--accent)}
+
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border)}
+th{color:var(--text-muted);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.3px}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+
+.Status-waiting{color:var(--warning)}
+.Status-completed{color:var(--info)}
+.Status-future{color:var(--text-muted)}
+.Status-waitingprocessing{color:var(--warning)}
+.Status-done{color:var(--success)}
+.Status-confirmed{color:var(--success)}
+.Status-rejected{color:var(--danger)}
+.Status-pending{color:var(--warning)}
+
+.Empty{text-align:center;padding:60px 20px;color:var(--text-muted)}
+.Toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--success);border-radius:10px;padding:14px 18px;z-index:1000;transform:translateY(120%);transition:transform .3s;max-width:360px;font-size:.9rem}
+.Toast.Show{transform:translateY(0)}
+.Toast.Danger{border-color:var(--danger)}
+</style>
+</head>
+<body>
+
+<div class="TopBar">
+  <div class="Brand"><span class="Logo">W</span><a href="/wolfstruckingco.com/">Wolfs Hiring Hall</a></div>
+  <div class="TopActions">
+    <a href="/wolfstruckingco.com/CareerAgent/">Career Agent</a>
+    <a href="/wolfstruckingco.com/Dashboard/">Dashboard</a>
+    <a href="/wolfstruckingco.com/Login/">Sign In</a>
+  </div>
+</div>
+
+<div class="Tabs">
+  <div class="Tab Active" data-tab="Applicants">Applicants</div>
+  <div class="Tab" data-tab="Badges">Badges</div>
+  <div class="Tab" data-tab="Roles">Roles</div>
+  <div class="Tab" data-tab="Workers">Workers</div>
+  <div class="Tab" data-tab="Customers">Customers</div>
+  <div class="Tab" data-tab="Scheduling">Scheduling</div>
+  <div class="Tab" data-tab="Timesheets">Time sheets</div>
+  <div class="Tab" data-tab="Accounts">Accounts</div>
+  <div class="Tab" data-tab="Audit">Audit</div>
+  <div class="Tab" data-tab="Reports">Reports</div>
+</div>
+
+<div class="Stage">
+
+  <!-- APPLICANTS -->
+  <div class="Panel Active" data-panel="Applicants">
+    <div class="PanelHead">
+      <div><h2>Applicant review</h2><p>New applicants come in here after the Opus 4.7 intake. Review their uploaded documents, then approve with the right badges to hire them as a worker.</p></div>
+      <button class="Btn Ghost" onclick="RenderApplicants()">Refresh</button>
+    </div>
+    <div id="ApplicantList"></div>
+  </div>
+
+  <!-- BADGES -->
+  <div class="Panel" data-panel="Badges">
+    <div class="PanelHead">
+      <div><h2>Badges</h2><p>Credentials are high-level qualifications required to do a job. Tags are supporting attributes.</p></div>
+      <button class="Btn" onclick="OpenBadgeModal()">+ New badge</button>
+    </div>
+    <div id="BadgeGrid" class="Grid Three"></div>
+  </div>
+
+  <!-- ROLES -->
+  <div class="Panel" data-panel="Roles">
+    <div class="PanelHead">
+      <div><h2>Roles</h2><p>Types of work. Each role lists required badges — a worker can only be scheduled into a role they hold all of its badges for.</p></div>
+      <button class="Btn" onclick="OpenRoleModal()">+ New role</button>
+    </div>
+    <div id="RoleGrid" class="Grid Two"></div>
+  </div>
+
+  <!-- WORKERS -->
+  <div class="Panel" data-panel="Workers">
+    <div class="PanelHead">
+      <div><h2>Workers</h2><p>The backbone of the platform. Approved workers can be scheduled into roles they qualify for.</p></div>
+      <button class="Btn" onclick="OpenWorkerModal()">+ Add worker</button>
+    </div>
+    <div id="WorkerList"></div>
+  </div>
+
+  <!-- CUSTOMERS -->
+  <div class="Panel" data-panel="Customers">
+    <div class="PanelHead">
+      <div><h2>Customers</h2><p>Organizations that schedule workers. Each can have multiple users, locations, and roles.</p></div>
+      <button class="Btn" onclick="OpenCustomerModal()">+ Add customer</button>
+    </div>
+    <div id="CustomerList" class="Grid Two"></div>
+  </div>
+
+  <!-- SCHEDULING -->
+  <div class="Panel" data-panel="Scheduling">
+    <div class="PanelHead">
+      <div><h2>Scheduling</h2><p>Acting as a customer — create a booking for a role. Auto-reassignment offers the shift down the pool until N workers accept.</p></div>
+      <button class="Btn" onclick="OpenScheduleModal()">+ Create schedule</button>
+    </div>
+    <div id="ScheduleList"></div>
+  </div>
+
+  <!-- TIMESHEETS -->
+  <div class="Panel" data-panel="Timesheets">
+    <div class="PanelHead">
+      <div><h2>Time sheets</h2><p>Derived from completed schedules. Accept a completed timesheet to mark it ready for payroll, then export CSV.</p></div>
+      <div style="display:flex;gap:8px">
+        <button class="Btn Ghost" onclick="RefreshTimesheets()">Refresh</button>
+        <button class="Btn" onclick="ExportTimesheetsCsv()">Export CSV</button>
+      </div>
+    </div>
+    <div id="TimesheetList"></div>
+  </div>
+
+  <!-- ACCOUNTS -->
+  <div class="Panel" data-panel="Accounts">
+    <div class="PanelHead">
+      <div><h2>Accounts</h2><p>Every sign-in account (applicant, staff, employer, driver, investor) that the SignUp page has created. Each record is stored in R2 with its SHA-256 password hash.</p></div>
+      <button class="Btn Ghost" onclick="RenderAccounts()">Refresh</button>
+    </div>
+    <div id="AccountList"></div>
+  </div>
+
+  <!-- AUDIT -->
+  <div class="Panel" data-panel="Audit">
+    <div class="PanelHead">
+      <div><h2>Audit trail</h2><p>Every /api/charge, /api/upload, approve, reject, and dispatcher call. Pulled live from the R2 audit collection.</p></div>
+      <button class="Btn Ghost" onclick="RenderAudit()">Refresh</button>
+    </div>
+    <div id="AuditList"></div>
+  </div>
+
+  <!-- REPORTS -->
+  <div class="Panel" data-panel="Reports">
+    <div class="PanelHead"><div><h2>Reports</h2><p>Query across workers, bookings, timesheets.</p></div></div>
+    <div class="Grid Two" style="margin-bottom:16px">
+      <div class="Card">
+        <h3>Filter workers</h3>
+        <div class="Field"><label>By role</label><select id="RptRole"><option value="">Any</option></select></div>
+        <div class="Field"><label>With badge</label><select id="RptBadge"><option value="">Any</option></select></div>
+        <div class="Field"><label>Approved only</label><select id="RptApproved"><option value="">Any</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+        <button class="Btn Small" onclick="RunWorkerReport()">Run report</button>
+      </div>
+      <div class="Card">
+        <h3>Booking stats</h3>
+        <div id="ReportBookingStats">Loading…</div>
+      </div>
+    </div>
+    <div class="Card">
+      <h3>Worker report results</h3>
+      <div id="ReportWorkerResults"><p style="color:var(--text-muted);font-size:.88rem">Run a filter to see results.</p></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modals -->
+<div class="Modal" id="Modal">
+  <div class="ModalBody">
+    <div class="ModalHead"><h3 id="ModalTitle">Modal</h3><button class="Close" onclick="CloseModal()" aria-label="Button">&times;</button></div>
+    <div id="ModalContent"></div>
+  </div>
+</div>
+
+<div class="Toast" id="Toast"></div>
+
+<script>window.__allowedRoles = ['admin'];</script>
+<script src="/wolfstruckingco.com/auth-guard.js"></script>
+<script src="/wolfstruckingco.com/auth-header.js"></script>
+<script src="/wolfstruckingco.com/db.js"></script>
+<script>
+(async function() {
+  await WolfsDB.seed();
+  RegisterTabs();
+  await RenderApplicants();
+  document.getElementById('Modal').addEventListener('click', (ev) => { if (ev.target.id === 'Modal') CloseModal(); });
+})();
+
+function RegisterTabs() {
+  document.querySelectorAll('.Tab').forEach(t => {
+    t.addEventListener('click', async () => {
+      document.querySelectorAll('.Tab').forEach(x => x.classList.remove('Active'));
+      document.querySelectorAll('.Panel').forEach(x => x.classList.remove('Active'));
+      t.classList.add('Active');
+      const panel = document.querySelector(`.Panel[data-panel="${t.dataset.tab}"]`);
+      panel.classList.add('Active');
+      const map = {Applicants:RenderApplicants, Badges:RenderBadges, Roles:RenderRoles, Workers:RenderWorkers, Customers:RenderCustomers, Scheduling:RenderSchedules, Timesheets:RefreshTimesheets, Accounts:RenderAccounts, Audit:RenderAudit, Reports:RenderReports};
+      if (map[t.dataset.tab]) await map[t.dataset.tab]();
+    });
+  });
+}
+
+// ===== APPLICANTS =====
+function UploadThumb(kind) {
+  const wrap = (inner) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130" width="100%" height="130" preserveAspectRatio="xMidYMid meet">${inner}</svg>`;
+  if (kind === 'cdl') return wrap('<rect x="6" y="10" width="188" height="110" rx="8" fill="#1a2332" stroke="#ff6b35" stroke-width="2"/><circle cx="42" cy="56" r="18" fill="#ff6b35"/><rect x="74" y="44" width="100" height="6" fill="#3b82f6"/><rect x="74" y="58" width="116" height="4" fill="#8899aa"/><rect x="74" y="68" width="86" height="4" fill="#8899aa"/><rect x="14" y="100" width="172" height="4" fill="#22c55e"/><text x="14" y="26" font-size="10" font-weight="900" fill="#ff6b35">CDL · CLASS A</text>');
+  if (kind === 'twic') return wrap('<rect x="6" y="10" width="188" height="110" rx="8" fill="#1a2332" stroke="#3b82f6" stroke-width="2"/><circle cx="46" cy="58" r="20" fill="#3b82f6"/><rect x="80" y="42" width="104" height="6" fill="#fff"/><rect x="80" y="56" width="80" height="4" fill="#8899aa"/><rect x="80" y="66" width="100" height="4" fill="#8899aa"/><rect x="14" y="100" width="172" height="4" fill="#3b82f6"/><text x="14" y="26" font-size="10" font-weight="900" fill="#3b82f6">TWIC CARD · TSA</text>');
+  if (kind === 'medical') return wrap('<rect x="6" y="10" width="188" height="110" rx="8" fill="#1a2332" stroke="#22c55e" stroke-width="2"/><path d="M100 32 v60 M70 62 h60" stroke="#22c55e" stroke-width="8" stroke-linecap="round"/><rect x="14" y="100" width="172" height="4" fill="#22c55e"/><text x="14" y="26" font-size="10" font-weight="900" fill="#22c55e">DOT MEDICAL EXAM</text>');
+  if (kind === 'hazmat') return wrap('<rect x="6" y="10" width="188" height="110" rx="8" fill="#1a2332" stroke="#f59e0b" stroke-width="2"/><path d="M100 30 L140 96 L60 96 Z" fill="#f59e0b"/><text x="100" y="84" text-anchor="middle" font-size="32" font-weight="900" fill="#0f1419">!</text><rect x="14" y="100" width="172" height="4" fill="#f59e0b"/><text x="14" y="26" font-size="10" font-weight="900" fill="#f59e0b">HAZMAT ENDORSEMENT</text>');
+  return wrap('<rect x="6" y="10" width="188" height="110" rx="8" fill="#1a2332" stroke="#8899aa" stroke-width="2"/><rect x="20" y="32" width="160" height="3" fill="#8899aa"/><rect x="20" y="44" width="120" height="3" fill="#8899aa"/><rect x="20" y="56" width="140" height="3" fill="#8899aa"/><rect x="20" y="68" width="100" height="3" fill="#8899aa"/>');
+}
+function GuessKind(u) {
+  if (u.kind) return u.kind;
+  const t = (u.name || '').toLowerCase();
+  if (/cdl|license/.test(t)) return 'cdl';
+  if (/twic/.test(t)) return 'twic';
+  if (/medical|exam|fmcsa/.test(t)) return 'medical';
+  if (/hazmat|endors/.test(t)) return 'hazmat';
+  return 'other';
+}
+function UploadPreview(u) {
+  const name = Esc(u.name || '');
+  const sizeKb = Math.round((u.size || 0) / 1024);
+  const kind = GuessKind(u);
+  const ext = (u.name || '').toLowerCase().split('.').pop();
+  const isImg = ['png','jpg','jpeg','gif','webp','heic','svg'].indexOf(ext) !== -1;
+  // Real preview when the file URL is available, falls back to a kind-keyed SVG card.
+  const visual = u.url && isImg
+    ? `<img src="${Esc(u.url)}" alt="${name}" style="width:100%;height:130px;object-fit:cover;border-radius:6px;border:1px solid var(--border);display:block">`
+    : u.url && ext === 'pdf'
+      ? `<iframe src="${Esc(u.url)}" style="width:100%;height:130px;border:1px solid var(--border);border-radius:6px;display:block" title="${name}"></iframe>`
+      : UploadThumb(kind);
+  const link = u.url
+    ? `<a href="${Esc(u.url)}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">${name}</a>`
+    : name;
+  return `<div style="padding:8px;border:1px solid var(--border);border-radius:10px;background:var(--bg);display:flex;flex-direction:column;gap:6px">
+    ${visual}
+    <div style="font-size:.78rem;display:flex;justify-content:space-between;gap:8px;align-items:center;font-weight:600">
+      <span>📎 ${link}</span>
+      <span style="color:var(--text-muted);font-size:.72rem">${sizeKb} KB</span>
+    </div>
+  </div>`;
+}
+
+async function SummarizeApplicant(id) {
+  const a = (window.__wolfsApps || []).find(x => x.id === id);
+  if (!a) return;
+  const target = document.getElementById('Summary_' + id);
+  if (target) { target.style.display = 'block'; target.textContent = 'AI is reviewing the application…'; }
+  const uploads = (a.uploads || []).map(u => u.name).join(', ') || 'no documents uploaded';
+  const transcript = Array.isArray(a.transcript) ? a.transcript.map(m => (m.role === 'user' ? 'A: ' : 'Q: ') + m.content).join('\n').slice(0, 4000) : '';
+  const sys = 'You are a compliance reviewer for a trucking hiring hall. Your job is to verify the applicant\'s uploaded documents match the credentials they claim, flag anything missing or inconsistent, and recommend which badges to assign.\n\nStructure your reply with these sections, each one sentence:\n1. **Summary** — who they are in one line.\n2. **Documents on file** — for each uploaded filename, say which credential it covers and whether it looks complete (e.g. CDL-A-front.jpg covers front of Class A license; back may be missing).\n3. **Red flags** — anything missing from documents vs claimed credentials, or inconsistencies with the intake transcript.\n4. **Suggested badges** — bullet list of badge names to grant.\n\nBe specific and short.';
+  const user = `Applicant: ${a.name || a.email || a.id}\nLocation: ${a.location || 'unknown'}\nYears experience: ${a.experienceYears || 'unknown'}\nStatus: ${a.status || 'unknown'}\nUploaded documents: ${uploads}\n\nIntake transcript:\n${transcript}`;
+  try {
+    const headers = { 'Content-Type': 'application/json' };
+    const sess = localStorage.getItem('wolfs_session'); if (sess) headers['X-Wolfs-Session'] = sess;
+    const email = localStorage.getItem('wolfs_email'); if (email) headers['X-Wolfs-Email'] = email;
+    headers['X-Wolfs-Role'] = 'admin';
+    const res = await fetch('https://wolfstruckingco.nbth.workers.dev/ai', {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({ model: 'claude-opus-4-7', system: sys, max_tokens: 500, messages: [{ role: 'user', content: user }] }),
+    });
+    const data = await res.json();
+    if (target) target.textContent = data.text || data.error || 'No response.';
+    // persist the summary on the applicant record so re-opening doesn't cost another call.
+    a.summary = data.text || '';
+    try { await WolfsDB.put('applicants', a); } catch (_) {}
+  } catch (ex) {
+    if (target) target.textContent = 'Review failed: ' + (ex.message || ex);
+  }
+}
+window.SummarizeApplicant = SummarizeApplicant;
+
+async function RenderApplicants() {
+  const [apps, badges] = await Promise.all([WolfsDB.all('applicants'), WolfsDB.all('badges')]);
+  const container = document.getElementById('ApplicantList');
+  if (!apps.length) { container.innerHTML = '<div class="Empty">No applicants yet.</div>'; return; }
+  const sorted = apps.slice().sort((a,b) => (b.createdAt||'').localeCompare(a.createdAt||''));
+  container.innerHTML = sorted.map(a => {
+    const uploadCards = (a.uploads || []).map(UploadPreview).join('');
+    const uploads = uploadCards
+      ? `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:8px">${uploadCards}</div>`
+      : '';
+    const statusPill = a.status === 'approved' ? 'Pill Credential' : a.status === 'rejected' ? 'Pill Danger' : 'Pill';
+    const actions = (a.status === 'approved' || a.status === 'rejected') ? `<span class="${statusPill}" style="text-transform:uppercase">${Esc(a.status)}</span>` :
+      `<button class="Btn Small" onclick="OpenApproveApplicant('${Esc(a.id)}')">Approve + assign badges</button>
+       <button class="Btn Small Ghost Danger" onclick="RejectApplicant('${Esc(a.id)}')">Reject</button>`;
+    // Always start hidden — force staff to click "Review" for a fresh read every visit.
+    // The persisted summary may be stale (applicant could have uploaded new docs since), so we
+    // don't auto-show it; staff opens it on demand by clicking the button.
+    const summaryBox = `<div id="Summary_${Esc(a.id)}" style="display:none;margin:10px 0;padding:10px 12px;border-left:3px solid var(--accent);background:rgba(255,107,53,.06);border-radius:6px;font-size:.85rem;line-height:1.5;white-space:pre-wrap"></div>`;
+    return `<div class="Card" style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap">
+        <div style="flex:1;min-width:280px">
+          <h3>${Esc(a.name || a.email || a.id)}</h3>
+          <div style="color:var(--text-muted);font-size:.82rem;margin:4px 0 10px">${Esc(a.email || '')} ${a.location ? '· '+Esc(a.location) : ''} ${a.experienceYears ? '· '+a.experienceYears+'y exp' : ''}</div>
+          <div style="margin-bottom:10px">${uploads || '<div style="font-size:.78rem;color:var(--text-muted)">no uploads</div>'}</div>
+          ${summaryBox}
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+          <button class="Btn Ghost Small" onclick="SummarizeApplicant('${Esc(a.id)}')">${a.summary ? 'Re-run Review' : 'Review'}</button>
+          ${actions}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  window.__wolfsApps = apps;
+  window.__wolfsBadges = badges;
+}
+
+function OpenApproveApplicant(id) {
+  const a = (window.__wolfsApps || []).find(x => x.id === id);
+  const badges = window.__wolfsBadges || [];
+  if (!a) return;
+  const badgeOpts = badges.map(b => `<label style="display:flex;gap:8px;align-items:center;margin:4px 0"><input type="checkbox" value="${Esc(b.id)}" ${(a.suggestedBadges||[]).includes(b.id) ? 'checked' : ''} aria-label="Checkbox"><span>${Esc(b.name)} <span style="color:var(--text-muted);font-size:.75rem">(${Esc(b.kind)})</span></span></label>`).join('');
+  OpenModal('Approve ' + (a.name || a.id), `
+    <p style="margin-bottom:10px;color:var(--text-muted);font-size:.85rem">Select badges to grant. This creates a <code>workers</code> record and marks the applicant approved — they can sign in as a driver and accept matching jobs.</p>
+    <div id="BadgePicker">${badgeOpts || '<p style="color:var(--text-muted)">No badges defined yet — add some in the Badges tab first.</p>'}</div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+      <button class="Btn Ghost" onclick="CloseModal()">Cancel</button>
+      <button class="Btn" onclick="ApproveApplicant('${Esc(id)}')">Approve + hire</button>
+    </div>
+  `);
+}
+
+async function ApproveApplicant(id) {
+  const picked = Array.from(document.querySelectorAll('#BadgePicker input[type=checkbox]:checked')).map(i => i.value);
+  const a = await WolfsDB.get('applicants', id);
+  if (!a) return;
+  a.status = 'approved';
+  a.approvedAt = new Date().toISOString();
+  a.assignedBadges = picked;
+  await WolfsDB.put('applicants', a);
+  const worker = {
+    id: 'wkr_' + (a.email ? a.email.split('@')[0] : id).replace(/[^a-z0-9]+/gi,'_'),
+    name: a.name || a.email || id,
+    email: a.email,
+    approved: true,
+    rating: 0,
+    badges: picked,
+    roles: [],
+    experienceYears: a.experienceYears || 0,
+    location: a.location || '',
+    totalEarnings: 0,
+    hiredFrom: id,
+    hiredAt: a.approvedAt,
+  };
+  await WolfsDB.put('workers', worker);
+  try { await WolfsDB.put('audit', { id: 'aud_' + Date.now() + '_' + Math.random().toString(36).slice(2,6), kind: 'applicant.approve', at: a.approvedAt, subject: id, worker: worker.id, badges: picked }); } catch (_) {}
+  CloseModal();
+  Toast('Approved and hired ' + worker.name);
+  await RenderApplicants();
+}
+
+async function RejectApplicant(id) {
+  const a = await WolfsDB.get('applicants', id);
+  if (!a) return;
+  a.status = 'rejected';
+  a.rejectedAt = new Date().toISOString();
+  await WolfsDB.put('applicants', a);
+  try { await WolfsDB.put('audit', { id: 'aud_' + Date.now() + '_' + Math.random().toString(36).slice(2,6), kind: 'applicant.reject', at: a.rejectedAt, subject: id }); } catch (_) {}
+  Toast('Rejected applicant');
+  await RenderApplicants();
+}
+
+// ===== ACCOUNTS (CRUD + role change) =====
+// Staff can create, edit, delete, and re-role any account. Role change is the
+// authoritative switch — auth-guard.js on each page checks wolfs_role, so changing
+// it here instantly gates what that user can access on their next page load.
+const __roleOpts = ['applicant','staff','employer','driver','investor','admin'];
+async function RenderAccounts() {
+  const users = await WolfsDB.all('users');
+  const container = document.getElementById('AccountList');
+  if (!users.length) { container.innerHTML = '<div class="Empty">No accounts yet. Tell users to sign up at /SignUp/.</div>'; return; }
+  const sorted = users.slice().sort((a,b) => (a.createdAt||'').localeCompare(b.createdAt||''));
+  container.innerHTML = `<div style="margin-bottom:10px;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div style="color:var(--text-muted);font-size:.85rem">Every sign-up account. Change role inline — that user's access changes on next page load.</div><button class="Btn Small" onclick="OpenUserModal()">+ New user</button></div>` +
+    `<table><thead><tr><th>Username</th><th>Email</th><th>Role</th><th>Created</th><th style="text-align:right">Actions</th></tr></thead><tbody>` +
+    sorted.map(u => `
+      <tr data-user-id="${Esc(u.id || u.username)}">
+        <td><b>${Esc(u.username)}</b></td>
+        <td>${Esc(u.email || '')}</td>
+        <td>
+          <select onchange="ChangeUserRole('${Esc(u.id || u.username)}', this.value)" style="padding:6px 10px;border-radius:6px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-size:.82rem">
+            ${__roleOpts.map(r => `<option value="${r}" ${((u.uiRole||u.role)===r)?'selected':''}>${r}</option>`).join('')}
+          </select>
+        </td>
+        <td style="font-size:.78rem;color:var(--text-muted)">${u.createdAt ? new Date(u.createdAt).toLocaleString() : '—'}</td>
+        <td style="text-align:right">
+          <button class="Btn Ghost Small" onclick="OpenUserModal('${Esc(u.id || u.username)}')">Edit</button>
+          <button class="Btn Small Danger" onclick="DeleteUser('${Esc(u.id || u.username)}')">Delete</button>
+        </td>
+      </tr>
+    `).join('') + `</tbody></table>`;
+}
+async function ChangeUserRole(id, newRole) {
+  const users = await WolfsDB.all('users');
+  const u = users.find(x => (x.id || x.username) === id);
+  if (!u) return;
+  const oldRole = u.uiRole || u.role;
+  u.uiRole = newRole;
+  u.role = newRole;
+  await WolfsDB.put('users', u);
+  try { await WolfsDB.put('audit', { id: 'aud_' + Date.now() + '_' + Math.random().toString(36).slice(2,6), kind: 'user.role.change', at: new Date().toISOString(), subject: u.username, meta: { from: oldRole, to: newRole } }); } catch (_) {}
+  Toast(`Role changed: ${u.username} → ${newRole}. Auth-guard applies on next page load.`);
+}
+async function OpenUserModal(id) {
+  const users = await WolfsDB.all('users');
+  const u = id ? users.find(x => (x.id || x.username) === id) : { id:'user_'+WolfsDB.uuid(), username:'', email:'', uiRole:'applicant' };
+  const html = `
+    <form id="UserForm">
+      <div class="Field"><label>Username</label><input name="username" required value="${Esc(u.username)}" aria-label="Username"></div>
+      <div class="Field"><label>Email</label><input name="email" type="email" value="${Esc(u.email||'')}" aria-label="Email"></div>
+      <div class="Field"><label>Role (controls which pages they can see)</label><select name="uiRole">
+        ${__roleOpts.map(r => `<option value="${r}" ${((u.uiRole||u.role)===r)?'selected':''}>${r}</option>`).join('')}
+      </select></div>
+      <input type="hidden" name="id" value="${Esc(u.id || u.username)}">
+      <button class="Btn" type="submit">Save</button>
+    </form>`;
+  OpenModal(id ? 'Edit user: ' + u.username : 'New user', html);
+  document.getElementById('UserForm').addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const fd = new FormData(ev.target);
+    const old = (await WolfsDB.all('users')).find(x => (x.id || x.username) === fd.get('id'));
+    const record = {
+      id: fd.get('id'),
+      username: fd.get('username'),
+      email: fd.get('email'),
+      uiRole: fd.get('uiRole'),
+      role: fd.get('uiRole'),
+      createdAt: old ? old.createdAt : new Date().toISOString(),
+      passwordHash: old ? old.passwordHash : '',
+    };
+    await WolfsDB.put('users', record);
+    try { await WolfsDB.put('audit', { id: 'aud_' + Date.now() + '_' + Math.random().toString(36).slice(2,6), kind: id ? 'user.edit' : 'user.create', at: new Date().toISOString(), subject: record.username, meta: { role: record.uiRole } }); } catch (_) {}
+    CloseModal(); Toast('User saved'); RenderAccounts();
+  });
+}
+async function DeleteUser(id) {
+  if (!confirm('Delete this account? They will no longer be able to sign in.')) return;
+  const users = await WolfsDB.all('users');
+  const u = users.find(x => (x.id || x.username) === id);
+  if (!u) return;
+  await WolfsDB.del('users', u.id || u.username);
+  try { await WolfsDB.put('audit', { id: 'aud_' + Date.now() + '_' + Math.random().toString(36).slice(2,6), kind: 'user.delete', at: new Date().toISOString(), subject: u.username }); } catch (_) {}
+  Toast('Deleted ' + u.username); RenderAccounts();
+}
+window.OpenUserModal = OpenUserModal;
+window.DeleteUser = DeleteUser;
+window.ChangeUserRole = ChangeUserRole;
+
+// ===== AUDIT =====
+async function RenderAudit() {
+  const entries = await WolfsDB.all('audit');
+  const container = document.getElementById('AuditList');
+  // Filter out malformed entries (no kind AND no subject = unusable); recover timestamps
+  // from the id suffix (most records use `aud_<epochMs>_<rand>`) so older rows still show
+  // a human-readable date/time.
+  const useful = entries.filter(e => (e.kind && String(e.kind).trim()) || (e.subject && String(e.subject).trim()));
+  if (!useful.length) { container.innerHTML = '<div class="Empty">No audit events yet.</div>'; return; }
+  for (const e of useful) {
+    if (!e.at) {
+      const m = String(e.id || '').match(/^aud_(\d{10,})/);
+      if (m) e.at = new Date(parseInt(m[1], 10)).toISOString();
+    }
+  }
+  const sorted = useful.slice().sort((a,b) => (b.at||'').localeCompare(a.at||''));
+  const kindColor = (k) => {
+    if (!k) return 'var(--text-muted)';
+    if (k.startsWith('applicant.')) return 'var(--accent)';
+    if (k.startsWith('user.')) return 'var(--info)';
+    if (k.startsWith('job.')) return 'var(--warning)';
+    return 'var(--success)';
+  };
+  container.innerHTML = '<div style="color:var(--text-muted);font-size:.82rem;margin-bottom:8px">Compliance log — every approval, role change, job cancel, and upload, with the exact local time it happened.</div>' +
+    sorted.slice(0, 200).map(e => {
+      const when = e.at ? new Date(e.at).toLocaleString() : '—';
+      const metaPretty = e.meta ? JSON.stringify(e.meta, null, 2) : '';
+      return `
+    <div class="Card" style="margin-bottom:6px;padding:10px 14px;display:flex;flex-direction:column;gap:4px">
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:${kindColor(e.kind)};display:inline-block"></span><strong>${Esc(e.kind || 'event')}</strong>${e.subject ? '<span style="color:var(--text-muted)"> · '+Esc(e.subject)+'</span>' : ''}</div>
+        <div style="color:var(--text-muted);font-size:.76rem;font-family:monospace">${when}</div>
+      </div>
+      ${metaPretty ? `<pre style="margin:0;font-size:.72rem;color:var(--text-muted);white-space:pre-wrap;padding:6px 8px;background:var(--bg);border-radius:6px">${Esc(metaPretty)}</pre>` : ''}
+    </div>`;
+    }).join('');
+}
+
+function Esc(s) { return (s == null ? '' : String(s)).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function Toast(msg, danger) {
+  const t = document.getElementById('Toast');
+  t.textContent = msg;
+  t.classList.toggle('Danger', !!danger);
+  t.classList.add('Show');
+  setTimeout(() => t.classList.remove('Show'), 2800);
+}
+function OpenModal(title, html) {
+  document.getElementById('ModalTitle').textContent = title;
+  document.getElementById('ModalContent').innerHTML = html;
+  document.getElementById('Modal').classList.add('Open');
+}
+function CloseModal() { document.getElementById('Modal').classList.remove('Open'); }
+
+// ===== BADGES =====
+async function RenderBadges() {
+  const badges = await WolfsDB.all('badges');
+  const grid = document.getElementById('BadgeGrid');
+  if (!badges.length) { grid.innerHTML = '<div class="Empty">No badges yet.</div>'; return; }
+  grid.innerHTML = badges.map(b => `
+    <div class="Card">
+      <h3>${Esc(b.name)}</h3>
+      <div class="CardMeta"><span class="Pill ${b.kind === 'credential' ? 'Credential' : 'Tag'}">${b.kind}</span>${b.required ? '<span class="Pill Credential">required</span>' : ''}</div>
+      <div class="CardActions">
+        <button class="Btn Ghost Small" onclick="OpenBadgeModal('${b.id}')">Edit</button>
+        <button class="Btn Small Danger" onclick="DeleteBadge('${b.id}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+function OpenBadgeModal(id) {
+  WolfsDB.all('badges').then(badges => {
+    const b = id ? badges.find(x => x.id === id) : { id:'bdg_'+WolfsDB.uuid(), kind:'credential', name:'', required:false };
+    const html = `
+      <form id="BadgeForm">
+        <div class="Field"><label>Name</label><input name="name" required value="${Esc(b.name)}" aria-label="Name"></div>
+        <div class="Field"><label>Kind</label><select name="kind">
+          <option value="credential" ${b.kind==='credential'?'selected':''}>Credential (required to work)</option>
+          <option value="tag" ${b.kind==='tag'?'selected':''}>Tag (supporting attribute)</option>
+        </select></div>
+        <div class="Field"><label><input type="checkbox" name="required" ${b.required?'checked':''} aria-label="Required"> Required for all roles</label></div>
+        <input type="hidden" name="id" value="${b.id}">
+        <button class="Btn" type="submit">Save</button>
+      </form>
+    `;
+    OpenModal(id ? 'Edit badge' : 'New badge', html);
+    document.getElementById('BadgeForm').addEventListener('submit', async ev => {
+      ev.preventDefault();
+      const fd = new FormData(ev.target);
+      await WolfsDB.put('badges', { id:fd.get('id'), name:fd.get('name'), kind:fd.get('kind'), required:fd.get('required')==='on' });
+      CloseModal(); Toast('Badge saved'); RenderBadges();
+    });
+  });
+}
+async function DeleteBadge(id) {
+  if (!confirm('Delete this badge?')) return;
+  await WolfsDB.del('badges', id); Toast('Badge deleted'); RenderBadges();
+}
+
+// ===== ROLES =====
+async function RenderRoles() {
+  const [roles, badges] = await Promise.all([WolfsDB.all('roles'), WolfsDB.all('badges')]);
+  const bmap = Object.fromEntries(badges.map(b => [b.id, b.name]));
+  const grid = document.getElementById('RoleGrid');
+  if (!roles.length) { grid.innerHTML = '<div class="Empty">No roles yet.</div>'; return; }
+  grid.innerHTML = roles.map(r => `
+    <div class="Card">
+      <h3>${Esc(r.name)}</h3>
+      <div class="CardMeta">${Esc(r.summaryCustomer || '')}</div>
+      <div style="margin-bottom:10px">${(r.requiredBadges||[]).map(id => `<span class="Pill Credential">${Esc(bmap[id]||id)}</span>`).join('')}</div>
+      <div class="CardActions">
+        <button class="Btn Ghost Small" onclick="OpenRoleModal('${r.id}')">Edit</button>
+        <button class="Btn Small Danger" onclick="DeleteRole('${r.id}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+async function OpenRoleModal(id) {
+  const [roles, badges] = await Promise.all([WolfsDB.all('roles'), WolfsDB.all('badges')]);
+  const r = id ? roles.find(x => x.id === id) : { id:'role_'+WolfsDB.uuid(), name:'', requiredBadges:[], summaryCustomer:'', summaryWorker:'' };
+  const checks = badges.map(b => `<label><input type="checkbox" name="requiredBadges" value="${b.id}" ${(r.requiredBadges||[]).includes(b.id)?'checked':''} aria-label="Required badge"> ${Esc(b.name)}</label>`).join('');
+  const html = `
+    <form id="RoleForm">
+      <div class="Field"><label>Role name</label><input name="name" required value="${Esc(r.name)}" aria-label="Name"></div>
+      <div class="Field"><label>Required badges</label><div class="CheckList">${checks}</div></div>
+      <div class="Field"><label>Customer-facing summary</label><textarea name="summaryCustomer">${Esc(r.summaryCustomer||'')}</textarea></div>
+      <div class="Field"><label>Worker-facing summary</label><textarea name="summaryWorker">${Esc(r.summaryWorker||'')}</textarea></div>
+      <input type="hidden" name="id" value="${r.id}">
+      <button class="Btn" type="submit">Save</button>
+    </form>
+  `;
+  OpenModal(id ? 'Edit role' : 'New role', html);
+  document.getElementById('RoleForm').addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const fd = new FormData(ev.target);
+    await WolfsDB.put('roles', { id:fd.get('id'), name:fd.get('name'), requiredBadges:fd.getAll('requiredBadges'), summaryCustomer:fd.get('summaryCustomer'), summaryWorker:fd.get('summaryWorker') });
+    CloseModal(); Toast('Role saved'); RenderRoles();
+  });
+}
+async function DeleteRole(id) {
+  if (!confirm('Delete role?')) return;
+  await WolfsDB.del('roles', id); Toast('Role deleted'); RenderRoles();
+}
+
+// ===== WORKERS =====
+async function RenderWorkers() {
+  const [workers, badges, roles] = await Promise.all([WolfsDB.all('workers'), WolfsDB.all('badges'), WolfsDB.all('roles')]);
+  const bmap = Object.fromEntries(badges.map(b => [b.id, b]));
+  const rmap = Object.fromEntries(roles.map(r => [r.id, r.name]));
+  const list = document.getElementById('WorkerList');
+  if (!workers.length) { list.innerHTML = '<div class="Empty">No workers.</div>'; return; }
+  list.innerHTML = `<table><thead><tr><th>Name</th><th>Location</th><th>Exp</th><th>Badges</th><th>Roles</th><th>Status</th><th></th></tr></thead><tbody>${
+    workers.map(w => `
+      <tr>
+        <td><b>${Esc(w.name)}</b>${w.rating ? '<br><span style="color:var(--warning);font-size:.82rem">' + '★'.repeat(Math.round(w.rating)) + '<span style="color:var(--text-muted)">' + '★'.repeat(5-Math.round(w.rating)) + '</span></span>' : ''}<br><span style="color:var(--text-muted);font-size:.78rem">${Esc(w.email||'')}</span></td>
+        <td>${Esc(w.location || w.address || '')}</td>
+        <td>${w.experienceYears != null ? w.experienceYears + 'y' : ''}</td>
+        <td>${(w.badges||[]).slice(0,3).map(id => bmap[id] ? `<span class="Pill ${bmap[id].kind === 'credential' ? 'Credential' : 'Tag'}">${Esc(bmap[id].name)}</span>` : '').join('')}${(w.badges||[]).length > 3 ? `<span style="color:var(--text-muted);font-size:.75rem">+${(w.badges||[]).length-3}</span>` : ''}</td>
+        <td>${(w.roles||[]).map(id => rmap[id] ? `<span class="Pill Role">${Esc(rmap[id])}</span>` : `<span class="Pill Role">${Esc(id)}</span>`).join('')}</td>
+        <td>${w.approved ? '<span class="Pill Approved">Approved</span>' : '<span style="color:var(--text-muted);font-size:.78rem">Pending</span>'}</td>
+        <td style="text-align:right"><button class="Btn Ghost Small" onclick="OpenWorkerModal('${w.id}')">Edit</button></td>
+      </tr>`).join('')}</tbody></table>`;
+}
+async function OpenWorkerModal(id) {
+  const [workers, badges, roles] = await Promise.all([WolfsDB.all('workers'), WolfsDB.all('badges'), WolfsDB.all('roles')]);
+  const w = id ? workers.find(x => x.id === id) : { id:'wkr_'+WolfsDB.uuid(), name:'', email:'', phone:'', location:'', experienceYears:0, badges:[], roles:[], approved:false, notes:'' };
+  const badgeChecks = badges.map(b => `<label><input type="checkbox" name="badges" value="${b.id}" ${(w.badges||[]).includes(b.id)?'checked':''} aria-label="Checkbox"> ${Esc(b.name)}</label>`).join('');
+  const roleChecks = roles.map(r => `<label><input type="checkbox" name="roles" value="${r.id}" ${(w.roles||[]).includes(r.id)?'checked':''} aria-label="Checkbox"> ${Esc(r.name)}</label>`).join('');
+  const html = `
+    <form id="WorkerForm">
+      <div class="Field"><label>Name</label><input name="name" required value="${Esc(w.name)}" aria-label="Name"></div>
+      <div class="Field"><label>Email</label><input name="email" type="email" value="${Esc(w.email||'')}" aria-label="Email"></div>
+      <div class="Field"><label>Phone</label><input name="phone" value="${Esc(w.phone||'')}" aria-label="Phone"></div>
+      <div class="Field"><label>Location</label><input name="location" value="${Esc(w.location||w.address||'')}" aria-label="Location"></div>
+      <div class="Field"><label>Years of experience</label><input type="number" name="experienceYears" min="0" value="${w.experienceYears||0}" aria-label="Years of experience"></div>
+      <div class="Field"><label>Customer rating (0-5 stars) — top-rated drivers float to the top in the employer view</label><input type="number" name="rating" min="0" max="5" step="0.5" value="${w.rating||0}" aria-label="Number"></div>
+      <div class="Field"><label>Bio — talk about yourself (worker-authored)</label><textarea name="bio" rows="3">${Esc(w.bio||'')}</textarea></div>
+      <div class="Field"><label>Work history — one role per line (e.g. "2019-2023 — Port driver at Waterfront Logistics")</label><textarea name="workHistory" rows="4">${Esc(w.workHistory||'')}</textarea></div>
+      <div class="Field"><label>Badges (withdraw by unchecking)</label><div class="CheckList">${badgeChecks}</div></div>
+      <div class="Field"><label>Roles</label><div class="CheckList">${roleChecks}</div></div>
+      <div class="Field"><label><input type="checkbox" name="approved" ${w.approved?'checked':''} aria-label="Checkbox"> Approved worker</label></div>
+      <div class="Field"><label>Internal notes</label><textarea name="notes">${Esc(w.notes||'')}</textarea></div>
+      <input type="hidden" name="id" value="${w.id}">
+      <button class="Btn" type="submit">Save</button>
+    </form>`;
+  OpenModal(id ? 'Edit worker: ' + w.name : 'Add worker', html);
+  document.getElementById('WorkerForm').addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const fd = new FormData(ev.target);
+    await WolfsDB.put('workers', {
+      id: fd.get('id'), name: fd.get('name'), email: fd.get('email'), phone: fd.get('phone'),
+      location: fd.get('location'), experienceYears: parseInt(fd.get('experienceYears'),10) || 0,
+      rating: parseFloat(fd.get('rating')) || 0,
+      bio: fd.get('bio'), workHistory: fd.get('workHistory'),
+      badges: fd.getAll('badges'), roles: fd.getAll('roles'),
+      approved: fd.get('approved')==='on', notes: fd.get('notes'),
+    });
+    CloseModal(); Toast('Worker saved'); RenderWorkers();
+  });
+}
+
+// ===== CUSTOMERS =====
+async function RenderCustomers() {
+  const [customers, roles] = await Promise.all([WolfsDB.all('customers'), WolfsDB.all('roles')]);
+  const rmap = Object.fromEntries(roles.map(r => [r.id, r.name]));
+  const grid = document.getElementById('CustomerList');
+  if (!customers.length) { grid.innerHTML = '<div class="Empty">No customers.</div>'; return; }
+  grid.innerHTML = customers.map(c => `
+    <div class="Card">
+      <h3>${Esc(c.name)}</h3>
+      <div class="CardMeta">${Esc(c.location||'')}</div>
+      <p style="font-size:.85rem;margin-bottom:10px">${Esc(c.about||'')}</p>
+      <div style="margin-bottom:10px">${(c.roles||[]).map(id => `<span class="Pill Role">${Esc(rmap[id]||id)}</span>`).join('')}</div>
+      <div style="margin-bottom:10px;font-size:.8rem;color:var(--text-muted)">Users: ${(c.users||[]).map(u=>Esc(u.name+' ('+u.email+')')).join(', ')||'—'}</div>
+      <div class="CardActions">
+        <button class="Btn Ghost Small" onclick="OpenCustomerModal('${c.id}')">Edit</button>
+        <button class="Btn Small Danger" onclick="DeleteCustomer('${c.id}')">Delete</button>
+      </div>
+    </div>`).join('');
+}
+async function OpenCustomerModal(id) {
+  const [customers, roles] = await Promise.all([WolfsDB.all('customers'), WolfsDB.all('roles')]);
+  const c = id ? customers.find(x => x.id === id) : { id:'cust_'+WolfsDB.uuid(), name:'', location:'', about:'', roles:[], users:[] };
+  const roleChecks = roles.map(r => `<label><input type="checkbox" name="roles" value="${r.id}" ${(c.roles||[]).includes(r.id)?'checked':''} aria-label="Checkbox"> ${Esc(r.name)}</label>`).join('');
+  const html = `
+    <form id="CustomerForm">
+      <div class="Field"><label>Name</label><input name="name" required value="${Esc(c.name)}" aria-label="Name"></div>
+      <div class="Field"><label>Location</label><input name="location" value="${Esc(c.location||'')}" aria-label="Location"></div>
+      <div class="Field"><label>About</label><textarea name="about">${Esc(c.about||'')}</textarea></div>
+      <div class="Field"><label>Roles they schedule</label><div class="CheckList">${roleChecks}</div></div>
+      <div class="Field"><label>Primary user email</label><input name="userEmail" value="${Esc((c.users||[])[0]?.email||'')}" aria-label="Field"></div>
+      <div class="Field"><label>Primary user name</label><input name="userName" value="${Esc((c.users||[])[0]?.name||'')}" aria-label="Field"></div>
+      <input type="hidden" name="id" value="${c.id}">
+      <button class="Btn" type="submit">Save</button>
+    </form>`;
+  OpenModal(id ? 'Edit customer' : 'Add customer', html);
+  document.getElementById('CustomerForm').addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const fd = new FormData(ev.target);
+    await WolfsDB.put('customers', {
+      id: fd.get('id'), name: fd.get('name'), location: fd.get('location'), about: fd.get('about'),
+      roles: fd.getAll('roles'),
+      users: [{ email: fd.get('userEmail'), name: fd.get('userName') }],
+    });
+    CloseModal(); Toast('Customer saved'); RenderCustomers();
+  });
+}
+async function DeleteCustomer(id) { if (!confirm('Delete?')) return; await WolfsDB.del('customers', id); Toast('Deleted'); RenderCustomers(); }
+
+// ===== SCHEDULING =====
+async function RenderSchedules() {
+  const [schedules, workers, roles, customers] = await Promise.all([WolfsDB.all('schedules'), WolfsDB.all('workers'), WolfsDB.all('roles'), WolfsDB.all('customers')]);
+  const wmap = Object.fromEntries(workers.map(w => [w.id, w.name]));
+  const rmap = Object.fromEntries(roles.map(r => [r.id, r.name]));
+  const cmap = Object.fromEntries(customers.map(c => [c.id, c.name]));
+  const list = document.getElementById('ScheduleList');
+  if (!schedules.length) { list.innerHTML = '<div class="Empty">No schedules yet. Create one.</div>'; return; }
+  list.innerHTML = `<table><thead><tr><th>When</th><th>Role</th><th>Customer</th><th>Offered to</th><th>Status</th><th></th></tr></thead><tbody>${
+    schedules.sort((a,b) => b.createdAt.localeCompare(a.createdAt)).map(s => {
+      const wsList = (s.assignments||[]).map(a => `<span class="Pill Role">${Esc(wmap[a.workerId]||a.workerId)}: <span class="Status-${a.status}">${a.status}</span></span>`).join('');
+      const statusCount = (s.assignments||[]).reduce((acc,a) => { acc[a.status]=(acc[a.status]||0)+1; return acc; }, {});
+      const overall = statusCount.confirmed ? 'filled' : (statusCount.rejected === (s.assignments||[]).length ? 'unfilled' : 'pending');
+      const actionBtns = (s.assignments||[]).filter(a => a.status === 'pending').map(a =>
+        `<div style="margin-bottom:4px">
+          <span style="color:var(--text-muted);font-size:.75rem">${Esc(wmap[a.workerId]||'?')}</span>
+          <button class="Btn Small Success" onclick="RespondAssignment('${s.id}','${a.workerId}','confirmed')" aria-label="Button">✓</button>
+          <button class="Btn Small Danger" onclick="RespondAssignment('${s.id}','${a.workerId}','rejected')" aria-label="Button">✗</button>
+        </div>`).join('');
+      return `<tr>
+        <td>${Esc(s.startsAt)}<br><span style="color:var(--text-muted);font-size:.78rem">to ${Esc(s.endsAt)}</span></td>
+        <td>${Esc(rmap[s.roleId]||s.roleId)}</td>
+        <td>${Esc(cmap[s.customerId]||s.customerId)}</td>
+        <td>${wsList || '<span style="color:var(--text-muted)">—</span>'}</td>
+        <td><span class="Status-${overall}">${overall}</span>${s.target?`<br><span style="color:var(--text-muted);font-size:.75rem">target ${statusCount.confirmed||0}/${s.target}</span>`:''}${s.autoReassign?'<br><span style="color:var(--info);font-size:.72rem">auto-reassign</span>':''}</td>
+        <td style="text-align:right">${actionBtns || '<span style="color:var(--text-muted);font-size:.75rem">no pending</span>'}</td>
+      </tr>`;
+    }).join('')}</tbody></table>`;
+}
+async function OpenScheduleModal() {
+  const [workers, roles, customers] = await Promise.all([WolfsDB.all('workers'), WolfsDB.all('roles'), WolfsDB.all('customers')]);
+  const roleOpts = roles.map(r => `<option value="${r.id}">${Esc(r.name)}</option>`).join('');
+  const custOpts = customers.map(c => `<option value="${c.id}">${Esc(c.name)}</option>`).join('');
+  const html = `
+    <form id="ScheduleForm">
+      <div class="Field"><label>Customer</label><select name="customerId" required>${custOpts}</select></div>
+      <div class="Field"><label>Role</label><select name="roleId" id="ScheduleRoleSel" required>${roleOpts}</select></div>
+      <div class="Field"><label>Starts at</label><input type="datetime-local" name="startsAt" required aria-label="Date and time"></div>
+      <div class="Field"><label>Ends at</label><input type="datetime-local" name="endsAt" required aria-label="Date and time"></div>
+      <div class="Field"><label>Eligible workers (matching role + all required badges)</label><div id="ScheduleWorkerList" class="CheckList"><em>Select a role…</em></div></div>
+      <div class="Field"><label>Reporting instructions</label><textarea name="instructions" placeholder="POC, parking, gate, special notes"></textarea></div>
+      <div class="Field"><label><input type="checkbox" name="autoReassign" checked aria-label="Checkbox"> Auto-reassign on reject (cycle through eligible pool until filled)</label></div>
+      <div class="Field"><label>Target fill count</label><input type="number" name="target" value="1" min="1" aria-label="Number"></div>
+      <button class="Btn" type="submit">Schedule</button>
+    </form>`;
+  OpenModal('Create schedule (acting as customer)', html);
+
+  async function RefreshEligible() {
+    const roleId = document.getElementById('ScheduleRoleSel').value;
+    const role = roles.find(r => r.id === roleId);
+    const eligible = workers.filter(w => w.approved && (w.roles||[]).includes(roleId) && (role.requiredBadges||[]).every(bid => (w.badges||[]).includes(bid)));
+    document.getElementById('ScheduleWorkerList').innerHTML = eligible.length
+      ? eligible.map(w => `<label><input type="checkbox" name="workers" value="${w.id}" checked aria-label="Checkbox"> ${Esc(w.name)}</label>`).join('')
+      : '<em>No eligible workers for this role.</em>';
+  }
+  document.getElementById('ScheduleRoleSel').addEventListener('change', RefreshEligible);
+  await RefreshEligible();
+
+  document.getElementById('ScheduleForm').addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const fd = new FormData(ev.target);
+    const workerIds = fd.getAll('workers');
+    const schedule = {
+      id: 'sched_' + WolfsDB.uuid(),
+      customerId: fd.get('customerId'), roleId: fd.get('roleId'),
+      startsAt: fd.get('startsAt'), endsAt: fd.get('endsAt'),
+      instructions: fd.get('instructions'),
+      autoReassign: fd.get('autoReassign') === 'on',
+      target: parseInt(fd.get('target'), 10) || 1,
+      assignments: workerIds.map(id => ({ workerId: id, status: 'pending', offeredAt: new Date().toISOString() })),
+      pool: workerIds,
+      createdAt: new Date().toISOString(),
+    };
+    await WolfsDB.put('schedules', schedule);
+    CloseModal();
+    // SMS notification mock — in production this would POST to a Twilio webhook on the Worker.
+    const offered = workers.filter(w => workerIds.includes(w.id));
+    const phones = offered.map(w => `${w.name} (${w.phone || 'no phone'})`).join(', ');
+    Toast('📱 SMS offer sent to ' + workerIds.length + ' worker(s): ' + phones);
+    RenderSchedules();
+  });
+}
+
+// Worker-side response: worker confirms or rejects their assignment.
+// On confirm: generate a timesheet row for them.
+// On reject: if autoReassign + target not yet met, offer to the next eligible worker not yet in the pool.
+async function RespondAssignment(scheduleId, workerId, status) {
+  const s = await WolfsDB.get('schedules', scheduleId);
+  if (!s) return;
+  const a = (s.assignments||[]).find(x => x.workerId === workerId);
+  if (!a) return;
+  a.status = status;
+  a.respondedAt = new Date().toISOString();
+  const confirmedCount = (s.assignments||[]).filter(x => x.status === 'confirmed').length;
+
+  if (status === 'confirmed') {
+    const hours = (new Date(s.endsAt) - new Date(s.startsAt)) / 36e5;
+    await WolfsDB.put('timesheets', {
+      id: 'ts_' + WolfsDB.uuid(), scheduleId: s.id, workerId,
+      startsAt: s.startsAt, endsAt: s.endsAt, hours,
+      status: new Date(s.endsAt) < new Date() ? 'completed' : (new Date(s.startsAt) > new Date() ? 'future' : 'waiting'),
+      createdAt: new Date().toISOString(),
+    });
+    Toast(`Confirmed — timesheet generated (${confirmedCount + 1}/${s.target})`);
+  } else if (status === 'rejected' && s.autoReassign) {
+    if (confirmedCount < (s.target || 1)) {
+      // Find next eligible worker (matches role + has required badges + approved) not already offered.
+      const [workers, roles] = await Promise.all([WolfsDB.all('workers'), WolfsDB.all('roles')]);
+      const role = roles.find(r => r.id === s.roleId) || { requiredBadges: [] };
+      const offered = new Set((s.assignments||[]).map(x => x.workerId));
+      const candidate = workers.find(w => w.approved && !offered.has(w.id) && (w.roles||[]).includes(s.roleId) && (role.requiredBadges||[]).every(bid => (w.badges||[]).includes(bid)));
+      if (candidate) {
+        s.assignments.push({ workerId: candidate.id, status: 'pending', offeredAt: new Date().toISOString(), reassignedFrom: workerId });
+        Toast(`Rejected — auto-reassigned to ${candidate.name}`);
+      } else {
+        Toast('Rejected — no more eligible workers to reassign to', true);
+      }
+    } else {
+      Toast('Rejected — but target already met, no reassignment needed');
+    }
+  } else {
+    Toast(status === 'rejected' ? 'Rejected (auto-reassign off)' : 'Updated');
+  }
+  await WolfsDB.put('schedules', s);
+  RenderSchedules();
+}
+
+// ===== TIMESHEETS =====
+async function RefreshTimesheets() {
+  const [tss, workers, schedules, roles, customers] = await Promise.all([WolfsDB.all('timesheets'), WolfsDB.all('workers'), WolfsDB.all('schedules'), WolfsDB.all('roles'), WolfsDB.all('customers')]);
+  const wmap = Object.fromEntries(workers.map(w => [w.id, w.name]));
+  const smap = Object.fromEntries(schedules.map(s => [s.id, s]));
+  const rmap = Object.fromEntries(roles.map(r => [r.id, r.name]));
+  const cmap = Object.fromEntries(customers.map(c => [c.id, c.name]));
+  const list = document.getElementById('TimesheetList');
+  if (!tss.length) { list.innerHTML = '<div class="Empty">No timesheets. Confirm a schedule to generate one.</div>'; return; }
+  list.innerHTML = `<table><thead><tr><th>Worker</th><th>Customer/Role</th><th>Hours</th><th>Status</th><th></th></tr></thead><tbody>${
+    tss.sort((a,b)=>b.createdAt.localeCompare(a.createdAt)).map(t => {
+      const sched = smap[t.scheduleId] || {};
+      return `<tr>
+        <td><b>${Esc(wmap[t.workerId]||t.workerId)}</b><br><span style="color:var(--text-muted);font-size:.78rem">${Esc(t.startsAt)} → ${Esc(t.endsAt)}</span></td>
+        <td>${Esc(cmap[sched.customerId]||'')}<br><span style="color:var(--text-muted);font-size:.78rem">${Esc(rmap[sched.roleId]||'')}</span></td>
+        <td>${t.hours.toFixed(1)}</td>
+        <td><span class="Status-${(t.status||'').replace(/\s/g,'')}">${Esc(t.status)}</span></td>
+        <td style="text-align:right">
+          ${t.status === 'completed' ? `<button class="Btn Small Success" onclick="AcceptTimesheet('${t.id}')">Accept</button>` : ''}
+          ${t.status === 'waitingprocessing' ? `<button class="Btn Small Info" onclick="ProcessTimesheet('${t.id}')">Process</button>` : ''}
+        </td>
+      </tr>`;
+    }).join('')}</tbody></table>`;
+}
+async function AcceptTimesheet(id) { const t = await WolfsDB.get('timesheets', id); t.status='waitingprocessing'; await WolfsDB.put('timesheets', t); Toast('Accepted — ready for payroll'); RefreshTimesheets(); }
+async function ProcessTimesheet(id) { const t = await WolfsDB.get('timesheets', id); t.status='done'; await WolfsDB.put('timesheets', t); Toast('Processed'); RefreshTimesheets(); }
+async function ExportTimesheetsCsv() {
+  const [tss, workers, schedules, roles, customers] = await Promise.all([WolfsDB.all('timesheets'), WolfsDB.all('workers'), WolfsDB.all('schedules'), WolfsDB.all('roles'), WolfsDB.all('customers')]);
+  const wmap = Object.fromEntries(workers.map(w => [w.id, w]));
+  const smap = Object.fromEntries(schedules.map(s => [s.id, s]));
+  const rmap = Object.fromEntries(roles.map(r => [r.id, r.name]));
+  const cmap = Object.fromEntries(customers.map(c => [c.id, c.name]));
+  const rows = [['Worker','Email','Customer','Role','Starts','Ends','Hours','Status']];
+  for (const t of tss) {
+    const w = wmap[t.workerId] || {}, s = smap[t.scheduleId] || {};
+    rows.push([w.name||'', w.email||'', cmap[s.customerId]||'', rmap[s.roleId]||'', t.startsAt, t.endsAt, t.hours.toFixed(1), t.status]);
+  }
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type:'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'timesheets.csv'; a.click();
+  Toast('CSV downloaded');
+}
+
+// ===== REPORTS =====
+async function RenderReports() {
+  const [roles, badges, schedules, tss] = await Promise.all([WolfsDB.all('roles'), WolfsDB.all('badges'), WolfsDB.all('schedules'), WolfsDB.all('timesheets')]);
+  const rSel = document.getElementById('RptRole');
+  rSel.innerHTML = '<option value="">Any</option>' + roles.map(r => `<option value="${r.id}">${Esc(r.name)}</option>`).join('');
+  const bSel = document.getElementById('RptBadge');
+  bSel.innerHTML = '<option value="">Any</option>' + badges.map(b => `<option value="${b.id}">${Esc(b.name)}</option>`).join('');
+  const statusCounts = schedules.reduce((acc,s) => {
+    for (const a of (s.assignments||[])) acc[a.status] = (acc[a.status]||0) + 1;
+    return acc;
+  }, {});
+  const tssStatus = tss.reduce((a,t) => { a[t.status]=(a[t.status]||0)+1; return a; }, {});
+  document.getElementById('ReportBookingStats').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.88rem">
+      <div>Schedules: <b>${schedules.length}</b></div>
+      <div>Timesheets: <b>${tss.length}</b></div>
+      <div>Confirmed assignments: <b style="color:var(--success)">${statusCounts.confirmed||0}</b></div>
+      <div>Rejected: <b style="color:var(--danger)">${statusCounts.rejected||0}</b></div>
+      <div>Pending: <b style="color:var(--warning)">${statusCounts.pending||0}</b></div>
+      <div>TS waiting: <b>${tssStatus.waiting||0}</b></div>
+      <div>TS completed: <b>${tssStatus.completed||0}</b></div>
+      <div>TS done: <b>${tssStatus.done||0}</b></div>
+    </div>`;
+}
+async function RunWorkerReport() {
+  const [workers] = await Promise.all([WolfsDB.all('workers')]);
+  const role = document.getElementById('RptRole').value;
+  const badge = document.getElementById('RptBadge').value;
+  const approved = document.getElementById('RptApproved').value;
+  let matched = workers;
+  if (role) matched = matched.filter(w => (w.roles||[]).includes(role));
+  if (badge) matched = matched.filter(w => (w.badges||[]).includes(badge));
+  if (approved === 'yes') matched = matched.filter(w => w.approved);
+  if (approved === 'no') matched = matched.filter(w => !w.approved);
+  const html = matched.length
+    ? `<table><thead><tr><th>Name</th><th>Location</th><th>Exp</th><th># Badges</th><th>Status</th></tr></thead><tbody>${matched.map(w=>`<tr><td>${Esc(w.name)}</td><td>${Esc(w.location||'')}</td><td>${w.experienceYears||''}</td><td>${(w.badges||[]).length}</td><td>${w.approved?'<span class="Pill Approved">Approved</span>':'—'}</td></tr>`).join('')}</tbody></table>`
+    : '<p style="color:var(--text-muted)">No matches.</p>';
+  document.getElementById('ReportWorkerResults').innerHTML = html;
+}
+</script>
+
+</body>
+</html>

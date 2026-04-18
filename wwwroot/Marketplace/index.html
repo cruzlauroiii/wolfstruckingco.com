@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://basemaps.cartocdn.com" crossorigin>
+<link rel="preconnect" href="https://router.project-osrm.org" crossorigin>
+<link rel="preconnect" href="https://wolfstruckingco.nbth.workers.dev" crossorigin>
+<title>Marketplace | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<meta name="theme-color" content="#ff6b35">
+<script src="/wolfstruckingco.com/theme.js" defer></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--info:#3b82f6;--warning:#f59e0b;--danger:#ef4444;--radius:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+.TopBar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--border);background:rgba(15,20,25,.95);backdrop-filter:blur(12px);position:sticky;top:0;z-index:10}
+.Brand{display:flex;align-items:center;gap:10px;font-weight:800}
+.Brand .Logo{width:30px;height:30px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff}
+.Brand a{color:var(--text);text-decoration:none}
+.TopActions{display:flex;gap:6px;align-items:center}
+.TopActions a{color:var(--text-muted);text-decoration:none;padding:8px 12px;font-size:.88rem}
+.TopActions a:hover{color:var(--accent)}
+.Stage{max-width:1100px;margin:0 auto;padding:28px 20px 60px;width:100%;flex:1}
+.Stage h1{font-size:1.7rem;font-weight:800;margin-bottom:6px}
+.Stage>p.Sub{color:var(--text-muted);margin-bottom:20px;line-height:1.55}
+
+.Tabs{display:flex;gap:6px;border-bottom:1px solid var(--border);margin-bottom:20px}
+.Tab{padding:10px 16px;cursor:pointer;font-weight:700;font-size:.92rem;color:var(--text-muted);border-bottom:2px solid transparent;background:none;border-left:none;border-right:none;border-top:none;font-family:inherit}
+.Tab.Active{color:var(--accent);border-bottom-color:var(--accent)}
+.Tab:hover:not(.Active){color:var(--text)}
+.Panel{display:none}
+.Panel.Active{display:block}
+
+.Grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.Listing{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+.Listing .Photo{aspect-ratio:4/3;background:#0b1016 center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-size:2.4rem;color:var(--text-muted);border-bottom:1px solid var(--border)}
+.Listing .Body{padding:14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.Listing h3{font-size:1rem;font-weight:700}
+.Listing .Price{font-size:1.3rem;font-weight:800;color:var(--accent)}
+.Listing .Stock{font-size:.78rem;color:var(--text-muted)}
+.Listing .Desc{color:var(--text-muted);font-size:.84rem;line-height:1.45;flex:1}
+.Listing .Actions{display:flex;gap:8px;margin-top:6px}
+.Btn{display:inline-flex;align-items:center;justify-content:center;padding:9px 14px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;font-size:.84rem;border:none;cursor:pointer;font-family:inherit;flex:1}
+.Btn:hover{background:var(--accent-hover)}
+.Btn.Ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.Btn.Ghost:hover{border-color:var(--accent);color:var(--accent)}
+.Btn.Danger{background:var(--danger)}
+.Empty{text-align:center;padding:50px 20px;color:var(--text-muted);background:var(--card);border:1px dashed var(--border);border-radius:var(--radius)}
+
+.Card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:14px}
+.Card h2{font-size:1.05rem;margin-bottom:14px}
+.Field{margin-bottom:12px}
+.Field label{display:block;font-size:.82rem;color:var(--text-muted);margin-bottom:5px;font-weight:600}
+.Field input,.Field textarea,.Field select{width:100%;padding:10px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.9rem}
+.Field textarea{min-height:80px;resize:vertical}
+.Row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+.Modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
+.Modal.Open{display:flex}
+.ModalBody{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);max-width:520px;width:100%;padding:24px;max-height:90vh;overflow-y:auto}
+.ModalBody h3{font-size:1.15rem;margin-bottom:6px}
+.ModalBody p.Sub{color:var(--text-muted);font-size:.85rem;margin-bottom:14px}
+.PayChoice{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.PayChoice label{padding:12px;border:1px solid var(--border);border-radius:10px;cursor:pointer;background:var(--bg);font-size:.86rem}
+.PayChoice label.Active{border-color:var(--accent);background:rgba(255,107,53,.08);color:var(--accent)}
+.PayChoice input{display:none}
+.SuccessBanner{background:rgba(34,197,94,.1);border:1px solid var(--success);color:var(--success);padding:14px 18px;border-radius:10px;margin-bottom:14px;font-size:.9rem;line-height:1.5}
+.AuthWarn{background:rgba(245,158,11,.1);border:1px solid var(--warning);color:var(--warning);padding:14px 18px;border-radius:10px;margin-bottom:14px;font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="TopBar">
+  <div class="Brand"><span class="Logo">W</span><a href="/wolfstruckingco.com/">Wolfs — Marketplace</a></div>
+  <div class="TopActions">
+    <a href="/wolfstruckingco.com/Dashboard/">Dashboard</a>
+    <a href="/wolfstruckingco.com/Login/">Sign In</a>
+  </div>
+</div>
+<div class="Stage">
+  <h1>Marketplace</h1>
+  <p class="Sub">Buy items posted by employers — pay by card or cash on delivery. Every purchase auto-creates a delivery job for a Wolfs driver to pick up from the seller and bring it to you.</p>
+
+  <div class="ApplyDrive" style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;background:rgba(255,107,53,.07);border:1px solid var(--accent);border-radius:12px;padding:14px 18px;margin-bottom:20px">
+    <div>
+      <strong style="color:var(--accent)">🚛 Want to drive for Wolfs?</strong>
+      <span style="color:var(--text-muted);font-size:.86rem;margin-left:8px">Upload your CDL, TWIC, and medical, and the AI dispatcher walks you through the rest.</span>
+    </div>
+    <a href="/wolfstruckingco.com/Applicant/" class="Btn" style="flex:0 0 auto;padding:10px 20px;font-size:.9rem;text-decoration:none">Apply to drive →</a>
+  </div>
+
+  <div class="Tabs">
+    <button class="Tab Active" data-tab="Browse">Browse</button>
+    <button class="Tab" data-tab="Sell">Sell an item</button>
+    <button class="Tab" data-tab="MyOrders">My orders</button>
+  </div>
+
+  <div id="PanelBrowse" class="Panel Active">
+    <div id="BrowseGrid" class="Grid"></div>
+  </div>
+
+  <div id="PanelSell" class="Panel">
+    <div id="SellAuthWarn" class="AuthWarn" style="display:none">Sign in as employer or staff to post a listing — <a href="/wolfstruckingco.com/Login/" style="color:var(--warning);text-decoration:underline">sign in</a>.</div>
+    <div id="SellSuccessBanner"></div>
+    <form id="ListingForm" class="Card" style="display:none">
+      <h2>Post a listing</h2>
+      <div class="Field"><label>Title</label><input name="title" required placeholder="e.g. Refurbished Dell laptop"></div>
+      <div class="Field"><label>Description</label><textarea name="description" placeholder="Condition, dimensions, anything the buyer should know"></textarea></div>
+      <div class="Row">
+        <div class="Field"><label>Price ($)</label><input name="price" type="number" step="0.01" min="0" required placeholder="125.00"></div>
+        <div class="Field"><label>Stock count</label><input name="stockCount" type="number" min="1" step="1" required value="1" aria-label="Number"></div>
+      </div>
+      <div class="Field"><label>Photo URL (optional)</label><input name="photoUrl" type="url" placeholder="https://…"></div>
+      <div class="Field"><label>Pickup address (where the driver fetches the item)</label><input name="pickupAddress" required placeholder="Your warehouse or address"></div>
+      <button type="submit" class="Btn" style="flex:0 0 auto;width:auto;padding:11px 22px">Post listing</button>
+    </form>
+    <h2 style="font-size:1.05rem;margin-top:22px;margin-bottom:10px">Your active listings</h2>
+    <div id="MyListingsGrid" class="Grid"></div>
+  </div>
+
+  <div id="PanelMyOrders" class="Panel">
+    <div id="MyOrdersAuthWarn" class="AuthWarn" style="display:none">Sign in to see your orders — <a href="/wolfstruckingco.com/Login/" style="color:var(--warning);text-decoration:underline">sign in</a>.</div>
+    <div id="MyOrdersList"></div>
+  </div>
+</div>
+
+<div id="BuyModal" class="Modal">
+  <div class="ModalBody">
+    <h3 id="BuyTitle">Buy item</h3>
+    <p class="Sub" id="BuySubtitle"></p>
+    <div class="Field">
+      <label>Pay with</label>
+      <div class="PayChoice" id="PayChoice">
+        <label class="Active" data-pay="card"><input type="radio" name="pay" value="card" checked aria-label="Field">💳 Card on file<small style="display:block;color:var(--text-muted);font-size:.74rem;margin-top:3px">Authorized now, captured on delivery</small></label>
+        <label data-pay="cod"><input type="radio" name="pay" value="cod" aria-label="Field">💵 Cash on delivery<small style="display:block;color:var(--text-muted);font-size:.74rem;margin-top:3px">Pay the driver in cash on dropoff</small></label>
+      </div>
+    </div>
+    <div class="Field"><label>Deliver to (your address)</label><input id="BuyDeliveryAddress" type="text" placeholder="Street, city" required></div>
+    <div class="Field"><label>Quantity</label><input id="BuyQty" type="number" min="1" step="1" value="1" aria-label="Number"></div>
+    <div style="display:flex;gap:8px;margin-top:18px">
+      <button type="button" class="Btn Ghost" onclick="document.getElementById('BuyModal').classList.remove('Open')">Cancel</button>
+      <button type="button" class="Btn" id="ConfirmBuyBtn">Confirm purchase</button>
+    </div>
+  </div>
+</div>
+
+<script src="/wolfstruckingco.com/db.js"></script>
+<script src="/wolfstruckingco.com/auth-header.js"></script>
+<script>
+(async function(){
+  const sess = localStorage.getItem('wolfs_session') || '';
+  const email = (localStorage.getItem('wolfs_email') || '').toLowerCase();
+  const role = (localStorage.getItem('wolfs_role') || '').toLowerCase();
+  const RELAY = 'https://wolfstruckingco.nbth.workers.dev';
+
+  // ── Tabs ──────────────────────────────────────────────────────────
+  document.querySelectorAll('.Tab').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('.Tab').forEach(t => t.classList.toggle('Active', t === btn));
+    document.querySelectorAll('.Panel').forEach(p => p.classList.toggle('Active', p.id === 'Panel' + btn.dataset.tab));
+    if (btn.dataset.tab === 'MyOrders') renderMyOrders();
+    if (btn.dataset.tab === 'Sell') renderMyListings();
+  }));
+
+  // ── Browse ────────────────────────────────────────────────────────
+  async function renderBrowse() {
+    const grid = document.getElementById('BrowseGrid');
+    grid.innerHTML = '<div class="Empty">Loading listings…</div>';
+    try {
+      const listings = (await WolfsDB.all('listings')).filter(l => l.status !== 'archived' && l.status !== 'sold' && (l.stockCount || 0) > (l.reservedCount || 0));
+      if (!listings.length) { grid.innerHTML = '<div class="Empty">No items for sale right now. Be the first to <button class="Btn Ghost" style="display:inline-flex;width:auto;padding:6px 14px;margin-left:6px" onclick="document.querySelector(\'.Tab[data-tab=Sell]\').click()">post a listing</button>.</div>'; return; }
+      grid.innerHTML = listings.map(l => listingCard(l, /*ownerView=*/false)).join('');
+      grid.querySelectorAll('[data-buy]').forEach(btn => btn.addEventListener('click', () => openBuyModal(btn.dataset.buy)));
+    } catch (ex) { grid.innerHTML = '<div class="Empty">Could not load listings: ' + escapeHtml(ex.message || ex) + '</div>'; }
+  }
+
+  function listingCard(l, ownerView) {
+    const available = (l.stockCount || 0) - (l.reservedCount || 0);
+    // If the seller didn't attach a photo, render a deterministic SVG illustration based on
+    // the listing title — categorised so a "chair" listing shows a chair, "laptop" a laptop, etc.
+    // Far better visual than a 📦 emoji, and 100% offline (no external image hotlinks).
+    function placeholderSvg(title) {
+      const t = (title || '').toLowerCase();
+      // Each placeholder is a small inline SVG with the brand colors.
+      const wrap = (inner) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" preserveAspectRatio="xMidYMid meet" width="100%" height="100%"><rect width="200" height="150" fill="#0f1419"/>${inner}</svg>`;
+      if (/chair|aeron|seat|office/.test(t)) {
+        return wrap('<g fill="none" stroke="#ff6b35" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M70 35 q30 -5 60 0 v50 q-30 5 -60 0 z" fill="#1a2332"/><path d="M75 85 v25"/><path d="M125 85 v25"/><path d="M70 110 h60"/><path d="M85 110 v15"/><path d="M115 110 v15"/></g>');
+      }
+      if (/laptop|notebook|macbook/.test(t)) {
+        return wrap('<g><rect x="50" y="40" width="100" height="65" rx="4" fill="#1a2332" stroke="#ff6b35" stroke-width="2"/><rect x="56" y="46" width="88" height="53" rx="2" fill="#0b1016" stroke="#3b82f6" stroke-width="1"/><path d="M40 110 h120 l-10 8 h-100 z" fill="#1a2332" stroke="#ff6b35" stroke-width="2"/></g>');
+      }
+      if (/phone|iphone|android|mobile/.test(t)) {
+        return wrap('<g><rect x="80" y="25" width="40" height="100" rx="6" fill="#1a2332" stroke="#ff6b35" stroke-width="2"/><rect x="84" y="32" width="32" height="80" rx="2" fill="#0b1016" stroke="#3b82f6" stroke-width="1"/><circle cx="100" cy="118" r="2" fill="#ff6b35"/></g>');
+      }
+      if (/book|paperback|hardcover/.test(t)) {
+        return wrap('<g><rect x="65" y="30" width="70" height="90" rx="2" fill="#1a2332" stroke="#ff6b35" stroke-width="2"/><line x1="68" y1="45" x2="132" y2="45" stroke="#3b82f6" stroke-width="1"/><line x1="68" y1="55" x2="132" y2="55" stroke="#3b82f6" stroke-width="1"/><line x1="68" y1="65" x2="120" y2="65" stroke="#3b82f6" stroke-width="1"/></g>');
+      }
+      if (/bike|bicycle|cycle/.test(t)) {
+        return wrap('<g fill="none" stroke="#ff6b35" stroke-width="3"><circle cx="60" cy="100" r="20"/><circle cx="140" cy="100" r="20"/><path d="M60 100 L100 60 L140 100 M100 60 L100 100 M85 60 h30"/></g>');
+      }
+      if (/tool|drill|hammer|wrench/.test(t)) {
+        return wrap('<g fill="#1a2332" stroke="#ff6b35" stroke-width="2"><rect x="55" y="60" width="80" height="20" rx="3"/><rect x="135" y="55" width="20" height="30" rx="3"/><rect x="50" y="100" width="100" height="6" rx="2" fill="#3b82f6" stroke="none"/></g>');
+      }
+      // Generic shipping crate
+      return wrap('<g fill="#1a2332" stroke="#ff6b35" stroke-width="3"><rect x="55" y="40" width="90" height="70"/><line x1="55" y1="60" x2="145" y2="60"/><line x1="80" y1="40" x2="80" y2="110"/><line x1="120" y1="40" x2="120" y2="110"/></g>');
+    }
+    const photo = l.photoUrl
+      ? `<div class="Photo" style="background-image:url(${escapeAttr(l.photoUrl)})"></div>`
+      : `<div class="Photo" style="padding:0">${placeholderSvg(l.title)}</div>`;
+    const actions = ownerView
+      ? `<button class="Btn Ghost" data-archive="${escapeAttr(l.id)}">Archive</button>`
+      : `<button class="Btn" data-buy="${escapeAttr(l.id)}" ${available <= 0 ? 'disabled style="opacity:.5"' : ''}>${available <= 0 ? 'Sold out' : 'Buy now'}</button>`;
+    return `<div class="Listing">${photo}<div class="Body"><h3>${escapeHtml(l.title || 'Item')}</h3><div class="Price">$${(l.price || 0).toFixed(2)}</div><div class="Stock">${available} of ${l.stockCount} available · pickup from ${escapeHtml((l.pickupAddress || '').split(',').slice(0, 2).join(',') || 'seller')}</div><div class="Desc">${escapeHtml((l.description || '').slice(0, 140))}${(l.description || '').length > 140 ? '…' : ''}</div><div class="Actions">${actions}</div></div></div>`;
+  }
+
+  // ── Sell ──────────────────────────────────────────────────────────
+  const canSell = !!sess && (role === 'employer' || role === 'client' || role === 'admin' || role === 'staff');
+  if (!canSell) {
+    document.getElementById('SellAuthWarn').style.display = 'block';
+  } else {
+    document.getElementById('ListingForm').style.display = '';
+    document.getElementById('ListingForm').addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const fd = new FormData(ev.target);
+      const listing = {
+        sellerEmail: email,
+        title: fd.get('title'),
+        description: fd.get('description'),
+        price: parseFloat(fd.get('price')) || 0,
+        stockCount: parseInt(fd.get('stockCount'), 10) || 1,
+        reservedCount: 0,
+        photoUrl: fd.get('photoUrl') || '',
+        pickupAddress: fd.get('pickupAddress') || '',
+        currency: 'USD',
+        status: 'active',
+        createdAt: new Date().toISOString(),
+      };
+      try {
+        const saved = await WolfsDB.put('listings', listing);
+        document.getElementById('SellSuccessBanner').innerHTML = `<div class="SuccessBanner">✅ Posted "<strong>${escapeHtml(saved.title || listing.title)}</strong>" — visible to all buyers immediately.</div>`;
+        ev.target.reset();
+        await renderBrowse();
+        await renderMyListings();
+      } catch (ex) {
+        alert('Could not post: ' + (ex.message || ex));
+      }
+    });
+  }
+
+  async function renderMyListings() {
+    const grid = document.getElementById('MyListingsGrid');
+    if (!canSell) { grid.innerHTML = ''; return; }
+    try {
+      const all = await WolfsDB.all('listings');
+      const mine = all.filter(l => (l.sellerEmail || '').toLowerCase() === email && l.status !== 'archived');
+      grid.innerHTML = mine.length ? mine.map(l => listingCard(l, /*ownerView=*/true)).join('') : '<div class="Empty" style="grid-column:1/-1">No listings yet.</div>';
+      grid.querySelectorAll('[data-archive]').forEach(btn => btn.addEventListener('click', async () => {
+        const id = btn.dataset.archive;
+        const lst = mine.find(l => l.id === id);
+        if (!lst) return;
+        if (!confirm('Archive this listing? Buyers won\'t see it anymore.')) return;
+        lst.status = 'archived';
+        try { await WolfsDB.put('listings', lst); await renderMyListings(); await renderBrowse(); }
+        catch (ex) { alert('Could not archive: ' + (ex.message || ex)); }
+      }));
+    } catch (ex) { grid.innerHTML = '<div class="Empty">Could not load: ' + escapeHtml(ex.message || ex) + '</div>'; }
+  }
+
+  // ── Buy modal ─────────────────────────────────────────────────────
+  let activeListing = null;
+  function openBuyModal(listingId) {
+    if (!sess) { window.location.href = '/wolfstruckingco.com/Login/?next=Marketplace'; return; }
+    WolfsDB.all('listings').then(list => {
+      activeListing = list.find(l => l.id === listingId);
+      if (!activeListing) return;
+      document.getElementById('BuyTitle').textContent = 'Buy "' + activeListing.title + '"';
+      document.getElementById('BuySubtitle').textContent = '$' + (activeListing.price || 0).toFixed(2) + ' each — driver picks up from ' + (activeListing.pickupAddress || 'seller') + ' and delivers to your address.';
+      document.getElementById('BuyDeliveryAddress').value = '';
+      document.getElementById('BuyQty').value = '1';
+      document.getElementById('BuyModal').classList.add('Open');
+    });
+  }
+  document.querySelectorAll('#PayChoice label').forEach(l => l.addEventListener('click', () => {
+    document.querySelectorAll('#PayChoice label').forEach(x => x.classList.remove('Active'));
+    l.classList.add('Active');
+    l.querySelector('input').checked = true;
+  }));
+  document.getElementById('ConfirmBuyBtn').addEventListener('click', async () => {
+    if (!activeListing) return;
+    const paymentMode = document.querySelector('input[name="pay"]:checked').value;
+    const deliveryAddress = document.getElementById('BuyDeliveryAddress').value.trim();
+    const qty = parseInt(document.getElementById('BuyQty').value, 10) || 1;
+    if (!deliveryAddress) { alert('Please enter a delivery address.'); return; }
+    const btn = document.getElementById('ConfirmBuyBtn');
+    btn.disabled = true; btn.textContent = 'Processing…';
+    try {
+      const r = await fetch(RELAY + '/api/buy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Wolfs-Session': sess, 'X-Wolfs-Email': email, 'X-Wolfs-Role': role },
+        body: JSON.stringify({ listingId: activeListing.id, qty, paymentMode, deliveryAddress }),
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || ('HTTP ' + r.status));
+      document.getElementById('BuyModal').classList.remove('Open');
+      const banner = document.createElement('div');
+      banner.className = 'SuccessBanner';
+      banner.style.cssText = 'background:rgba(34,197,94,.1);border:1px solid var(--success);color:var(--success);padding:14px 18px;border-radius:10px;margin-bottom:14px;font-size:.9rem;line-height:1.5';
+      banner.innerHTML = `✅ Purchase confirmed (id <code>${data.purchase.id}</code>). A delivery job has been posted (id <code>${data.jobId}</code>). ${paymentMode === 'cod' ? 'Pay the driver $' + data.purchase.totalPrice.toFixed(2) + ' in cash on delivery.' : 'Card authorized for $' + data.purchase.totalPrice.toFixed(2) + ', captured when the driver completes delivery.'}`;
+      document.querySelector('#PanelBrowse').prepend(banner);
+      setTimeout(() => banner.remove(), 8000);
+      await renderBrowse();
+      await renderMyOrders();
+    } catch (ex) {
+      alert('Purchase failed: ' + (ex.message || ex));
+    } finally {
+      btn.disabled = false; btn.textContent = 'Confirm purchase';
+    }
+  });
+
+  // ── My orders ─────────────────────────────────────────────────────
+  async function renderMyOrders() {
+    const list = document.getElementById('MyOrdersList');
+    if (!sess) { document.getElementById('MyOrdersAuthWarn').style.display = 'block'; list.innerHTML = ''; return; }
+    try {
+      const purchases = await WolfsDB.all('purchases');
+      const mine = purchases.filter(p => (p.buyerEmail || '').toLowerCase() === email);
+      if (!mine.length) { list.innerHTML = '<div class="Empty">No orders yet — browse the marketplace and buy something.</div>'; return; }
+      const jobs = await WolfsDB.all('jobs');
+      list.innerHTML = mine.slice().reverse().map(p => {
+        const job = jobs.find(j => j.id === p.jobId);
+        const status = job ? job.status : '—';
+        const pill = status === 'open' ? 'rgba(59,130,246,.15);color:var(--info)'
+          : status === 'accepted' || status === 'in_progress' ? 'rgba(245,158,11,.15);color:var(--warning)'
+          : status === 'completed' ? 'rgba(34,197,94,.15);color:var(--success)'
+          : 'rgba(136,153,170,.15);color:var(--text-muted)';
+        return `<div class="Card" style="padding:14px 18px"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div><strong>${escapeHtml(job ? job.title : ('Order ' + p.id))}</strong><div style="color:var(--text-muted);font-size:.82rem;margin-top:2px">$${(p.totalPrice || 0).toFixed(2)} · ${p.paymentMode === 'cod' ? 'Cash on delivery' : 'Card · ' + (p.status || 'auth')} · ${new Date(p.createdAt).toLocaleString()}</div></div><span style="padding:4px 10px;border-radius:10px;background:${pill};font-size:.74rem;font-weight:700;text-transform:uppercase">${escapeHtml(status)}</span></div></div>`;
+      }).join('');
+    } catch (ex) { list.innerHTML = '<div class="Empty">Could not load orders: ' + escapeHtml(ex.message || ex) + '</div>'; }
+  }
+
+  function escapeHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function escapeAttr(s) { return String(s == null ? '' : s).replace(/"/g, '&quot;'); }
+
+  await renderBrowse();
+  if (canSell) await renderMyListings();
+})();
+</script>
+</body>
+</html>

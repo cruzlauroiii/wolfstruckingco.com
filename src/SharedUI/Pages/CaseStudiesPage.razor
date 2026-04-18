@@ -1,0 +1,23 @@
+@page "/Case-Studies"
+
+<MarketingHero Title="Real customer"
+               Highlight="results"
+               Subtitle="How shippers cut costs and drivers earned more by switching to Wolfs Trucking." />
+
+@foreach (var C in Cases)
+{
+    <div class="Card">
+        <div class="CardLabel">@C.Industry</div>
+        <h2 class="CardTitle">@C.Customer</h2>
+        <p>@C.Story</p>
+        <div class="Stats AutoFitStats">
+            @foreach (var M in C.Metrics)
+            {
+                <div class="Card MetricCard">
+                    <div class="Value">@M.Value</div>
+                    <div class="CardLabel">@M.Label</div>
+                </div>
+            }
+        </div>
+    </div>
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://basemaps.cartocdn.com" crossorigin>
+<link rel="preconnect" href="https://router.project-osrm.org" crossorigin>
+<link rel="preconnect" href="https://wolfstruckingco.nbth.workers.dev" crossorigin>
+<meta name="description" content="Employer portal for Wolfs Trucking Co. — post jobs, review candidates, and pay drivers.">
+<meta property="og:title" content="Employer View | Wolfs Trucking Co.">
+<meta property="og:description" content="Employer portal for Wolfs Trucking Co. — post jobs, review candidates, and pay drivers.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/wolfstruckingco.com/icon.svg">
+<meta name="twitter:card" content="summary">
+<title>Employer View | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<meta name="theme-color" content="#ff6b35">
+<link rel="stylesheet" href="/wolfstruckingco.com/css/app.css">
+</head>
+<body>
+
+<div class="TopBar">
+  <div class="Brand"><span class="Logo">W</span><a href="/wolfstruckingco.com/">Wolfs — Employer View</a></div>
+  <div class="TopActions">
+    <a href="/wolfstruckingco.com/HiringHall/">Hiring Hall</a>
+    <a href="/wolfstruckingco.com/CareerAgent/">Career Agent</a>
+    <a href="/wolfstruckingco.com/Dashboard/">Dashboard</a>
+  </div>
+</div>
+<div id="KeyModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;max-width:520px;width:100%;padding:28px">
+    <h3 style="font-size:1.1rem;margin-bottom:6px;color:var(--text)">Use your own Anthropic API key</h3>
+    <p style="color:var(--text-muted);font-size:.85rem;line-height:1.5;margin-bottom:16px">Paste a key to get real Claude candidate summaries. Stored only in your browser and sent as a request header.</p>
+    <input id="KeyInput" type="password" placeholder="sk-ant-..." style="width:100%;padding:12px 14px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;margin-bottom:12px">
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button onclick="ClearKey()" style="padding:10px 16px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--text);cursor:pointer">Clear</button>
+      <button onclick="CloseKeyModal()" style="padding:10px 16px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--text);cursor:pointer">Cancel</button>
+      <button onclick="SaveKey()" style="padding:10px 16px;border-radius:8px;background:var(--accent);color:#fff;border:none;font-weight:700;cursor:pointer">Save &amp; enable</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="Stage">
+  <div class="PanelHead">
+    <h1>Employer backoffice</h1>
+    <p>Live KPIs for jobs you posted plus the matched candidate pool for open roles.</p>
+  </div>
+
+  <div id="EmployerKpi" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:22px"></div>
+
+  <div id="MyJobs" style="margin-bottom:26px"></div>
+
+  <div class="PanelHead" style="margin-top:4px"><h2 style="font-size:1.1rem">Candidate pool</h2><p>Every qualifying worker with an Auto-written candidate summary, pitched for this hiring manager.</p></div>
+
+  <div class="RoleBar">
+    <label>Open role:</label>
+    <select id="RoleSel"></select>
+    <button id="RefreshBtn">Refresh matches</button>
+  </div>
+
+  <div id="RoleMeta" class="RoleMeta"></div>
+  <div id="Candidates" class="Candidates"><div class="Empty">Select a role…</div></div>
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/wolfstruckingco.com/wolfs-map.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+
+<script src="/wolfstruckingco.com/auth-guard.js"></script>
+<script src="/wolfstruckingco.com/auth-header.js"></script>
+<script src="/wolfstruckingco.com/db.js"></script>
+
+<script src="/wolfstruckingco.com/track-subscriber.js"></script>
+<script src="/wolfstruckingco.com/ai.js"></script>
+
+
+</body>
+</html>

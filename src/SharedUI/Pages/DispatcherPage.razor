@@ -1,0 +1,14 @@
+@page "/Dispatcher"
+@using SharedUI.Components
+
+<div class="Stage ChatStage DispatcherStage">
+    <h1>📡 Dispatcher</h1>
+    <p class="ChatLede">@ChatVariantConstants.DispatcherLede</p>
+    <ChatBox SystemPrompt="@ChatVariantConstants.DispatcherSystemPrompt"
+             Placeholder="@ChatVariantConstants.DispatcherPlaceholder"
+             AssistantLabel="Dispatcher"
+             UserLabel="Driver"
+             CallTitle="@ChatVariantConstants.DispatcherCallTitle"
+             AttachTitle="@ChatVariantConstants.DispatcherAttachTitle"
+             Subject="@ChatVariantConstants.DispatcherSubject" />
+</div>

@@ -1,0 +1,68 @@
+@page "/Map"
+
+<div class="Stage MapStage">
+    @if (Latest is not null)
+    {
+        <svg viewBox="0 0 414 800" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" class="MapSvg">
+            <defs>
+                <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+                    <path d="M 44 0 L 0 0 0 44" fill="none" stroke="#dbe2ea" stroke-width="1"/>
+                </pattern>
+            </defs>
+            <g transform="translate(@CameraDx,@CameraDy)">
+                <rect x="-414" y="-800" width="1242" height="2400" fill="url(#grid)"/>
+                @if (LegBackgroundSvg is not null)
+                {
+                    @((MarkupString)LegBackgroundSvg)
+                }
+                <path d="@MainRoad" fill="none" stroke="#cfd8e3" stroke-width="28" stroke-linecap="round"/>
+                @if (LegLabelsSvg is not null)
+                {
+                    @((MarkupString)LegLabelsSvg)
+                }
+                <path d="@MainRoad" pathLength="100" stroke="#22c55e" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="@($"{Progress},100")"/>
+                <path d="@MainRoad" pathLength="100" stroke="@AheadColor" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="@($"0,{Progress} {100 - Progress},100")"/>
+                <circle cx="40" cy="700" r="14" fill="#22c55e" stroke="#fff" stroke-width="4"/>
+                <text x="40" y="705" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">A</text>
+                <text x="40" y="730" text-anchor="middle" fill="#0f172a" font-size="11" font-weight="800">@LegOrigin</text>
+                <circle cx="360" cy="150" r="14" fill="@AheadColor" stroke="#fff" stroke-width="4"/>
+                <text x="360" y="155" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">B</text>
+                <text x="360" y="130" text-anchor="middle" fill="#0f172a" font-size="11" font-weight="800">@LegDestination</text>
+                <g transform="translate(@(DriverX),@(DriverY))">
+                    <circle cx="0" cy="0" r="22" fill="#0ea5e9" opacity=".22"/>
+                    <circle cx="0" cy="0" r="14" fill="#0ea5e9" stroke="#fff" stroke-width="3"/>
+                    <text x="0" y="5" text-anchor="middle" font-size="15" font-weight="800" fill="#fff">@TurnIcon</text>
+                </g>
+            </g>
+        </svg>
+
+        <div class="MapBanner">
+            <div class="MapBannerHead">
+                <div class="MapBannerIcon">@TurnIcon</div>
+                <div class="MapBannerInfo">
+                    <div class="MapBannerLabel">In @RemainingDistance</div>
+                    <div class="MapBannerTurn">@TurnText</div>
+                </div>
+            </div>
+            <div class="MapBannerStats">
+                <div class="MapStat Primary">
+                    <div class="MapStatLabel">ETA</div>
+                    <div class="MapStatValue">@RemainingEta min</div>
+                </div>
+                <div class="MapStat">
+                    <div class="MapStatLabel">Distance</div>
+                    <div class="MapStatValue">@RemainingDistance</div>
+                </div>
+                <div class="MapStat">
+                    <div class="MapStatLabel">Speed</div>
+                    <div class="MapStatValue">62 mph</div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="MapEmpty">No active navigation.</p>
+    }
+</div>
+

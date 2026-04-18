@@ -1,0 +1,52 @@
+@page "/Apply"
+
+<div class="Stage PageStage">
+    @if (Status == StatusFresh)
+    {
+        <h1>🚛 Want to drive for Wolfs?</h1>
+        <p>Apply once. The agent interviews you, asks for your scans, and tells the admin you're ready.</p>
+
+        <div class="Card CardForm">
+            <h2>📋 What you need to apply</h2>
+            <ul class="ApplyChecklist">
+                <li>Your driver's license (front and back)</li>
+                <li>Your medical card</li>
+                <li>Any port pass, drayage card, or interstate authority you have</li>
+                <li>Auto-handling cert if you do final-mile</li>
+                <li>Team-driver papers if you drive with a partner</li>
+                <li>China export pass for cross-border China pickups</li>
+            </ul>
+        </div>
+
+        <a href="Chat" class="Btn Block">💬 Start application — chat with agent</a>
+    }
+    else if (Status == StatusPending)
+    {
+        <h1>✅ Application sent</h1>
+        <p>Admin is reviewing your scans and badges. You'll get a notification when you're hired.</p>
+
+        <div class="Card PendingCard">
+            <div class="PendingIcon">⏳</div>
+            <div>
+                <div class="PendingTitle">Pending admin approval</div>
+                <div class="PendingSub">Most reviews finish within an hour during business hours.</div>
+            </div>
+        </div>
+
+        <a href="Chat" class="Btn Ghost Block">💬 View my chat</a>
+        <a href="Documents" class="Btn Ghost Block FieldGap">📎 View my documents</a>
+    }
+    else
+    {
+        <h1>@Greeting</h1>
+        <p>@SubtitleHired</p>
+        <div class="Card HiredCard">
+            <div class="HiredIcon">🎉</div>
+            <div>
+                <div class="HiredTitle">Badges assigned: @Badges</div>
+                <div class="HiredSub">First job offer is waiting on your driver home.</div>
+            </div>
+        </div>
+        <a href="Dashboard" class="Btn Block">🏠 Go to driver home</a>
+    }
+</div>

@@ -1,0 +1,3 @@
+Components/ChatBox.razor:24:    <input type="text" @bind="Draft" @bind:event="oninput" @onkeydown="OnKeyAsync" placeholder="@Placeholder" />
+Components/ChatBox.razor:25:    <button class="Btn Ghost ChatBtnRound" type="button" title="@CallTitle" @onclick="ToggleCallAsync">@(InCall ? "📵" : "📞")</button>
+Components/ChatBox.razor:28:    <button class="Btn ChatBtnRound Send" type="button" title="Send" disabled="@Sending" @onclick="SendAsync">@(Sending ? "⏳" : "➤")</button>

@@ -1,0 +1,46 @@
+@page "/Chat"
+@using SharedUI.Components
+@inject SharedUI.Services.WolfsInteropService Wolfs
+
+<div class="Stage ChatStage">
+    <h1>💬 Chat with Agent</h1>
+
+    @if (ShowSignInPrompt)
+    {
+        <div class="AuthWarn SignInPrompt">
+            🔓 Please <a href="Login">sign in</a> to chat with the agent.
+        </div>
+    }
+    else
+    {
+        <p class="ChatLede">@CurrentVariant.Lede</p>
+        <ChatBox SystemPrompt="@CurrentVariant.SystemPrompt"
+                 Placeholder="@CurrentVariant.Placeholder"
+                 AssistantLabel="Agent"
+                 UserLabel="You"
+                 CallTitle="@CurrentVariant.CallTitle"
+                 AttachTitle="@CurrentVariant.AttachTitle"
+                 Subject="@CurrentVariant.Subject" />
+    }
+</div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) { return; }
+        var Auth = await Wolfs.AuthGetAsync();
+        var Role = Auth?.Role ?? string.Empty;
+        if (string.IsNullOrEmpty(Role))
+        {
+            ShowSignInPrompt = true;
+            StateHasChanged();
+            return;
+        }
+        var Resolved = ResolveVariantByRole(Role);
+        if (!ReferenceEquals(Resolved, CurrentVariant))
+        {
+            CurrentVariant = Resolved;
+            StateHasChanged();
+        }
+    }
+}

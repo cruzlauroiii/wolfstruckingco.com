@@ -1,0 +1,8 @@
+SharedUI/Components/DispatcherChat.razor:168:                var text = await JS.InvokeAsync<string?>("WolfsChatVoice.stop");
+SharedUI/Components/DispatcherChat.razor:186:            var ok = await JS.InvokeAsync<bool>("WolfsChatVoice.start");
+SharedUI/Components/MainLayout.razor:2:@inject SharedUI.Services.WolfsInteropService Wolfs
+SharedUI/Components/MapView.razor:1:@* Reusable map component. Drop in any page; calls WolfsInteropService to mount Leaflet. *@
+SharedUI/Components/MapView.razor:2:@inject SharedUI.Services.WolfsInteropService Js
+SharedUI/Components/ThemeChip.razor:2:<button type="button" class="wt-theme-chip" title="Switch theme" onclick="var w=window.WolfsInterop||{};var cur=(w.themeRead?w.themeRead():(localStorage.getItem('wolfs_theme')||'auto'));var next=cur==='auto'?'dark':(cur==='dark'?'light':'auto');try{localStorage.setItem('wolfs_theme',next);document.documentElement.setAttribute('data-theme',next==='auto'?'':next);}catch(e){}var lbl=next==='dark'?'🌙 Dark':(next==='light'?'☀ Light':'🌗 Auto');this.textContent=lbl;">🌗 Auto</button>
+SharedUI/Pages/ChatPage.razor:3:@inject SharedUI.Services.WolfsInteropService Wolfs
+SharedUI/Pages/EmployerPostPage.razor:2:@inject SharedUI.Services.WolfsInteropService Wolfs

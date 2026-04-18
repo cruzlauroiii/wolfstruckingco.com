@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<base href="/wolfstruckingco.com/">
+<title>Voice | Wolfs Trucking Co.</title>
+<meta name="description" content="Voice — Wolfs Trucking Co. Three-role logistics platform: freight marketplace, real-time tracking, voice navigation, and a dispatcher you can call.">
+<meta name="theme-color" content="#ff6b35">
+<meta name="color-scheme" content="light">
+<link rel="canonical" href="https://cruzlauroiii.github.io/wolfstruckingco.com/Voice">
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<link rel="stylesheet" href="/wolfstruckingco.com/css/app.css">
+</head>
+<body data-prerender-route="Voice">
+
+<div id="app">
+<div class="TopBar"><div class="Brand"><span class="Logo">W</span>
+        <a href class="BrandText">Wolfs · Home</a></div>
+    <input type="checkbox" id="MenuToggle" class="MenuToggle" aria-hidden="true" tabindex="-1">
+    <label for="MenuToggle" class="BurgerBtn" aria-label="Menu" role="button"><span></span></label>
+    <div class="TopActions"><a href="About" class="NavSecondary">About</a>
+        <a href="Services" class="NavSecondary">Services</a>
+        <a href="Pricing" class="NavSecondary">Pricing</a>
+        <a href="Marketplace">Marketplace</a>
+        <a href="Apply" class="AccentLink NavTertiary">🚛 Apply to drive</a><a href="Login">Sign In</a><button type="button" class="wt-theme-chip" title="Switch theme">&#x1F317; Auto</button></div></div>
+<div class="Stage VoiceStage"><h1>📞 Voice agent</h1>
+    <p class="Sub">Press and hold the button below to speak. The agent listens, then replies in voice.</p>
+
+    <div class="Card VoiceCard"><div class="VoicePulse" aria-hidden="true">🎙️</div>
+        <form action="/wolfstruckingco.com/Chat/" method="get" class="VoiceForm"><label for="VoiceInput" class="VoiceLabel">What do you need to ship?</label>
+            <input id="VoiceInput" name="msg" type="text" placeholder="Tell the agent — text or paste your transcribed voice" autofocus required>
+            <button type="submit" class="Btn VoiceSubmit">Send to agent ➤</button></form>
+        <p class="VoiceHint">Tip: tap the mic icon on your keyboard to dictate. The agent treats text and dictated voice the same.</p></div>
+
+    <div class="Card VoiceCallout"><h2>How voice works here</h2>
+        <ul><li>📨 Your message goes to the dispatcher chat — same thread as text.</li>
+            <li>🚛 The dispatcher composes drivers, legs, customs, and badges from what you say.</li>
+            <li>📍 Track the resulting job from the marketplace or driver dashboard.</li></ul></div></div>
+</div>
+
+<script src="/wolfstruckingco.com/app/_framework/blazor.webassembly.js" autostart="true"></script>
+
+</body>
+</html>

@@ -1,0 +1,756 @@
+add-grid.cs:13:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/add-grid.cs scripts/<add-grid-X>-config.cs"); return 1; }
+add-grid.cs:15:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+add-grid.cs:23:if (!Strs.TryGetValue("InputPath", out var InputPath)) { await Console.Error.WriteLineAsync("specific must declare const string InputPath"); return 3; }
+add-grid.cs:24:if (!Strs.TryGetValue("OutputPath", out var OutputPath)) { await Console.Error.WriteLineAsync("specific must declare const string OutputPath"); return 4; }
+add-grid.cs:25:if (!File.Exists(InputPath)) { await Console.Error.WriteLineAsync($"input not found: {InputPath}"); return 5; }
+add-grid.cs:55:await Console.Out.WriteLineAsync($"add-grid: wrote {OutputPath} ({Out2.Width.ToString(System.Globalization.CultureInfo.InvariantCulture)}x{Out2.Height.ToString(System.Globalization.CultureInfo.InvariantCulture)}, step={GridStep.ToString(System.Globalization.CultureInfo.InvariantCulture)})");
+audit-secrets.cs:48:            Console.WriteLine($"  {F}:{Line.ToString(System.Globalization.CultureInfo.InvariantCulture)} - {Name}: {Snippet}");
+build-all.cs:24:    if (!File.Exists(ScriptPath)) { await Console.Error.WriteLineAsync($"skip {Name}"); continue; }
+build-all.cs:36:await Console.Error.WriteLineAsync($"failed: {string.Join(", ", Failed)}");
+build-blazor.cs:15:    await Console.Error.WriteLineAsync($"Client csproj not found at {Csproj}. Run from the main/ folder.");
+build-blazor.cs:19:await Console.Out.WriteLineAsync($"==> dotnet publish {Csproj}");
+build-blazor.cs:22:    await Console.Error.WriteLineAsync("dotnet publish failed");
+build-blazor.cs:29:    await Console.Error.WriteLineAsync($"Publish did not produce a wwwroot at {SourceRoot}");
+build-blazor.cs:33:await Console.Out.WriteLineAsync($"==> sync {SourceRoot} -> {Target}");
+build-blazor.cs:48:await Console.Out.WriteLineAsync($"==> Blazor WASM deployed to {Target}");
+build-blazor.cs:49:await Console.Out.WriteLineAsync($"Visit {BuildBlazorConfig.LocalUrl}");
+build-razor-scss.cs:9:if (!Directory.Exists(SharedUi)) { await Console.Error.WriteLineAsync($"SharedUI not found: {SharedUi}"); return 1; }
+build-razor-scss.cs:24:    if (Proc.ExitCode != 0) { await Console.Error.WriteLineAsync($"{Path.GetRelativePath(Root, SrcFile)}: {(await Proc.StandardError.ReadToEndAsync()).Trim()}"); }
+build-razor-scss.cs:41:Fsw.Changed += async (_, E) => { try { await Compile(E.FullPath); } catch (IOException Ex) { await Console.Error.WriteLineAsync(Ex.Message); } };
+build-razor-scss.cs:42:Fsw.Created += async (_, E) => { try { await Compile(E.FullPath); } catch (IOException Ex) { await Console.Error.WriteLineAsync(Ex.Message); } };
+build-razor-scss.cs:43:Fsw.Renamed += async (_, E) => { try { await Compile(E.FullPath); } catch (IOException Ex) { await Console.Error.WriteLineAsync(Ex.Message); } };
+build-scss.cs:11:if (!File.Exists(Entry)) { await Console.Error.WriteLineAsync($"SCSS entry not found at {Entry}"); return 1; }
+build-scss.cs:29:    if (Proc is null) { await Console.Error.WriteLineAsync("sass start failed"); return 1; }
+build-scss.cs:35:    await Console.Error.WriteLineAsync("sass not on PATH (npm install -g sass)");
+build-sharedui-scss.cs:9:if (!File.Exists(In)) { await Console.Error.WriteLineAsync($"missing scss source: {In}"); return 1; }
+build-sharedui-scss.cs:25:    if (P.ExitCode != 0) { await Console.Error.WriteLineAsync((await P.StandardError.ReadToEndAsync()).Trim()); return P.ExitCode; }
+build-sharedui-scss.cs:29:    await Console.Error.WriteLineAsync("sass not on PATH (npm install -g sass)");
+cdp-add-js-origin.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-add-js-origin.cs scripts/<config>.cs"); return 1; }
+cdp-add-js-origin.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-add-js-origin.cs:36:if (HitUrl is null) { await Console.Error.WriteLineAsync($"no edit-page tab matching: {Strings["Needle"]}"); return 3; }
+cdp-add-js-origin.cs:43:await Console.Out.WriteLineAsync($"click step: {Result.Trim()}");
+cdp-add-js-origin.cs:50:await Console.Out.WriteLineAsync();
+cdp-add-js-origin.cs:51:await Console.Out.WriteLineAsync("page state after click:");
+cdp-add-js-origin.cs:52:await Console.Out.WriteLineAsync(State);
+cdp-add-redirect-uri.cs:11:if (args.Length < 1) { Console.Error.WriteLine("usage: dotnet run scripts/cdp-add-redirect-uri.cs scripts/<config>.cs"); return 1; }
+cdp-add-redirect-uri.cs:13:if (!File.Exists(SpecPath)) { Console.Error.WriteLine($"specific not found: {SpecPath}"); return 2; }
+cdp-add-redirect-uri.cs:20:    if (!Strings.ContainsKey(Required)) { Console.Error.WriteLine($"specific missing const string {Required}"); return 3; }
+cdp-add-redirect-uri.cs:42:if (HitUrl is null) { Console.Error.WriteLine($"no tab matching: {Strings["PageNeedle"]}"); return 4; }
+cdp-add-redirect-uri.cs:43:Console.WriteLine($"target page {HitIdx}: {HitUrl[..Math.Min(HitUrl.Length, 100)]}");
+cdp-add-redirect-uri.cs:48:Console.WriteLine($"click-add: {ClickResult.Trim()}");
+cdp-add-redirect-uri.cs:55:Console.WriteLine($"fill: {FillResult.Trim()}");
+cdp-add-redirect-uri.cs:62:Console.WriteLine($"save: {SaveResult.Trim()}");
+cdp-allow.cs:18:await Console.Out.WriteAsync(await Proc.StandardOutput.ReadToEndAsync());
+cdp-allow.cs:19:await Console.Error.WriteAsync(await Proc.StandardError.ReadToEndAsync());
+cdp-click-prtask-client.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-click-prtask-client.cs scripts/<config>.cs"); return 1; }
+cdp-click-prtask-client.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-click-prtask-client.cs:38:if (HitUrl is null) { await Console.Error.WriteLineAsync($"no tab matching: {Needle} + {PathSegment}"); return 3; }
+cdp-click-prtask-client.cs:45:await Console.Out.WriteLineAsync($"click: {ClickResult.Trim()}");
+cdp-click-prtask-client.cs:52:await Console.Out.WriteLineAsync(Result);
+cdp-close-entra-flyout.cs:30:if (HitIdx == 0) { Console.Error.WriteLine("no entra tab"); return 1; }
+cdp-close-entra-flyout.cs:35:Console.WriteLine(Result);
+cdp-create-github-oauth-app.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-create-github-oauth-app.cs scripts/<config>.cs"); return 1; }
+cdp-create-github-oauth-app.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-create-github-oauth-app.cs:17:    if (!Strings.ContainsKey(Required)) { await Console.Error.WriteLineAsync($"specific missing const string {Required}"); return 3; }
+cdp-create-github-oauth-app.cs:42:    await Console.Out.WriteLineAsync($"opening fresh tab for {Strings["FormUrl"]}");
+cdp-create-github-oauth-app.cs:49:    if (HitUrl is null) { await Console.Error.WriteLineAsync($"failed to open {Strings["FormUrl"]}"); return 4; }
+cdp-create-github-oauth-app.cs:51:await Console.Out.WriteLineAsync($"target page {HitIdx.ToString(System.Globalization.CultureInfo.InvariantCulture)}: {HitUrl[..Math.Min(HitUrl.Length, 120)]}");
+cdp-create-github-oauth-app.cs:58:await Console.Out.WriteLineAsync($"fill: {FillResult.Trim()}");
+cdp-create-github-oauth-app.cs:65:await Console.Out.WriteLineAsync($"submit: {SubmitResult.Trim()}");
+cdp-create-github-oauth-app.cs:72:await Console.Out.WriteLineAsync("=== POST-CREATE PAGE STATE ===");
+cdp-create-github-oauth-app.cs:73:await Console.Out.WriteLineAsync(Result);
+cdp-debug-callback.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-debug-callback.cs scripts/<config>.cs"); return 1; }
+cdp-debug-callback.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-debug-callback.cs:14:if (!NeedleMatch.Success) { await Console.Error.WriteLineAsync("config missing const string Needle"); return 3; }
+cdp-debug-callback.cs:37:if (HitUrl is null) { await Console.Error.WriteLineAsync($"no tab matching: {Needle}"); return 4; }
+cdp-debug-callback.cs:38:await Console.Out.WriteLineAsync($"selecting page {HitIdx.ToString(System.Globalization.CultureInfo.InvariantCulture)}: {HitUrl}");
+cdp-debug-callback.cs:44:await Console.Out.WriteLineAsync(Result);
+cdp-debug-callback.cs:46:await Console.Out.WriteLineAsync();
+cdp-debug-callback.cs:47:await Console.Out.WriteLineAsync("# Console messages on this page:");
+cdp-debug-callback.cs:49:await Console.Out.WriteLineAsync(Console2);
+cdp-entra-add-uri-v2.cs:32:if (HitIdx == 0) { Console.Error.WriteLine("no entra tab"); return 1; }
+cdp-entra-add-uri-v2.cs:33:Console.WriteLine($"target page {HitIdx}");
+cdp-entra-add-uri-v2.cs:38:Console.WriteLine($"step1 click-add: {ClickResult.Trim()}");
+cdp-entra-add-uri-v2.cs:44:Console.WriteLine($"step2 flyout-probe:");
+cdp-entra-add-uri-v2.cs:45:Console.WriteLine(FlyoutResult);
+cdp-entra-add-uri-v2.cs:51:Console.WriteLine($"step3 click-web: {WebClick.Trim()}");
+cdp-entra-add-uri-v2.cs:57:Console.WriteLine($"step4 fill: {FillResult.Trim()}");
+cdp-entra-add-uri-v2.cs:63:Console.WriteLine($"step5 save: {SaveResult.Trim()}");
+cdp-entra-click-configure.cs:31:if (HitIdx == 0) { Console.Error.WriteLine("no entra tab"); return 1; }
+cdp-entra-click-configure.cs:36:Console.WriteLine(Result);
+cdp-entra-find-save.cs:31:if (HitIdx == 0) { Console.Error.WriteLine("no entra tab"); return 1; }
+cdp-entra-find-save.cs:36:Console.WriteLine(Result);
+cdp-entra-form-state.cs:31:if (HitIdx == 0) { Console.Error.WriteLine("no entra tab"); return 1; }
+cdp-entra-form-state.cs:36:Console.WriteLine(Result);
+cdp-final-check.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-final-check.cs scripts/<config>.cs"); return 1; }
+cdp-final-check.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-final-check.cs:15:if (!Strings.TryGetValue("Needle", out var Needle)) { await Console.Error.WriteLineAsync("config missing const string Needle"); return 3; }
+cdp-final-check.cs:35:await Console.Out.WriteLineAsync(List);
+cdp-final-check.cs:41:if (HitUrl is null) { await Console.Error.WriteLineAsync($"no tab matching: {Needle}"); return 4; }
+cdp-final-check.cs:42:await Console.Out.WriteLineAsync($"selected page {HitIdx.ToString(System.Globalization.CultureInfo.InvariantCulture)}: {HitUrl}");
+cdp-final-check.cs:48:await Console.Out.WriteLineAsync(Result);
+cdp-fix-google-uri.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-fix-google-uri.cs scripts/<config>.cs"); return 1; }
+cdp-fix-google-uri.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-fix-google-uri.cs:37:if (HitUrl is null) { await Console.Error.WriteLineAsync($"no tab matching: {Needle}"); return 3; }
+cdp-fix-google-uri.cs:43:await Console.Out.WriteLineAsync($"click: {Click}");
+cdp-fix-google-uri.cs:50:await Console.Out.WriteLineAsync();
+cdp-fix-google-uri.cs:51:await Console.Out.WriteLineAsync("page state (focused + filled inputs):");
+cdp-fix-google-uri.cs:52:await Console.Out.WriteLineAsync(State);
+cdp-focus-google-uri.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-focus-google-uri.cs scripts/<config>.cs"); return 1; }
+cdp-focus-google-uri.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-focus-google-uri.cs:37:if (HitUrl is null) { await Console.Error.WriteLineAsync($"no tab matching: {Needle}"); return 3; }
+cdp-focus-google-uri.cs:38:await Console.Out.WriteLineAsync($"selecting page {HitIdx.ToString(System.Globalization.CultureInfo.InvariantCulture)}: {HitUrl}");
+cdp-focus-google-uri.cs:44:await Console.Out.WriteLineAsync(Result);
+cdp-focus-oauth-fields.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-focus-oauth-fields.cs scripts/<config>.cs"); return 1; }
+cdp-focus-oauth-fields.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-focus-oauth-fields.cs:65:            await Console.Out.WriteLineAsync($"{Label}: {Hint}:");
+cdp-focus-oauth-fields.cs:66:            await Console.Out.WriteLineAsync($"  {Callback}");
+cdp-focus-oauth-fields.cs:70:            await Console.Out.WriteLineAsync($"{Label}: page {NStr} - {Hint}:");
+cdp-focus-oauth-fields.cs:71:            await Console.Out.WriteLineAsync($"  {Callback}");
+cdp-focus-oauth-fields.cs:76:        await Console.Out.WriteLineAsync($"{Label}: NO TAB");
+cdp-focus-wolfs-uri.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-focus-wolfs-uri.cs scripts/<config>.cs"); return 1; }
+cdp-focus-wolfs-uri.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-focus-wolfs-uri.cs:41:        await Console.Out.WriteLineAsync("no Console tab — opening new one");
+cdp-focus-wolfs-uri.cs:64:if (EditUrl is null) { await Console.Error.WriteLineAsync("could not reach OAuth client edit page"); return 4; }
+cdp-focus-wolfs-uri.cs:71:await Console.Out.WriteLineAsync(Result);
+cdp-grab-github-app-link.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-grab-github-app-link.cs scripts/<config>.cs"); return 1; }
+cdp-grab-github-app-link.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-grab-github-app-link.cs:15:if (!Strings.TryGetValue("Url", out var TargetUrl)) { await Console.Error.WriteLineAsync("config missing const string Url"); return 3; }
+cdp-grab-github-app-link.cs:37:if (HitUrl is null) { await Console.Error.WriteLineAsync($"no tab matching: {TargetUrl}"); return 3; }
+cdp-grab-github-app-link.cs:44:await Console.Out.WriteLineAsync(Result);
+cdp-inspect-oauth.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-inspect-oauth.cs scripts/<config>.cs"); return 1; }
+cdp-inspect-oauth.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-inspect-oauth.cs:38:await Console.Out.WriteLineAsync("# Open pages");
+cdp-inspect-oauth.cs:39:await Console.Out.WriteLineAsync(PageList);
+cdp-inspect-oauth.cs:40:await Console.Out.WriteLineAsync();
+cdp-inspect-oauth.cs:50:    if (HitUrl is null) { await Console.Out.WriteLineAsync($"## {Needle}: NO TAB OPEN"); await Console.Out.WriteLineAsync(); continue; }
+cdp-inspect-oauth.cs:51:    await Console.Out.WriteLineAsync($"## {Needle} (page {HitIdx.ToString(System.Globalization.CultureInfo.InvariantCulture)}) — {HitUrl}");
+cdp-inspect-oauth.cs:54:    await Console.Out.WriteLineAsync(Scrape);
+cdp-inspect-oauth.cs:55:    await Console.Out.WriteLineAsync();
+cdp-inspect-oauth.cs:58:await Console.Out.WriteLineAsync($"Expected callback base: {ExpectedBase}");
+cdp-list-pages.cs:15:await Console.Out.WriteAsync(await Proc.StandardOutput.ReadToEndAsync());
+cdp-list-pages.cs:16:await Console.Error.WriteAsync(await Proc.StandardError.ReadToEndAsync());
+cdp-open-urls.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-open-urls.cs scripts/<config>.cs"); return 1; }
+cdp-open-urls.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-open-urls.cs:16:if (Urls.Count == 0) { await Console.Error.WriteLineAsync("no const string Url* declarations found"); return 3; }
+cdp-open-urls.cs:29:    await Console.Out.WriteLineAsync($"opened: {Url} (exit {Proc.ExitCode.ToString(System.Globalization.CultureInfo.InvariantCulture)})");
+cdp-pick-google-account.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-pick-google-account.cs scripts/<config>.cs"); return 1; }
+cdp-pick-google-account.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-pick-google-account.cs:17:    if (!Strings.ContainsKey(Required)) { await Console.Error.WriteLineAsync($"config missing const string {Required}"); return 3; }
+cdp-pick-google-account.cs:41:if (GoogleUrl is null) { await Console.Error.WriteLineAsync("no provider sign-in tab"); return 4; }
+cdp-pick-google-account.cs:42:await Console.Out.WriteLineAsync($"using page {GoogleIdx.ToString(System.Globalization.CultureInfo.InvariantCulture)}: {GoogleUrl[..Math.Min(GoogleUrl.Length, 100)]}...");
+cdp-pick-google-account.cs:47:await Console.Out.WriteLineAsync($"click: {ClickResult.Trim()}");
+cdp-pick-google-account.cs:57:await Console.Out.WriteLineAsync($"reading page {FinalIdx.ToString(System.Globalization.CultureInfo.InvariantCulture)}: {FinalUrl[..Math.Min(FinalUrl.Length, 100)]}...");
+cdp-pick-google-account.cs:62:await Console.Out.WriteLineAsync(State);
+cdp-probe-entra-deep.cs:11:if (args.Length < 1) { Console.Error.WriteLine("usage: dotnet run scripts/cdp-probe-entra-deep.cs scripts/<config>.cs"); return 1; }
+cdp-probe-entra-deep.cs:13:if (!File.Exists(SpecPath)) { Console.Error.WriteLine($"specific not found: {SpecPath}"); return 2; }
+cdp-probe-entra-deep.cs:38:if (HitIdx == 0) { var Nd = Strings["Needle"]; Console.Error.WriteLine($"no tab matching: {Nd}"); return 4; }
+cdp-probe-entra-deep.cs:43:Console.WriteLine(Result);
+cdp-probe-entra-frames.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-probe-entra-frames.cs scripts/<config>.cs"); return 1; }
+cdp-probe-entra-frames.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-probe-entra-frames.cs:34:        await Console.Out.WriteLineAsync(Line.TrimEnd());
+cdp-probe-entra-frames.cs:37:await Console.Out.WriteLineAsync("--- raw page list ---");
+cdp-probe-entra-frames.cs:38:await Console.Out.WriteLineAsync(List);
+cdp-probe-entra-save.cs:30:if (HitIdx == 0) { Console.Error.WriteLine("no entra tab"); return 1; }
+cdp-probe-entra-save.cs:35:Console.WriteLine(Result);
+cdp-probe-entra.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-probe-entra.cs scripts/<config>.cs"); return 1; }
+cdp-probe-entra.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-probe-entra.cs:17:    if (!Strings.ContainsKey(Required)) { await Console.Error.WriteLineAsync($"specific missing const string {Required}"); return 3; }
+cdp-probe-entra.cs:40:if (HitUrl is null) { await Console.Error.WriteLineAsync($"no tab matching: {Strings["Needle"]}"); return 4; }
+cdp-probe-entra.cs:41:await Console.Out.WriteLineAsync($"target page {HitIdx.ToString(System.Globalization.CultureInfo.InvariantCulture)}: {HitUrl[..Math.Min(HitUrl.Length, 120)]}");
+cdp-probe-entra.cs:46:await Console.Out.WriteLineAsync(Result);
+cdp-probe-google-text.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-probe-google-text.cs scripts/<config>.cs"); return 1; }
+cdp-probe-google-text.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-probe-google-text.cs:37:if (HitUrl is null) { await Console.Error.WriteLineAsync($"no tab matching: {Needle}"); return 3; }
+cdp-probe-google-text.cs:38:await Console.Out.WriteLineAsync($"page {HitIdx.ToString(System.Globalization.CultureInfo.InvariantCulture)}: {HitUrl}");
+cdp-probe-google-text.cs:45:await Console.Out.WriteLineAsync(Result);
+cdp-probe-okta.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-probe-okta.cs scripts/<config>.cs"); return 1; }
+cdp-probe-okta.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-probe-okta.cs:38:    await Console.Error.WriteLineAsync($"no admin tab matching: {Strings["Needle"]}");
+cdp-probe-okta.cs:39:    await Console.Out.WriteLineAsync("available pages:");
+cdp-probe-okta.cs:40:    foreach (var (Idx, Url) in Pages) { await Console.Out.WriteLineAsync($"  {Idx.ToString(System.Globalization.CultureInfo.InvariantCulture)}: {Url[..Math.Min(Url.Length, 120)]}"); }
+cdp-probe-okta.cs:43:await Console.Out.WriteLineAsync($"found page {HitIdx.ToString(System.Globalization.CultureInfo.InvariantCulture)}: {HitUrl[..Math.Min(HitUrl.Length, 120)]}");
+cdp-probe-okta.cs:50:await Console.Out.WriteLineAsync(Result);
+cdp-probe-tab.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-probe-tab.cs scripts/<config>.cs"); return 1; }
+cdp-probe-tab.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-probe-tab.cs:38:    await Console.Error.WriteLineAsync($"no tab matching: {Strings["Needle"]}");
+cdp-probe-tab.cs:39:    foreach (var (Idx, Url) in Pages) { await Console.Out.WriteLineAsync($"  {Idx.ToString(System.Globalization.CultureInfo.InvariantCulture)}: {Url[..Math.Min(Url.Length, 120)]}"); }
+cdp-probe-tab.cs:42:await Console.Out.WriteLineAsync($"page {HitIdx.ToString(System.Globalization.CultureInfo.InvariantCulture)}: {HitUrl[..Math.Min(HitUrl.Length, 120)]}");
+cdp-probe-tab.cs:47:await Console.Out.WriteLineAsync(Result);
+cdp-read-entra-uris.cs:11:if (args.Length < 1) { Console.Error.WriteLine("usage: dotnet run scripts/cdp-read-entra-uris.cs scripts/<config>.cs"); return 1; }
+cdp-read-entra-uris.cs:13:if (!File.Exists(SpecPath)) { Console.Error.WriteLine($"specific not found: {SpecPath}"); return 2; }
+cdp-read-entra-uris.cs:20:    if (!Strings.ContainsKey(Required)) { Console.Error.WriteLine($"specific missing const string {Required}"); return 3; }
+cdp-read-entra-uris.cs:43:if (HitUrl is null) { Console.Error.WriteLine($"no tab matching: {Needle}"); return 4; }
+cdp-read-entra-uris.cs:44:Console.WriteLine($"target page {HitIdx}: {HitUrl[..Math.Min(HitUrl.Length, 120)]}");
+cdp-read-entra-uris.cs:50:Console.WriteLine(Result);
+cdp-read-github-callback.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-read-github-callback.cs scripts/<config>.cs"); return 1; }
+cdp-read-github-callback.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-read-github-callback.cs:17:    if (!Strings.ContainsKey(Required)) { await Console.Error.WriteLineAsync($"specific missing const string {Required}"); return 3; }
+cdp-read-github-callback.cs:40:if (HitUrl is null) { await Console.Error.WriteLineAsync($"no tab matching: {Strings["PageNeedle"]}"); return 4; }
+cdp-read-github-callback.cs:47:await Console.Out.WriteLineAsync($"click: {ClickResult.Trim()}");
+cdp-read-github-callback.cs:54:await Console.Out.WriteLineAsync(Result);
+cdp-read-google-uris.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-read-google-uris.cs scripts/<config>.cs"); return 1; }
+cdp-read-google-uris.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-read-google-uris.cs:37:if (HitUrl is null) { await Console.Error.WriteLineAsync($"no tab matching: {Needle}"); return 3; }
+cdp-read-google-uris.cs:43:await Console.Out.WriteLineAsync(Result);
+cdp-renav-github.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-renav-github.cs scripts/<config>.cs"); return 1; }
+cdp-renav-github.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-renav-github.cs:36:if (HitUrl is null) { await Console.Error.WriteLineAsync($"no tab matching: {Strings["Needle"]}"); return 3; }
+cdp-renav-github.cs:44:await Console.Out.WriteLineAsync($"click: {ClickResult.Trim()}");
+cdp-renav-github.cs:51:await Console.Out.WriteLineAsync(Result);
+cdp-renav-google.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-renav-google.cs scripts/<config>.cs"); return 1; }
+cdp-renav-google.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-renav-google.cs:36:if (HitUrl is null) { await Console.Error.WriteLineAsync($"no tab matching: {Strings["Needle"]}"); return 3; }
+cdp-renav-google.cs:44:await Console.Out.WriteLineAsync(Result);
+cdp-snapshot-oauth.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-snapshot-oauth.cs scripts/<config>.cs"); return 1; }
+cdp-snapshot-oauth.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-snapshot-oauth.cs:45:    if (HitUrl is null) { await Console.Out.WriteLineAsync($"## {Needle}: NO TAB"); continue; }
+cdp-snapshot-oauth.cs:46:    await Console.Out.WriteLineAsync($"## {Needle} (page {HitIdx.ToString(System.Globalization.CultureInfo.InvariantCulture)})");
+cdp-snapshot-oauth.cs:47:    await Console.Out.WriteLineAsync($"   url: {HitUrl}");
+cdp-snapshot-oauth.cs:50:    foreach (var L in Snap.Split('\n').Where(L => Filters.Any(F => L.Contains(F, StringComparison.OrdinalIgnoreCase))).Take(30)) { await Console.Out.WriteLineAsync($"   {L.Trim()}"); }
+cdp-snapshot-oauth.cs:51:    await Console.Out.WriteLineAsync();
+cdp-test-github-sso.cs:11:if (args.Length < 1) { Console.Error.WriteLine("usage: dotnet run scripts/cdp-test-github-sso.cs scripts/<config>.cs"); return 1; }
+cdp-test-github-sso.cs:13:if (!File.Exists(SpecPath)) { Console.Error.WriteLine($"specific not found: {SpecPath}"); return 2; }
+cdp-test-github-sso.cs:20:    if (!Strings.ContainsKey(Required)) { Console.Error.WriteLine($"config missing const string {Required}"); return 3; }
+cdp-test-github-sso.cs:39:Console.WriteLine($"step 1: opening {LoginUrl}");
+cdp-test-github-sso.cs:43:Console.WriteLine("step 1b: select Login tab explicitly");
+cdp-test-github-sso.cs:48:if (LoginUrlMatch is null) { Console.Error.WriteLine("Login tab not found"); return 4; }
+cdp-test-github-sso.cs:49:Console.WriteLine($"  selected page {LoginIdx}: {LoginUrlMatch}");
+cdp-test-github-sso.cs:53:Console.WriteLine("step 2: clicking provider SSO button");
+cdp-test-github-sso.cs:57:Console.WriteLine($"  {ClickResult.Trim()}");
+cdp-test-github-sso.cs:59:Console.WriteLine("step 3: waiting for OAuth round-trip (10s)");
+cdp-test-github-sso.cs:62:Console.WriteLine("step 4: reading current page");
+cdp-test-github-sso.cs:66:Console.WriteLine(State);
+cdp-test-google-sso.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-test-google-sso.cs scripts/<config>.cs"); return 1; }
+cdp-test-google-sso.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-test-google-sso.cs:17:    if (!Strings.ContainsKey(Required)) { await Console.Error.WriteLineAsync($"config missing const string {Required}"); return 3; }
+cdp-test-google-sso.cs:36:await Console.Out.WriteLineAsync($"step 1: opening {LoginUrl}");
+cdp-test-google-sso.cs:40:await Console.Out.WriteLineAsync("step 1b: select Login tab explicitly");
+cdp-test-google-sso.cs:46:if (LoginUrlMatch is null) { await Console.Error.WriteLineAsync("Login tab not found"); return 4; }
+cdp-test-google-sso.cs:47:await Console.Out.WriteLineAsync($"  selected page {LoginIdx.ToString(System.Globalization.CultureInfo.InvariantCulture)}: {LoginUrlMatch}");
+cdp-test-google-sso.cs:51:await Console.Out.WriteLineAsync("step 2: clicking provider SSO button");
+cdp-test-google-sso.cs:55:await Console.Out.WriteLineAsync($"  {ClickResult.Trim()}");
+cdp-test-google-sso.cs:57:await Console.Out.WriteLineAsync("step 3: waiting for OAuth round-trip (8s)");
+cdp-test-google-sso.cs:60:await Console.Out.WriteLineAsync("step 4: reading current page");
+cdp-test-google-sso.cs:64:await Console.Out.WriteLineAsync(State);
+cdp-verify-google-sso.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-verify-google-sso.cs scripts/<config>.cs"); return 1; }
+cdp-verify-google-sso.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-verify-google-sso.cs:14:if (!Url0Match.Success) { await Console.Error.WriteLineAsync("config missing const string Url0"); return 3; }
+cdp-verify-google-sso.cs:36:await Console.Out.WriteLineAsync("# Pages after navigation");
+cdp-verify-google-sso.cs:37:await Console.Out.WriteLineAsync(ListAfter);
+cdp-verify-google-sso.cs:42:await Console.Out.WriteLineAsync("# Current page state");
+cdp-verify-google-sso.cs:43:await Console.Out.WriteLineAsync(Result);
+cdp-verify-section.cs:8:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/cdp-verify-section.cs scripts/<config>.cs"); return 1; }
+cdp-verify-section.cs:10:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+cdp-verify-section.cs:36:if (HitUrl is null) { await Console.Error.WriteLineAsync("no edit-page tab"); return 3; }
+cdp-verify-section.cs:43:await Console.Out.WriteLineAsync(Result);
+cdp-verify-section.cs:44:await Console.Out.WriteLineAsync();
+cdp-verify-section.cs:45:await Console.Out.WriteLineAsync($"Expected exact match: '{Strings["TargetValue"]}'");
+cdp-verify-section.cs:46:await Console.Out.WriteLineAsync($"Expected section: '{Strings["ExpectedSection"]}'");
+CdpCommands.cs:23:        Console.WriteLine("## Pages");
+CdpCommands.cs:28:            Console.WriteLine(string.Concat(Index + 1, CdpMsg.ColonSpace, Url, Title.Length > 0 ? string.Concat(CdpMsg.ParenOpen, Title, CdpMsg.ParenClose) : string.Empty));
+CdpCommands.cs:34:        if (!Args.TryGetValue(CdpArg.PageId, out var PageId)) { Console.Error.WriteLine("Required: pageId"); return; }
+CdpCommands.cs:37:        if (Index < 0 || Index >= Pages.Count) { Console.Error.WriteLine(string.Concat(CdpMsg.InvalidPageIdRange, Pages.Count)); return; }
+CdpCommands.cs:39:        Console.WriteLine(string.Concat(CdpMsg.SelectedPage, int.Parse(PageId.ToString()!, System.Globalization.CultureInfo.InvariantCulture), CdpMsg.ColonSpace, Pages[Index][CdpKey.Url]));
+CdpCommands.cs:44:        if (!Args.TryGetValue(CdpArg.PageId, out var PageId)) { Console.Error.WriteLine("Required: pageId"); return; }
+CdpCommands.cs:47:        if (Index < 0 || Index >= Pages.Count) { Console.Error.WriteLine("Invalid pageId"); return; }
+CdpCommands.cs:49:        Console.WriteLine(string.Concat(CdpMsg.ClosedPage, int.Parse(PageId.ToString()!, System.Globalization.CultureInfo.InvariantCulture)));
+CdpCommands.cs:58:        Console.WriteLine(string.Concat(CdpMsg.Opened, Url));
+CdpCommands.cs:76:                    if (!Args.TryGetValue(CdpKey.Url, out var NavUrl)) { Console.Error.WriteLine("Required: url"); return; }
+CdpCommands.cs:79:                    Console.WriteLine(string.Concat(CdpMsg.NavigatedTo, NavUrl)); break;
+CdpCommands.cs:86:            Console.WriteLine(string.Concat(CdpMsg.NavigatedTo, DirectUrl));
+CdpCommands.cs:119:        Console.WriteLine(string.Concat(CdpMsg.ScreenshotSaved, OutputPath));
+CdpCommands.cs:138:        if (Args.TryGetValue(CdpArg.FilePath, out var FilePath)) { File.WriteAllText(FilePath.ToString()!, Content); Console.WriteLine(string.Concat(CdpMsg.SnapshotSaved, FilePath)); }
+CdpCommands.cs:139:        else { Console.Write(Content); }
+CdpCommands.cs:144:        if (!Args.TryGetValue(CdpArg.Function, out var Function)) { Console.Error.WriteLine("Required: function"); return; }
+CdpCommands.cs:147:        if (Result?[CdpKey.ExceptionDetails] != null) { Console.Error.WriteLine(string.Concat(CdpMsg.ErrorLabel, Result[CdpKey.ExceptionDetails]![CdpKey.Text])); }
+CdpCommands.cs:148:        else { Console.WriteLine(Result?[CdpKey.Result]?[CdpKey.Value] != null ? JsonSerializer.Serialize(Result[CdpKey.Result]![CdpKey.Value], JsonIndented) : CdpEscape.Undefined); }
+CdpCommands.cs:153:        if (!Args.TryGetValue(CdpArg.Uid, out var Uid)) { Console.Error.WriteLine("Required: uid"); return; }
+CdpCommands.cs:158:        Console.WriteLine(await EvaluateExpressionAsync(string.Format(System.Globalization.CultureInfo.InvariantCulture, CdpJs.ClickScript, Sel, Escaped, DoubleClick ? CdpJs.ClickAgain : string.Empty), true));
+CdpCommands.cs:163:        if (!Args.TryGetValue(CdpArg.Uid, out var Uid)) { Console.Error.WriteLine("Required: uid"); return; }
+CdpCommands.cs:165:        Console.WriteLine(await EvaluateExpressionAsync(string.Format(System.Globalization.CultureInfo.InvariantCulture, CdpJs.HoverScript, BuildUidSelector(Uid.ToString()!))));
+CdpCommands.cs:170:        if (!Args.TryGetValue(CdpArg.Uid, out var Uid) || !Args.TryGetValue(CdpKey.Value, out var Value)) { Console.Error.WriteLine("Required: uid, value"); return; }
+CdpCommands.cs:173:        Console.WriteLine(await EvaluateExpressionAsync(string.Format(System.Globalization.CultureInfo.InvariantCulture, CdpJs.FillScript, BuildUidSelector(Uid.ToString()!), Escaped)));
+CdpCommands.cs:178:        if (!Args.TryGetValue(CdpKey.Text, out var Text)) { Console.Error.WriteLine("Required: text"); return; }
+CdpCommands.cs:182:        Console.WriteLine(string.Concat(CdpMsg.Typed, Text));
+CdpCommands.cs:187:        if (!Args.TryGetValue(CdpKey.Key, out var Key)) { Console.Error.WriteLine("Required: key"); return; }
+CdpCommands.cs:194:        Console.WriteLine(string.Concat(CdpMsg.Pressed, Key));
+CdpCommands.cs:201:        if (Messages.Count == 0) { Console.WriteLine("No console messages captured."); return; }
+CdpCommands.cs:202:        Console.WriteLine("## Console Messages");
+CdpCommands.cs:209:                Console.WriteLine($"{CdpMsg.SquareOpen}{MsgType}{CdpMsg.BracketClose}{Content}");
+CdpCommands.cs:213:                Console.WriteLine($"{CdpMsg.ErrorLog}{Msg[CdpKey.Params]![CdpKey.ExceptionDetails]?[CdpKey.Text]}");
+CdpCommands.cs:222:        if (Requests.Count == 0) { Console.WriteLine("No network requests captured."); return; }
+CdpCommands.cs:223:        Console.WriteLine("## Network Requests");
+CdpCommands.cs:227:            Console.WriteLine($"{Counter++}{CdpMsg.DotSpace}{Request[CdpKey.Params]![CdpKey.Request]![CdpKey.Method]} {Request[CdpKey.Params]![CdpKey.Request]![CdpKey.Url]}");
+CdpCommands.cs:233:        if (!Args.TryGetValue(CdpKey.Width, out var Width) || !Args.TryGetValue(CdpKey.Height, out var Height)) { Console.Error.WriteLine("Required: width, height"); return; }
+CdpCommands.cs:240:        Console.WriteLine(string.Create(System.Globalization.CultureInfo.InvariantCulture, $"{CdpMsg.ResizedTo}{Width}{CdpMsg.Separator}{Height}{MobileSuffix}{DsfSuffix}"));
+CdpCommands.cs:262:        Console.WriteLine("Emulation applied");
+CdpCommands.cs:267:        if (!Args.TryGetValue(CdpArg.Action, out var Action)) { Console.Error.WriteLine("Required: action (accept|dismiss)"); return; }
+CdpCommands.cs:271:        Console.WriteLine(string.Concat(CdpMsg.DialogPrefix, Action, CdpMsg.DialogSuffix));
+CdpCommands.cs:276:        if (!Args.TryGetValue(CdpArg.FromUid, out var FromUid) || !Args.TryGetValue(CdpArg.ToUid, out var ToUid)) { Console.Error.WriteLine("Required: from_uid, to_uid"); return; }
+CdpCommands.cs:278:        Console.WriteLine(await EvaluateExpressionAsync(string.Format(System.Globalization.CultureInfo.InvariantCulture, CdpJs.DragScript, BuildUidSelector(FromUid.ToString()!), BuildUidSelector(ToUid.ToString()!))));
+CdpCommands.cs:283:        if (!Args.TryGetValue(CdpArg.Uid, out var Uid) || !Args.TryGetValue(CdpArg.FilePath, out var FilePath)) { Console.Error.WriteLine("Required: uid, filePath"); return; }
+CdpCommands.cs:290:            Console.WriteLine(string.Concat(CdpMsg.Uploaded, FilePath));
+CdpCommands.cs:292:        else { Console.Error.WriteLine("File input not found"); }
+CdpSetup.cs:62:                    Console.Error.WriteLine("Chrome not on current desktop, switching right...");
+CdpSetup.cs:80:                    Console.Error.WriteLine($"Window: {Window.Current.Name} hwnd={WindowHandle}");
+CdpSetup.cs:83:                        Console.Error.WriteLine($"  Button: '{Button.Current.Name}' rect={Button.Current.BoundingRectangle}");
+CdpSetup.cs:107:                    Console.Error.WriteLine($"Allow button rect: {Rect} empty={Rect.IsEmpty}");
+CdpSetup.cs:116:                        Console.Error.WriteLine($"Mouse click at {X},{Y}");
+CdpSetup.cs:143:                Console.Error.WriteLine($"{CdpShell.ClickedPrefix} {CdpProto.AllowButtonName}");
+CdpSetup.cs:149:                Console.Error.WriteLine("Allow button not found in any Chrome window");
+CdpSetup.cs:158:                Console.Error.WriteLine($"ClickAllowPrompt error: {Ex.Message}");
+CdpSetup.cs:208:                            Console.Error.WriteLine($"Infobar Close at {(int)Rect.X},{(int)Rect.Y} rect={Rect}");
+CdpSetup.cs:220:                            Console.Error.WriteLine("Dismissed infobar (invoke)");
+CdpSetup.cs:233:                        Console.Error.WriteLine($"Mouse click at {X},{Y}");
+CdpSetup.cs:241:                    Console.Error.WriteLine("Dismissed infobar (click)");
+CdpSetup.cs:248:                Console.Error.WriteLine("Infobar not found");
+CdpSetup.cs:257:                Console.Error.WriteLine($"DismissInfobar error: {Ex.Message}");
+CdpSetup.cs:273:        Console.WriteLine(string.Concat(CdpMsg.ScreenshotSaved, OutputPath));
+CdpSetup.cs:348:            Console.Error.WriteLine("Chrome not found");
+CdpSetup.cs:373:        Console.WriteLine($"Navigated to {Url}");
+CdpSetup.cs:386:            Console.WriteLine("Chrome focused");
+CdpSetup.cs:397:            Console.WriteLine("Chrome focused");
+CdpSetup.cs:407:            Console.WriteLine("Chrome focused");
+CdpSetup.cs:411:            Console.Error.WriteLine("Chrome not found");
+CdpSetup.cs:556:        Console.Write("chrome-devtools.cs - Pure .NET 11 Chrome DevTools CLI\n");
+CdpSetup.cs:557:        Console.Write("\n");
+CdpSetup.cs:558:        Console.Write("Usage: dotnet run -- <command> [args] [--options]\n");
+CdpSetup.cs:559:        Console.Write("\n");
+CdpSetup.cs:560:        Console.Write("Connects via raw CDP WebSocket. Auto-clicks Allow prompt (DPI-aware).\n");
+CdpSetup.cs:561:        Console.Write("\n");
+CdpSetup.cs:562:        Console.Write("Navigation:\n");
+CdpSetup.cs:563:        Console.Write("  list_pages                              List open pages\n");
+CdpSetup.cs:564:        Console.Write("  select_page <pageId>                    Select page\n");
+CdpSetup.cs:565:        Console.Write("  close_page <pageId>                     Close page\n");
+CdpSetup.cs:566:        Console.Write("  new_page <url>                          Open new tab\n");
+CdpSetup.cs:567:        Console.Write("  navigate_page --type url --url <url>    Navigate (url|back|forward|reload)\n");
+CdpSetup.cs:568:        Console.Write("\n");
+CdpSetup.cs:569:        Console.Write("Debugging:\n");
+CdpSetup.cs:570:        Console.Write("  take_screenshot [--filePath] [--format] [--fullPage] [--quality]\n");
+CdpSetup.cs:571:        Console.Write("  take_snapshot [--filePath]\n");
+CdpSetup.cs:572:        Console.Write("  evaluate_script <function>              Run JS\n");
+CdpSetup.cs:573:        Console.Write("  list_console_messages                   Console output\n");
+CdpSetup.cs:574:        Console.Write("  list_network_requests                   Network requests\n");
+CdpSetup.cs:575:        Console.Write("\n");
+CdpSetup.cs:576:        Console.Write("Input:\n");
+CdpSetup.cs:577:        Console.Write("  click <uid> [--dblClick]                Click element\n");
+CdpSetup.cs:578:        Console.Write("  hover <uid>                             Hover element\n");
+CdpSetup.cs:579:        Console.Write("  fill <uid> <value>                      Fill input/select\n");
+CdpSetup.cs:580:        Console.Write("  type_text <text> [--submitKey Enter]    Type text\n");
+CdpSetup.cs:581:        Console.Write("  press_key <key>                         Key combo (Control+A)\n");
+CdpSetup.cs:582:        Console.Write("  drag <from_uid> <to_uid>               Drag and drop\n");
+CdpSetup.cs:583:        Console.Write("  handle_dialog <accept|dismiss>          Handle dialog\n");
+CdpSetup.cs:584:        Console.Write("  upload_file --uid <uid> --filePath <p>  Upload file\n");
+CdpSetup.cs:585:        Console.Write("\n");
+CdpSetup.cs:586:        Console.Write("Emulation:\n");
+CdpSetup.cs:587:        Console.Write("  resize_page <width> <height>            Resize viewport\n");
+CdpSetup.cs:588:        Console.Write("  emulate [--userAgent] [--geolocation] [--colorScheme]\n");
+CdpSetup.cs:589:        Console.Write("\n");
+CdpSetup.cs:590:        Console.Write("Utility:\n");
+CdpSetup.cs:591:        Console.Write("  allow                                   Click Allow prompt\n");
+check-python.cs:20:    await Console.Out.WriteLineAsync(Out.Trim());
+check-python.cs:25:    await Console.Error.WriteLineAsync("python not found in PATH");
+chrome-devtools-verify.cs:49:if (!File.Exists(ActivePortFile)) { await Console.Error.WriteLineAsync("DevToolsActivePort not found"); return 3; }
+chrome-devtools-verify.cs:52:if (PortLines.Length < 1) { await Console.Error.WriteLineAsync("DevToolsActivePort empty"); return 4; }
+chrome-devtools-verify.cs:71:catch (Exception Ex) { await Console.Error.WriteLineAsync($"connect failed: {Ex.Message}"); return 5; }
+chrome-devtools-verify.cs:73:if (Ws.State != WebSocketState.Open) { await Console.Error.WriteLineAsync($"WS not open: {Ws.State}"); return 6; }
+chrome-devtools-verify.cs:115:    if (string.IsNullOrEmpty(Product)) { await Console.Error.WriteLineAsync("no Browser.getVersion product"); return 7; }
+chrome-devtools-verify.cs:129:    if (string.IsNullOrEmpty(PageTargetId)) { await Console.Error.WriteLineAsync("no page target"); return 8; }
+chrome-devtools-verify.cs:153:        await Console.Error.WriteLineAsync($"layoutMetrics: {Layout.ToJsonString()}");
+chrome-devtools-verify.cs:160:            await Console.Error.WriteLineAsync($"saved {Out} {new FileInfo(Out).Length} bytes");
+chrome-devtools-verify.cs:164:            await Console.Error.WriteLineAsync($"shot returned no data: {Shot.ToJsonString()}");
+chrome-devtools-verify.cs:170:    await Console.Error.WriteLineAsync($"verify error: {Ex.Message}");
+chrome-devtools.cs:111:            Console.Write(await Response.Content.ReadAsStringAsync());
+chrome-devtools.cs:126:        Console.Error.WriteLine($"serve: connected, listening on http://127.0.0.1:{ServePort}");
+chrome-devtools.cs:146:            var OldOut = Console.Out;
+chrome-devtools.cs:147:            var OldErr = Console.Error;
+chrome-devtools.cs:148:            Console.SetOut(new System.IO.StringWriter(Output));
+chrome-devtools.cs:149:            Console.SetError(new System.IO.StringWriter(Output));
+chrome-devtools.cs:191:            Console.SetOut(OldOut);
+chrome-devtools.cs:192:            Console.SetError(OldErr);
+chrome-devtools.cs:312:                Console.Error.WriteLine($"{CdpMsg.UnknownCommand}{Command}");
+chrome-devtools.cs:327:            Console.Error.WriteLine(CdpMsg.ChromeNotRunning);
+chrome-devtools.cs:333:            Console.Error.WriteLine("Desktop Chrome has no CDP port. Restarting with --remote-debugging-port...");
+chrome-devtools.cs:360:            Console.Error.WriteLine($"Connecting to {Endpoint}");
+chrome-devtools.cs:378:                    Console.Error.WriteLine($"WS not open after Allow click: {WebSocket.State}");
+chrome-devtools.cs:382:                Console.Error.WriteLine("Connected!");
+chrome-devtools.cs:393:                Console.Error.WriteLine($"Connect failed: {Ex.Message}");
+chrome-devtools.cs:398:        Console.Error.WriteLine("Cannot connect. Enable: chrome://inspect/#remote-debugging");
+chrome-devtools.cs:549:            Console.Error.WriteLine("No pages open");
+click-at.cs:9:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/click-at.cs scripts/<click-at-X>-config.cs"); return 1; }
+click-at.cs:11:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+click-at.cs:17:if (!Nums.TryGetValue("X", out var X)) { await Console.Error.WriteLineAsync("specific must declare const int X"); return 3; }
+click-at.cs:18:if (!Nums.TryGetValue("Y", out var Y)) { await Console.Error.WriteLineAsync("specific must declare const int Y"); return 4; }
+count-lines.cs:6:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/count-lines.cs scripts/<config>.cs"); return 1; }
+count-lines.cs:8:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+count-lines.cs:22:    await Console.Error.WriteLineAsync("specific must declare const string FilePath, Root, and Pattern");
+count-lines.cs:28:    if (Pattern.Length == 0) { await Console.Error.WriteLineAsync("multi-file mode requires non-empty Pattern"); return 5; }
+count-lines.cs:29:    if (!Directory.Exists(Root)) { await Console.Error.WriteLineAsync($"root not found: {Root}"); return 4; }
+count-lines.cs:35:        await Console.Out.WriteLineAsync($"{Count.ToString(System.Globalization.CultureInfo.InvariantCulture)}\t{Rel}");
+count-lines.cs:38:    await Console.Out.WriteLineAsync($"{Total.ToString(System.Globalization.CultureInfo.InvariantCulture)}\ttotal");
+count-lines.cs:42:if (FilePath.Length == 0) { await Console.Error.WriteLineAsync("single-file mode requires non-empty FilePath"); return 6; }
+count-lines.cs:43:if (!File.Exists(FilePath)) { await Console.Error.WriteLineAsync($"file not found: {FilePath}"); return 7; }
+count-lines.cs:45:await Console.Out.WriteLineAsync($"{Lines.ToString(System.Globalization.CultureInfo.InvariantCulture)}\t{Path.GetFileName(FilePath)}");
+debug-capture.cs:75:    Console.WriteLine($"target: type={TyType} url={TyUrl}");
+debug-capture.cs:80:Console.WriteLine($"\nattaching to: {Picked["url"]}");
+debug-capture.cs:84:Console.WriteLine($"sessionId: {Sid}");
+debug-capture.cs:93:Console.WriteLine($"\nLayoutMetrics:\n{Metrics["result"]?.ToJsonString(new JsonSerializerOptions { WriteIndented = true })}");
+debug-capture.cs:96:Console.WriteLine($"\nWindow Eval:\n{Eval["result"]?["result"]?["value"]?.GetValue<string>()}");
+debug-capture.cs:100:Console.WriteLine($"\nNo-clip PNG bytes: {Convert.FromBase64String(B1).Length}");
+debug-capture.cs:105:Console.WriteLine($"BeyondViewport PNG bytes: {Convert.FromBase64String(B2).Length}");
+delete-lines.cs:4:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/delete-lines.cs scripts/<delete-lines-X>-config.cs"); return 1; }
+delete-lines.cs:6:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+delete-lines.cs:14:if (!Strs.TryGetValue("TargetFile", out var TargetFile)) { await Console.Error.WriteLineAsync("specific must declare const string TargetFile"); return 3; }
+delete-lines.cs:15:if (!Ints.TryGetValue("StartLine", out var StartLine)) { await Console.Error.WriteLineAsync("specific must declare const int StartLine"); return 4; }
+delete-lines.cs:16:if (!Ints.TryGetValue("EndLine", out var EndLine)) { await Console.Error.WriteLineAsync("specific must declare const int EndLine"); return 5; }
+delete-lines.cs:17:if (!File.Exists(TargetFile)) { await Console.Error.WriteLineAsync($"target not found: {TargetFile}"); return 6; }
+delete-lines.cs:18:if (StartLine < 1 || EndLine < StartLine) { await Console.Error.WriteLineAsync($"invalid range {StartLine.ToString(System.Globalization.CultureInfo.InvariantCulture)}..{EndLine.ToString(System.Globalization.CultureInfo.InvariantCulture)}"); return 7; }
+delete-lines.cs:21:if (EndLine > Lines.Length) { await Console.Error.WriteLineAsync($"EndLine {EndLine.ToString(System.Globalization.CultureInfo.InvariantCulture)} exceeds file length {Lines.Length.ToString(System.Globalization.CultureInfo.InvariantCulture)}"); return 8; }
+delete-lines.cs:25:await Console.Out.WriteLineAsync($"delete-lines: removed {(EndLine - StartLine + 1).ToString(System.Globalization.CultureInfo.InvariantCulture)} lines ({StartLine.ToString(System.Globalization.CultureInfo.InvariantCulture)}..{EndLine.ToString(System.Globalization.CultureInfo.InvariantCulture)}) from {TargetFile}");
+deploy-worker.cs:11:    await Console.Out.WriteAsync(await EmitProc.StandardOutput.ReadToEndAsync());
+deploy-worker.cs:12:    await Console.Error.WriteAsync(await EmitProc.StandardError.ReadToEndAsync());
+deploy-worker.cs:14:    if (EmitProc.ExitCode != 0) { await Console.Error.WriteLineAsync("emit-worker failed"); return EmitProc.ExitCode; }
+deploy-worker.cs:17:if (!File.Exists(DeployWorkerPaths.SecretsPath)) { await Console.Error.WriteLineAsync($"secrets.json not found: {DeployWorkerPaths.SecretsPath}"); return 2; }
+deploy-worker.cs:24:    await Console.Error.WriteLineAsync("missing Cloudflare creds in secrets.json");
+deploy-worker.cs:44:    await Console.Out.WriteAsync(await Proc.StandardOutput.ReadToEndAsync());
+deploy-worker.cs:45:    await Console.Error.WriteAsync(await Proc.StandardError.ReadToEndAsync());
+deploy-worker.cs:51:catch (IOException Ex) { await Console.Error.WriteLineAsync($"cleanup: {Ex.Message}"); }
+dotnet-build.cs:6:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/dotnet-build.cs scripts/<config>.cs"); return 1; }
+dotnet-build.cs:8:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+dotnet-build.cs:18:if (Target is null || Repo is null) { await Console.Error.WriteLineAsync("specific must declare const string Target and Repo"); return 3; }
+dotnet-build.cs:19:if (!File.Exists(Target)) { await Console.Error.WriteLineAsync($"target not found: {Target}"); return 4; }
+dotnet-build.cs:31:if (P.ExitCode == 0) { await Console.Out.WriteLineAsync("OK"); return 0; }
+dotnet-build.cs:34:    await Console.Out.WriteLineAsync(L.Trim());
+dump-file.cs:7:    await Console.Out.WriteLineAsync("usage: dotnet run scripts/dump-file.cs -- <path> [--lines L1 L2 | --bytes B1 B2 | --grep regex]");
+dump-file.cs:8:    await Console.Out.WriteLineAsync("       dotnet run scripts/dump-file.cs scripts/<config>.cs   (reads const Path/Mode/LineStart/LineEnd/BytePos/ByteLen/Pattern)");
+dump-file.cs:34:        if (Forward.Length == 0) { await Console.Error.WriteLineAsync($"unknown Mode: {SpecMode}"); return 4; }
+dump-file.cs:40:if (!File.Exists(Path)) { await Console.Error.WriteLineAsync($"not found: {Path}"); return 2; }
+dump-file.cs:50:    for (var I = Start; I < All.Length; I++) { await Console.Out.WriteLineAsync(All[I]); }
+dump-file.cs:61:        await Console.Out.WriteLineAsync($"{(I + 1).ToString(System.Globalization.CultureInfo.InvariantCulture)}\t{Lines[I]}");
+dump-file.cs:74:    await Console.Out.WriteAsync(System.Text.Encoding.UTF8.GetString(Buf, 0, N));
+dump-file.cs:84:        if (Re.IsMatch(Lines[I])) { await Console.Out.WriteLineAsync($"{(I + 1).ToString(System.Globalization.CultureInfo.InvariantCulture)}\t{Lines[I]}"); }
+dump-file.cs:91:await Console.Out.WriteAsync(await Sr.ReadToEndAsync());
+dump-uia-after-allow.cs:27:    Console.WriteLine("--- cdp-allow stdout ---");
+dump-uia-after-allow.cs:28:    Console.WriteLine(await P.StandardOutput.ReadToEndAsync());
+dump-uia-after-allow.cs:29:    Console.WriteLine("--- cdp-allow stderr ---");
+dump-uia-after-allow.cs:30:    Console.WriteLine(await P.StandardError.ReadToEndAsync());
+dump-uia-after-allow.cs:39:Console.WriteLine($"\nChrome windows found: {Windows.Count}");
+dump-uia-after-allow.cs:43:    Console.WriteLine($"\n=== Window {Window.Current.Name} rect=({(int)Wr.X},{(int)Wr.Y} {(int)Wr.Width}x{(int)Wr.Height}) ===");
+dump-uia-after-allow.cs:54:        Console.WriteLine($"  btn name='{Name}' autoid='{AutoId}' class='{ClassName}' rect=({(int)Rect.X},{(int)Rect.Y} {(int)Rect.Width}x{(int)Rect.Height}) relY={(int)RelY}");
+dump-uia-all.cs:20:    Console.WriteLine($"\n=== Window {Window.Current.Name} rect=({(int)Wr.X},{(int)Wr.Y} {(int)Wr.Width}x{(int)Wr.Height}) ===");
+dump-uia-all.cs:31:        Console.WriteLine($"  {ControlType.Replace("ControlType.", "")} name='{Name}' class='{ClassName}' rect=({(int)Rect.X},{(int)Rect.Y} {(int)Rect.Width}x{(int)Rect.Height}) relY={(int)RelY}");
+dump-uia-buttons.cs:17:Console.WriteLine($"Chrome windows found: {Windows.Count}");
+dump-uia-buttons.cs:21:    Console.WriteLine($"\n=== Window {Window.Current.Name} rect=({(int)Wr.X},{(int)Wr.Y} {(int)Wr.Width}x{(int)Wr.Height}) ===");
+dump-uia-buttons.cs:32:        Console.WriteLine($"  btn name='{Name}' autoid='{AutoId}' class='{ClassName}' rect=({(int)Rect.X},{(int)Rect.Y} {(int)Rect.Width}x{(int)Rect.Height}) relY={(int)RelY}");
+dump-worker-js.cs:18:await Console.Out.WriteAsync(await Proc.StandardOutput.ReadToEndAsync());
+dump-worker-js.cs:19:await Console.Error.WriteAsync(await Proc.StandardError.ReadToEndAsync());
+edge-tts.cs:31:if (string.IsNullOrEmpty(Text)) { await Console.Error.WriteLineAsync("Text const required"); return 3; }
+edge-tts.cs:32:if (string.IsNullOrEmpty(OutputPath)) { await Console.Error.WriteLineAsync("OutputPath const required"); return 4; }
+edge-tts.cs:136:if (AudioBuffer.Length == 0) { await Console.Error.WriteLineAsync("no audio received"); return 5; }
+emit-worker-js.cs:12:if (!File.Exists(JsPath)) { await Console.Error.WriteLineAsync($"already gone: {JsPath}"); return 1; }
+emit-worker-js.cs:44:await Console.Out.WriteLineAsync($"wrote {CsPath}");
+expand-credentials.cs:7:if (args.Length == 0) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/expand-credentials.cs -- <scenes.json>"); return 1; }
+expand-credentials.cs:9:if (!File.Exists(Path)) { await Console.Error.WriteLineAsync($"missing: {Path}"); return 1; }
+fetch-url.cs:21:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/fetch-url.cs <specific.cs>"); return 1; }
+fetch-url.cs:23:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+fetch-url.cs:33:    await Console.Error.WriteLineAsync("specific must declare: (string Label, string Path, string Mode, string Pattern, string Method, int Follow)[] Probes = [ ... ];");
+fetch-url.cs:46:if (Probes.Count == 0) { await Console.Error.WriteLineAsync("no probes parsed from Probes array"); return 4; }
+fetch-url.cs:52:    await Console.Out.WriteLineAsync($"=== {Label} ({Method} {Mode} {Url}) ===");
+fetch-url.cs:59:    catch (HttpRequestException Ex) { await Console.Error.WriteLineAsync($"  [fail] {Ex.Message}"); Failed++; continue; }
+fetch-url.cs:60:    catch (TaskCanceledException) { await Console.Error.WriteLineAsync("  [fail] timeout"); Failed++; continue; }
+fetch-url.cs:66:        await Console.Out.WriteLineAsync($"  status={Status.ToString(System.Globalization.CultureInfo.InvariantCulture)} location={Location}");
+fetch-url.cs:69:            if (Status is < 300 or >= 400) { await Console.Error.WriteLineAsync($"  [fail] expected 3xx, got {Status.ToString(System.Globalization.CultureInfo.InvariantCulture)}"); Failed++; }
+fetch-url.cs:73:        if (!Re.IsMatch(Location)) { await Console.Error.WriteLineAsync($"  [fail] location does not match /{Pattern}/"); Failed++; }
+fetch-url.cs:81:        await Console.Out.WriteLineAsync($"  {((int)Resp.StatusCode).ToString(System.Globalization.CultureInfo.InvariantCulture)} {Resp.ReasonPhrase} | {Body.Length.ToString(System.Globalization.CultureInfo.InvariantCulture)} bytes");
+fetch-url.cs:93:            await Console.Out.WriteLineAsync($"  {(Idx + 1).ToString(System.Globalization.CultureInfo.InvariantCulture)}\t{Lines[Idx].TrimEnd()}");
+fetch-url.cs:95:        if (Hits == 0) { await Console.Error.WriteLineAsync($"  [fail] no match for /{Pattern}/"); Failed++; }
+fetch-url.cs:98:    await Console.Out.WriteAsync(Body);
+find-js-files.cs:42:        await Console.Out.WriteLineAsync($"{Size.ToString(System.Globalization.CultureInfo.InvariantCulture),8}  {(IsTracked ? "T" : " ")}  {Rel}");
+find-js-files.cs:47:await Console.Out.WriteLineAsync($"--- {Total.ToString(System.Globalization.CultureInfo.InvariantCulture)} .js files total, {Tracked2.ToString(System.Globalization.CultureInfo.InvariantCulture)} tracked ---");
+find-js-refs.cs:33:    await Console.Out.WriteLineAsync($"{Kv.Value.ToString(System.Globalization.CultureInfo.InvariantCulture),4}  {Kv.Key}");
+fix-datetime-kind.cs:8:if (!Directory.Exists(Src)) { await Console.Error.WriteLineAsync($"src not found: {Src}"); return 1; }
+fix-datetime-kind.cs:31:if (Touched > 0) { await Console.Out.WriteLineAsync($"touched {Touched.ToString(System.Globalization.CultureInfo.InvariantCulture)}"); }
+generate-statics.cs:31:    await Console.Error.WriteLineAsync($"docs not found: {DocsRoot}").ConfigureAwait(false);
+generate-statics.cs:93:            await Console.Error.WriteLineAsync($"  ✗ {SafeName}: {Ex.GetType().Name}: {Ex.Message.Split('\n')[0]}").ConfigureAwait(false);
+git-commit-push.cs:25:await Console.Out.WriteLineAsync(await Run("status -s"));
+git-commit-push.cs:26:await Console.Out.WriteLineAsync(await Run("add -u"));
+git-commit-push.cs:29:    await Console.Out.WriteLineAsync(await Run($"commit -m \"{Subject ?? "update"}\""));
+git-commit-push.cs:33:    await Console.Out.WriteLineAsync(await Run($"commit --amend -m \"{Subject}\""));
+git-commit-push.cs:37:    await Console.Out.WriteLineAsync(await Run("commit --amend --no-edit"));
+git-commit-push.cs:39:await Console.Out.WriteLineAsync(await Run("push origin main --force-with-lease"));
+git-ls-chat.cs:18:await Console.Out.WriteAsync(Out);
+git-status.cs:14:static async Task PrintHeader(string Header) => await Console.Out.WriteLineAsync(Header);
+git-status.cs:16:await Console.Out.WriteLineAsync(await Run("status -sb"));
+git-status.cs:18:await Console.Out.WriteLineAsync(await Run("log --oneline -3"));
+git-status.cs:20:await Console.Out.WriteLineAsync(await Run("log --oneline origin/main..HEAD"));
+glob-files.cs:4:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/glob-files.cs scripts/<config>.cs"); return 1; }
+glob-files.cs:6:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+glob-files.cs:16:if (Pattern is null || Root is null) { await Console.Error.WriteLineAsync("specific must declare const string Pattern and Root"); return 3; }
+glob-files.cs:17:if (!Directory.Exists(Root)) { await Console.Error.WriteLineAsync($"root not found: {Root}"); return 4; }
+glob-files.cs:22:    await Console.Out.WriteLineAsync(Rel);
+grep-file.cs:4:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/grep-file.cs <specific.cs>"); return 1; }
+grep-file.cs:6:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+grep-file.cs:10:if (Consts.Count < 2) { await Console.Error.WriteLineAsync("specific needs at least Path + Pattern consts"); return 3; }
+grep-file.cs:13:if (!File.Exists(Path)) { await Console.Error.WriteLineAsync($"target not found: {Path}"); return 4; }
+grep-file.cs:18:    if (Re.IsMatch(Lines[I])) { await Console.Out.WriteLineAsync($"{(I + 1).ToString(System.Globalization.CultureInfo.InvariantCulture)}\t{Lines[I]}"); }
+inspect-emoji-targets.cs:30:    if (!File.Exists(Full)) { await Console.Out.WriteLineAsync($"[skip] missing {T}"); continue; }
+inspect-emoji-targets.cs:31:    await Console.Out.WriteLineAsync($"=== {T} ===");
+inspect-emoji-targets.cs:38:            await Console.Out.WriteLineAsync($"  {(I + 1).ToString(System.Globalization.CultureInfo.InvariantCulture)}\t{L.Trim()}");
+inspect-genstatics.cs:17:await Console.Out.WriteAsync(await Proc.StandardOutput.ReadToEndAsync());
+inspect-genstatics.cs:18:await Console.Error.WriteAsync(await Proc.StandardError.ReadToEndAsync());
+inspect-inline-styles.cs:23:    await Console.Out.WriteLineAsync($"{Count.ToString(System.Globalization.CultureInfo.InvariantCulture),4}  {Path[Pages.Length..]}");
+inspect-inline-styles.cs:25:await Console.Out.WriteLineAsync($"--- total: {Findings.Sum(F => F.Count).ToString(System.Globalization.CultureInfo.InvariantCulture)} inline style attributes across {Findings.Count.ToString(System.Globalization.CultureInfo.InvariantCulture)} files ---");
+inspect-login-html.cs:17:await Console.Out.WriteAsync(await Proc.StandardOutput.ReadToEndAsync());
+inspect-login-html.cs:18:await Console.Error.WriteAsync(await Proc.StandardError.ReadToEndAsync());
+kill-procs.cs:48:if (Killed > 0) { await Console.Out.WriteLineAsync($"killed {Killed.ToString(CultureInfo.InvariantCulture)}"); }
+kill-stale.cs:25:if (Killed > 0) { await Console.Out.WriteLineAsync($"killed {Killed.ToString(System.Globalization.CultureInfo.InvariantCulture)}"); }
+launch-chrome.cs:38:if (!File.Exists(ChromePath)) { await Console.Error.WriteLineAsync($"Chrome not found at {ChromePath}"); return 3; }
+launch-chrome.cs:66:await Console.Error.WriteLineAsync("DevToolsActivePort never appeared with valid port");
+lh-issues.cs:7:if (!Directory.Exists(Dir)) { await Console.Error.WriteLineAsync($"missing: {Dir}"); return 1; }
+lh-issues.cs:23:    await Console.Out.WriteLineAsync($"{Path.GetFileNameWithoutExtension(F)}: {Failed.Count.ToString(System.Globalization.CultureInfo.InvariantCulture)} fail(s)");
+lh-issues.cs:26:        await Console.Out.WriteLineAsync($"  {Id}: {Title}");
+lh-issues.cs:35:                    await Console.Out.WriteLineAsync($"    {(Snippet.Length > 100 ? Snippet[..100] + "..." : Snippet)}");
+lint-bulk-fix.cs:4:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/lint-bulk-fix.cs <specific.cs>"); return 1; }
+lint-bulk-fix.cs:6:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+lint-bulk-fix.cs:12:if (Dir is null || !Directory.Exists(Dir)) { await Console.Error.WriteLineAsync("specific must declare const string Dir"); return 3; }
+lint-bulk-fix.cs:56:if (Touched > 0) { await Console.Out.WriteLineAsync($"touched {Touched.ToString(System.Globalization.CultureInfo.InvariantCulture)}"); }
+lint-each-script.cs:5:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/lint-each-script.cs scripts/<config>.cs"); return 1; }
+lint-each-script.cs:7:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+lint-each-script.cs:18:if (Dir is null || Repo is null) { await Console.Error.WriteLineAsync("specific must declare const string Dir and Repo"); return 3; }
+lint-each-script.cs:51:        Console.WriteLine($"FAIL {Rel}");
+lint-each-script.cs:52:        foreach (var L in Out.Split('\n').Where(L => L.Contains(": error ", StringComparison.Ordinal)).Take(3)) { Console.WriteLine($"  {L.Trim()}"); }
+lint-each-script.cs:55:Console.WriteLine($"--- {Failed.ToString(System.Globalization.CultureInfo.InvariantCulture)} of {Linted.ToString(System.Globalization.CultureInfo.InvariantCulture)} ---");
+lint-one-script.cs:5:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/lint-one-script.cs scripts/<config>.cs"); return 1; }
+lint-one-script.cs:7:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+lint-one-script.cs:17:if (Target is null || Repo is null) { await Console.Error.WriteLineAsync("specific must declare const string Target and Repo"); return 3; }
+lint-one-script.cs:18:if (!File.Exists(Target)) { await Console.Error.WriteLineAsync($"target not found: {Target}"); return 4; }
+lint-one-script.cs:30:if (P.ExitCode == 0) { await Console.Out.WriteLineAsync("OK"); return 0; }
+lint-one-script.cs:33:    await Console.Out.WriteLineAsync(L.Trim());
+lint-strict.cs:13:    await Console.Error.WriteLineAsync($"src not found: {SrcRoot}");
+lint-strict.cs:24:Console.WriteLine($"linting {Files.Count} files under {SrcRoot}");
+lint-strict.cs:25:Console.WriteLine();
+lint-strict.cs:41:    Console.WriteLine($"━━ {G.Key}: {G.Count()} hit(s) ━━");
+lint-strict.cs:44:        await Console.Out.WriteLineAsync($"  {Path.GetRelativePath(Repo, Hit.File)}:{Hit.Line.ToString(System.Globalization.CultureInfo.InvariantCulture)}  {Hit.Detail}");
+lint-strict.cs:48:        await Console.Out.WriteLineAsync($"  … {(G.Count() - 20).ToString(System.Globalization.CultureInfo.InvariantCulture)} more");
+lint-strict.cs:50:    await Console.Out.WriteLineAsync();
+lint-strict.cs:53:Console.WriteLine($"total: {Findings.Count} finding(s) across {Findings.Select(F => F.File).Distinct().Count()} file(s)");
+list-edge-voices.cs:14:if (!M.Success) { await Console.Error.WriteLineAsync("OutputFile const required"); return 3; }
+list-edge-voices.cs:31:if (P.ExitCode != 0) { await Console.Error.WriteLineAsync(Err.Trim()); return P.ExitCode; }
+migrate-classes.cs:9:    await Console.Error.WriteLineAsync($"SharedUI not found: {SharedUi}");
+migrate-classes.cs:97:    await Console.Out.WriteLineAsync($"  ✓ {Path.GetRelativePath(Repo, File)}  ({Local.ToString(System.Globalization.CultureInfo.InvariantCulture)} swaps)");
+migrate-classes.cs:100:await Console.Out.WriteLineAsync();
+migrate-classes.cs:101:await Console.Out.WriteLineAsync($"done — {FilesTouched.ToString(System.Globalization.CultureInfo.InvariantCulture)} files touched, {Replacements.ToString(System.Globalization.CultureInfo.InvariantCulture)} class-token swaps");
+patch-app-css-burger.cs:15:if (!Text.Contains(OldBurger, StringComparison.Ordinal)) { await Console.Error.WriteLineAsync("burger anchor missing"); return 1; }
+patch-app-css-burger.cs:16:if (!Text.Contains(OldOpen, StringComparison.Ordinal)) { await Console.Error.WriteLineAsync("open anchor missing"); return 2; }
+patch-app-css-burger.cs:21:await Console.Out.WriteLineAsync($"wrote {Path} ({Text.Length.ToString(System.Globalization.CultureInfo.InvariantCulture)} chars)");
+patch-chat-rows.cs:27:    if (!File.Exists(Path)) { await Console.Error.WriteLineAsync($"missing: {Path}"); return 2; }
+patch-chat-rows.cs:32:    if (!Text.Contains(OldNorm, StringComparison.Ordinal)) { await Console.Error.WriteLineAsync($"anchor missing in {Path}"); return 3; }
+patch-chat-rows.cs:35:    await Console.Out.WriteLineAsync($"patched {Path}");
+patch-chat-rows.cs:37:await Console.Out.WriteLineAsync($"done — {Total.ToString(System.Globalization.CultureInfo.InvariantCulture)} files");
+patch-dark-theme.cs:36:await Console.Out.WriteLineAsync($"wrote batch: {Tmp} ({Patches.Length.ToString(System.Globalization.CultureInfo.InvariantCulture)} patches)");
+patch-dark-theme.cs:39:await Console.Out.WriteAsync(await Proc.StandardOutput.ReadToEndAsync());
+patch-dark-theme.cs:40:await Console.Error.WriteAsync(await Proc.StandardError.ReadToEndAsync());
+patch-emojis-v2.cs:38:await Console.Out.WriteLineAsync($"wrote batch file: {Tmp} ({Patches.Length.ToString(System.Globalization.CultureInfo.InvariantCulture)} patches)");
+patch-emojis-v2.cs:48:await Console.Out.WriteAsync(await Proc.StandardOutput.ReadToEndAsync());
+patch-emojis-v2.cs:49:await Console.Error.WriteAsync(await Proc.StandardError.ReadToEndAsync());
+patch-emojis.cs:32:    if (!File.Exists(Path)) { await Console.Error.WriteLineAsync($"missing: {Path}"); continue; }
+patch-emojis.cs:35:    if (!Text.Contains(Old, StringComparison.Ordinal)) { await Console.Error.WriteLineAsync($"anchor missing in {Path}"); continue; }
+patch-emojis.cs:39:if (Total > 0) { await Console.Out.WriteLineAsync($"patched {Total.ToString(System.Globalization.CultureInfo.InvariantCulture)}"); }
+patch-file.cs:23:    await Console.Out.WriteLineAsync("usage: dotnet run scripts/patch-file.cs -- <path> --find \"literal\" --replace \"new\" [--once] [--all] [--dry]");
+patch-file.cs:24:    await Console.Out.WriteLineAsync("       dotnet run scripts/patch-file.cs -- <path> --regex \"pattern\" --replace \"new\" [...]");
+patch-file.cs:25:    await Console.Out.WriteLineAsync("       dotnet run scripts/patch-file.cs -- <path> --find-file <patch.txt> --replace-file <new.txt>");
+patch-file.cs:26:    await Console.Out.WriteLineAsync("       dotnet run scripts/patch-file.cs -- --batch <jsonl>          # one {path,find,replace} per line");
+patch-file.cs:32:    if (args.Length < 2) { await Console.Error.WriteLineAsync("--batch requires a jsonl file"); return 6; }
+patch-file.cs:34:    if (!File.Exists(BatchPath)) { await Console.Error.WriteLineAsync($"batch file not found: {BatchPath}"); return 7; }
+patch-file.cs:46:        if (!File.Exists(P)) { await Console.Error.WriteLineAsync($"  [skip] not found: {P}"); Failed++; continue; }
+patch-file.cs:51:        if (Idempotent && Body.Contains(ReplaceNorm, StringComparison.Ordinal)) { await Console.Out.WriteLineAsync($"  [skip] already applied: {P}"); continue; }
+patch-file.cs:52:        if (!Body.Contains(FindNorm, StringComparison.Ordinal)) { await Console.Error.WriteLineAsync($"  [miss] anchor not found in {P}"); Failed++; continue; }
+patch-file.cs:56:        await Console.Out.WriteLineAsync($"  [ok]   {P}");
+patch-file.cs:58:    await Console.Out.WriteLineAsync($"--batch: {Total.ToString(System.Globalization.CultureInfo.InvariantCulture)} applied, {Failed.ToString(System.Globalization.CultureInfo.InvariantCulture)} failed");
+patch-file.cs:69:if (!File.Exists(Path)) { await Console.Error.WriteLineAsync($"not found: {Path}"); return 2; }
+patch-file.cs:97:if (string.IsNullOrEmpty(Find)) { await Console.Error.WriteLineAsync("--find / --regex / --find-file required"); return 3; }
+patch-file.cs:116:await Console.Out.WriteLineAsync($"matches: {Count.ToString(System.Globalization.CultureInfo.InvariantCulture)}");
+patch-file.cs:118:if (Count == 0) { await Console.Error.WriteLineAsync("no matches — file unchanged"); return 4; }
+patch-file.cs:119:if (HasFlag("--once") && Count != 1) { await Console.Error.WriteLineAsync($"--once requires exactly 1 match (got {Count.ToString(System.Globalization.CultureInfo.InvariantCulture)})"); return 5; }
+patch-file.cs:121:await Console.Out.WriteLineAsync($"wrote {Path} ({Updated.Length.ToString(System.Globalization.CultureInfo.InvariantCulture)} chars)");
+patch-gitignore.cs:30:if (Added == 0) { await Console.Out.WriteLineAsync("all rules already present"); return 0; }
+patch-gitignore.cs:32:await Console.Out.WriteLineAsync($"appended {Added.ToString(System.Globalization.CultureInfo.InvariantCulture)} rules");
+patch-home-emojis.cs:48:await Console.Out.WriteLineAsync($"wrote batch: {Tmp} ({Patches.Length.ToString(System.Globalization.CultureInfo.InvariantCulture)} patches)");
+patch-home-emojis.cs:57:await Console.Out.WriteAsync(await Proc.StandardOutput.ReadToEndAsync());
+patch-home-emojis.cs:58:await Console.Error.WriteAsync(await Proc.StandardError.ReadToEndAsync());
+patch-login-sso.cs:25:    if (!Text.Contains(Old, StringComparison.Ordinal)) { await Console.Error.WriteLineAsync($"miss {Provider}: {Old}"); continue; }
+patch-login-sso.cs:30:await Console.Out.WriteLineAsync($"replaced {Total.ToString(System.Globalization.CultureInfo.InvariantCulture)} SSO links");
+patch-mainlayout-burger.cs:33:    if (IdxBefore < 0) { await Console.Error.WriteLineAsync($"miss: '{Old[..Math.Min(60, Old.Length)]}...'"); return 1; }
+patch-mainlayout-burger.cs:37:await Console.Out.WriteLineAsync($"wrote {Path} ({Text.Length.ToString(System.Globalization.CultureInfo.InvariantCulture)} chars)");
+patch-marketplace-photo.cs:25:if (!R.Contains(OldPhotoLine, StringComparison.Ordinal)) { await Console.Error.WriteLineAsync("razor photo line missing"); return 1; }
+patch-marketplace-photo.cs:32:await Console.Out.WriteLineAsync($"wrote {Razor}");
+patch-marketplace-photo.cs:55:if (!C.Contains(OldSig, StringComparison.Ordinal)) { await Console.Error.WriteLineAsync("ProductSvg signature anchor missing"); return 2; }
+patch-marketplace-photo.cs:74:if (!C.Contains(OldClass, StringComparison.Ordinal)) { await Console.Error.WriteLineAsync("Listing class anchor missing"); return 3; }
+patch-marketplace-photo.cs:78:await Console.Out.WriteLineAsync($"wrote {Cs}");
+patch-page-emojis-batch.cs:65:await Console.Out.WriteLineAsync($"wrote batch: {Tmp} ({Patches.Length.ToString(System.Globalization.CultureInfo.InvariantCulture)} patches)");
+patch-page-emojis-batch.cs:75:await Console.Out.WriteAsync(await Proc.StandardOutput.ReadToEndAsync());
+patch-page-emojis-batch.cs:76:await Console.Error.WriteAsync(await Proc.StandardError.ReadToEndAsync());
+patch-scripts-md-sso.cs:5:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/patch-scripts-md-sso.cs scripts/<config>.cs"); return 1; }
+patch-scripts-md-sso.cs:7:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+patch-scripts-md-sso.cs:13:    if (!Strings.ContainsKey(Required)) { await Console.Error.WriteLineAsync($"specific missing const string {Required}"); return 3; }
+patch-scripts-md-sso.cs:25:    if (!Strings.TryGetValue(RowKey, out var Row)) { await Console.Error.WriteLineAsync($"missing paired const: {RowKey}"); return 4; }
+patch-scripts-md-sso.cs:28:if (Rows.Count == 0) { await Console.Error.WriteLineAsync("specific must declare at least one Marker_NN/Row_NN pair"); return 5; }
+patch-scripts-md-sso.cs:32:if (AnchorIdx < 0) { await Console.Error.WriteLineAsync($"anchor missing: {Anchor}"); return 6; }
+patch-scripts-md-sso.cs:34:if (EolIdx < 0) { await Console.Error.WriteLineAsync("no newline after anchor"); return 7; }
+patch-scripts-md-sso.cs:46:if (Added == 0) { await Console.Out.WriteLineAsync("all rows already present"); return 0; }
+patch-scripts-md-sso.cs:48:await Console.Out.WriteLineAsync($"appended {Added.ToString(System.Globalization.CultureInfo.InvariantCulture)} rows to SCRIPTS.md");
+patch-scripts-md-v2.cs:5:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/patch-scripts-md-v2.cs scripts/<config>.cs"); return 1; }
+patch-scripts-md-v2.cs:7:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+patch-scripts-md-v2.cs:13:    if (!Strings.ContainsKey(Required)) { await Console.Error.WriteLineAsync($"specific missing const string {Required}"); return 3; }
+patch-scripts-md-v2.cs:25:    if (!Strings.TryGetValue(RowKey, out var Row)) { await Console.Error.WriteLineAsync($"missing paired const: {RowKey}"); return 4; }
+patch-scripts-md-v2.cs:28:if (Rows.Count == 0) { await Console.Error.WriteLineAsync("specific must declare at least one Marker_NN/Row_NN pair"); return 5; }
+patch-scripts-md-v2.cs:32:if (AnchorIdx < 0) { await Console.Error.WriteLineAsync($"anchor missing: {Anchor}"); return 6; }
+patch-scripts-md-v2.cs:34:if (EolIdx < 0) { await Console.Error.WriteLineAsync("no newline after anchor"); return 7; }
+patch-scripts-md-v2.cs:46:if (Added == 0) { await Console.Out.WriteLineAsync("all rows already present"); return 0; }
+patch-scripts-md-v2.cs:48:await Console.Out.WriteLineAsync($"appended {Added.ToString(System.Globalization.CultureInfo.InvariantCulture)} rows to SCRIPTS.md");
+patch-scripts-md.cs:5:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/patch-scripts-md.cs scripts/<config>.cs"); return 1; }
+patch-scripts-md.cs:7:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+patch-scripts-md.cs:13:    if (!Strings.ContainsKey(Required)) { await Console.Error.WriteLineAsync($"specific missing const string {Required}"); return 3; }
+patch-scripts-md.cs:21:if (Text.Contains(DuplicateMarker, StringComparison.Ordinal)) { await Console.Out.WriteLineAsync("already present, skipping"); return 0; }
+patch-scripts-md.cs:24:if (AnchorIdx < 0) { await Console.Error.WriteLineAsync($"anchor not found: {Anchor}"); return 4; }
+patch-scripts-md.cs:26:if (EolIdx < 0) { await Console.Error.WriteLineAsync("no newline after anchor"); return 5; }
+patch-scripts-md.cs:29:await Console.Out.WriteLineAsync("wrote SCRIPTS.md with new rows");
+patch-sell-chat-empty.cs:25:if (!Text.Contains(Old, StringComparison.Ordinal)) { await Console.Error.WriteLineAsync("anchor missing"); return 1; }
+patch-sell-chat-empty.cs:27:await Console.Out.WriteLineAsync($"wrote {Path}");
+patch-source.cs:4:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/patch-source.cs scripts/<patch-source-X>-config.cs"); return 1; }
+patch-source.cs:6:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+patch-source.cs:12:if (!Strs.TryGetValue("TargetFile", out var TargetFile)) { await Console.Error.WriteLineAsync("specific must declare const string TargetFile"); return 3; }
+patch-source.cs:13:if (!File.Exists(TargetFile)) { await Console.Error.WriteLineAsync($"target not found: {TargetFile}"); return 4; }
+patch-source.cs:24:    if (!Strs.TryGetValue(ReplaceKey, out var Replace)) { await Console.Error.WriteLineAsync($"missing {ReplaceKey}"); return 5; }
+patch-source.cs:33:        await Console.Error.WriteLineAsync($"  [miss] pair {I.ToString(System.Globalization.CultureInfo.InvariantCulture)} anchor not found");
+patch-stage-padding.cs:24:    if (!Text.Contains(Old, StringComparison.Ordinal)) { await Console.Error.WriteLineAsync($"miss: '{Old[..Math.Min(50, Old.Length)]}...'"); continue; }
+patch-stage-padding.cs:29:await Console.Out.WriteLineAsync($"applied {Total.ToString(System.Globalization.CultureInfo.InvariantCulture)}/{Patches.Length.ToString(System.Globalization.CultureInfo.InvariantCulture)} stage-padding patches");
+patch-theme-chip.cs:16:await Console.Out.WriteLineAsync($"wrote {Razor}");
+patch-theme-chip.cs:20:if (C.Contains(DarkRule, StringComparison.Ordinal)) { await Console.Out.WriteLineAsync("css already has dark rules"); return 0; }
+patch-theme-chip.cs:23:await Console.Out.WriteLineAsync($"appended dark/light theme rules to {Css}");
+patch-trailing-ws.cs:4:if (args.Length == 0) { await Console.Error.WriteLineAsync("usage: patch-trailing-ws.cs <path>"); return 1; }
+patch-trailing-ws.cs:6:if (!File.Exists(P)) { await Console.Error.WriteLineAsync($"not found: {P}"); return 2; }
+patch-trailing-ws.cs:14:if (!Changed) { await Console.Out.WriteLineAsync("no trailing ws"); return 0; }
+patch-trailing-ws.cs:16:await Console.Out.WriteLineAsync($"stripped trailing ws from {P}");
+patch-wolfs-call-js.cs:11:if (Text.Contains(Marker, StringComparison.Ordinal)) { await Console.Out.WriteLineAsync("WolfsCall already present"); return 0; }
+patch-wolfs-call-js.cs:41:if (I < 0) { await Console.Error.WriteLineAsync($"anchor missing: {Anchor}"); return 1; }
+patch-wolfs-call-js.cs:44:await Console.Out.WriteLineAsync($"wrote {Path} ({Updated.Length.ToString(System.Globalization.CultureInfo.InvariantCulture)} chars)");
+patch-worker-callback-fix.cs:9:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/patch-worker-callback-fix.cs scripts/<config>.cs"); return 1; }
+patch-worker-callback-fix.cs:11:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+patch-worker-callback-fix.cs:17:    if (!Strings.ContainsKey(Required)) { await Console.Error.WriteLineAsync($"specific missing const string {Required}"); return 3; }
+patch-worker-callback-fix.cs:23:if (!File.Exists(WorkerCs)) { await Console.Error.WriteLineAsync($"not found: {WorkerCs}"); return 1; }
+patch-worker-callback-fix.cs:27:if (!ArrayMatch.Success) { await Console.Error.WriteLineAsync("could not find JsBody() array"); return 2; }
+patch-worker-callback-fix.cs:32:if (!Js.Contains(Find, StringComparison.Ordinal)) { await Console.Error.WriteLineAsync("anchor not found"); return 4; }
+patch-worker-callback-fix.cs:33:if (Js.Contains(Replace, StringComparison.Ordinal)) { await Console.Out.WriteLineAsync("already patched"); return 0; }
+patch-worker-callback-fix.cs:46:await Console.Out.WriteLineAsync($"patched {WorkerCs}");
+patch-worker-callback.cs:9:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/patch-worker-callback.cs scripts/<config>.cs"); return 1; }
+patch-worker-callback.cs:11:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+patch-worker-callback.cs:17:    if (!Strings.ContainsKey(Required)) { await Console.Error.WriteLineAsync($"specific missing const string {Required}"); return 3; }
+patch-worker-callback.cs:23:if (!File.Exists(WorkerCs)) { await Console.Error.WriteLineAsync($"not found: {WorkerCs}"); return 1; }
+patch-worker-callback.cs:27:if (!ArrayMatch.Success) { await Console.Error.WriteLineAsync("could not find JsBody() array"); return 2; }
+patch-worker-callback.cs:30:if (Lines.Count == 0) { await Console.Error.WriteLineAsync("no base64 lines found"); return 3; }
+patch-worker-callback.cs:36:    await Console.Error.WriteLineAsync("anchor not found");
+patch-worker-callback.cs:37:    await Console.Error.WriteLineAsync($"  Find: {Find}");
+patch-worker-callback.cs:42:    await Console.Out.WriteLineAsync("already patched");
+patch-worker-callback.cs:57:await Console.Out.WriteLineAsync($"patched {WorkerCs}");
+patch-worker-oauth.cs:114:if (!File.Exists(Path)) { await Console.Error.WriteLineAsync($"not found: {Path}"); return 1; }
+patch-worker-oauth.cs:118:if (AnchorIdx < 0) { await Console.Error.WriteLineAsync($"anchor not found: {Anchor}"); return 2; }
+patch-worker-okta-domain.cs:9:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/patch-worker-okta-domain.cs scripts/<config>.cs"); return 1; }
+patch-worker-okta-domain.cs:11:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+patch-worker-okta-domain.cs:17:    if (!Strings.ContainsKey(Required)) { await Console.Error.WriteLineAsync($"specific missing const string {Required}"); return 3; }
+patch-worker-okta-domain.cs:23:if (!File.Exists(WorkerCs)) { await Console.Error.WriteLineAsync($"not found: {WorkerCs}"); return 1; }
+patch-worker-okta-domain.cs:27:if (!ArrayMatch.Success) { await Console.Error.WriteLineAsync("could not find JsBody() array"); return 2; }
+patch-worker-okta-domain.cs:30:if (Lines.Count == 0) { await Console.Error.WriteLineAsync("no base64 lines found"); return 3; }
+patch-worker-okta-domain.cs:35:if (!Js.Contains(Find, StringComparison.Ordinal)) { await Console.Error.WriteLineAsync($"anchor not found: {Find}"); return 4; }
+patch-worker-okta-domain.cs:48:await Console.Out.WriteLineAsync($"patched {WorkerCs}");
+pip-install.cs:14:if (!M.Success) { await Console.Error.WriteLineAsync("Package const required"); return 3; }
+pip-install.cs:26:if (P.ExitCode != 0) { await Console.Error.WriteLineAsync(Out.Trim()); }
+proc-list.cs:16:        await Console.Out.WriteLineAsync($"{P.Id.ToString(System.Globalization.CultureInfo.InvariantCulture),-7} {Name,-15} {P.StartTime.ToString("HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)}");
+publish-pages.cs:34:if (Proc?.ExitCode != 0) { await Console.Error.WriteLineAsync($"publish exit {Proc?.ExitCode.ToString(System.Globalization.CultureInfo.InvariantCulture)}"); return 1; }
+publish-pages.cs:56:await Console.Out.WriteLineAsync($"published {WasmDocs}");
+purge-files.cs:4:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/purge-files.cs <specific.cs>"); return 1; }
+purge-files.cs:6:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+purge-files.cs:16:    catch (IOException Ex) { await Console.Error.WriteLineAsync($"skip {P}: {Ex.Message}"); }
+purge-legacy-js.cs:24:        catch (IOException Ex) { await Console.Error.WriteLineAsync($"fail {F}: {Ex.Message}"); }
+purge-legacy-js.cs:31:await Console.Out.WriteAsync(await Proc.StandardOutput.ReadToEndAsync());
+purge-legacy-js.cs:32:await Console.Error.WriteAsync(await Proc.StandardError.ReadToEndAsync());
+purge-legacy-js.cs:35:if (Deleted > 0) { await Console.Out.WriteLineAsync($"deleted {Deleted.ToString(System.Globalization.CultureInfo.InvariantCulture)}"); }
+regen-statics.cs:26:await Console.Out.WriteAsync(await Proc.StandardOutput.ReadToEndAsync().ConfigureAwait(false)).ConfigureAwait(false);
+regen-statics.cs:27:await Console.Error.WriteAsync(await Proc.StandardError.ReadToEndAsync().ConfigureAwait(false)).ConfigureAwait(false);
+remove-orphans.cs:33:if (Removed > 0) { await Console.Out.WriteLineAsync($"removed {Removed.ToString(System.Globalization.CultureInfo.InvariantCulture)}"); }
+rename-namespace.cs:92:await Console.Out.WriteLineAsync($"text={TextHits.ToString(System.Globalization.CultureInfo.InvariantCulture)} paths={(Renames.Count + InnerRenames).ToString(System.Globalization.CultureInfo.InvariantCulture)}");
+rewrite-narrations.cs:4:if (args.Length == 0) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/rewrite-narrations.cs -- <scenes.json>"); return 1; }
+rewrite-narrations.cs:6:if (!File.Exists(Path)) { await Console.Error.WriteLineAsync($"missing: {Path}"); return 1; }
+rewrite-narrations.cs:41:    if (Idx < 1 || Idx > Arr.Count) { await Console.Error.WriteLineAsync($"scene {Idx.ToString(System.Globalization.CultureInfo.InvariantCulture)} out of range"); continue; }
+rewrite-narrations.cs:47:if (Touched > 0) { await Console.Out.WriteLineAsync($"rewrote {Touched.ToString(System.Globalization.CultureInfo.InvariantCulture)}"); }
+run-lighthouse.cs:34:    if (!File.Exists(ReportPath)) { await Console.Error.WriteLineAsync($"{Page}: no report"); continue; }
+run-lighthouse.cs:38:    await Console.Out.WriteLineAsync(string.Create(System.Globalization.CultureInfo.InvariantCulture, $"{(string.IsNullOrEmpty(Page) ? "/" : Page),-15}  {Score("performance"),-6}  {Score("accessibility"),-6}  {Score("best-practices"),-6}  {Score("seo"),-6}"));
+run-with-watchdog.cs:9:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/run-with-watchdog.cs scripts/<run-with-watchdog-X>-config.cs"); return 1; }
+run-with-watchdog.cs:11:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+run-with-watchdog.cs:19:if (!Strs.TryGetValue("TargetCs", out var TargetCs)) { await Console.Error.WriteLineAsync("specific must declare const string TargetCs"); return 3; }
+run-with-watchdog.cs:20:if (!Strs.TryGetValue("ErrorPattern", out var ErrorPattern)) { await Console.Error.WriteLineAsync("specific must declare const string ErrorPattern"); return 4; }
+run-with-watchdog.cs:44:        if (IsErr) { await Console.Error.WriteLineAsync(Line); }
+run-with-watchdog.cs:45:        else { await Console.Out.WriteLineAsync(Line); }
+run-with-watchdog.cs:66:            await Console.Error.WriteLineAsync($"\n!! watchdog STALL — {StallReason}");
+run-with-watchdog.cs:96:        await Console.Error.WriteLineAsync($"!! diagnostics:");
+run-with-watchdog.cs:97:        await Console.Error.WriteLineAsync($"!!   screenshot       {ShotPath}");
+run-with-watchdog.cs:98:        await Console.Error.WriteLineAsync($"!!   screenshot+grid  {GridPath}");
+run-with-watchdog.cs:99:        await Console.Error.WriteLineAsync($"!!   console messages {ConsolePath}");
+run-with-watchdog.cs:101:    catch (Exception Ex) { await Console.Error.WriteLineAsync($"!! diagnostic capture failed: {Ex.Message}"); }
+run-with-watchdog.cs:128:    if (FirstHit != null) { await Console.Error.WriteLineAsync($"\n!! watchdog tripped on regex match: {FirstHit}"); }
+run-with-watchdog.cs:129:    if (StallReason != null) { await Console.Error.WriteLineAsync($"\n!! watchdog tripped on stall: {StallReason}"); }
+run-with-watchdog.cs:130:    await Console.Error.WriteLineAsync($"!! killed {TargetCs}");
+set-worker-secrets.cs:7:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/set-worker-secrets.cs <specific.cs>"); return 1; }
+set-worker-secrets.cs:9:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+set-worker-secrets.cs:24:if (!File.Exists(SecretsJsonPath)) { await Console.Error.WriteLineAsync($"secrets.json not found: {SecretsJsonPath}"); return 3; }
+set-worker-secrets.cs:31:    await Console.Error.WriteLineAsync($"missing {IdJsonKey} or {SecretJsonKey} in {SecretsJsonPath}");
+set-worker-secrets.cs:37:if (string.IsNullOrEmpty(CfEmail) || string.IsNullOrEmpty(CfKey)) { await Console.Error.WriteLineAsync("missing Cloudflare:Email / Cloudflare:GlobalApiKey"); return 5; }
+set-worker-secrets.cs:55:    Console.Write(P.StandardOutput.ReadToEnd());
+set-worker-secrets.cs:56:    Console.Error.Write(P.StandardError.ReadToEnd());
+set-worker-secrets.cs:60:Console.WriteLine($"--- {Provider}: setting {ClientIdKey} ---");
+set-worker-secrets.cs:62:Console.WriteLine($"--- {Provider}: setting {ClientSecretKey} ---");
+SharedScripts.cs:47:        await Console.Error.WriteLineAsync(Message);
+stage-amend-push.cs:33:        Console.WriteLine(Run($"add -- \"{U}\""));
+stage-amend-push.cs:36:Console.WriteLine(Run("add -u"));
+stage-amend-push.cs:37:Console.WriteLine(Run("status -s"));
+stage-amend-push.cs:38:Console.WriteLine(Run("commit --amend --no-edit"));
+stage-amend-push.cs:39:Console.WriteLine(Run("push origin main --force-with-lease"));
+strip-cs-suppressions.cs:5:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/strip-cs-suppressions.cs <specific.cs>"); return 1; }
+strip-cs-suppressions.cs:7:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+strip-cs-suppressions.cs:41:if (Touched > 0) { await Console.Out.WriteLineAsync($"stripped {Touched.ToString(System.Globalization.CultureInfo.InvariantCulture)}"); }
+strip-wolfs-namespace.cs:5:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/strip-wolfs-namespace.cs scripts/<config>.cs"); return 1; }
+strip-wolfs-namespace.cs:7:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+strip-wolfs-namespace.cs:12:if (Dirs.Count == 0) { await Console.Error.WriteLineAsync("specific must declare at least one const string Dir/WorkerDir"); return 3; }
+strip-wolfs-namespace.cs:31:if (Touched > 0) { await Console.Out.WriteLineAsync($"touched {Touched.ToString(System.Globalization.CultureInfo.InvariantCulture)}"); }
+tail-file.cs:2:if (args.Length == 0) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/tail-file.cs -- <path> [N]"); return 1; }
+tail-file.cs:6:if (!File.Exists(Path)) { await Console.Error.WriteLineAsync($"missing: {Path}"); return 1; }
+tail-file.cs:15:    await Console.Out.WriteLineAsync(Lines[I].TrimEnd('\r'));
+trigger-and-snapshot.cs:53:Console.WriteLine($"WS state: {Ws.State}");
+tts-edge.cs:35:if (string.IsNullOrEmpty(Text)) { await Console.Error.WriteLineAsync("Text const required"); return 3; }
+tts-edge.cs:36:if (string.IsNullOrEmpty(Output)) { await Console.Error.WriteLineAsync("OutputPath const required"); return 4; }
+tts-edge.cs:60:if (P.ExitCode != 0) { await Console.Error.WriteLineAsync(StdErr.Trim()); }
+verify-deploy.cs:52:await Console.Out.WriteLineAsync($"wrote batch: {Tmp} ({Probes.Length} probes)");
+verify-deploy.cs:55:await Console.Out.WriteAsync(await Proc.StandardOutput.ReadToEndAsync());
+verify-deploy.cs:56:await Console.Error.WriteAsync(await Proc.StandardError.ReadToEndAsync());
+verify-js-purge.cs:41:await Console.Out.WriteAsync(await Proc.StandardOutput.ReadToEndAsync());
+verify-js-purge.cs:42:await Console.Error.WriteAsync(await Proc.StandardError.ReadToEndAsync());
+voice-sidecar.cs:179:    Console.WriteLine($"[stt] sent {pcm.Length} bytes PCM + 1s silence pad → waiting for final transcript");
+voice-sidecar.cs:197:        Console.WriteLine($"[stt<-] {msg}");
+voice-sidecar.cs:268:    Console.Error.WriteLine("warn: no OAuth access token found. /stt will 401 until you set Voice:ClaudeOAuthAccessToken or log in via /voice.");
+voice-sidecar.cs:275:Console.WriteLine($"voice-sidecar listening on http://localhost:{port}/  (tts voice={voice}, stt={(string.IsNullOrEmpty(accessToken) ? "DISABLED" : "ready")})");
+voice-sidecar.cs:322:            Console.Error.WriteLine("req err: " + ex);
+web-search.cs:5:if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/web-search.cs scripts/<web-search-X>-config.cs"); return 1; }
+web-search.cs:7:if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
+web-search.cs:13:if (!Strs.TryGetValue("Query", out var Query)) { await Console.Error.WriteLineAsync("specific must declare const string Query"); return 3; }
+web-search.cs:41:    await Console.Out.WriteLineAsync($"{(Count + 1).ToString(System.Globalization.CultureInfo.InvariantCulture)}. {Title}");
+web-search.cs:42:    await Console.Out.WriteLineAsync($"   {Href}");
+web-search.cs:43:    await Console.Out.WriteLineAsync($"   {Snippet}");
+web-search.cs:44:    await Console.Out.WriteLineAsync(string.Empty);
+web-search.cs:48:if (Count == 0) { await Console.Error.WriteLineAsync($"no results for: {Query}"); return 4; }
+wipe-db.cs:35:catch (HttpRequestException Ex) { await Console.Error.WriteLineAsync($"wipe transport error: {Ex.Message}"); return 1; }
+wipe-db.cs:36:catch (TaskCanceledException) { await Console.Error.WriteLineAsync("wipe timeout"); return 1; }
+wipe-db.cs:43:catch (HttpRequestException Ex) { await Console.Error.WriteLineAsync($"verify transport error: {Ex.Message}"); return 3; }
+wipe-db.cs:44:catch (TaskCanceledException) { await Console.Error.WriteLineAsync("verify timeout"); return 3; }
+wipe-db.cs:55:    await Console.Error.WriteLineAsync($"verify mismatch: count={Count} items={Items}");
+wipe-db.cs:58:catch (JsonException Ex) { await Console.Error.WriteLineAsync($"verify parse error: {Ex.Message}"); return 6; }

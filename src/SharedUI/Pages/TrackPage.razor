@@ -1,0 +1,58 @@
+@page "/Track"
+
+<div class="Stage TrackStage">
+    <h1>📍 Track your delivery</h1>
+    @if (string.Equals(Latest?["subject"]?.ToString(), "Delivered", StringComparison.Ordinal))
+    {
+        <div class="TrackLegend">✅ Delivered · 1418 Oak Street, Wilmington NC</div>
+        <div class="Card TrackHero TrackHeroDelivered">
+            <iframe title="1418 Oak Street, Wilmington NC — delivery destination" src="https://www.openstreetmap.org/export/embed.html?bbox=-77.96%2C34.21%2C-77.93%2C34.24&amp;layer=mapnik&amp;marker=34.2257%2C-77.9447" style="width:100%; height:100%; display:block; border:0; min-width:0;" frameborder="0" scrolling="no" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    }
+    else
+    {
+        <div class="TrackLegend">🚢 Pacific Ocean · GPS in car</div>
+        <div class="Card TrackHero">
+            <div style="display:flex; flex-direction:row; gap:1px; background:#0ea5e9;">
+                <iframe title="Shanghai Yangshan port — Pacific origin" src="https://www.bing.com/maps/embed/?v=2&amp;cp=31.2~121.5&amp;lvl=10&amp;sty=r&amp;sp=point.31.2_121.5_Shanghai" style="flex:1; height:220px; display:block; border:0; min-width:0;" frameborder="0" scrolling="no" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe title="Port of Los Angeles — Pacific destination" src="https://www.openstreetmap.org/export/embed.html?bbox=-118.7%2C33.4%2C-118.0%2C33.9&amp;layer=mapnik&amp;marker=33.7%2C-118.2" style="flex:1; height:220px; display:block; border:0; min-width:0;" frameborder="0" scrolling="no" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    }
+
+    <div class="Card TrackLocation">
+        <div class="TrackLabel">Current location</div>
+        <div class="TrackNote">@(Latest?["note"]?.ToString() ?? "Awaiting first update")</div>
+        <div class="TrackUpdateRow">
+            <div class="TrackUpdateIcon">🚚</div>
+            <div class="TrackUpdateInfo">
+                <div class="TrackUpdateLabel">Last update</div>
+                <div class="TrackUpdateAt">@(Latest?["at"]?.ToString() ?? "—")</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="Timeline">
+        @for (int I = 0; I < Steps.Count; I++)
+        {
+            var S = Steps[I];
+            var IsCurrent = I == 0;
+            <div class="TimelineRow">
+                <div class="TimelineDot @(IsCurrent ? "Current" : "Done")"></div>
+                <div class="TimelineBody">
+                    <div class="TimelineSubject">@(S["subject"]?.ToString())</div>
+                    <div class="TimelineAt">@(S["at"]?.ToString())</div>
+                </div>
+                @if (!IsCurrent)
+                {
+                    <span class="TimelineDoneBadge">Done</span>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="Card TrackEta">
+        <div class="TrackEtaLabel">Estimated arrival</div>
+        <div class="TrackEtaValue">June 15 · 10:00 PM Wilmington time</div>
+    </div>
+</div>

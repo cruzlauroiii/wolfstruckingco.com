@@ -1,0 +1,3 @@
+old-worker.js:2:// R2 keys: db/{collection}.json for persistent data, inbox/outbox for relay
+old-worker.js:12:    if (url.pathname === '/send' && request.method === 'POST') {
+old-worker.js:39:    if (url.pathname === '/api/upload' && request.method === 'POST') {

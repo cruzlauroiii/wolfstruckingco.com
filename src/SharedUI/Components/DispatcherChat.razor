@@ -1,0 +1,194 @@
+@namespace SharedUI.Components
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+@*
+    DispatcherChat — native Blazor WebAssembly version of the dispatcher chat, replacing
+    the vanilla-JS dispatcher-chat.js. Same user experience: chat log, input + Send,
+    Call button that toggles through Idle/Recording/Processing, inline credential
+    uploads when the AI asks for a document, Aria TTS playback via the sidecar.
+*@
+
+<div class="WChat">
+    @if (!string.IsNullOrEmpty(ScopeBlurb))
+    {
+        <div class="Scope">@ScopeBlurb</div>
+    }
+
+    <div class="WChatLog">
+        @foreach (var Msg in Transcript)
+        {
+            var Cls = Msg.Role == "user" ? "WMsg User" : "WMsg Agent";
+            var Label = Msg.Role == "user" ? "You" : "Dispatcher";
+            <div class="@Cls">
+                <span class="WLabel">@Label</span>@Msg.Content
+                @if (Msg.Role == "assistant" && TryBuildUploadHint(Msg.Content) is var Hint && Hint is not null)
+                {
+                    <div class="WInlineUpload UploadInline">
+                        <span>📎 Upload your @Hint.Label here</span>
+                        <label>
+                            Choose file
+                            <InputFile OnChange="@(e => OnInlineUpload(e, Hint))" class="HiddenInput"
+                                       accept="image/*,application/pdf,image/svg+xml" />
+                        </label>
+                        <a href="/wolfstruckingco.com/Documents/" target="_blank">Need a sample?</a>
+                    </div>
+                }
+            </div>
+        }
+        @if (IsThinking)
+        {
+            <div class="WMsg Agent">
+                <span class="WLabel">Dispatcher</span>
+                <span class="Spinner"></span>Thinking…
+            </div>
+        }
+    </div>
+
+    <EditForm Model="@this" OnValidSubmit="@SendAsync" class="WForm">
+        <InputText @bind-Value="Draft" @oninput="@(e => Draft = e.Value?.ToString() ?? string.Empty)"
+                   placeholder="Ask Dispatcher…" autocomplete="off" />
+        <button type="button" class="@CallClass" @onclick="ToggleCallAsync">@CallLabel</button>
+        <button type="submit" class="WSend">Send</button>
+    </EditForm>
+    <div class="WStatus">@Status</div>
+</div>
+
+@code {
+    [Parameter] public string Role { get; set; } = "driver";
+    [Parameter] public string? SystemPromptOverride { get; set; }
+    [Parameter] public string? ScopeBlurb { get; set; }
+
+    private const string AiEndpointBase = Domain.Constants.WorkerConstants.AiUrl;
+
+    private static readonly Dictionary<string, string> ScopePrompts = new()
+    {
+        ["applicant"] = "You are Wolfs Trucking's AI dispatcher talking to an applicant. Scope: their own application record, uploads, transcript. You can ask them to upload CDL, medical cert, TWIC, or hazmat endorsement, one credential at a time, and wait for them to attach before moving on.",
+        ["driver"]    = "You are Wolfs Trucking's AI dispatcher talking to a hired driver. Scope: their profile, timesheets, total earnings, open jobs matching their badges.",
+        ["client"]    = "You are Wolfs Trucking's AI dispatcher talking to an employer customer. Scope: their own customer org, jobs they've posted, payments they've made.",
+        ["employer"]  = "You are Wolfs Trucking's AI dispatcher talking to an employer customer. Scope: their own customer org, jobs they've posted, payments they've made.",
+        ["staff"]     = "You are Wolfs Trucking's AI dispatcher talking to staff. Scope: every operational collection — applicants, workers, jobs, timesheets, charges, audit.",
+        ["admin"]     = "You are Wolfs Trucking's AI dispatcher talking to admin. Scope: every operational collection.",
+        ["investor"]  = "You are Wolfs Trucking's AI dispatcher talking to an investor. Scope: platform aggregates only — totals and counts, no individual PII.",
+    };
+
+    private static readonly (string Kind, string Label, string[] Keywords)[] UploadKinds = new[]
+    {
+        ("cdl",     "CDL / license",     new[] { "cdl", "class a", "class b", "license" }),
+        ("twic",    "TWIC card",         new[] { "twic", "port", "mtsa" }),
+        ("medical", "DOT medical cert",  new[] { "medical", "doctor", "fmcsa", "certificate" }),
+        ("hazmat",  "Hazmat endorsement", new[] { "hazmat", "endorse" }),
+        ("other",   "document",          new[] { "upload", "scan", "attach", "document" }),
+    };
+
+    public record Message(string Role, string Content);
+    public record UploadHint(string Kind, string Label);
+
+    private readonly List<Message> Transcript = new();
+    private string Draft = string.Empty;
+    private bool IsThinking;
+    private string Status = "Ready — type a message or click Call.";
+    private string CallState = "idle";
+    private string CallLabel => CallState switch { "loading" => "⌛ Starting…", "listening" => "☎ End", "speaking" => "🎤 Speaking…", "processing" => "⏳ Processing…", "replying" => "🔊 Dispatcher…", _ => "☎ Call" };
+    private string CallClass => $"WCall {(CallState == "idle" ? string.Empty : char.ToUpperInvariant(CallState[0]) + CallState[1..])}";
+    private static UploadHint? TryBuildUploadHint(string? content)
+    {
+        if (string.IsNullOrWhiteSpace(content)) return null;
+        var lower = content.ToLowerInvariant();
+        var match = UploadKinds.FirstOrDefault(k => k.Keywords.Any(kw => lower.Contains(kw, StringComparison.Ordinal)));
+        return match.Kind is null ? null : new UploadHint(match.Kind, match.Label);
+    }
+
+    private async Task SendAsync()
+    {
+        var text = (Draft ?? string.Empty).Trim();
+        if (string.IsNullOrEmpty(text)) return;
+        Draft = string.Empty;
+        Transcript.Add(new Message("user", text));
+        IsThinking = true;
+        StateHasChanged();
+
+        try
+        {
+            var systemPrompt = SystemPromptOverride ?? (ScopePrompts.TryGetValue(Role, out var p) ? p : ScopePrompts["driver"]);
+            var history = Transcript.TakeLast(12).Select(m => new { role = m.Role == "user" ? "user" : "assistant", content = m.Content }).ToList();
+            var aiEndpoint = new Uri(AiEndpointBase);
+            using var req = new HttpRequestMessage(HttpMethod.Post, aiEndpoint);
+            req.Headers.TryAddWithoutValidation("X-Wolfs-Session", await JsGetLocalAsync("wolfs_session") ?? "sess_" + DateTime.UtcNow.Ticks);
+            req.Headers.TryAddWithoutValidation("X-Wolfs-Email",   await JsGetLocalAsync("wolfs_email")   ?? Role + "@wolfstruckingco.com");
+            req.Headers.TryAddWithoutValidation("X-Wolfs-Role",    (await JsGetLocalAsync("wolfs_role"))  ?? Role);
+            // Item #214: agent uses cheapest model (claude-haiku-4-5) with min effort.
+            // Worker overrides model server-side anyway, but match the truth here.
+            var payload = new { model = "claude-haiku-4-5-20251001", system = systemPrompt, max_tokens = 256, messages = history };
+            req.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(payload), System.Text.Encoding.UTF8, "application/json");
+            using var resp = await Http.SendAsync(req);
+            var body = await resp.Content.ReadAsStringAsync();
+            var doc = System.Text.Json.JsonDocument.Parse(body);
+            var reply = doc.RootElement.TryGetProperty("text", out var t) ? t.GetString() ?? "(no reply)" : body;
+            Transcript.Add(new Message("assistant", reply));
+        }
+        catch (Exception ex)
+        {
+            Transcript.Add(new Message("assistant", "Dispatcher is unavailable: " + ex.Message));
+        }
+        finally
+        {
+            IsThinking = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task<string?> JsGetLocalAsync(string key)
+    {
+        try { return await JS.InvokeAsync<string?>("localStorage.getItem", key); }
+        catch { return null; }
+    }
+
+    private async Task OnInlineUpload(InputFileChangeEventArgs args, UploadHint hint)
+    {
+        var f = args.File;
+        if (f is null) return;
+        var kb = (int)(f.Size / 1024);
+        Transcript.Add(new Message("user", $"📎 Attached {f.Name} ({kb} KB) for {hint.Label}."));
+        Status = $"Uploaded {f.Name} for {hint.Label}.";
+        StateHasChanged();
+    }
+
+    // Voice call — keep the MediaRecorder plumbing in JS since Blazor doesn't have a
+    // native audio-capture API yet. The component owns the state flow, JS owns the device.
+    private async Task ToggleCallAsync()
+    {
+        if (CallState != "idle")
+        {
+            CallState = "processing";
+            Status = "⏳ Transcribing your speech…";
+            StateHasChanged();
+            try
+            {
+                var text = await JS.InvokeAsync<string?>("WolfsChatVoice.stop");
+                if (!string.IsNullOrWhiteSpace(text))
+                {
+                    Draft = text;
+                    await SendAsync();
+                }
+                else { Status = "⚠️ No speech detected."; }
+            }
+            catch (Exception ex) { Status = "❌ " + ex.Message; }
+            CallState = "idle";
+            StateHasChanged();
+            return;
+        }
+        CallState = "loading";
+        Status = "⌛ Starting mic…";
+        StateHasChanged();
+        try
+        {
+            var ok = await JS.InvokeAsync<bool>("WolfsChatVoice.start");
+            if (!ok) { Status = "❌ Could not start microphone."; CallState = "idle"; return; }
+            CallState = "listening";
+            Status = "🔴 Recording — speak now, click again to send";
+        }
+        catch (Exception ex) { Status = "❌ " + ex.Message; CallState = "idle"; }
+        StateHasChanged();
+    }
+}

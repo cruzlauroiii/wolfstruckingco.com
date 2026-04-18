@@ -1,0 +1,2 @@
+ApplyPage.razor:21:        <a href="Chat" class="Btn Block">💬 Start application — chat with agent</a>
+ApplyPage.razor:36:        <a href="Chat" class="Btn Ghost Block">💬 View my chat</a>

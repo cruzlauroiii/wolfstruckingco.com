@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://basemaps.cartocdn.com" crossorigin>
+<link rel="preconnect" href="https://router.project-osrm.org" crossorigin>
+<link rel="preconnect" href="https://wolfstruckingco.nbth.workers.dev" crossorigin>
+<meta name="description" content="Investor view for Wolfs Trucking Co. — live platform KPIs covering revenue, drivers, and deliveries.">
+<meta property="og:title" content="Investor KPIs | Wolfs Trucking Co.">
+<meta property="og:description" content="Investor view for Wolfs Trucking Co. — live platform KPIs covering revenue, drivers, and deliveries.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/wolfstruckingco.com/icon.svg">
+<meta name="twitter:card" content="summary">
+<title>Investor KPIs | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<meta name="theme-color" content="#ff6b35">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--info:#3b82f6;--warning:#f59e0b;--radius:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.TopBar{position:sticky;top:0;z-index:10;background:rgba(15,20,25,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.Brand{font-weight:800;display:flex;align-items:center;gap:8px}
+.Brand .Logo{width:28px;height:28px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:.85rem}
+.Brand a{color:var(--text);text-decoration:none}
+.Stage{max-width:1200px;margin:0 auto;padding:32px 20px 80px}
+.Stage h1{font-size:1.8rem;font-weight:800}
+.Stage>p{color:var(--text-muted);margin-top:6px;margin-bottom:24px}
+
+.Grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+@media(max-width:900px){.Grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.Grid{grid-template-columns:1fr}}
+
+.Kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.Kpi .Label{font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);margin-bottom:6px}
+.Kpi .Value{font-size:1.8rem;font-weight:800;color:var(--accent)}
+.Kpi .Trend{font-size:.78rem;color:var(--success);margin-top:4px}
+
+.Section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.Section h2{font-size:1.1rem;margin-bottom:12px}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border)}
+th{color:var(--text-muted);text-transform:uppercase;font-size:.72rem;letter-spacing:.3px;font-weight:600}
+.Pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.72rem;font-weight:600}
+.Pill.Role-driver{background:rgba(255,107,53,.15);color:var(--accent)}
+.Pill.Role-client{background:rgba(59,130,246,.15);color:var(--info)}
+.Pill.Role-admin{background:rgba(34,197,94,.15);color:var(--success)}
+.Pill.Role-staff{background:rgba(34,197,94,.15);color:var(--success)}
+.Empty{text-align:center;padding:30px;color:var(--text-muted)}
+</style>
+</head>
+<body>
+<div class="TopBar">
+  <div class="Brand"><span class="Logo">W</span><a href="/wolfstruckingco.com/">Wolfs — Investor View</a></div>
+  <div>
+    <a style="color:var(--text-muted);text-decoration:none;padding:8px 12px;font-size:.88rem" href="/wolfstruckingco.com/Investors/">Pitch deck</a>
+    <a style="color:var(--text-muted);text-decoration:none;padding:8px 12px;font-size:.88rem" href="/wolfstruckingco.com/Login/">Sign In</a>
+  </div>
+</div>
+<div class="Stage">
+  <h1>Global KPIs</h1>
+  <p>Everything on the platform — earnings, drivers, employers, posted jobs, completed deliveries — live, not pre-seeded. When zero is zero, we show zero.</p>
+
+  <div class="Grid" id="KpiGrid"></div>
+
+  <div class="Section">
+    <h2>Earnings by driver</h2>
+    <div id="DriverTable"></div>
+  </div>
+
+  <div class="Section">
+    <h2>Spend by employer</h2>
+    <div id="EmployerTable"></div>
+  </div>
+
+  <div class="Section">
+    <h2>Recent activity</h2>
+    <div id="AuditList"></div>
+  </div>
+</div>
+
+<script>window.__allowedRoles = ['admin'];</script>
+<script src="/wolfstruckingco.com/auth-guard.js"></script>
+<script src="/wolfstruckingco.com/auth-header.js"></script>
+<script src="/wolfstruckingco.com/db.js"></script>
+<script>
+(async function(){
+  const [workers, jobs, timesheets, charges, audit, applicants, customers] = await Promise.all([
+    WolfsDB.all('workers'), WolfsDB.all('jobs'), WolfsDB.all('timesheets'),
+    WolfsDB.all('charges'), WolfsDB.all('audit'), WolfsDB.all('applicants'),
+    WolfsDB.all('customers'),
+  ]);
+
+  const completedTs = timesheets.filter(t => t.status === 'completed' || t.status === 'done' || t.status === 'waitingprocessing');
+  const driverEarnings = {};
+  for (const t of completedTs) {
+    const job = jobs.find(j => j.id === t.jobId);
+    const pay = t.earnings || (t.hours && t.payRate ? t.hours * t.payRate : (job ? job.totalPay || 0 : 0));
+    driverEarnings[t.workerId] = (driverEarnings[t.workerId] || 0) + pay;
+  }
+  const totalEarnings = Object.values(driverEarnings).reduce((a, b) => a + b, 0);
+  const totalSpend = charges.reduce((a, c) => a + (c.amount || 0), 0);
+
+  const cards = [
+    { label: 'Platform revenue', value: '$' + totalSpend.toFixed(2), trend: charges.length + ' payments' },
+    { label: 'Driver earnings paid', value: '$' + totalEarnings.toFixed(2), trend: completedTs.length + ' completed jobs' },
+    { label: 'Active drivers', value: workers.filter(w => w.approved).length, trend: applicants.length + ' in pipeline' },
+    { label: 'Employers', value: customers.length, trend: jobs.length + ' jobs posted' },
+    { label: 'Open jobs', value: jobs.filter(j => j.status === 'open').length, trend: jobs.filter(j => j.status === 'accepted').length + ' accepted' },
+    { label: 'Completed deliveries', value: completedTs.length, trend: timesheets.length + ' total timesheets' },
+    { label: 'Applicants pending review', value: applicants.filter(a => a.status === 'pending_review').length, trend: applicants.filter(a => a.status === 'approved').length + ' approved' },
+    { label: 'Avg job value', value: jobs.length ? '$' + (jobs.reduce((a,j)=>a+(j.totalPay||0),0)/jobs.length).toFixed(0) : '$0', trend: 'across all posted' },
+  ];
+  document.getElementById('KpiGrid').innerHTML = cards.map(c => `<div class="Kpi"><div class="Label">${c.label}</div><div class="Value">${c.value}</div><div class="Trend">${c.trend}</div></div>`).join('');
+
+  // Driver table
+  const workersById = Object.fromEntries(workers.map(w => [w.id, w]));
+  const driverRows = Object.entries(driverEarnings).map(([wid, e]) => ({ id: wid, name: workersById[wid]?.name || wid, earnings: e }));
+  driverRows.sort((a,b) => b.earnings - a.earnings);
+  document.getElementById('DriverTable').innerHTML = driverRows.length
+    ? `<table><thead><tr><th>Driver</th><th>Earnings</th><th>Role</th></tr></thead><tbody>${driverRows.map(r => `<tr><td>${escape(r.name)}</td><td>$${r.earnings.toFixed(2)}</td><td><span class="Pill Role-driver">driver</span></td></tr>`).join('')}</tbody></table>`
+    : '<div class="Empty">No completed jobs yet.</div>';
+
+  // Employer table — sum charges by email
+  const empSpend = {};
+  for (const c of charges) empSpend[c.payerEmail || 'unknown'] = (empSpend[c.payerEmail || 'unknown'] || 0) + c.amount;
+  const empRows = Object.entries(empSpend).map(([e, a]) => ({ email: e, amount: a }));
+  empRows.sort((a,b) => b.amount - a.amount);
+  document.getElementById('EmployerTable').innerHTML = empRows.length
+    ? `<table><thead><tr><th>Employer</th><th>Spend</th><th>Role</th></tr></thead><tbody>${empRows.map(r => `<tr><td>${escape(r.email)}</td><td>$${r.amount.toFixed(2)}</td><td><span class="Pill Role-client">employer</span></td></tr>`).join('')}</tbody></table>`
+    : '<div class="Empty">No payments yet.</div>';
+
+  // Audit — sort newest first using the entry's `at` (or `timestamp` for older rows).
+  const auditFmt = (a) => {
+    const at = a.at || a.timestamp || a.createdAt || '';
+    const kind = a.kind || a.action || '(event)';
+    const detailBits = [];
+    if (a.subject) detailBits.push('subject: ' + a.subject);
+    if (a.worker) detailBits.push('worker: ' + a.worker);
+    if (a.badges && a.badges.length) detailBits.push('badges: ' + a.badges.join(', '));
+    if (a.details) detailBits.push(a.details);
+    return { at, kind, detail: detailBits.join(' · ') };
+  };
+  const recent = audit
+    .slice()
+    .sort((x, y) => new Date((y.at || y.timestamp || 0)) - new Date((x.at || x.timestamp || 0)))
+    .slice(0, 20)
+    .map(auditFmt);
+  document.getElementById('AuditList').innerHTML = recent.length
+    ? `<table><thead><tr><th>When</th><th>Action</th><th>Detail</th></tr></thead><tbody>${recent.map(r => `<tr><td style="color:var(--text-muted);font-size:.78rem">${escape(r.at)}</td><td><code>${escape(r.kind)}</code></td><td>${escape(r.detail)}</td></tr>`).join('')}</tbody></table>`
+    : '<div class="Empty">No audit events yet.</div>';
+
+  function escape(s){return (s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+})();
+</script>
+</body>
+</html>

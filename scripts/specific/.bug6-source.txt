@@ -1,0 +1,1 @@
+patch-html-signout.cs:11:const string ButtonOnclick = " onclick=\"['wolfs_role','wolfs_email','wolfs_session'].forEach(function(k){localStorage.removeItem(k);});location.replace('/wolfstruckingco.com/');\"";

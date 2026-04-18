@@ -1,0 +1,44 @@
+@page "/Job/Offer"
+
+<div class="Stage JobOfferStage">
+    <div class="JobOfferKicker">New job offer</div>
+    <h1>@Title</h1>
+    <p>@Subtitle</p>
+
+    <div class="Card JobMeta">
+        <div class="JobMetaRow">
+            <div class="JobMetaCell Pay">
+                <div class="JobMetaLabel">Pay</div>
+                <div class="JobMetaValue">$@Pay</div>
+            </div>
+            <div class="JobMetaCell">
+                <div class="JobMetaLabel">Distance</div>
+                <div class="JobMetaValue">@Distance</div>
+            </div>
+            <div class="JobMetaCell">
+                <div class="JobMetaLabel">Hours</div>
+                <div class="JobMetaValue">@Hours</div>
+            </div>
+        </div>
+        <div class="JobMetaText">
+            <div class="JobMetaLine"><strong>From:</strong> @From</div>
+            <div class="JobMetaLine"><strong>To:</strong> @To</div>
+            <div class="JobMetaSub">Starts @Starts · grace @Grace min</div>
+        </div>
+    </div>
+
+    <div class="Card JobSteps">
+        <h2>What you do</h2>
+        <ol>
+            <li>Show your badges at pickup.</li>
+            <li>Inspect the car and seal numbers.</li>
+            <li>Follow the turn-by-turn map.</li>
+            <li>Hand off to the next driver or buyer.</li>
+        </ol>
+    </div>
+
+    <div class="JobActions">
+        <button class="Btn">Accept job</button>
+        <button class="Btn Ghost">Decline</button>
+    </div>
+</div>

@@ -1,0 +1,1 @@
+SharedUI/Components/ThemeChip.razor.cs:27:    protected override async Task OnAfterRenderAsync(bool firstRender)

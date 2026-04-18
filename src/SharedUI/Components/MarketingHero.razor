@@ -1,0 +1,18 @@
+@* Reusable marketing hero — every static landing page uses this with a different title/subtitle/CTA. *@
+
+<section class="Hero">
+    <h1>@Title @if (!string.IsNullOrEmpty(Highlight)) { <span>@Highlight</span> }</h1>
+    <p>@Subtitle</p>
+    @if (!string.IsNullOrEmpty(CtaHref))
+    {
+        <a class="Btn" href="@CtaHref">@CtaLabel</a>
+    }
+</section>
+
+@code {
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public string? Highlight { get; set; }
+    [Parameter] public string Subtitle { get; set; } = "";
+    [Parameter] public string? CtaHref { get; set; }
+    [Parameter] public string CtaLabel { get; set; } = "Get started";
+}

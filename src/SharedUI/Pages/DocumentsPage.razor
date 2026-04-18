@@ -1,0 +1,26 @@
+@page "/Documents"
+
+<div class="Stage PageStage">
+    <h1>My Documents</h1>
+    <p>Upload every certificate that matches a badge. Tap a card to add or replace.</p>
+
+    @foreach (var Cert in Certs)
+    {
+        var Uploaded = UploadedSubjects.Any(S => S.Contains(Cert.Match, System.StringComparison.OrdinalIgnoreCase));
+        <div class="Card Compact DocRow">
+            <div class="DocBadge @(Uploaded ? "Done" : "")">@(Uploaded ? "✓" : "+")</div>
+            <div class="DocBody">
+                <div class="DocName">@Cert.Name</div>
+                <div class="DocDetail">@Cert.Detail</div>
+            </div>
+            <button class="Btn Ghost DocBtn">@(Uploaded ? "Replace" : "Upload")</button>
+        </div>
+    }
+
+    <div class="UploadDrop">
+        <div class="UploadIcon">📎</div>
+        <div class="UploadTitle">Upload more</div>
+        <div class="UploadSub">JPG, PNG, or PDF up to 10 MB.</div>
+        <button class="Btn">Choose file</button>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+worker.js:2:// R2 keys: db/{collection}.json for persistent data, inbox/outbox for relay
+worker.js:48:    if (url.pathname === '/send' && request.method === 'POST') {
+worker.js:50:      await env.R2.put('inbox/' + Date.now() + '_' + rnd(), body);
+worker.js:53:    if (url.pathname === '/reply' && request.method === 'POST') {
+worker.js:55:      await env.R2.put('outbox/' + Date.now() + '_' + rnd(), body);
+worker.js:60:      const prefix = role === 'server' ? 'inbox/' : 'outbox/';
+worker.js:70:      const [inbox, outbox] = await Promise.all([env.R2.list({ prefix: 'inbox/' }), env.R2.list({ prefix: 'outbox/' })]);
+worker.js:71:      return Response.json({ inbox: inbox.objects.length, outbox: outbox.objects.length }, { headers: h });
+worker.js:74:    // === File upload: stores binary blob in R2 under uploads/{ownerId}/{ts}_{filename} ===
+worker.js:75:    if (url.pathname === '/api/upload' && request.method === 'POST') {
+worker.js:79:      const filename = (url.searchParams.get('filename') || 'upload').replace(/[^a-zA-Z0-9._-]/g, '_').slice(0, 80);
+worker.js:83:      const key = `uploads/${email.replace(/[^a-zA-Z0-9@._-]/g, '_')}/${Date.now()}_${filename}`;
+worker.js:87:    // === Fetch uploaded file (public read for demo simplicity) ===
+worker.js:90:      if (!key.startsWith('uploads/')) return new Response('not found', { status: 404, headers: h });
+worker.js:98:    if (url.pathname === '/api/charge' && request.method === 'POST') {
+worker.js:136:    if (url.pathname === '/ai' && request.method === 'POST') {
+worker.js:249:          method: 'POST',
+worker.js:276:    if (url.pathname === '/voice' && request.method === 'POST') {
+worker.js:298:          method: 'POST',
+worker.js:349:        method: 'POST',
+worker.js:379:    const RESERVED_API = new Set(['ask', 'upload', 'file', 'charge', 'buy', 'loc']);
+worker.js:417:      if (request.method === 'POST') {
+worker.js:448:    if (url.pathname === '/api-seed' && request.method === 'POST') {
+worker.js:453:    if (url.pathname === '/api/ask' && request.method === 'POST') {
+worker.js:556:        method: 'POST',
+worker.js:573:    if (url.pathname === '/api/buy' && request.method === 'POST') {
+worker.js:659:    if (url.pathname.startsWith('/api/loc/') && request.method === 'POST') {
+worker.js:718:    if (url.pathname === '/api-wipe' && request.method === 'POST') {
+worker.js:827:    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',

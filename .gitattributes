@@ -1,0 +1,18 @@
+# Force LF on all text so git stops warning "LF will be replaced by CRLF" (item #5).
+* text=auto eol=lf
+
+# Treat these as binary so git doesn't try to normalise them.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.svg text eol=lf
+*.mp4 binary
+*.webm binary
+*.wasm binary
+*.br  binary
+*.gz  binary
+*.pdf binary
+*.zip binary

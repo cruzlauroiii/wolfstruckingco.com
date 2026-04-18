@@ -1,0 +1,71 @@
+generic/audit-secrets.cs:2:#:include script-paths.cs
+generic/build-blazor.cs:2:#:include ../specific/build-blazor-config.cs
+generic/cdp-add-js-origin.cs:3:#:include script-paths.cs
+generic/cdp-add-redirect-uri.cs:6:#:include script-paths.cs
+generic/cdp-allow.cs:3:#:include script-paths.cs
+generic/cdp-click-prtask-client.cs:3:#:include script-paths.cs
+generic/cdp-close-entra-flyout.cs:6:#:include script-paths.cs
+generic/cdp-create-github-oauth-app.cs:3:#:include script-paths.cs
+generic/cdp-debug-callback.cs:3:#:include script-paths.cs
+generic/cdp-entra-add-uri-v2.cs:6:#:include script-paths.cs
+generic/cdp-final-check.cs:3:#:include script-paths.cs
+generic/cdp-fix-google-uri.cs:3:#:include script-paths.cs
+generic/cdp-focus-google-uri.cs:3:#:include script-paths.cs
+generic/cdp-focus-oauth-fields.cs:3:#:include script-paths.cs
+generic/cdp-focus-wolfs-uri.cs:3:#:include script-paths.cs
+generic/cdp-grab-github-app-link.cs:3:#:include script-paths.cs
+generic/cdp-inspect-oauth.cs:3:#:include script-paths.cs
+generic/cdp-list-pages.cs:3:#:include script-paths.cs
+generic/cdp-open-urls.cs:3:#:include script-paths.cs
+generic/cdp-pick-google-account.cs:3:#:include script-paths.cs
+generic/cdp-probe-entra-deep.cs:6:#:include script-paths.cs
+generic/cdp-probe-entra-frames.cs:3:#:include script-paths.cs
+generic/cdp-probe-entra-save.cs:6:#:include script-paths.cs
+generic/cdp-probe-entra.cs:3:#:include script-paths.cs
+generic/cdp-probe-google-text.cs:3:#:include script-paths.cs
+generic/cdp-probe-okta.cs:3:#:include script-paths.cs
+generic/cdp-probe-tab.cs:3:#:include script-paths.cs
+generic/cdp-read-entra-uris.cs:6:#:include script-paths.cs
+generic/cdp-read-github-callback.cs:3:#:include script-paths.cs
+generic/cdp-read-google-uris.cs:3:#:include script-paths.cs
+generic/cdp-renav-github.cs:3:#:include script-paths.cs
+generic/cdp-renav-google.cs:3:#:include script-paths.cs
+generic/cdp-snapshot-oauth.cs:3:#:include script-paths.cs
+generic/cdp-test-github-sso.cs:6:#:include script-paths.cs
+generic/cdp-test-google-sso.cs:3:#:include script-paths.cs
+generic/cdp-verify-google-sso.cs:3:#:include script-paths.cs
+generic/cdp-verify-section.cs:3:#:include script-paths.cs
+generic/chrome-devtools.cs:10:#:include CdpCommands.cs
+generic/chrome-devtools.cs:11:#:include CdpConstants.cs
+generic/chrome-devtools.cs:12:#:include CdpSetup.cs
+generic/deploy-worker.cs:2:#:include script-paths.cs
+generic/deploy-worker.cs:3:#:include ../specific/deploy-worker-config.cs
+generic/emit-worker-js.cs:6:#:include script-paths.cs
+generic/expand-credentials.cs:3:#:include ../specific/expand-credentials-config.cs
+generic/find-js-files.cs:3:#:include script-paths.cs
+generic/find-js-refs.cs:3:#:include script-paths.cs
+generic/fix-includes.cs:29:            Sb.Append(System.Globalization.CultureInfo.InvariantCulture, $"#:include {Rel}\n");
+generic/fix-includes.cs:46:        [GeneratedRegex(@"^#:include\s+(?<name>[^\r\n]+\.cs)\s*$", RegexOptions.ExplicitCapture)]
+generic/git-commit-push.cs:3:#:include script-paths.cs
+generic/lint-each-script.cs:62:        [GeneratedRegex(@"^\s*#:include\s+(?<file>[\w\-.]+\.cs)\s*$", RegexOptions.Multiline | RegexOptions.ExplicitCapture)]
+generic/lint-strict.cs:3:#:include ../specific/lint-strict-config.cs
+generic/patch-dark-theme.cs:3:#:include script-paths.cs
+generic/patch-emojis-v2.cs:3:#:include script-paths.cs
+generic/patch-home-emojis.cs:3:#:include script-paths.cs
+generic/patch-page-emojis-batch.cs:3:#:include script-paths.cs
+generic/patch-worker-callback-fix.cs:3:#:include script-paths.cs
+generic/patch-worker-callback.cs:3:#:include script-paths.cs
+generic/patch-worker-okta-domain.cs:3:#:include script-paths.cs
+generic/publish-pages.cs:4:#:include ../specific/publish-pages-config.cs
+generic/purge-legacy-js.cs:3:#:include script-paths.cs
+generic/regen-statics.cs:3:#:include script-paths.cs
+generic/rename-namespace.cs:3:#:include ../specific/rename-namespace-config.cs
+generic/run-lighthouse.cs:3:#:include ../specific/run-lighthouse-config.cs
+generic/stage-amend-push.cs:3:#:include script-paths.cs
+generic/verify-deploy.cs:3:#:include script-paths.cs
+generic/verify-js-purge.cs:3:#:include script-paths.cs
+generic/wipe-db.cs:6:#:include script-paths.cs
+generic/wipe-db.cs:7:#:include ../specific/wipe-db-config.cs
+specific/dump-file-scratch-config-v124.cs:14:        public const string Pattern = @"lint-each|SharedScripts|#:include";
+specific/grep-content-scratch-config-v26.cs:7:        public const string Pattern = @"#:include";
+specific/patch-source-scratch-config-v73.cs:10:        public const string Replace_01 = "#:property TargetFramework=net11.0\n#:property RunAnalyzersDuringBuild=false\n#:property TreatWarningsAsErrors=false\n#:property EnforceCodeStyleInBuild=false\n#:property ExperimentalFileBasedProgramEnableIncludeDirective=true\n#:include pipeline-scene-config.cs\n\nusing System;";

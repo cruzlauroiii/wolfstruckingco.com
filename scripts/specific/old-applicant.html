@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://basemaps.cartocdn.com" crossorigin>
+<link rel="preconnect" href="https://router.project-osrm.org" crossorigin>
+<link rel="preconnect" href="https://wolfstruckingco.nbth.workers.dev" crossorigin>
+<meta name="description" content="Driver application chat — upload your CDL, TWIC, and DOT medical card to apply at Wolfs Trucking Co.">
+<meta property="og:title" content="Applicant Interview | Wolfs Trucking Co.">
+<meta property="og:description" content="Driver application chat — upload your CDL, TWIC, and DOT medical card to apply at Wolfs Trucking Co.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/wolfstruckingco.com/icon.svg">
+<meta name="twitter:card" content="summary">
+<title>Applicant Interview | Wolfs Trucking Co.</title>
+<link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
+<meta name="theme-color" content="#ff6b35">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--info:#3b82f6;--warning:#f59e0b;--radius:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.TopBar{position:sticky;top:0;z-index:10;background:rgba(15,20,25,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.Brand{font-weight:800;display:flex;align-items:center;gap:8px}
+.Brand .Logo{width:28px;height:28px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:.85rem}
+.Brand a{color:var(--text);text-decoration:none}
+.Stage{max-width:1600px;margin:0 auto;padding:24px 32px 40px}
+.Stage h1{font-size:1.7rem;font-weight:800;margin-bottom:6px}
+.Stage>p{color:var(--text-muted);margin-bottom:24px;line-height:1.55}
+
+.Card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:16px}
+.Card h2{font-size:1.05rem;margin-bottom:10px}
+.ChatLog{display:flex;flex-direction:column;gap:12px;max-height:760px;overflow-y:auto;padding:8px;margin-bottom:14px}
+.Msg{padding:14px 18px;border-radius:10px;max-width:100%;width:100%;line-height:1.55;white-space:pre-wrap;font-size:1rem;align-self:stretch}
+.Msg.User{background:var(--bg);border:1px solid var(--border);border-left:4px solid var(--text-muted)}
+.Msg.Agent{background:rgba(255,107,53,.08);border:1px solid rgba(255,107,53,.3);border-left:4px solid var(--accent)}
+.Msg .Label{font-size:.72rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;display:block}
+.ChatInput{display:flex;gap:8px;margin-top:10px}
+.ChatInput input{flex:1;padding:12px 16px;border-radius:10px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit}
+.ChatInput input:focus{border-color:var(--accent);outline:none}
+.Btn{padding:12px 22px;border-radius:10px;background:var(--accent);color:#fff;border:none;font-weight:700;cursor:pointer;font-size:.95rem;font-family:inherit}
+.Btn:hover{background:var(--accent-hover)}
+.Btn.Ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.Btn[disabled]{opacity:.5;cursor:not-allowed}
+
+.Uploads{display:grid;gap:10px}
+.UploadRow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px;border:1px dashed var(--border);border-radius:10px}
+.UploadRow label{cursor:pointer;display:flex;align-items:center;gap:10px;color:var(--text-muted);font-size:.88rem}
+.UploadRow label input[type=file]{display:none}
+.UploadRow .Pill{background:rgba(34,197,94,.15);color:var(--success);padding:3px 10px;border-radius:12px;font-size:.75rem}
+.UploadRow .Pill.Pending{background:rgba(245,158,11,.15);color:var(--warning)}
+
+.Spinner{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid rgba(255,107,53,.25);border-top-color:var(--accent);animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.Hidden{display:none}
+.AuthWarn{padding:14px 18px;background:rgba(245,158,11,.1);border:1px solid var(--warning);border-radius:10px;margin-bottom:18px;font-size:.88rem;color:var(--warning)}
+</style>
+</head>
+<body>
+<div class="TopBar">
+  <div class="Brand"><span class="Logo">W</span><a href="/wolfstruckingco.com/">Wolfs Trucking Co.</a></div>
+  <div class="TopActions"><a href="/wolfstruckingco.com/Login/" style="color:var(--text-muted);text-decoration:none;padding:8px 12px;font-size:.88rem">Sign In</a></div>
+</div>
+<div class="Stage">
+  <h1>🚚 Driver application — chat with the Dispatcher</h1>
+  <p>Your Dispatcher runs a short intake interview, captures your experience, and collects your credential scans for staff review.</p>
+
+  <div id="AuthWarn" class="AuthWarn Hidden">You need to sign in to start — uploads and chat are tied to your session. <a href="/wolfstruckingco.com/Login/" style="color:var(--accent)">Sign in here</a>.</div>
+
+  <div class="Card">
+    <h2>Interview</h2>
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;font-size:.78rem;color:var(--text-muted)">
+      <span id="CallStatus">Speak your answers instead of typing — or use the Call button next to Send.</span>
+    </div>
+    <div class="ChatLog" id="ChatLog"></div>
+    <form class="ChatInput" id="ChatForm" style="display:flex;gap:8px;align-items:stretch">
+      <input id="ChatInput" placeholder="Type your answer…" required autocomplete="off" style="flex:1">
+      <button class="Btn" type="button" id="CallBtn" title="Live voice call — chat stays visible">&#9742; Call</button>
+      <button class="Btn" type="submit">Send</button>
+    </form>
+    <p style="font-size:.75rem;color:var(--text-muted);margin-top:8px">Your answers are saved to your Wolfs profile.</p>
+  </div>
+
+  <div id="CallOverlay" style="position:fixed;bottom:18px;right:18px;left:18px;max-width:420px;margin-left:auto;background:var(--card);border:2px solid var(--accent);border-radius:14px;padding:14px 18px;display:none;align-items:center;gap:12px;z-index:20;box-shadow:0 10px 30px rgba(0,0,0,.55)">
+    <div style="width:42px;height:42px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;animation:pulseCall 1.4s infinite">&#9742;</div>
+    <div style="flex:1;min-width:0">
+      <div style="font-weight:700;font-size:.95rem">Calling Dispatcher…</div>
+      <div id="CallSub" style="color:var(--text-muted);font-size:.78rem;line-height:1.35;margin-top:2px">Hold the mic and speak. Chat stays visible.</div>
+    </div>
+    <button type="button" id="HoldBtn" style="padding:8px 12px;border-radius:8px;background:var(--accent);border:1px solid var(--accent);color:#fff;font-weight:700;cursor:pointer;font-family:inherit;font-size:.78rem">Hold</button>
+    <button type="button" id="HangupBtn" style="padding:8px 12px;border-radius:8px;background:#ef4444;border:1px solid #ef4444;color:#fff;font-weight:700;cursor:pointer;font-family:inherit;font-size:.78rem">End</button>
+  </div>
+  <style>@keyframes pulseCall{0%,100%{box-shadow:0 0 0 0 rgba(255,107,53,.6)}50%{box-shadow:0 0 0 10px rgba(255,107,53,0)}}</style>
+
+  <!-- Uploads + submit both live INSIDE the chat as inline bubbles. Hidden stubs keep
+       legacy JS happy; everything visible is rendered by the render() transcript loop. -->
+  <div class="Uploads" id="Uploads" style="display:none"></div>
+  <button class="Btn Ghost" id="AddFile" style="display:none">+ Add file</button>
+  <button class="Btn" id="SubmitApp" style="display:none">Submit application for review</button>
+  <div id="SubmitStatus" style="display:none"></div>
+</div>
+
+<script>window.__allowedRoles = ['admin','driver','user'];</script>
+<script src="/wolfstruckingco.com/auth-guard.js"></script>
+<script src="/wolfstruckingco.com/auth-header.js"></script>
+<script src="/wolfstruckingco.com/db.js"></script>
+<script src="/wolfstruckingco.com/ai.js"></script>
+<script>
+(async function(){
+  const sess = localStorage.getItem('wolfs_session');
+  const email = localStorage.getItem('wolfs_email');
+  const name = localStorage.getItem('wolfs_name') || (email ? email.split('@')[0] : 'Applicant');
+  if (!sess || !email) { document.getElementById('AuthWarn').classList.remove('Hidden'); }
+
+  const applicantId = 'app_' + (email || 'anon').replace(/[^a-zA-Z0-9]/g, '_');
+  let applicant = await WolfsDB.get('applicants', applicantId) || {
+    id: applicantId, email, name, createdAt: new Date().toISOString(),
+    transcript: [], uploads: [], status: 'in_interview'
+  };
+  // Start every visit with a clean chat unconditionally — seeded transcripts from an
+  // earlier demo (even after the record was marked pending_review) shouldn't surface.
+  // Uploads + status stay persisted; only the conversational history resets.
+  applicant.transcript = [];
+
+  const chatLog = document.getElementById('ChatLog');
+  const input = document.getElementById('ChatInput');
+  const form = document.getElementById('ChatForm');
+  const uploadsEl = document.getElementById('Uploads');
+
+  const systemPrompt = `You are "Dispatcher", the Intake officer for Wolfs Trucking Co. You interview new driver applicants — warmly, concisely, but thoroughly.
+Collect in this order: (1) name + years driving, (2) CDL class + endorsements, (3) location + willingness to relocate, (4) career goals, (5) list of credentials they'll upload.
+Ask ONE question at a time. When you have enough to summarize their profile, say so plainly and thank them. Do not repeat yourself. Do not request information they've already given.
+Applicant's email on file: ${email || 'unknown'}. Applicant's current transcript so far is provided. Pick up exactly where the last exchange left off.`;
+
+  // Per-document SVG thumbnails so attached files have a real visual in the chat — beats
+  // showing just a filename. The four credential kinds get distinct illustrations.
+  function thumbForKind(kind) {
+    const wrap = (inner) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 56" width="80" height="56" style="border-radius:6px;background:#0b1016;border:1px solid var(--border);flex-shrink:0">${inner}</svg>`;
+    if (kind === 'cdl') return wrap('<rect x="4" y="6" width="72" height="44" rx="4" fill="#1a2332" stroke="#ff6b35" stroke-width="1.5"/><circle cx="18" cy="22" r="6" fill="#ff6b35"/><rect x="30" y="18" width="28" height="3" fill="#3b82f6"/><rect x="30" y="24" width="40" height="2" fill="#8899aa"/><rect x="8" y="40" width="64" height="2" fill="#22c55e"/>');
+    if (kind === 'twic') return wrap('<rect x="6" y="4" width="68" height="48" rx="4" fill="#1a2332" stroke="#3b82f6" stroke-width="1.5"/><circle cx="20" cy="20" r="7" fill="#3b82f6"/><rect x="32" y="14" width="34" height="3" fill="#fff"/><rect x="32" y="20" width="26" height="2" fill="#8899aa"/><rect x="32" y="26" width="38" height="2" fill="#8899aa"/><rect x="10" y="42" width="60" height="2" fill="#3b82f6"/>');
+    if (kind === 'medical') return wrap('<rect x="6" y="4" width="68" height="48" rx="4" fill="#1a2332" stroke="#22c55e" stroke-width="1.5"/><path d="M40 14 v24 M28 26 h24" stroke="#22c55e" stroke-width="3" stroke-linecap="round"/><rect x="10" y="44" width="60" height="2" fill="#22c55e"/>');
+    if (kind === 'hazmat') return wrap('<rect x="6" y="4" width="68" height="48" rx="4" fill="#1a2332" stroke="#f59e0b" stroke-width="1.5"/><path d="M40 14 L52 32 L28 32 Z" fill="#f59e0b"/><text x="40" y="29" text-anchor="middle" font-size="9" font-weight="900" fill="#0f1419">!</text><rect x="10" y="44" width="60" height="2" fill="#f59e0b"/>');
+    return wrap('<rect x="6" y="4" width="68" height="48" rx="4" fill="#1a2332" stroke="#8899aa" stroke-width="1.5"/><rect x="14" y="14" width="52" height="2" fill="#8899aa"/><rect x="14" y="20" width="40" height="2" fill="#8899aa"/><rect x="14" y="26" width="48" height="2" fill="#8899aa"/><rect x="14" y="32" width="32" height="2" fill="#8899aa"/>');
+  }
+
+  // Render an attached-file bubble (thumbnail + filename + size + Remove button).
+  function renderAttachmentBubble(m, idx) {
+    const upload = (applicant.uploads || []).find(u =>
+      m.content && m.content.indexOf(u.name) !== -1
+    );
+    if (!upload) return null;
+    const kind = upload.kind || 'other';
+    const uploadIdx = (applicant.uploads || []).indexOf(upload);
+    const d = document.createElement('div');
+    d.className = 'Msg User';
+    d.style.cssText += 'padding:12px 16px;width:100%;max-width:none';
+    d.innerHTML = `<span class="Label">You · attached</span>
+      <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+        ${thumbForKind(kind)}
+        <div style="flex:1;min-width:200px">
+          <div style="font-weight:700;font-size:1rem">📎 ${escapeHtml(upload.name)}</div>
+          <div style="color:rgba(255,255,255,.85);font-size:.85rem;margin-top:3px">${Math.round((upload.size||0)/1024)} KB · ${escapeHtml(upload.kind||'document')}</div>
+        </div>
+        <button type="button" onclick="window.__applicantDeleteUpload(${uploadIdx})" style="padding:8px 14px;border-radius:6px;background:rgba(239,68,68,.15);border:1px solid #ef4444;color:#fff;font-weight:700;cursor:pointer;font-size:.82rem;font-family:inherit;flex-shrink:0">✕ Remove</button>
+      </div>`;
+    return d;
+  }
+
+  function render() {
+    chatLog.innerHTML = '';
+    applicant.transcript.forEach((m, idx) => {
+      if (m.role === 'user' && /Attached\b/i.test((m.content||''))) {
+        const bubble = renderAttachmentBubble(m, idx);
+        if (bubble) { chatLog.appendChild(bubble); return; }
+      }
+      const d = document.createElement('div');
+      d.className = 'Msg ' + (m.role === 'user' ? 'User' : 'Agent');
+      d.innerHTML = `<span class="Label">${m.role === 'user' ? 'You' : 'Dispatcher'}</span>${escapeHtml(m.content)}${buildInlineUpload(m)}`;
+      chatLog.appendChild(d);
+    });
+    // Synthetic dispatcher bubble offering the Submit button once any docs are attached and
+    // the application hasn't been submitted yet. Lives in the chat, not as a sticky footer.
+    if ((applicant.uploads || []).length >= 1 && applicant.status !== 'pending_review' && applicant.status !== 'approved') {
+      const d = document.createElement('div');
+      d.className = 'Msg Agent';
+      const names = (applicant.uploads || []).map(u => u.name).join(', ');
+      d.innerHTML = `<span class="Label">Dispatcher</span>I have ${applicant.uploads.length} document${applicant.uploads.length === 1 ? '' : 's'} on file (${escapeHtml(names)}). Whenever you're ready, submit your application and staff will take it from here.
+        <div style="display:flex;gap:8px;align-items:center;margin-top:10px;padding:8px 10px;background:rgba(34,197,94,.08);border:1px dashed var(--success);border-radius:8px;flex-wrap:wrap">
+          <span style="flex:1;min-width:160px;color:var(--success);font-weight:600">✅ Ready to submit</span>
+          <button type="button" class="Btn" onclick="window.__applicantSubmit()" style="font-size:.82rem">Submit application for review</button>
+        </div>`;
+      chatLog.appendChild(d);
+    }
+    if (applicant.status === 'pending_review') {
+      const d = document.createElement('div');
+      d.className = 'Msg Agent';
+      d.innerHTML = `<span class="Label">Dispatcher</span>✅ Your application is in the staff review queue. You'll hear back once your badges are verified.`;
+      chatLog.appendChild(d);
+    }
+    chatLog.scrollTop = chatLog.scrollHeight;
+    renderUploads();
+  }
+  // Inline submit handler — called from the in-chat button.
+  window.__applicantSubmit = async function() {
+    applicant.status = 'pending_review';
+    applicant.submittedAt = new Date().toISOString();
+    try { await WolfsDB.put('applicants', applicant); } catch (_) {}
+    render();
+  };
+  function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  // When the dispatcher asks about a credential, drop an upload control inline in the
+  // bubble — the applicant never has to leave the chat to submit a document.
+  function buildInlineUpload(m) {
+    if (!m || m.role !== 'assistant') return '';
+    const t = (m.content || '').toLowerCase();
+    let hint = null;
+    if (/\bcdl\b|class a|class b|license/.test(t)) hint = { kind:'cdl', label:'CDL / license' };
+    else if (/\btwic\b|port|mtsa/.test(t)) hint = { kind:'twic', label:'TWIC card' };
+    else if (/\bmedical\b|doctor|fmcsa|certificate/.test(t)) hint = { kind:'medical', label:'DOT medical cert' };
+    else if (/\bhazmat\b|endorse/.test(t)) hint = { kind:'hazmat', label:'Hazmat endorsement' };
+    else if (/upload|scan|attach|document/.test(t)) hint = { kind:'other', label:'document' };
+    if (!hint) return '';
+    return `<div class="MsgInlineUpload" style="display:flex;gap:8px;align-items:center;margin-top:8px;padding:8px 10px;background:rgba(255,107,53,.08);border:1px dashed var(--accent);border-radius:8px;font-size:.78rem;flex-wrap:wrap">
+      <span style="flex:1;min-width:160px;color:var(--accent);font-weight:600">📎 Upload your ${escapeHtml(hint.label)} here</span>
+      <label style="padding:6px 12px;border-radius:6px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;font-size:.78rem">Choose file<input type="file" accept="image/*,application/pdf,image/svg+xml" style="display:none" onchange="window.__applicantInlineUpload(event,'${hint.kind}','${hint.label.replace(/'/g,'')}')" aria-label="File upload"></label>
+    </div>`;
+  }
+
+  // Global handler the inline upload buttons call. Pushes the file into applicant.uploads
+  // and re-renders the chat so the docs row is preserved as part of the transcript.
+  window.__applicantInlineUpload = async function(ev, kind, label) {
+    const f = ev.target.files && ev.target.files[0];
+    if (!f) return;
+    applicant.uploads = applicant.uploads || [];
+    applicant.uploads.push({ name: f.name, size: f.size, kind: kind, uploadedAt: new Date().toISOString() });
+    applicant.transcript.push({ role: 'user', content: `📎 Attached ${f.name} (${Math.round(f.size/1024)} KB) for ${label}.`, ts: new Date().toISOString() });
+    try { await WolfsDB.put('applicants', applicant); } catch (_) {}
+    render();
+  };
+
+  // Chat starts empty — nothing is rendered until the user types or speaks their first message.
+  render();
+
+  async function sendApplicantMessage(msg) {
+    msg = (msg || '').trim();
+    if (!msg) return;
+    input.value = '';
+    applicant.transcript.push({ role: 'user', content: msg, ts: new Date().toISOString() });
+    render();
+    try { await WolfsDB.put('applicants', applicant); } catch (_) {}
+    const spinner = document.createElement('div');
+    spinner.className = 'Msg Agent';
+    spinner.innerHTML = '<span class="Spinner"></span>Dispatcher is thinking…';
+    chatLog.appendChild(spinner);
+    let reply;
+    try {
+      const history = applicant.transcript.slice(0, -1).map(m => ({ role: m.role, content: m.content }));
+      reply = await window.WolfsAI.chat({ name, email, role: 'applicant' }, null, history, msg, systemPrompt);
+    } catch (ex) {
+      reply = 'Sorry, I hit an error reaching the dispatcher: ' + (ex.message || ex);
+    }
+    try { spinner.remove(); } catch (_) {}
+    applicant.transcript.push({ role: 'assistant', content: reply || 'No reply.', ts: new Date().toISOString() });
+    render();
+    try { await WolfsDB.put('applicants', applicant); } catch (_) {}
+  }
+  // Exposed so the video automation can invoke the same code path as a real submit, without
+  // relying on requestSubmit() — some CDP evaluate contexts don't fire the submit event
+  // reliably, so we give the scene a direct entry point.
+  window.__applicantSend = sendApplicantMessage;
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    await sendApplicantMessage(input.value);
+  });
+
+  // Uploads
+  async function deleteUpload(idx) {
+    if (!applicant.uploads || idx < 0 || idx >= applicant.uploads.length) return;
+    applicant.uploads.splice(idx, 1);
+    try { await WolfsDB.put('applicants', applicant); } catch (_) {}
+    render();
+  }
+  window.__applicantDeleteUpload = deleteUpload;
+  // Scene-automation hook: re-read the applicant record from R2 and re-render chat + uploads.
+  // This lets the walkthrough video script seed uploads directly in R2 and then show them via
+  // the real renderer (which includes the Remove button per row) instead of fabricated HTML.
+  window.__applicantForceRender = async function() {
+    try {
+      const fresh = await WolfsDB.get('applicants', applicantId);
+      if (fresh) applicant = fresh;
+    } catch (_) {}
+    render();
+  };
+  window.__applicantInjectState = function(partial) {
+    if (!partial) return;
+    applicant = Object.assign(applicant || {id: applicantId, email}, partial);
+    render();
+  };
+  function renderUploads() {
+    uploadsEl.innerHTML = '';
+    const uploads = applicant.uploads || [];
+    uploads.forEach((u, idx) => {
+      const row = document.createElement('div');
+      row.className = 'UploadRow';
+      row.innerHTML = `<span>📎 ${escapeHtml(u.name)} <span style="color:var(--text-muted);font-size:.78rem">(${Math.round(u.size/1024)} KB)</span></span><span style="display:flex;gap:8px;align-items:center"><span class="Pill">uploaded</span><button type="button" class="Btn Ghost Small" style="padding:4px 10px;font-size:.75rem" onclick="window.__applicantDeleteUpload(${idx})">Remove</button></span>`;
+      uploadsEl.appendChild(row);
+    });
+    if (!uploads.length) uploadsEl.innerHTML = '<div style="color:var(--text-muted);font-size:.85rem;padding:10px">No files yet.</div>';
+    // Surface the submit pill only once the applicant has attached at least one doc.
+    const bar = document.getElementById('SubmitBar');
+    if (bar) bar.style.display = uploads.length ? 'flex' : 'none';
+  }
+  document.getElementById('AddFile').addEventListener('click', () => {
+    const inp = document.createElement('input');
+    inp.type = 'file';
+    inp.accept = 'image/*,application/pdf';
+    inp.onchange = async () => {
+      const f = inp.files[0];
+      if (!f) return;
+      const row = document.createElement('div');
+      row.className = 'UploadRow';
+      row.innerHTML = `<span>📤 ${escapeHtml(f.name)}</span><span class="Pill Pending"><span class="Spinner"></span>uploading…</span>`;
+      uploadsEl.appendChild(row);
+      try {
+        const res = await fetch(`${WolfsDB.API.replace('/api','')}/api/upload?filename=${encodeURIComponent(f.name)}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': f.type || 'application/octet-stream',
+            'X-Wolfs-Session': sess || '',
+            'X-Wolfs-Email': email || '',
+            'X-Wolfs-Role': localStorage.getItem('wolfs_role') || 'applicant',
+          },
+          body: f,
+        });
+        if (!res.ok) throw new Error('upload failed: ' + res.status);
+        const data = await res.json();
+        applicant.uploads = applicant.uploads || [];
+        applicant.uploads.push({ name: f.name, size: data.size, key: data.key, url: data.url, uploadedAt: new Date().toISOString() });
+        await WolfsDB.put('applicants', applicant);
+        render();
+      } catch (ex) {
+        row.innerHTML = `<span>❌ ${escapeHtml(f.name)}</span><span class="Pill" style="background:rgba(239,68,68,.15);color:#ef4444">failed</span>`;
+        console.error(ex);
+      }
+    };
+    inp.click();
+  });
+
+  // ── Voice call mode (same sidecar wiring as /Dispatcher/) ──────────
+  const SIDECAR = (location.protocol==='https:'?'/sidecar':'http://localhost:9334');
+  const callBtn = document.getElementById('CallBtn');
+  const callStatus = document.getElementById('CallStatus');
+  const overlay = document.getElementById('CallOverlay');
+  const holdBtn = document.getElementById('HoldBtn');
+  const hangupBtn = document.getElementById('HangupBtn');
+  const callSub = document.getElementById('CallSub');
+  let rec = null, stream = null, chunks = [], audioEl = null;
+  async function checkVoice() {
+    if (location.protocol === 'https:' && SIDECAR.startsWith('http:')) {
+      callStatus.textContent = 'Voice call available when running the local companion.';
+      callBtn.disabled = true; callBtn.style.opacity = .55; return false;
+    }
+    try {
+      const r = await fetch(SIDECAR + '/health', { cache: 'no-store' });
+      if (!r.ok) throw 0;
+      callStatus.textContent = 'Voice ready — click Call to start.';
+      callBtn.disabled = false; callBtn.style.opacity = 1;
+      return true;
+    } catch {
+      callStatus.textContent = 'Voice unavailable — click Call to retry.';
+      callBtn.disabled = false; callBtn.style.opacity = 1;
+      return false;
+    }
+  }
+  checkVoice();
+  // Inline call toggle with live state feedback:
+  //   Idle    → "☎ Call"        (orange)
+  //   Active-silent → "☎ End"   (red) — mic open, waiting for speech
+  //   Active-speaking → "🎤 Speaking…" (red, pulsing) — mic picked up audio above threshold
+  //   Processing → "⏳ Processing…" (after click End)
+  //   Replying → "🔊 Dispatcher…" (TTS playing)
+  // Uses AudioContext AnalyserNode for voice-activity detection so the user knows the
+  // mic is actively capturing their speech and isn't just silently idle.
+  let callActive = false;
+  let vadCtx = null, vadSrc = null, vadAnalyser = null, vadRaf = null;
+  function setBtn(label, bg, border, color) {
+    callBtn.textContent = label;
+    callBtn.style.background = bg;
+    callBtn.style.borderColor = border;
+    callBtn.style.color = color;
+  }
+  function showIdle() { setBtn('☎ Call', 'rgba(255,107,53,.1)', 'var(--accent)', 'var(--accent)'); callBtn.style.animation = 'none'; }
+  function showActiveSilent() { setBtn('☎ End', '#ef4444', '#ef4444', '#fff'); callBtn.style.animation = 'none'; }
+  function showSpeaking() { setBtn('🎤 Speaking…', '#22c55e', '#22c55e', '#fff'); callBtn.style.animation = 'pulseCall 1s infinite'; }
+  function showProcessing() { setBtn('⏳ Processing…', 'var(--text-muted)', 'var(--text-muted)', '#fff'); callBtn.style.animation = 'none'; }
+  function showReplying() { setBtn('🔊 Dispatcher…', 'var(--info)', 'var(--info)', '#fff'); callBtn.style.animation = 'pulseCall 1.2s infinite'; }
+
+  // One AudioContext + Analyser for the entire call. We only reset the per-chunk state
+  // (speaking, silenceFrames, everSpoke) between chunks — repeatedly open/close of the
+  // AudioContext was causing chunks 2+ to fail silently in Chromium.
+  let vadSpeaking = false, vadSilenceFrames = 0, vadEverSpoke = false;
+  function resetVAD() { vadSpeaking = false; vadSilenceFrames = 0; vadEverSpoke = false; }
+  // VAD drives chunk lifecycle: speech onset → start a fresh MediaRecorder;
+  //                            silence offset → stop the recorder + send its blob.
+  // Between phrases the mic stream stays open but nothing is recorded, so blobs only
+  // contain voiced audio + ~200ms MediaRecorder startup + ~1s trailing silence.
+  function startVAD() {
+    resetVAD();
+    try {
+      if (!vadCtx) {
+        vadCtx = new (window.AudioContext || window.webkitAudioContext)();
+        vadSrc = vadCtx.createMediaStreamSource(stream);
+        vadAnalyser = vadCtx.createAnalyser();
+        vadAnalyser.fftSize = 512;
+        vadSrc.connect(vadAnalyser);
+        console.log('[VAD] AudioContext created, state=', vadCtx.state);
+      }
+      if (vadCtx.state === 'suspended') { vadCtx.resume().catch(() => {}); }
+      const buf = new Uint8Array(vadAnalyser.frequencyBinCount);
+      let logCounter = 0;
+      function tick() {
+        if (!callActive) { vadRaf = null; return; }
+        vadAnalyser.getByteTimeDomainData(buf);
+        let sum = 0;
+        for (let i = 0; i < buf.length; i++) { const v = (buf[i] - 128) / 128; sum += v * v; }
+        const rms = Math.sqrt(sum / buf.length);
+        if (++logCounter % 60 === 0) console.log('[VAD] rms=', rms.toFixed(4), 'speaking=', vadSpeaking, 'silence=', vadSilenceFrames, 'recording=', !!rec && rec.state === 'recording');
+        if (rms > 0.015) {
+          vadSilenceFrames = 0;
+          // Barge-in EVERY frame while user is speaking — not just on onset. Catches the
+          // case where a new speak() started audio *after* the first speech frame.
+          try { if (audioEl && !audioEl.paused) { audioEl.pause(); audioEl.currentTime = 0; } } catch (_) {}
+          // Safety net: pause ANY sounding <audio> element in the document. Covers orphaned
+          // elements from overlapping speak() calls that escaped the single-closure tracker.
+          try { document.querySelectorAll('audio').forEach(a => { if (!a.paused) { a.pause(); try { a.currentTime = 0; } catch (_) {} } }); } catch (_) {}
+          if (!vadSpeaking) {
+            vadSpeaking = true; vadEverSpoke = true; showSpeaking();
+            callStatus.textContent = '🎤 I hear you — keep talking, pause when done';
+            console.log('[VAD] speech onset, rms=', rms.toFixed(4));
+            if (!rec || rec.state !== 'recording') startRecordingNow();
+          }
+        } else {
+          vadSilenceFrames++;
+          if (vadSpeaking && vadSilenceFrames > 50) { vadSpeaking = false; showActiveSilent(); callStatus.textContent = '🔴 Listening… pause a bit more to send, or click End'; }
+          // ~90 frames ≈ 1.5s of silence after speech ends → stop the recorder + send.
+          // We only ever reach this branch while a recorder is actually running.
+          if (vadEverSpoke && !vadSpeaking && vadSilenceFrames > 90 && rec && rec.state === 'recording') {
+            console.log('[VAD] silence — finalising chunk after', vadSilenceFrames, 'silent frames');
+            callStatus.textContent = '⏳ Processing…';
+            try { rec.requestData(); } catch (_) {}
+            try { rec.stop(); } catch (_) {}
+            vadEverSpoke = false;
+          }
+        }
+        vadRaf = requestAnimationFrame(tick);
+      }
+      if (!vadRaf) { console.log('[VAD] tick loop starting'); tick(); }
+    } catch (ex) { console.error('[VAD] startVAD failed:', ex); }
+  }
+
+  // Create + start a MediaRecorder right now. Called only from VAD when speech is detected.
+  function startRecordingNow() {
+    try {
+      const mimeCandidates = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus'];
+      const mimeType = mimeCandidates.find(m => typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported(m)) || '';
+      const localRec = mimeType
+        ? new MediaRecorder(stream, { mimeType, audioBitsPerSecond: 96000 })
+        : new MediaRecorder(stream);
+      const localChunks = [];
+      localRec.ondataavailable = ev => { if (ev.data && ev.data.size) localChunks.push(ev.data); };
+      localRec.onstop = () => {
+        const blob = new Blob(localChunks, { type: mimeType || 'audio/webm' });
+        console.log('[VAD] recorder onstop, blob=', Math.round(blob.size/1024), 'KB');
+        if (blob.size >= 1500) processChunkBlob(blob);
+        if (callActive) { showActiveSilent(); callStatus.textContent = '🔴 Listening — speak anytime'; }
+      };
+      localRec.start();
+      rec = localRec;
+      console.log('[VAD] recorder started');
+    } catch (ex) {
+      console.error('[VAD] startRecordingNow failed:', ex);
+      callStatus.textContent = '❌ MediaRecorder: ' + ex.message;
+    }
+  }
+  function stopVAD() {
+    try { if (vadRaf) cancelAnimationFrame(vadRaf); } catch {}
+    vadRaf = null;
+  }
+  function teardownVAD() {
+    stopVAD();
+    try { if (vadCtx) vadCtx.close(); } catch {}
+    vadCtx = null; vadSrc = null; vadAnalyser = null;
+  }
+
+  // Continuous call mode: mic stays open across phrases. Each silence boundary auto-ends
+  // the current recording chunk, transcribes it, sends as a message, speaks the reply.
+  // The mic then IMMEDIATELY opens a new chunk so the user can keep talking. Clicking
+  // the button again is the only thing that actually hangs up the call.
+  // Each recorder owns its own `localChunks` via closure — the outer `chunks` is never
+  // shared across generations, so a stale ondataavailable from an older recorder can't
+  // poison the next one's audio.
+  //
+  // MediaRecorder's tail-end audio sits in an unflushed buffer until stop() fires. We use
+  // `start(500)` (500ms timeslice) so data is pushed every half second, AND request one
+  // final dataavailable via requestData() right before stop(). That guarantees every
+  // syllable up to the VAD trigger is captured.
+  async function processChunkBlob(blob) {
+    try {
+      const r = await fetch(SIDECAR + '/stt', { method: 'POST', headers: { 'Content-Type': 'audio/webm' }, body: blob });
+      if (!r.ok) throw new Error('stt ' + r.status);
+      const { text } = await r.json();
+      if (!text || !text.trim()) return;
+      callStatus.textContent = '📨 "' + text.slice(0, 60) + (text.length > 60 ? '…' : '') + '" (' + Math.round(blob.size/1024) + ' KB)';
+      await sendApplicantMessage(text);
+      const last = applicant && applicant.transcript && applicant.transcript[applicant.transcript.length - 1];
+      if (last && last.role === 'assistant') { speak(last.content).catch(() => {}); }
+    } catch (ex) { callStatus.textContent = '❌ ' + ex.message; }
+  }
+  // Legacy hook — the VAD now spins up recorders itself in startRecordingNow().
+  function startChunk() { /* intentionally empty — speech-triggered recording lives in VAD */ }
+  async function startCall() {
+    try {
+      callStatus.textContent = '⌛ Checking voice sidecar…';
+      const ok = await checkVoice();
+      if (!ok) { callStatus.textContent = '⚠️ Voice sidecar unreachable — click Call again once it\'s running.'; return; }
+      callStatus.textContent = '⌛ Requesting microphone permission…';
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { callStatus.textContent = '❌ This browser does not expose microphone capture.'; return; }
+      if (!stream) {
+        try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); }
+        catch (ex) {
+          callStatus.textContent = '❌ Mic permission denied: ' + (ex && ex.name ? ex.name : 'unknown') + '. Open the padlock in the address bar and allow microphone, then click Call again.';
+          return;
+        }
+      }
+      if (typeof MediaRecorder === 'undefined') { callStatus.textContent = '❌ This browser does not support MediaRecorder.'; return; }
+      callActive = true;
+      showActiveSilent();
+      callStatus.textContent = '🔴 Listening — speak anytime, click End to hang up';
+      startChunk();
+      startVAD();
+    } catch (ex) { callStatus.textContent = '❌ ' + ex.message; showIdle(); }
+  }
+  function stopCall() {
+    // End-of-chunk (silence-triggered). Flush any tail audio still in the MediaRecorder
+    // buffer before stopping, otherwise the last ~200ms (a word or two) gets dropped.
+    try { if (rec && rec.state === 'recording') { try { rec.requestData(); } catch (_) {} rec.stop(); } } catch {}
+  }
+  function hangup() {
+    // Explicit End — tear everything down and release the mic.
+    callActive = false;
+    teardownVAD();
+    try { if (rec && rec.state === 'recording') rec.stop(); } catch {}
+    try { if (stream) stream.getTracks().forEach(t => t.stop()); } catch {}
+    try { if (audioEl) { audioEl.pause(); audioEl = null; } } catch (_) {}
+    stream = null; rec = null; chunks = [];
+    showIdle();
+    callStatus.textContent = '✅ Call ended. Click Call to start again.';
+  }
+  callBtn.addEventListener('click', () => { if (callActive) hangup(); else startCall(); });
+  async function speak(text) {
+    try {
+      // Pause any previous Dispatcher playback BEFORE starting a new one, so the barge-in
+      // logic always has a live reference to what's actually sounding.
+      try { if (audioEl) { audioEl.pause(); audioEl = null; } } catch (_) {}
+      const r = await fetch(SIDECAR + '/tts', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({text}) });
+      if (!r.ok) return;
+      const blob = await r.blob();
+      const el = new Audio(URL.createObjectURL(blob));
+      audioEl = el;
+      try { await el.play(); } catch (_) {}
+    } catch {}
+  }
+  // Legacy no-op hooks — older overlay wiring kept to avoid ReferenceError from scenes.
+  function endCall() { stopCall(); }
+  // Hold-to-talk buttons from the old overlay UI — the new inline toggle replaces them.
+  // Keep guarded listener-wiring so older code paths don't throw if the buttons exist.
+  if (holdBtn) {
+    holdBtn.addEventListener('click', () => { if (callActive) stopCall(); else startCall(); });
+  }
+
+  document.getElementById('SubmitApp').addEventListener('click', async () => {
+    const btn = document.getElementById('SubmitApp');
+    const status = document.getElementById('SubmitStatus');
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+    status.textContent = '';
+    applicant.status = 'pending_review';
+    applicant.submittedAt = new Date().toISOString();
+    try {
+      await WolfsDB.put('applicants', applicant);
+      btn.textContent = '✅ Submitted';
+      btn.style.background = 'var(--success)';
+      status.innerHTML = '<span style="color:var(--success)">Your application is now in the staff review queue. You\'ll hear back once your badges are verified.</span>';
+    } catch (ex) {
+      btn.disabled = false;
+      btn.textContent = 'Submit application for review';
+      status.innerHTML = '<span style="color:#ef4444">Submit failed: ' + escapeHtml(ex.message || String(ex)) + '</span>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

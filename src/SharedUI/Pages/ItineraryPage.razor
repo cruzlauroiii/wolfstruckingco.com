@@ -1,0 +1,19 @@
+@page "/Itinerary"
+
+<div class="Stage">
+    <h1>Itinerary</h1>
+    <p class="Sub">@Timesheets.Count timesheet entries · total earnings $@Total</p>
+    @foreach (var T in Timesheets)
+    {
+        <div class="Card">
+            <h2>@(T["leg"]?.ToString()) · $@(T["earnings"]?.ToString())</h2>
+            <p><strong>@(T["workerEmail"]?.ToString())</strong> · job @(T["jobId"]?.ToString()) · @(T["status"]?.ToString())</p>
+            <p>@(T["startsAt"]?.ToString()) → @(T["endsAt"]?.ToString())</p>
+            @if (T["note"] is not null)
+            {
+                <p>@(T["note"]?.ToString())</p>
+            }
+        </div>
+    }
+</div>
+

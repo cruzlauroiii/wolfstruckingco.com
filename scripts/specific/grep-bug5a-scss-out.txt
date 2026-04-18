@@ -1,0 +1,7 @@
+app.scss:114:.Hero {
+app.scss:115:  padding: 1rem 18px 2rem; text-align: center;
+app.scss:118:  h1 { font-size: var(--fs-h1); font-weight: 800; margin-top: 0; margin-bottom: 14px;
+app.scss:407:  h1 { font-size: 1.4rem; margin-top: 0; margin-bottom: 6px; }
+app.scss:739:  .Card, .Listing, .Stat, .Hero, .LoginWrap { margin-left: 0; margin-right: 0; border-radius: 0; border-left: none; border-right: none; }
+app.scss:740:  .Hero { padding: 28px 16px;
+app.scss:801:  .Hero { background: linear-gradient(135deg, $dark-card 0%, $dark-deep 100%); color: $dark-text;

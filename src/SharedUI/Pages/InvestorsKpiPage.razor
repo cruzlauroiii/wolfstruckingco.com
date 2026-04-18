@@ -1,0 +1,37 @@
+@page "/Investors/KPI"
+
+<div class="Stage PageStage">
+    <h1>Platform KPIs</h1>
+    <p>Live revenue, payouts, and on-time performance.</p>
+
+    <div class="KpiGrid">
+        <div class="Card KpiTile">
+            <div class="KpiLabel">Net revenue</div>
+            <div class="KpiValue">$46,065</div>
+        </div>
+        <div class="Card KpiTile Blue">
+            <div class="KpiLabel">Driver payouts</div>
+            <div class="KpiValue">$2,520</div>
+        </div>
+        <div class="Card KpiTile Green">
+            <div class="KpiLabel">On-time</div>
+            <div class="KpiValue">100%</div>
+        </div>
+        <div class="Card KpiTile Pink">
+            <div class="KpiLabel">Drivers active</div>
+            <div class="KpiValue">4</div>
+        </div>
+    </div>
+
+    <h2 class="SectionLabel">Recent activity</h2>
+    @foreach (var C in RecentCharges)
+    {
+        <div class="Card Compact KpiActivityRow">
+            <div class="KpiAmount">$@((C["amount"]?.GetValue<double>() ?? 0).ToString("N0"))</div>
+            <div>
+                <div class="KpiTerms">@(C["terms"]?.ToString())</div>
+                <div class="KpiAt">@(C["at"]?.ToString())</div>
+            </div>
+        </div>
+    }
+</div>

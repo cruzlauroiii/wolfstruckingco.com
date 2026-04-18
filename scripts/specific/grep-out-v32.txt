@@ -1,0 +1,22 @@
+Client/Program.cs:9:Builder.Services.AddScoped<WolfsJsBootstrap>();
+Client/Program.cs:10:Builder.Services.AddScoped<WolfsInteropService>();
+Client/Program.cs:14:await Host.Services.GetRequiredService<WolfsJsBootstrap>().EnsureInstalledAsync();
+SharedUI/Components/ChatBox.razor.cs:48:    private WolfsInteropService Wolfs { get; set; } = null!;
+SharedUI/Pages/AdminPage.razor.cs:21:    private WolfsInteropService Wolfs { get; set; } = null!;
+SharedUI/Pages/ApplyPage.razor.cs:34:    private WolfsInteropService Wolfs { get; set; } = null!;
+SharedUI/Pages/DashboardPage.razor.cs:31:    private WolfsInteropService Wolfs { get; set; } = null!;
+SharedUI/Pages/DocumentsPage.razor.cs:97:    private WolfsInteropService Wolfs { get; set; } = null!;
+SharedUI/Pages/HiringHallPage.razor.cs:22:    private WolfsInteropService Wolfs { get; set; } = null!;
+SharedUI/Pages/InterviewPage.razor.cs:19:    private WolfsInteropService Wolfs { get; set; } = null!;
+SharedUI/Pages/InvestorsKpiPage.razor.cs:21:    private WolfsInteropService Wolfs { get; set; } = null!;
+SharedUI/Pages/InvestorsUsersPage.razor.cs:20:    private WolfsInteropService Wolfs { get; set; } = null!;
+SharedUI/Pages/ItineraryPage.razor.cs:19:    private WolfsInteropService Wolfs { get; set; } = null!;
+SharedUI/Pages/JobOfferPage.razor.cs:45:    private WolfsInteropService Wolfs { get; set; } = null!;
+SharedUI/Pages/MapPage.razor.cs:88:    private WolfsInteropService Wolfs { get; set; } = null!;
+SharedUI/Pages/MarketplacePage.razor.cs:32:    private WolfsInteropService Wolfs { get; set; } = null!;
+SharedUI/Pages/SchedulePage.razor.cs:19:    private WolfsInteropService Wolfs { get; set; } = null!;
+SharedUI/Pages/SettingsPage.razor.cs:12:    private WolfsInteropService Wolfs { get; set; } = null!;
+SharedUI/Pages/TrackPage.razor.cs:21:    private WolfsInteropService Wolfs { get; set; } = null!;
+SharedUI/Services/WolfsInteropService.cs:7:public sealed class WolfsInteropService(IJSRuntime Js, AuthenticationStateProvider AuthState)
+SharedUI/Services/WolfsJsBootstrap.cs:6:public sealed class WolfsJsBootstrap(IJSRuntime Js)
+SharedUI/Services/WolfsJsBootstrap.cs:215:    public async ValueTask EnsureInstalledAsync()

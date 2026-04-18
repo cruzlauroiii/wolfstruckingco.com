@@ -1,0 +1,8 @@
+old-applicant.html:48:.UploadRow label input[type=file]{display:none}
+old-applicant.html:135:  // Per-document SVG thumbnails so attached files have a real visual in the chat — beats
+old-applicant.html:146:  // Render an attached-file bubble (thumbnail + filename + size + Remove button).
+old-applicant.html:157:    d.innerHTML = `<span class="Label">You · attached</span>
+old-applicant.html:181:    // Synthetic dispatcher bubble offering the Submit button once any docs are attached and
+old-applicant.html:226:      <label style="padding:6px 12px;border-radius:6px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;font-size:.78rem">Choose file<input type="file" accept="image/*,application/pdf,image/svg+xml" style="display:none" onchange="window.__applicantInlineUpload(event,'${hint.kind}','${hint.label.replace(/'/g,'')}')" aria-label="File upload"></label>
+old-applicant.html:310:    // Surface the submit pill only once the applicant has attached at least one doc.
+old-applicant.html:326:        const res = await fetch(`${WolfsDB.API.replace('/api','')}/api/upload?filename=${encodeURIComponent(f.name)}`, {

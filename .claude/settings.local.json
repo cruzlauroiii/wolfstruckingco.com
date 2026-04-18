@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__wolfstruckingco__interview_chat",
+      "mcp__wolfstruckingco__jobs_list",
+      "mcp__wolfstruckingco__job_details",
+      "mcp__wolfstruckingco__job_accept",
+      "mcp__wolfstruckingco__job_complete",
+      "mcp__wolfstruckingco__checklist_start",
+      "mcp__wolfstruckingco__checklist_complete",
+      "mcp__wolfstruckingco__delivery_status",
+      "mcp__wolfstruckingco__audit_list",
+      "mcp__wolfstruckingco__audit_detail",
+      "mcp__wolfstruckingco__kpi_driver",
+      "mcp__wolfstruckingco__dispatch_check",
+      "mcp__wolfstruckingco__dispatch_reply",
+      "mcp__wolfstruckingco__admin_dashboard",
+      "mcp__wolfstruckingco__admin_drivers",
+      "mcp__wolfstruckingco__admin_interviews",
+      "mcp__wolfstruckingco__admin_approve_driver",
+      "mcp__wolfstruckingco__admin_reject_driver",
+      "mcp__wolfstruckingco__admin_jobs",
+      "mcp__wolfstruckingco__admin_audit",
+      "mcp__wolfstruckingco__admin_command"
+    ]
+  },
+  "prefersReducedMotion": true
+}

@@ -1,0 +1,51 @@
+@inherits Microsoft.AspNetCore.Components.LayoutComponentBase
+@inject SharedUI.Services.WolfsInteropService Wolfs
+@inject Microsoft.AspNetCore.Components.NavigationManager Nav
+
+<div class="TopBar">
+    <div class="Brand">
+        <span class="Logo">W</span>
+        <a href="" class="BrandText">Wolfs · @SharedUI.Services.WolfsRenderContext.CurrentTitle</a>
+    </div>
+    <input type="checkbox" id="MenuToggle" class="MenuToggle" aria-hidden="true" tabindex="-1" />
+    <label for="MenuToggle" class="BurgerBtn" aria-label="Menu" role="button"><span></span></label>
+    <div class="TopActions">
+        <a href="About" class="NavSecondary">About</a>
+        <a href="Services" class="NavSecondary">Services</a>
+        <a href="Pricing" class="NavSecondary">Pricing</a>
+        <a href="Marketplace">Marketplace</a>
+        <a href="Apply" class="AccentLink NavTertiary">🚛 Apply to drive</a>
+        @if (Authed)
+        {
+            <button type="button" class="LinkBtn" @onclick="SignOutAsync">Log off (@EmailShort)</button>
+        }
+        else
+        {
+            <a href="Login">Sign In</a>
+        }
+        <ThemeChip />
+    </div>
+</div>
+@Body
+
+@code {
+    private bool Authed;
+    private string? Email;
+    private string? Role;
+    private string EmailShort => string.IsNullOrEmpty(Email) ? "" : Email.Split('@')[0];
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) { return; }
+        var Auth = await Wolfs.AuthGetAsync();
+        Role = Auth.Role; Email = Auth.Email; Authed = !string.IsNullOrEmpty(Role);
+        StateHasChanged();
+    }
+
+    private async Task SignOutAsync()
+    {
+        await Wolfs.AuthClearAsync();
+        Authed = false; Email = null; Role = null;
+        Nav.NavigateTo("", forceLoad: false);
+    }
+}

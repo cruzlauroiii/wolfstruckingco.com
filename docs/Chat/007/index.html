@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<base href="/wolfstruckingco.com/">
+<title>Chat/007 | Wolfs Trucking Co.</title>
+<link rel="stylesheet" href="/wolfstruckingco.com/css/app.css">
+</head>
+<body data-prerender-route="Chat/007">
+<div class="TopBar"><div class="Brand"><span class="Logo">W</span>
+        <a href class="BrandText">Wolfs · Chat</a></div>
+    <input type="checkbox" id="MenuToggle" class="MenuToggle" aria-hidden="true" tabindex="-1">
+    <label for="MenuToggle" class="BurgerBtn" aria-label="Menu" role="button"><span></span></label>
+    <div class="TopActions"><a href="About">About</a>
+        <a href="Services">Services</a>
+        <a href="Pricing">Pricing</a>
+        <a href="Marketplace">Marketplace</a>
+        <a href="Apply" class="AccentLink">🚛 Apply to drive</a><a href="Login">Sign In</a><button type="button" class="wt-theme-chip" title="Switch theme" onclick="var w=window.WolfsInterop||{};var cur=(w.themeRead?w.themeRead():(localStorage.getItem('wolfs_theme')||'auto'));var next=cur==='auto'?'dark':(cur==='dark'?'light':'auto');try{localStorage.setItem('wolfs_theme',next);document.documentElement.setAttribute('data-theme',next==='auto'?'':next);}catch(e){}var lbl=next==='dark'?'🌙 Dark':(next==='light'?'☀ Light':'🌗 Auto');this.textContent=lbl;">🌗 Auto</button>
+</div></div>
+<div class="Stage ChatStage"><h1>💬 Chat with Agent</h1><p class="ChatLede">Tell the agent what you&#x27;re shipping. He&#x27;ll write the job posting for you.</p>
+        <div class="ChatStream"><div class="ChatBubble User"><strong>You</strong>
+                I&#x27;m starting a new shipment. I want to ship a vehicle.</div><div class="ChatBubble Agent"><strong>Agent</strong>
+                Great! Let&#x27;s get this shipment posted. **Where is the vehicle being picked up from?**</div><div class="ChatBubble User"><strong>You</strong>
+                It&#x27;s a 2024 BYD Han EV. The factory is in Hefei, China.</div><div class="ChatBubble Agent"><strong>Agent</strong>
+                Perfect! **Who is the buyer or destination for this vehicle shipment?**</div><div class="ChatBubble User"><strong>You</strong>
+                Eighteen thousand US dollars cash to BYD&#x27;s export desk at pickup.</div><div class="ChatBubble Agent"><strong>Agent</strong>
+                Got it&#x2014;$18,000 USD cash payment at pickup in Hefei. **Where should the vehicle be delivered to?**</div><div class="ChatBubble User"><strong>You</strong>
+                Sam Carter in Wilmington, North Carolina, fourteen-eighteen Oak Street.</div><div class="ChatBubble Agent"><strong>Agent</strong>
+                Excellent! **What are your payment terms with the buyer&#x2014;is the $18,000 the full shipment cost, or are there additional fees (shipping, handling, insurance)?**</div></div>
+
+<div class="ChatInputRow"><input type="text" placeholder="What are you shipping?" value="" />
+    <button class="Btn Ghost ChatBtnRound" type="button" title="Call agent">&#x1F4DE;</button>
+    <button class="Btn Ghost ChatBtnRound" type="button" title="Attach photo / receipt">📎</button>
+    <button class="Btn ChatBtnRound Send" type="button" title="Send">&#x27A4;</button></div></div>
+</body>
+</html>

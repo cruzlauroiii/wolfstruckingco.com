@@ -1,0 +1,48 @@
+@page "/Dashboard"
+
+<div class="Stage DashStage">
+    <div class="DashGreeting">@Greeting</div>
+    <p class="DashLede">Your next job, your earnings, your turn-by-turn.</p>
+
+    @if (NextJob is not null)
+    {
+        <div class="Card JobOffer">
+            <div class="JobOfferLabel">New job offer</div>
+            <div class="JobOfferRoute">@(NextJob["from"]?.ToString())  →  @(NextJob["to"]?.ToString())</div>
+            <div class="JobOfferMeta">
+                <span>📏 @(NextJob["mileage"]?.ToString()) mi</span>
+                <span>⏱️ @(NextJob["driveHours"]?.ToString()) hr</span>
+            </div>
+            <div class="JobOfferActions">
+                <a href="Job/Offer" class="Btn">✅ Accept job</a>
+                <a href="Map" class="Btn Ghost">🗺️ Preview route</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="Card NoJob">
+            <div class="NoJobIcon">😎</div>
+            <div class="NoJobTitle">No job offers right now</div>
+            <div class="NoJobSub">We'll text you when one is dispatched.</div>
+        </div>
+    }
+
+    <div class="StatGrid">
+        <div class="Card StatTile Earnings">
+            <div class="StatLabel">This week</div>
+            <div class="StatValue">$@WeekEarnings</div>
+        </div>
+        <div class="Card StatTile Hours">
+            <div class="StatLabel">Hours left</div>
+            <div class="StatValue">7.5</div>
+        </div>
+    </div>
+
+    <div class="QuickLinksLabel">Quick links</div>
+    <div class="QuickLinks">
+        <a href="Schedule" class="Btn Ghost Block">📅 Schedule</a>
+        <a href="Dispatcher" class="Btn Ghost Block">📞 Call agent</a>
+        <a href="Documents" class="Btn Ghost Block">📎 My documents</a>
+    </div>
+</div>

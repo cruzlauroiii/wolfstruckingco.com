@@ -1,0 +1,17 @@
+@page "/Services"
+
+<MarketingHero Title="Full-service"
+               Highlight="freight + logistics"
+               Subtitle="Container drayage, LTL/FTL, reefer, flatbed, 3PL warehouse, and same-day express — one carrier, transparent pricing." />
+
+<div class="Grid">
+    @foreach (var S in ServiceList)
+    {
+        <div class="Card">
+            <div class="ServiceIcon">@S.Icon</div>
+            <h2>@S.Name</h2>
+            <p>@S.Description</p>
+        </div>
+    }
+</div>
+

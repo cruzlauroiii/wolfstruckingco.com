@@ -1,0 +1,31 @@
+@page "/Admin"
+
+<div class="Stage PageStage">
+    <h1>🛡️ Admin home</h1>
+    <p>Welcome back. Here's what needs your attention today.</p>
+
+    <div class="KpiGrid">
+        <div class="Card KpiTile">
+            <div class="KpiLabel">Pending applicants</div>
+            <div class="KpiValue">@PendingApplicants</div>
+        </div>
+        <div class="Card KpiTile Blue">
+            <div class="KpiLabel">Active jobs</div>
+            <div class="KpiValue">@ActiveJobs</div>
+        </div>
+        <div class="Card KpiTile Green">
+            <div class="KpiLabel">On-time rate</div>
+            <div class="KpiValue">100%</div>
+        </div>
+        <div class="Card KpiTile Pink">
+            <div class="KpiLabel">Net revenue</div>
+            <div class="KpiValue">$46k</div>
+        </div>
+    </div>
+
+    <div class="QuickLinks">
+        <a href="HiringHall" class="Btn Block">Review @PendingApplicants applicants</a>
+        <a href="Investors/KPI" class="Btn Ghost Block">📊 Open KPI dashboard</a>
+        <a href="Dispatcher" class="Btn Ghost Block">📞 Open dispatcher console</a>
+    </div>
+</div>
