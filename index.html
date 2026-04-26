@@ -125,10 +125,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,20,25,.9
 .NavCta.Ghost:hover{background:rgba(255,107,53,.1);color:var(--accent)}
 /* Light theme */
 [data-theme="light"]{--bg:#fafafa;--card:#ffffff;--text:#1a1a1a;--text-muted:#525252;--border:#e5e5e5}
-[data-theme="light"] nav{background:rgba(255,255,255,.95)}
+html[data-theme="light"] nav{background:rgba(255,255,255,.95)!important;border-color:#e5e5e5!important}
+html[data-theme="light"] .NavBrand,html[data-theme="light"] .NavLinks a{color:#1a1a1a!important}
+html[data-theme="light"] .NavLinks a:hover{color:#ff6b35!important}
 @media (prefers-color-scheme: light){
   [data-theme="auto"]{--bg:#fafafa;--card:#ffffff;--text:#1a1a1a;--text-muted:#525252;--border:#e5e5e5}
-  [data-theme="auto"] nav{background:rgba(255,255,255,.95)}
+  html[data-theme="auto"] nav{background:rgba(255,255,255,.95)!important;border-color:#e5e5e5!important}
+  html[data-theme="auto"] .NavBrand,html[data-theme="auto"] .NavLinks a{color:#1a1a1a!important}
 }
 .NavBrand{font-size:1.3rem;font-weight:800;color:var(--text);display:flex;align-items:center;gap:10px;white-space:nowrap;flex-shrink:0}
 .NavBrand span{color:var(--accent)}
