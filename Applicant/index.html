@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#ff6b35">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--info:#3b82f6;--warning:#f59e0b;--radius:12px}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--info:#3b82f6;--warning:#f59e0b;--radius:12px}[data-theme="light"]{--bg:#fafafa;--card:#ffffff;--text:#1a1a1a;--text-muted:#525252;--border:#e5e5e5}[data-theme="light"] nav{background:rgba(255,255,255,.95)}@media(prefers-color-scheme:light){[data-theme="auto"]{--bg:#fafafa;--card:#ffffff;--text:#1a1a1a;--text-muted:#525252;--border:#e5e5e5}[data-theme="auto"] nav{background:rgba(255,255,255,.95)}}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 .TopBar{position:sticky;top:0;z-index:10;background:rgba(15,20,25,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
 .Brand{font-weight:800;display:flex;align-items:center;gap:8px}
@@ -45,12 +45,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 .Hidden{display:none}
 .AuthWarn{padding:14px 18px;background:rgba(245,158,11,.1);border:1px solid var(--warning);border-radius:10px;margin-bottom:18px;font-size:.88rem;color:var(--warning)}
-</style>
+.ThemeToggle{background:transparent;border:1px solid var(--border);color:var(--text);font-size:1.1rem;width:40px;height:40px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;flex-shrink:0}</style>
 </head>
 <body>
 <div class="TopBar">
   <div class="Brand"><span class="Logo">W</span><a href="/wolfstruckingco.com/">Wolfs Trucking Co.</a></div>
-  <div class="TopActions"><a href="/wolfstruckingco.com/Login/" style="color:var(--text-muted);text-decoration:none;padding:8px 12px;font-size:.88rem">Sign In</a></div>
+  <div class="TopActions"><button class="ThemeToggle" id="ThemeToggle" onclick="ToggleTheme()" aria-label="Toggle theme" title="Toggle theme">🌗</button><a href="/wolfstruckingco.com/Login/" style="color:var(--text-muted);text-decoration:none;padding:8px 12px;font-size:.88rem">Sign In</a></div>
 </div>
 <div class="Stage">
   <h1>🚚 Driver application — chat with the Dispatcher</h1>
@@ -344,6 +344,17 @@ Applicant's email on file: ${email || 'unknown'}. Applicant's current transcript
       status.innerHTML = '<span style="color:#ef4444">Submit failed: ' + escapeHtml(ex.message || String(ex)) + '</span>';
     }
   });
+})();
+</script>
+
+<script>
+(function(){
+  var KEY='wolfs_theme';
+  function apply(t){document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem(KEY,t)}catch(_){}var b=document.getElementById('ThemeToggle');if(b)b.textContent=t==='light'?'☀️':t==='auto'?'🌗':'🌙'}
+  var saved=(function(){try{return localStorage.getItem(KEY)}catch(_){return null}})()||'dark';
+  apply(saved);
+  window.ToggleTheme=function(){var c=document.documentElement.getAttribute('data-theme')||'dark';apply(c==='dark'?'light':c==='light'?'auto':'dark')};
+  document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('ThemeToggle');if(b){var c=document.documentElement.getAttribute('data-theme')||'dark';b.textContent=c==='light'?'☀️':c==='auto'?'🌗':'🌙'}});
 })();
 </script>
 </body>

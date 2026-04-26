@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#ff6b35">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--info:#3b82f6;--warning:#f59e0b;--danger:#ef4444;--radius:12px}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--info:#3b82f6;--warning:#f59e0b;--danger:#ef4444;--radius:12px}[data-theme="light"]{--bg:#fafafa;--card:#ffffff;--text:#1a1a1a;--text-muted:#525252;--border:#e5e5e5}[data-theme="light"] nav{background:rgba(255,255,255,.95)}@media(prefers-color-scheme:light){[data-theme="auto"]{--bg:#fafafa;--card:#ffffff;--text:#1a1a1a;--text-muted:#525252;--border:#e5e5e5}[data-theme="auto"] nav{background:rgba(255,255,255,.95)}}
 html,body{height:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
 .Wrap{width:100%;max-width:560px}
@@ -35,9 +35,10 @@ h1{font-size:1.35rem;font-weight:800;margin-bottom:6px}
 .QuickSeed p{color:var(--text-muted);font-size:.78rem;margin-bottom:10px;line-height:1.5}
 .QuickSeed button{padding:9px 14px;border-radius:8px;background:transparent;border:1px solid var(--accent);color:var(--accent);font-weight:700;cursor:pointer;font-size:.82rem;font-family:inherit}
 .QuickSeed button:hover{background:rgba(255,107,53,.1)}
-</style>
+.ThemeToggle{background:transparent;border:1px solid var(--border);color:var(--text);font-size:1.1rem;width:40px;height:40px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;flex-shrink:0}</style>
 </head>
 <body>
+<div style="position:fixed;top:12px;right:12px;z-index:9999"><button class="ThemeToggle" id="ThemeToggle" onclick="ToggleTheme()" aria-label="Toggle theme" title="Toggle theme">🌗</button></div>
 <div class="Wrap">
 <div class="Card">
   <div class="Logo">W</div>
@@ -171,6 +172,17 @@ document.getElementById('SeedAll').addEventListener('click', async function(){
   btn.textContent = 'Create all 5 walkthrough accounts';
   showOk('Created ' + made + ' account(s)' + (skipped ? ', ' + skipped + ' already existed' : '') + '. Go to Sign in.');
 });
+</script>
+
+<script>
+(function(){
+  var KEY='wolfs_theme';
+  function apply(t){document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem(KEY,t)}catch(_){}var b=document.getElementById('ThemeToggle');if(b)b.textContent=t==='light'?'☀️':t==='auto'?'🌗':'🌙'}
+  var saved=(function(){try{return localStorage.getItem(KEY)}catch(_){return null}})()||'dark';
+  apply(saved);
+  window.ToggleTheme=function(){var c=document.documentElement.getAttribute('data-theme')||'dark';apply(c==='dark'?'light':c==='light'?'auto':'dark')};
+  document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('ThemeToggle');if(b){var c=document.documentElement.getAttribute('data-theme')||'dark';b.textContent=c==='light'?'☀️':c==='auto'?'🌗':'🌙'}});
+})();
 </script>
 </body>
 </html>

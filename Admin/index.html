@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--info:#3b82f6;--radius:12px}
+:root{--bg:#0f1419;--card:#1a2332;--accent:#ff6b35;--accent-hover:#ff8c5a;--text:#e8e8e8;--text-muted:#8899aa;--border:#2a3a4a;--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--info:#3b82f6;--radius:12px}[data-theme="light"]{--bg:#fafafa;--card:#ffffff;--text:#1a1a1a;--text-muted:#525252;--border:#e5e5e5}[data-theme="light"] nav{background:rgba(255,255,255,.95)}@media(prefers-color-scheme:light){[data-theme="auto"]{--bg:#fafafa;--card:#ffffff;--text:#1a1a1a;--text-muted:#525252;--border:#e5e5e5}[data-theme="auto"] nav{background:rgba(255,255,255,.95)}}
 html,body{height:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
 .App{display:flex;height:100vh;height:100dvh}
@@ -128,7 +128,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   .DataTable th,.DataTable td{padding:10px 12px}
   .ChatPanel{width:100%}
 }
-</style>
+.ThemeToggle{background:transparent;border:1px solid var(--border);color:var(--text);font-size:1.1rem;width:40px;height:40px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;flex-shrink:0}</style>
 </head>
 <body>
 <div class="App">
@@ -159,7 +159,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <button class="MobileToggle" onclick="document.getElementById('Sidebar').classList.toggle('Open')">&#9776;</button>
         <div class="TopTitle" id="TopTitle">Overview</div>
       </div>
-      <div class="TopActions">
+      <div class="TopActions"><button class="ThemeToggle" id="ThemeToggle" onclick="ToggleTheme()" aria-label="Toggle theme" title="Toggle theme">🌗</button>
         <button class="BtnRefresh" onclick="location.reload()">&#8635; Refresh</button>
         <button class="BtnRefresh" onclick="OpenAdminChat()">&#128172; Chat</button>
         <div class="AdminAvatar">A</div>
@@ -882,6 +882,17 @@ if (typeof DemoGuide !== 'undefined' && DemoGuide.IsDemo()) {
     ]);
   }, 800);
 }
+</script>
+
+<script>
+(function(){
+  var KEY='wolfs_theme';
+  function apply(t){document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem(KEY,t)}catch(_){}var b=document.getElementById('ThemeToggle');if(b)b.textContent=t==='light'?'☀️':t==='auto'?'🌗':'🌙'}
+  var saved=(function(){try{return localStorage.getItem(KEY)}catch(_){return null}})()||'dark';
+  apply(saved);
+  window.ToggleTheme=function(){var c=document.documentElement.getAttribute('data-theme')||'dark';apply(c==='dark'?'light':c==='light'?'auto':'dark')};
+  document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('ThemeToggle');if(b){var c=document.documentElement.getAttribute('data-theme')||'dark';b.textContent=c==='light'?'☀️':c==='auto'?'🌗':'🌙'}});
+})();
 </script>
 </body>
 </html>
