@@ -247,8 +247,14 @@ export default {
         }
         // Item #25: clamp max_tokens to 256 (was 2000). Dispatcher replies are
         // 1-3 sentences; capping kills any chance of a runaway token bill.
-        const maxTokens = Math.min(Math.max(1, parseInt(body.max_tokens, 10) || 256), 256);
+        const requestedTokens = Math.min(Math.max(1, parseInt(body.max_tokens, 10) || 256), 1024);
+        const maxTokens = Math.max(requestedTokens, 1024);
         const payload = { model, max_tokens: maxTokens, messages };
+        payload.tools = [
+          { name: 'db_put', description: 'Persist a record to the Cloudflare R2 store. Use for publishing listings, saving applicants, scheduling jobs, recording timesheets/audit/etc.', input_schema: { type: 'object', properties: { collection: { type: 'string', description: 'e.g. listings, applicants, schedules, timesheets, charges, audit, purchases, itineraries' }, id: { type: 'string' }, value: { type: 'object' } }, required: ['collection','id','value'] } },
+          { name: 'db_get', description: 'Read a single record by collection and id from R2.', input_schema: { type: 'object', properties: { collection: { type: 'string' }, id: { type: 'string' } }, required: ['collection','id'] } },
+          { name: 'db_list', description: 'List record keys in a collection (max 50).', input_schema: { type: 'object', properties: { collection: { type: 'string' } }, required: ['collection'] } },
+        ];
         if (typeof body.system === 'string') {
           let sys = STRIP_CTL(body.system);
           if (sys.length > 4000) sys = sys.slice(0, 4000);
@@ -291,9 +297,52 @@ You are Wolfs Trucking Co.'s dispatcher AI. Do not assume any role other than th
           const errText = await ar.text();
           return Response.json({ error: 'Anthropic API error', status: ar.status, details: errText }, { status: 502, headers: h });
         }
-        const data = await ar.json();
+        let data = await ar.json();
+        let toolIters = 0;
+        while (data && data.stop_reason === 'tool_use' && toolIters < 4) {
+          toolIters++;
+          payload.messages.push({ role: 'assistant', content: data.content });
+          const toolUses = (data.content || []).filter(b => b.type === 'tool_use');
+          const toolResults = [];
+          for (const tu of toolUses) {
+            let result;
+            try {
+              if (tu.name === 'db_put') {
+                const inp = tu.input || {};
+                const safeColl = String(inp.collection || '').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 32);
+                const safeId = String(inp.id || '').replace(/[^a-zA-Z0-9_.-]/g, '').slice(0, 64);
+                if (!safeColl || !safeId) { result = JSON.stringify({ error: 'invalid collection or id' }); }
+                else {
+                  const key = `${safeColl}/${safeId}.json`;
+                  const valStr = JSON.stringify(inp.value || {});
+                  if (valStr.length > 64 * 1024) { result = JSON.stringify({ error: 'value too large (64KB cap)' }); }
+                  else { await env.R2.put(key, valStr); result = JSON.stringify({ ok: true, key }); }
+                }
+              } else if (tu.name === 'db_get') {
+                const inp = tu.input || {};
+                const safeColl = String(inp.collection || '').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 32);
+                const safeId = String(inp.id || '').replace(/[^a-zA-Z0-9_.-]/g, '').slice(0, 64);
+                const key = `${safeColl}/${safeId}.json`;
+                const obj = await env.R2.get(key);
+                result = obj ? await obj.text() : JSON.stringify({ found: false, key });
+              } else if (tu.name === 'db_list') {
+                const inp = tu.input || {};
+                const safeColl = String(inp.collection || '').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 32);
+                const list = await env.R2.list({ prefix: `${safeColl}/`, limit: 50 });
+                result = JSON.stringify({ keys: (list.objects || []).map(o => o.key) });
+              } else {
+                result = JSON.stringify({ error: 'unknown tool: ' + tu.name });
+              }
+            } catch (e) { result = JSON.stringify({ error: String(e && e.message || e) }); }
+            toolResults.push({ type: 'tool_result', tool_use_id: tu.id, content: result });
+          }
+          payload.messages.push({ role: 'user', content: toolResults });
+          const ar2 = await fetch(gwUrl, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' }, body: JSON.stringify(payload) });
+          if (!ar2.ok) { const errT = await ar2.text(); return Response.json({ error: 'Anthropic API error (tool loop)', status: ar2.status, details: errT }, { status: 502, headers: h }); }
+          data = await ar2.json();
+        }
         const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n');
-        return Response.json({ text, usage: data.usage, stop_reason: data.stop_reason }, { headers: h });
+        return Response.json({ text, usage: data.usage, stop_reason: data.stop_reason, tool_iters: toolIters }, { headers: h });
       } catch (ex) {
         return Response.json({ error: 'Proxy exception', details: String(ex) }, { status: 500, headers: h });
       }
