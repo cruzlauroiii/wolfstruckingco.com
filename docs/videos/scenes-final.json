@@ -1,0 +1,740 @@
+[
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/?cb=001",
+    "narration": "Car seller lands on the Wolfs home page.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Login/?cb=002",
+    "narration": "Car seller signs in with Google.",
+    "wait": 3,
+    "sso": "google",
+    "account": "cruzlauroiii@gmail.com"
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/?cb=003",
+    "narration": "Car seller is back on the home page and taps Sell to talk to the agent.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=004",
+    "narration": "Car seller starts a chat with the agent to post the car.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=005",
+    "narration": "Agent asks what car and where it is picked up.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=006",
+    "narration": "Agent asks how much cash the driver should bring to the factory.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=007",
+    "narration": "Agent asks who the buyer is and where the car goes.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=008",
+    "narration": "Agent asks the price and how the buyer pays.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=009",
+    "narration": "Agent writes the job and seller publishes it.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Marketplace/?cb=010",
+    "narration": "Seller sees the published BYD Han EV listing live in the marketplace.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Login/?cb=011",
+    "narration": "Driver from China signs in with Okta.",
+    "wait": 3,
+    "sso": "okta"
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=012",
+    "narration": "Driver from China taps Apply to be a driver.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=013",
+    "narration": "Driver from China chats with the Agent. Agent asks his name and years driving.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=014",
+    "narration": "Agent asks for his license and China export pass.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=015",
+    "narration": "Driver from China sends both scans.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Documents/?cb=016",
+    "narration": "Driver from China uploads his driver\u0027s license and China export pass.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=017",
+    "narration": "Driver from China sees his application is pending admin approval.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Login/?cb=018",
+    "narration": "Driver from Los Angeles signs in with Google.",
+    "wait": 3,
+    "sso": "google",
+    "account": "noahblesse@gmail.com"
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=019",
+    "narration": "Driver from Los Angeles taps Apply to be a driver.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=020",
+    "narration": "Driver from Los Angeles chats with the Agent and shares his details.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=021",
+    "narration": "Agent asks for his TWIC port pass and drayage card.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=022",
+    "narration": "Driver from Los Angeles sends both scans.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Documents/?cb=023",
+    "narration": "Driver from Los Angeles uploads his license, port pass, and drayage card.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=024",
+    "narration": "Driver from Los Angeles sees his application is pending admin approval.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Login/?cb=025",
+    "narration": "Team driver in Phoenix signs in with Microsoft.",
+    "wait": 3,
+    "sso": "microsoft",
+    "account": "noahblesse@gmail.com"
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=026",
+    "narration": "Team driver in Phoenix taps Apply to be a driver.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=027",
+    "narration": "Team driver in Phoenix chats with the Agent and shares his details.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=028",
+    "narration": "Agent asks for the team-driver papers.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=029",
+    "narration": "Team driver in Phoenix sends the papers.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Documents/?cb=030",
+    "narration": "Team driver in Phoenix uploads team papers and both licenses.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=031",
+    "narration": "Team driver in Phoenix sees his application is pending admin approval.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Login/?cb=032",
+    "narration": "Driver in Wilmington signs in with Google.",
+    "wait": 3,
+    "sso": "google",
+    "account": "analynrcastillo@gmail.com"
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=033",
+    "narration": "Driver in Wilmington taps Apply to be a driver.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=034",
+    "narration": "Driver in Wilmington chats with the Agent and shares his details.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=035",
+    "narration": "Agent asks for the auto-handling cert.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=036",
+    "narration": "Driver in Wilmington sends the cert.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Documents/?cb=037",
+    "narration": "Driver in Wilmington uploads his license and auto-handling cert.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=038",
+    "narration": "Driver in Wilmington sees his application is pending admin approval.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Login/?cb=039",
+    "narration": "Admin signs in with GitHub to approve the new drivers.",
+    "wait": 3,
+    "sso": "github"
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Admin/?cb=040",
+    "narration": "Admin lands on the home page and sees four pending applicants.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/HiringHall/?cb=041",
+    "narration": "Admin sees all four drivers in the list.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/HiringHall/?cb=042",
+    "narration": "Admin clicks Approve all and assigns badges in one batch.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/HiringHall/?cb=043",
+    "narration": "All four drivers are hired at the same time.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=044",
+    "narration": "Driver from China sees he is hired and goes to the driver home.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Dashboard/?cb=045",
+    "narration": "Driver from China lands on the driver home page.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=046",
+    "narration": "Driver from Los Angeles sees he is hired.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Dashboard/?cb=047",
+    "narration": "Driver from Los Angeles lands on the driver home page.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=048",
+    "narration": "Team driver in Phoenix sees he is hired.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Dashboard/?cb=049",
+    "narration": "Team driver in Phoenix lands on the driver home page.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=050",
+    "narration": "Driver in Wilmington sees he is hired.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Dashboard/?cb=051",
+    "narration": "Driver in Wilmington lands on the driver home page.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/?cb=052",
+    "narration": "Car buyer lands on the Wolfs home page.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Login/?cb=053",
+    "narration": "Car buyer signs in with Microsoft to find a car.",
+    "wait": 3,
+    "sso": "microsoft",
+    "account": "cruzlauroiii@gmail.com"
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Marketplace/?cb=054",
+    "narration": "Car buyer lands on the marketplace and sees the car the seller posted.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Buy/ShipTo/?cb=055",
+    "narration": "Car buyer enters his shipping address.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Buy/Contact/?cb=056",
+    "narration": "Car buyer enters his contact for delivery.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Buy/Window/?cb=057",
+    "narration": "Car buyer picks his delivery day and time.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Buy/Pay/?cb=058",
+    "narration": "Car buyer picks pay on delivery.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Buy/Notes/?cb=059",
+    "narration": "Car buyer adds special instructions and confirms the order.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=060",
+    "narration": "Driver from China starts the map.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=061",
+    "narration": "Voice says: head west to the highway.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=062",
+    "narration": "Voice says: take the exit toward Hefei.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=063",
+    "narration": "Voice says: continue for three hundred kilometers.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=064",
+    "narration": "Voice says: arrive at the BYD factory.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=065",
+    "narration": "Driver from China tells Agent he is at the factory.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=066",
+    "narration": "Agent confirms the cash payment to the factory.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=067",
+    "narration": "Driver from China places the GPS tracker inside the car.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=068",
+    "narration": "Voice says: head east to Shanghai port.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=069",
+    "narration": "Voice says: take the bridge to terminal four.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=070",
+    "narration": "Voice says: arrive at the port.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=071",
+    "narration": "Driver from China loads the car into the ship\u0027s container.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Track/?cb=072",
+    "narration": "The ship leaves Shanghai.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Track/?cb=073",
+    "narration": "Car buyer watches the ship cross the ocean.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Track/?cb=074",
+    "narration": "The ship is halfway to Los Angeles.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Track/?cb=075",
+    "narration": "The ship arrives at Los Angeles.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=076",
+    "narration": "Agent tells driver from Los Angeles the ship is here.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=077",
+    "narration": "Driver from Los Angeles starts the map.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=078",
+    "narration": "Voice says: head north to the port.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=079",
+    "narration": "Voice says: show the port pass at gate B.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=080",
+    "narration": "Voice says: pick up the car from the yard.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=081",
+    "narration": "Driver from Los Angeles tells Agent he picked up the car.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=082",
+    "narration": "Voice says: head east on the highway to Phoenix.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=083",
+    "narration": "GPS telemetry detects heavy congestion ahead on I-10. ETA recomputed automatically.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Dispatcher/?cb=084",
+    "narration": "Agent tells the buyer the new ETA.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Schedule/?cb=085",
+    "narration": "System recomputes downstream legs from live traffic.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=086",
+    "narration": "Voice says: arrive at Phoenix.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=087",
+    "narration": "Driver from Los Angeles finishes his leg.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=088",
+    "narration": "Agent tells team driver in Phoenix to start.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=089",
+    "narration": "Team driver in Phoenix starts the map.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=090",
+    "narration": "Voice says: head east on the highway.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=091",
+    "narration": "Voice says: continue east on I-40 through Albuquerque.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=092",
+    "narration": "Voice says: continue to Memphis.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=093",
+    "narration": "Voice says: arrive at the Memphis yard.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=094",
+    "narration": "Team driver in Phoenix finishes the leg.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=095",
+    "narration": "Agent tells driver in Wilmington to start the last leg.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=096",
+    "narration": "Driver in Wilmington starts the map.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=097",
+    "narration": "Voice says: head east on the highway.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=098",
+    "narration": "Voice says: turn south to Wilmington.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=099",
+    "narration": "Voice says: turn onto Oak Street.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=100",
+    "narration": "Voice says: arrive at fourteen-eighteen Oak Street.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=101",
+    "narration": "Driver in Wilmington calls the buyer from the door.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=102",
+    "narration": "Car buyer comes to the door.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=103",
+    "narration": "Car buyer looks at the car.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=104",
+    "narration": "Car buyer pays at the door.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=105",
+    "narration": "Driver in Wilmington takes a delivery photo.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=106",
+    "narration": "Driver in Wilmington hands over the keys.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=107",
+    "narration": "Admin opens the dashboard.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=108",
+    "narration": "All four drivers were paid.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=109",
+    "narration": "Driver from China was paid for leg one.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=110",
+    "narration": "Driver from Los Angeles was paid for leg two.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=111",
+    "narration": "Team driver in Phoenix was paid for leg three.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=112",
+    "narration": "Driver in Wilmington was paid for leg four.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=113",
+    "narration": "Driver from China is paid back for the factory cash.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=114",
+    "narration": "All shipping costs are paid.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=115",
+    "narration": "Customs fees are paid.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=116",
+    "narration": "The buyer paid in full.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=117",
+    "narration": "The platform earned its share.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=118",
+    "narration": "Every delivery was on time.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=119",
+    "narration": "Every payment cleared.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Marketplace/?cb=120",
+    "narration": "The listing is closed.",
+    "wait": 3
+  },
+  {
+    "action": "navigate",
+    "target": "https://cruzlauroiii.github.io/wolfstruckingco.com/Track/?cb=121",
+    "narration": "The order is delivered.",
+    "wait": 3
+  }
+]
