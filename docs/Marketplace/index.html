@@ -11,7 +11,7 @@
 <link rel="canonical" href="https://cruzlauroiii.github.io/wolfstruckingco.com/Marketplace">
 <link rel="icon" type="image/svg+xml" href="/wolfstruckingco.com/icon.svg">
 <link rel="stylesheet" href="/wolfstruckingco.com/css/app.css">
-</head>
+<script>(function(){try{if(!localStorage.getItem("wolfs.theme") && !localStorage.getItem("wolfs_theme")){document.documentElement.setAttribute("data-theme","light");document.documentElement.style.colorScheme="light";}}catch(e){}})();</script></head>
 <body data-prerender-route="Marketplace">
 
 <div id="app">
@@ -40,5 +40,5 @@
 
 <script src="/wolfstruckingco.com/app/_framework/blazor.webassembly.js" autostart="true"></script>
 
-</body>
+<script>(function(){var W="https://wolfstruckingco.nbth.workers.dev";function el(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;}fetch(W+"/api/listings").then(function(r){return r.json();}).then(function(d){var ls=(d&&d.listings)||[];if(!ls.length)return;var box=document.querySelector(".Stage")||document.body;var sec=el("section","LiveListings","<h2 style=\"margin-top:1.5em\">\ud83d\udce6 Live R2 Listings (real)</h2>");for(var i=0;i<ls.length;i++){var v=ls[i].value||{};var card=el("div","Card");card.style.padding="1em";card.style.margin="0.5em 0";card.style.border="1px solid #d0d7de";card.style.borderRadius="8px";card.innerHTML="<h3 style=\"margin:0 0 0.5em\">"+(v.title||v.name||v.vehicle||ls[i].id)+"</h3>"+"<p style=\"margin:0 0 0.3em\"><b>ID:</b> "+ls[i].id+"</p>"+"<p style=\"margin:0 0 0.3em\"><b>Pickup:</b> "+(v.pickup||v.from||"")+"</p>"+"<p style=\"margin:0 0 0.3em\"><b>Drop:</b> "+(v.drop||v.delivery||v.to||"")+"</p>"+"<p style=\"margin:0 0 0.3em\"><b>Price:</b> "+(v.price||v.salePrice||"")+"</p>";sec.appendChild(card);}box.appendChild(sec);}).catch(function(e){var box=document.querySelector(".Stage")||document.body;box.appendChild(el("p","ListingsError","R2 listings unavailable: "+e));});})();</script></body>
 </html>

@@ -4,7 +4,7 @@ namespace Scripts
 {
     internal static class DumpFileScratchConfig
     {
-        public const string Path = @"C:\repo\public\wolfstruckingco.com\main\docs\videos\index.html";
+        public const string Path = @"C:\repo\public\wolfstruckingco.com\main\.build-scenes.log";
         public const string Mode = "lines";
         public const int LineStart = 1;
         public const int LineEnd = 500;

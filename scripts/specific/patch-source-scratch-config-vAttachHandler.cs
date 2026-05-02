@@ -1,8 +1,0 @@
-namespace WolfsTruckingCo.Scripts.Specific;
-
-public static class PatchSourceScratchConfigVAttachHandler
-{
-    public const string TargetFile = @"C:\repo\public\wolfstruckingco.com\main\src\SharedUI\Components\ChatBox.razor.cs";
-    public const string Find_01 = "    private async Task OnKeyAsync(KeyboardEventArgs E)\n    {\n        if (string.Equals(E.Key, EnterKey, StringComparison.Ordinal) && !E.ShiftKey) { await SendAsync(); }\n    }\n}";
-    public const string Replace_01 = "    private async Task OnKeyAsync(KeyboardEventArgs E)\n    {\n        if (string.Equals(E.Key, EnterKey, StringComparison.Ordinal) && !E.ShiftKey) { await SendAsync(); }\n    }\n\n    private const long MaxAttachmentBytes = 10 * 1024 * 1024;\n    private const string AttachedNotePrefix = \"📎 attached: \";\n    private const string JoinSeparator = \", \";\n\n    private async Task OnFilesAttachedAsync(InputFileChangeEventArgs E)\n    {\n        var Names = new List<string>();\n        foreach (var F in E.GetMultipleFiles(maximumFileCount: 8))\n        {\n            if (F.Size > MaxAttachmentBytes) { continue; }\n            try\n            {\n                var Key = await Wolfs.UploadAttachmentAsync(F);\n                Names.Add(string.IsNullOrEmpty(Key) ? F.Name : F.Name);\n            }\n#pragma warning disable CA1031\n            catch\n#pragma warning restore CA1031\n            {\n                Names.Add(F.Name);\n            }\n        }\n        if (Names.Count > 0)\n        {\n            Live.Add(new ChatMessage(RoleUser, AttachedNotePrefix + string.Join(JoinSeparator, Names)));\n        }\n        await Task.CompletedTask;\n    }\n}";
-}

@@ -4,10 +4,10 @@ namespace Scripts
 {
     internal static class PatchSourceScratchConfig
     {
-        public const string TargetFile = @"C:\repo\public\wolfstruckingco.com\main\scripts\specific\bark-wrapper.py";
-        public const string Find_01 = "os.environ['HF_TOKEN'] = 'placeholder'\nos.environ['HF_HUB_DISABLE_PROGRESS_BARS'] = '1'\nos.environ['HF_HUB_DISABLE_TELEMETRY'] = '1'\nos.environ['TRANSFORMERS_VERBOSITY'] = 'error'\nimport torch";
-        public const string Replace_01 = "os.environ['HF_TOKEN'] = 'placeholder'\nos.environ['HF_HUB_DISABLE_PROGRESS_BARS'] = '1'\nos.environ['HF_HUB_DISABLE_TELEMETRY'] = '1'\nos.environ['TRANSFORMERS_VERBOSITY'] = 'error'\n_real_stderr = sys.stderr\nclass _Filter:\n    def write(self, s):\n        if 'arning' in s or 'rror' in s or 'WARNING' in s or 'ERROR' in s: return\n        _real_stderr.write(s)\n    def flush(self): _real_stderr.flush()\n    def __getattr__(self, n): return getattr(_real_stderr, n)\nsys.stderr = _Filter()\nimport torch";
-        public const string Find_02 = "___UNUSED_SLOT___";
-        public const string Replace_02 = "";
+        public const string TargetFile = @"C:\repo\public\wolfstruckingco.com\main\worker\worker.js";
+        public const string Find_01 = "{ name: 'db_list', description: 'List record keys in a collection (max 50).', input_schema: { type: 'object', properties: { collection: { type: 'string' } }, required: ['collection'] } },";
+        public const string Replace_01 = "{ name: 'db_list', description: 'List record keys in a collection (max 50).', input_schema: { type: 'object', properties: { collection: { type: 'string' } }, required: ['collection'] } },\n          { name: 'db_get_blob', description: 'Read an uploaded file blob (chat-attach/* or uploads/*) from R2 as text. Returns first 4KB preview. Use this to verify documents the user attached.', input_schema: { type: 'object', properties: { key: { type: 'string' } }, required: ['key'] } },";
+        public const string Find_02 = "} else if (tu.name === 'db_list') {";
+        public const string Replace_02 = "} else if (tu.name === 'db_get_blob') {\n                const inp = tu.input || {};\n                const k = String(inp.key || '');\n                if (!k.startsWith('chat-attach/') && !k.startsWith('uploads/')) {\n                  result = JSON.stringify({ error: 'invalid key prefix' });\n                } else {\n                  const obj = await env.R2.get(k);\n                  if (!obj) { result = JSON.stringify({ found: false, key: k }); }\n                  else { const txt = await obj.text(); result = JSON.stringify({ key: k, size: txt.length, preview: txt.slice(0, 4096) }); }\n                }\n              } else if (tu.name === 'db_list') {";
     }
 }
