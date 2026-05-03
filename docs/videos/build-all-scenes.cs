@@ -14,24 +14,10 @@ using System.Threading.Tasks;
 const string Repo = @"C:\repo\public\wolfstruckingco.com\main";
 var VoiceRotation = new[]
 {
-    "en-US-AnaNeural",
-    "en-US-AvaMultilingualNeural",
-    "en-US-JennyNeural",
     "en-US-AriaNeural",
-    "en-US-MichelleNeural",
-    "en-US-EmmaMultilingualNeural",
-    "en-US-BrianMultilingualNeural",
-    "en-US-AndrewMultilingualNeural",
-    "en-US-EricNeural",
-    "en-US-GuyNeural",
-    "en-US-ChristopherNeural",
-    "en-GB-SoniaNeural",
-    "en-GB-MaisieNeural",
-    "en-AU-NatashaNeural",
-    "en-AU-WilliamNeural",
 };
-const string Rate = "+8%";
-const string Pitch = "+50Hz";
+const string Rate = "+0%";
+const string Pitch = "+0Hz";
 
 var FrameDir = Path.Combine(Path.GetTempPath(), "wolfs-video", "frames");
 var AudioDir = Path.Combine(Path.GetTempPath(), "wolfs-video", "audio-edge");
@@ -66,7 +52,7 @@ for (var N = SceneStart; N <= SceneEnd; N++)
     if (string.IsNullOrWhiteSpace(Narration)) { Narration = "Scene " + Pad; }
 
     var Mp3 = Path.Combine(AudioDir, "scene-" + Pad + ".mp3");
-    var Voice = VoiceRotation[(N - 1) % VoiceRotation.Length];
+    var Voice = VoiceRotation[0];
     var TtsExit = await RunAsync(
         "python",
         "-m", "edge_tts",

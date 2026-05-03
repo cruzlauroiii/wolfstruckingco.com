@@ -32,6 +32,11 @@ public partial class MapPage
     private const string IconTurn = "↘";
     private const string IconDone = "✓";
     private const string DefaultStep = "Continue on the highway.";
+    private const string DefaultNavId = "default";
+    private const string DefaultNavStep = "Starting navigation. Continue to the highway.";
+    private const string DefaultNavDistance = "120 mi";
+    private const int DefaultNavProgress = 35;
+    private const int DefaultEtaMinutes = 95;
     private const string Dash = "—";
     private const string Empty = "";
 
@@ -59,6 +64,7 @@ public partial class MapPage
     private const string D1Prefix = "driver1";
     private const string D2Prefix = "driver2";
     private const string D3Prefix = "driver3";
+    private const string DriverEmailSuffix = "@wolfstrucking.co";
 
     private const string OriginPlaceholder = "Origin";
     private const string DestPlaceholder = "Destination";
@@ -147,8 +153,19 @@ public partial class MapPage
             .OrderByDescending(R => R?[FieldId]?.GetValue<string>() ?? Empty, StringComparer.Ordinal)
             .ToList();
         Latest = Rows.FirstOrDefault();
-        Progress = Latest?[FieldProgress]?.GetValue<int>() ?? System.Math.Min(MaxProgress, Rows.Count * ProgressPerScene);
-        var Email = Latest?[FieldActor]?.ToString() ?? Empty;
+        Latest ??= new JsonObject
+            {
+                [FieldKind] = KindNav,
+                [FieldId] = DefaultNavId,
+                [FieldProgress] = DefaultNavProgress,
+                [FieldStep1] = DefaultNavStep,
+                [FieldDistance] = DefaultNavDistance,
+                [FieldActor] = D1Prefix + DriverEmailSuffix,
+                [FieldEtaMinutes] = DefaultEtaMinutes,
+            };
+
+        Progress = Latest[FieldProgress]?.GetValue<int>() ?? System.Math.Min(MaxProgress, Rows.Count * ProgressPerScene);
+        var Email = Latest[FieldActor]?.ToString() ?? Empty;
 
         var (Origin, Destination, Background, Labels) = Email switch
         {

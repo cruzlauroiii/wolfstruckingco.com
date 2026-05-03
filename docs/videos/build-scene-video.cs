@@ -35,7 +35,7 @@ var Narration = Scenes[SceneN - 1].GetProperty("narration").GetString() ?? "";
 var Wav = Path.Combine(AudioDir, "scene-" + Pad + ".wav");
 
 using var Synth = new SpeechSynthesizer();
-var PreferredFemale = new[] { "Ana", "Ashley", "Sara", "Sonia", "Jane", "Aria", "Jenny", "Emma", "Ava" };
+var PreferredFemale = new[] { "Aria", "Jenny", "Zira", "David", "Guy" };
 var EnVoices = SpeechSynthesizer.AllVoices.Where(V => V.Language.StartsWith("en", StringComparison.OrdinalIgnoreCase)).ToList();
 VoiceInformation? Picked = null;
 foreach (var Name in PreferredFemale)
@@ -50,7 +50,7 @@ Synth.Options.AudioVolume = 1.0;
 
 var SafeText = System.Net.WebUtility.HtmlEncode(Narration);
 var Ssml = "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'>" +
-           "<prosody pitch='+35%' rate='1.05'>" + SafeText + "</prosody></speak>";
+           "<prosody pitch='+0%' rate='1.0'>" + SafeText + "</prosody></speak>";
 using (var Stream = await Synth.SynthesizeSsmlToStreamAsync(Ssml))
 using (var FileStream = File.Create(Wav))
 {

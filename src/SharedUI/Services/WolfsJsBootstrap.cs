@@ -162,9 +162,11 @@ public sealed class WolfsJsBootstrap(IJSRuntime Js)
         "      if (!clean) { return; }" + "\n" +
         "      var u = new SpeechSynthesisUtterance(clean);" + "\n" +
         "      var voices = speechSynthesis.getVoices().filter(function(v){ return /^en[-_]/i.test(v.lang); });" + "\n" +
-        "      if (voices.length > 0) { u.voice = voices[Math.floor(Math.random() * voices.length)]; }" + "\n" +
-        "      u.pitch = 0.8 + Math.random() * 1.4;" + "\n" +
-        "      u.rate = 0.9 + Math.random() * 0.4;" + "\n" +
+        "      var preferred = voices.find(function(v){ return /natural|online|aria|jenny|guy|david|zira/i.test(v.name); }) || voices.find(function(v){ return /^en-US/i.test(v.lang); }) || voices[0];" + "\n" +
+        "      if (preferred) { u.voice = preferred; }" + "\n" +
+        "      u.lang = (preferred && preferred.lang) || 'en-US';" + "\n" +
+        "      u.pitch = 1.0;" + "\n" +
+        "      u.rate = 1.0;" + "\n" +
         "      speechSynthesis.speak(u);" + "\n" +
         "    } catch (e) {}" + "\n" +
         "  };" + "\n" +
@@ -195,9 +197,11 @@ public sealed class WolfsJsBootstrap(IJSRuntime Js)
         "    var realEmail = params.get('email');" + "\n" +
         "    var realSession = params.get('session');" + "\n" +
         "    try {" + "\n" +
+        "      w.authClear();" + "\n" +
         "      localStorage.setItem('wolfs_session', realSession || ('sso-' + p + '-' + Date.now()));" + "\n" +
         "      localStorage.setItem('wolfs_role', 'user');" + "\n" +
         "      localStorage.setItem('wolfs_email', realEmail || ('demo@' + p + '.example'));" + "\n" +
+        "      localStorage.setItem('wolfs_sso', p);" + "\n" +
         "    } catch (e) {}" + "\n" +
         """    var base = location.pathname.replace(/Login\/?$/, '');""" + "\n" +
         "    location.href = base + 'Marketplace/';" + "\n" +
@@ -218,7 +222,7 @@ public sealed class WolfsJsBootstrap(IJSRuntime Js)
         "      var role = localStorage.getItem('wolfs_role') || '';" + "\n" +
         "      var email = localStorage.getItem('wolfs_email') || '';" + "\n" +
         "      if (!role) { return; }" + "\n" +
-        "      var name = (email.split('@')[0] || 'user');" + "\n" +
+        "      var roleLabel = ({client:'buyer',customer:'buyer',buyer:'buyer',shipper:'seller',seller:'seller',admin:'admin',administrator:'admin',driver:'driver',carrier:'driver'})[(role || '').toLowerCase()] || role || 'buyer';" + "\n" +
         "      var actions = document.querySelector('.TopActions');" + "\n" +
         "      if (!actions) { return; }" + "\n" +
         "      var anchors = actions.querySelectorAll('a');" + "\n" +
@@ -226,7 +230,7 @@ public sealed class WolfsJsBootstrap(IJSRuntime Js)
         "        var a = anchors[i];" + "\n" +
         "        var text = (a.textContent || '').trim();" + "\n" +
         "        if (text === 'Sign In' || text === 'Log off' || text.indexOf('Log off') === 0) {" + "\n" +
-        "          a.outerHTML = '<a href=\"?signout=1\" class=\"WolfsLogoff\">Log off (' + name + ')</a>';" + "\n" +
+        "          a.outerHTML = '<a href=\"?signout=1\" class=\"WolfsLogoff\">Log Off (' + (email || 'signed-in user') + ') - ' + roleLabel + '</a>';" + "\n" +
         "          break;" + "\n" +
         "        }" + "\n" +
         "      }" + "\n" +
@@ -238,9 +242,11 @@ public sealed class WolfsJsBootstrap(IJSRuntime Js)
         "      if (wm) {" + "\n" +
         "        var qp = new URLSearchParams(location.search);" + "\n" +
         "        try {" + "\n" +
+        "          w.authClear();" + "\n" +
         "          localStorage.setItem('wolfs_role', 'user');" + "\n" +
         "          if (qp.get('email')) localStorage.setItem('wolfs_email', qp.get('email'));" + "\n" +
         "          if (qp.get('session')) localStorage.setItem('wolfs_session', qp.get('session'));" + "\n" +
+        "          localStorage.setItem('wolfs_sso', wm[1].toLowerCase());" + "\n" +
         "        } catch (e) {}" + "\n" +
         "        history.replaceState(null, '', location.pathname);" + "\n" +
         "      }" + "\n" +
@@ -297,7 +303,7 @@ public sealed class WolfsJsBootstrap(IJSRuntime Js)
         "    if (email) localStorage.setItem('wolfs_email', email); else localStorage.removeItem('wolfs_email');" + "\n" +
         "    if (sess) localStorage.setItem('wolfs_session', sess); else localStorage.removeItem('wolfs_session');" + "\n" +
         "  };" + "\n" +
-        "  w.authClear = function () { ['wolfs_role','wolfs_email','wolfs_session'].forEach(k => localStorage.removeItem(k)); };" + "\n" +
+        "  w.authClear = function () { ['wolfs_role','wolfs_email','wolfs_session','wolfs_sso'].forEach(k => localStorage.removeItem(k)); };" + "\n" +
         "  window.WolfsInterop = w;" + "\n" +
         "})();" + "\n";
 

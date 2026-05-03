@@ -307,6 +307,7 @@ Console.WriteLine($"login page probe: {ProbeJson}");
 // Run the same Runtime.evaluate population the pipeline runs after screenshot.
 var SsoExpr =
     "(function(){try{" +
+    "['wolfs_role','wolfs_email','wolfs_session','wolfs_sso'].forEach(function(k){localStorage.removeItem(k);});" +
     "localStorage.setItem('wolfs_session','sso-" + Provider + "-'+Date.now());" +
     "localStorage.setItem('wolfs_role'," + JsonSerializer.Serialize("employer") + ");" +
     "localStorage.setItem('wolfs_email'," + JsonSerializer.Serialize(Actor) + ");" +

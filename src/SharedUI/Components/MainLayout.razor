@@ -17,7 +17,7 @@
         <a href="Apply" class="AccentLink NavTertiary">🚛 Apply to drive</a>
         @if (Authed)
         {
-            <button type="button" class="LinkBtn" @onclick="SignOutAsync">Log off (@EmailShort)</button>
+            <button type="button" class="LinkBtn" @onclick="SignOutAsync">Log Off (@Email) - @RoleLabel</button>
         }
         else
         {
@@ -32,7 +32,14 @@
     private bool Authed;
     private string? Email;
     private string? Role;
-    private string EmailShort => string.IsNullOrEmpty(Email) ? "" : Email.Split('@')[0];
+    private string RoleLabel => (Role?.ToLowerInvariant()) switch
+    {
+        "buyer" or "client" or "customer" => "buyer",
+        "seller" or "shipper" => "seller",
+        "admin" or "administrator" => "admin",
+        "driver" or "carrier" => "driver",
+        _ => Role ?? "",
+    };
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
