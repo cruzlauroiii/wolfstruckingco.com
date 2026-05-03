@@ -14,10 +14,19 @@ using System.Threading.Tasks;
 const string Repo = @"C:\repo\public\wolfstruckingco.com\main";
 var VoiceRotation = new[]
 {
-    "en-US-AriaNeural",
+    "p225", "p226", "p227", "p228", "p229", "p230", "p231", "p232", "p233", "p234",
+    "p236", "p237", "p238", "p239", "p240", "p241", "p243", "p244", "p245", "p246",
+    "p247", "p248", "p249", "p250", "p251", "p252", "p253", "p254", "p255", "p256",
+    "p257", "p258", "p259", "p260", "p261", "p262", "p263", "p264", "p265", "p266",
+    "p267", "p268", "p269", "p270", "p271", "p272", "p273", "p274", "p275", "p276",
+    "p277", "p278", "p279", "p280", "p281", "p282", "p283", "p284", "p285", "p286",
+    "p287", "p288", "p292", "p293", "p294", "p295", "p297", "p298", "p299", "p300",
+    "p301", "p302", "p303", "p304", "p305", "p306", "p307", "p308", "p310", "p311",
+    "p312", "p313", "p314", "p316", "p317", "p318", "p323", "p326", "p329", "p330",
+    "p333", "p334", "p335", "p336", "p339", "p340", "p341", "p343", "p345", "p347",
+    "p351", "p360", "p361", "p362", "p363", "p364", "p374", "p376",
 };
-const string Rate = "+0%";
-const string Pitch = "+0Hz";
+const string CoquiModel = "tts_models/en/vctk/vits";
 
 var FrameDir = Path.Combine(Path.GetTempPath(), "wolfs-video", "frames");
 var AudioDir = Path.Combine(Path.GetTempPath(), "wolfs-video", "audio-edge");
@@ -52,15 +61,13 @@ for (var N = SceneStart; N <= SceneEnd; N++)
     if (string.IsNullOrWhiteSpace(Narration)) { Narration = "Scene " + Pad; }
 
     var Mp3 = Path.Combine(AudioDir, "scene-" + Pad + ".mp3");
-    var Voice = VoiceRotation[0];
+    var Voice = VoiceRotation[(N - 1) % VoiceRotation.Length];
     var TtsExit = await RunAsync(
-        "python",
-        "-m", "edge_tts",
-        "--voice", Voice,
-        "--rate", Rate,
-        "--pitch", Pitch,
+        "tts",
         "--text", Narration,
-        "--write-media", Mp3);
+        "--model_name", CoquiModel,
+        "--speaker_idx", Voice,
+        "--out_path", Mp3);
     if (TtsExit != 0) { Failures++; continue; }
 
     var Mp4 = Path.Combine(Repo, "docs", "videos", "scene-" + Pad + ".mp4");
