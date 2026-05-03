@@ -1,0 +1,16 @@
+{
+  "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/",
+  "localRole": "user",
+  "localEmail": "test@example.com",
+  "localSession": "mock123",
+  "signInLinks": [
+    "About",
+    "Services",
+    "Pricing",
+    "Marketplace",
+    "\uD83D\uDE9B Apply to drive",
+    "Dashboard"
+  ],
+  "logoffPresent": false,
+  "wolfs": "object"
+}

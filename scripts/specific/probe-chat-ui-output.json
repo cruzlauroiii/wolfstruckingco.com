@@ -1,0 +1,5 @@
+Connecting to ws://127.0.0.1:50403/devtools/browser/6dbdd8d0-ee65-4ccd-8c55-860eeae841f9
+Clicked Allow
+Connected!
+Dismissed infobar (invoke)
+"{\u0022btns\u0022:[{\u0022tag\u0022:\u0022BUTTON\u0022,\u0022cls\u0022:\u0022Btn Ghost ChatBtnRound \u0022,\u0022title\u0022:\u0022Call agent\u0022,\u0022disabled\u0022:false},{\u0022tag\u0022:\u0022LABEL\u0022,\u0022cls\u0022:\u0022Btn Ghost ChatBtnRound\u0022,\u0022title\u0022:\u0022Attach photo / receipt\u0022,\u0022disabled\u0022:false},{\u0022tag\u0022:\u0022BUTTON\u0022,\u0022cls\u0022:\u0022Btn ChatBtnRound Send\u0022,\u0022title\u0022:\u0022Send\u0022,\u0022disabled\u0022:false}],\u0022hasStream\u0022:true,\u0022hasInputRow\u0022:true,\u0022bubbles\u0022:2,\u0022url\u0022:\u0022https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=2\u0022,\u0022ttl\u0022:\u0022Chat | Wolfs Trucking Co.\u0022}"

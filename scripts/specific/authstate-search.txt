@@ -1,0 +1,1 @@
+SharedUI/Services/WolfsInteropService.cs:104:public record AuthState(string? Role, string? Email, string? Sess);

@@ -1,0 +1,5 @@
+Connecting to ws://127.0.0.1:50403/devtools/browser/6dbdd8d0-ee65-4ccd-8c55-860eeae841f9
+Clicked Allow
+Connected!
+Dismissed infobar (invoke)
+"{\u0022status\u0022:200,\u0022len\u0022:36094,\u0022hasSpeak\u0022:true,\u0022hasDark\u0022:true,\u0022tail\u0022:\u0022:#334155;--accent:#fb923c;--accent-hover:#ea580c;color-scheme:dark}html:not([data-theme=light]) body{background:var(--bg);color:var(--text)}html:not([data-theme=light]) .ChatBubble.Agent{background:#1e293b;color:#f8fafc;border-color:#334155}html:not([data-theme=light]) .ChatInputRow{background:#1e293b;border-color:#334155}html:not([data-theme=light]) .ChatInputRow input[type=text]{color:#f8fafc}}\\n\u0022}"

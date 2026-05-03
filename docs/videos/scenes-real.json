@@ -1,0 +1,1091 @@
+[
+  {
+    "index": 1,
+    "pad": "001",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/?cb=001",
+    "narration": "Car seller lands on the Wolfs home page.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 2,
+    "pad": "002",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Login/?cb=002",
+    "narration": "Car seller signs in with Google.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 3,
+    "pad": "003",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/?cb=003",
+    "narration": "Car seller is back on the home page and taps Sell to talk to the agent.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 4,
+    "pad": "004",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=004",
+    "narration": "Car seller starts a chat with the agent to post the car.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 5,
+    "pad": "005",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=005",
+    "narration": "Agent asks what car and where it is picked up.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 6,
+    "pad": "006",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=006",
+    "narration": "Agent asks how much cash the driver should bring to the factory.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 7,
+    "pad": "007",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=007",
+    "narration": "Agent asks who the buyer is and where the car goes.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 8,
+    "pad": "008",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=008",
+    "narration": "Agent asks the price and how the buyer pays.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 9,
+    "pad": "009",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=009",
+    "narration": "Agent writes the job and seller publishes it.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 10,
+    "pad": "010",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Marketplace/?cb=010",
+    "narration": "Seller sees the published BYD Han EV listing live in the marketplace.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 11,
+    "pad": "011",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Login/?cb=011",
+    "narration": "Driver from China signs in with Okta.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 12,
+    "pad": "012",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=012",
+    "narration": "Driver from China taps Apply to be a driver.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 13,
+    "pad": "013",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=013",
+    "narration": "Driver from China chats with the Agent. Agent asks his name and years driving.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 14,
+    "pad": "014",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=014",
+    "narration": "Agent asks for his license and China export pass.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 15,
+    "pad": "015",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=015",
+    "narration": "Driver from China sends both scans.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 16,
+    "pad": "016",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Documents/?cb=016",
+    "narration": "Driver from China uploads his driver's license and China export pass.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 17,
+    "pad": "017",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=017",
+    "narration": "Driver from China sees his application is pending admin approval.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 18,
+    "pad": "018",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Login/?cb=018",
+    "narration": "Driver from Los Angeles signs in with Google.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 19,
+    "pad": "019",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=019",
+    "narration": "Driver from Los Angeles taps Apply to be a driver.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 20,
+    "pad": "020",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=020",
+    "narration": "Driver from Los Angeles chats with the Agent and shares his details.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 21,
+    "pad": "021",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=021",
+    "narration": "Agent asks for his TWIC port pass and drayage card.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 22,
+    "pad": "022",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=022",
+    "narration": "Driver from Los Angeles sends both scans.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 23,
+    "pad": "023",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Documents/?cb=023",
+    "narration": "Driver from Los Angeles uploads his license, port pass, and drayage card.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 24,
+    "pad": "024",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=024",
+    "narration": "Driver from Los Angeles sees his application is pending admin approval.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 25,
+    "pad": "025",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Login/?cb=025",
+    "narration": "Team driver in Phoenix signs in with Microsoft.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 26,
+    "pad": "026",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=026",
+    "narration": "Team driver in Phoenix taps Apply to be a driver.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 27,
+    "pad": "027",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=027",
+    "narration": "Team driver in Phoenix chats with the Agent and shares his details.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 28,
+    "pad": "028",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=028",
+    "narration": "Agent asks for the team-driver papers.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 29,
+    "pad": "029",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=029",
+    "narration": "Team driver in Phoenix sends the papers.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 30,
+    "pad": "030",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Documents/?cb=030",
+    "narration": "Team driver in Phoenix uploads team papers and both licenses.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 31,
+    "pad": "031",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=031",
+    "narration": "Team driver in Phoenix sees his application is pending admin approval.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 32,
+    "pad": "032",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Login/?cb=032",
+    "narration": "Driver in Wilmington signs in with Google.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 33,
+    "pad": "033",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=033",
+    "narration": "Driver in Wilmington taps Apply to be a driver.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 34,
+    "pad": "034",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=034",
+    "narration": "Driver in Wilmington chats with the Agent and shares his details.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 35,
+    "pad": "035",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=035",
+    "narration": "Agent asks for the auto-handling cert.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 36,
+    "pad": "036",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=036",
+    "narration": "Driver in Wilmington sends the cert.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 37,
+    "pad": "037",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Documents/?cb=037",
+    "narration": "Driver in Wilmington uploads his license and auto-handling cert.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 38,
+    "pad": "038",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=038",
+    "narration": "Driver in Wilmington sees his application is pending admin approval.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 39,
+    "pad": "039",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Login/?cb=039",
+    "narration": "Admin signs in with GitHub to approve the new drivers.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 40,
+    "pad": "040",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Admin/?cb=040",
+    "narration": "Admin lands on the home page and sees four pending applicants.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 41,
+    "pad": "041",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/HiringHall/?cb=041",
+    "narration": "Admin sees all four drivers in the list.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 42,
+    "pad": "042",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/HiringHall/?cb=042",
+    "narration": "Admin clicks Approve all and assigns badges in one batch.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 43,
+    "pad": "043",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/HiringHall/?cb=043",
+    "narration": "All four drivers are hired at the same time.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 44,
+    "pad": "044",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=044",
+    "narration": "Driver from China sees he is hired and goes to the driver home.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 45,
+    "pad": "045",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Dashboard/?cb=045",
+    "narration": "Driver from China lands on the driver home page.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 46,
+    "pad": "046",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=046",
+    "narration": "Driver from Los Angeles sees he is hired.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 47,
+    "pad": "047",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Dashboard/?cb=047",
+    "narration": "Driver from Los Angeles lands on the driver home page.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 48,
+    "pad": "048",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=048",
+    "narration": "Team driver in Phoenix sees he is hired.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 49,
+    "pad": "049",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Dashboard/?cb=049",
+    "narration": "Team driver in Phoenix lands on the driver home page.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 50,
+    "pad": "050",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Apply/?cb=050",
+    "narration": "Driver in Wilmington sees he is hired.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 51,
+    "pad": "051",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Dashboard/?cb=051",
+    "narration": "Driver in Wilmington lands on the driver home page.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 52,
+    "pad": "052",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/?cb=052",
+    "narration": "Car buyer lands on the Wolfs home page.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 53,
+    "pad": "053",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Login/?cb=053",
+    "narration": "Car buyer signs in with Microsoft to find a car.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 54,
+    "pad": "054",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Marketplace/?cb=054",
+    "narration": "Car buyer lands on the marketplace and sees the car the seller posted.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 55,
+    "pad": "055",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Buy/ShipTo/?cb=055",
+    "narration": "Car buyer enters his shipping address.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 56,
+    "pad": "056",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Buy/Contact/?cb=056",
+    "narration": "Car buyer enters his contact for delivery.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 57,
+    "pad": "057",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Buy/Window/?cb=057",
+    "narration": "Car buyer picks his delivery day and time.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 58,
+    "pad": "058",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Buy/Pay/?cb=058",
+    "narration": "Car buyer picks pay on delivery.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 59,
+    "pad": "059",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Buy/Notes/?cb=059",
+    "narration": "Car buyer adds special instructions and confirms the order.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 60,
+    "pad": "060",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=060",
+    "narration": "Driver from China starts the map.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 61,
+    "pad": "061",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=061",
+    "narration": "Voice says: head west to the highway.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 62,
+    "pad": "062",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=062",
+    "narration": "Voice says: take the exit toward Hefei.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 63,
+    "pad": "063",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=063",
+    "narration": "Voice says: continue for three hundred kilometers.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 64,
+    "pad": "064",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=064",
+    "narration": "Voice says: arrive at the BYD factory.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 65,
+    "pad": "065",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=065",
+    "narration": "Driver from China tells Agent he is at the factory.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 66,
+    "pad": "066",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=066",
+    "narration": "Agent confirms the cash payment to the factory.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 67,
+    "pad": "067",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=067",
+    "narration": "Driver from China places the GPS tracker inside the car.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 68,
+    "pad": "068",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=068",
+    "narration": "Voice says: head east to Shanghai port.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 69,
+    "pad": "069",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=069",
+    "narration": "Voice says: take the bridge to terminal four.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 70,
+    "pad": "070",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=070",
+    "narration": "Voice says: arrive at the port.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 71,
+    "pad": "071",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=071",
+    "narration": "Driver from China loads the car into the ship's container.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 72,
+    "pad": "072",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Track/?cb=072",
+    "narration": "The ship leaves Shanghai.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 73,
+    "pad": "073",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Track/?cb=073",
+    "narration": "Car buyer watches the ship cross the ocean.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 74,
+    "pad": "074",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Track/?cb=074",
+    "narration": "The ship is halfway to Los Angeles.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 75,
+    "pad": "075",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Track/?cb=075",
+    "narration": "The ship arrives at Los Angeles.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 76,
+    "pad": "076",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=076",
+    "narration": "Agent tells driver from Los Angeles the ship is here.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 77,
+    "pad": "077",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=077",
+    "narration": "Driver from Los Angeles starts the map.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 78,
+    "pad": "078",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=078",
+    "narration": "Voice says: head north to the port.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 79,
+    "pad": "079",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=079",
+    "narration": "Voice says: show the port pass at gate B.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 80,
+    "pad": "080",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=080",
+    "narration": "Voice says: pick up the car from the yard.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 81,
+    "pad": "081",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=081",
+    "narration": "Driver from Los Angeles tells Agent he picked up the car.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 82,
+    "pad": "082",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=082",
+    "narration": "Voice says: head east on the highway to Phoenix.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 83,
+    "pad": "083",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=083",
+    "narration": "GPS telemetry detects heavy congestion ahead on I-10. ETA recomputed automatically.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 84,
+    "pad": "084",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Dispatcher/?cb=084",
+    "narration": "Agent tells the buyer the new ETA.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 85,
+    "pad": "085",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Schedule/?cb=085",
+    "narration": "System recomputes downstream legs from live traffic.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 86,
+    "pad": "086",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=086",
+    "narration": "Voice says: arrive at Phoenix.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 87,
+    "pad": "087",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=087",
+    "narration": "Driver from Los Angeles finishes his leg.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 88,
+    "pad": "088",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=088",
+    "narration": "Agent tells team driver in Phoenix to start.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 89,
+    "pad": "089",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=089",
+    "narration": "Team driver in Phoenix starts the map.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 90,
+    "pad": "090",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=090",
+    "narration": "Voice says: head east on the highway.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 91,
+    "pad": "091",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=091",
+    "narration": "Voice says: continue east on I-40 through Albuquerque.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 92,
+    "pad": "092",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=092",
+    "narration": "Voice says: continue to Memphis.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 93,
+    "pad": "093",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=093",
+    "narration": "Voice says: arrive at the Memphis yard.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 94,
+    "pad": "094",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=094",
+    "narration": "Team driver in Phoenix finishes the leg.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 95,
+    "pad": "095",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=095",
+    "narration": "Agent tells driver in Wilmington to start the last leg.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 96,
+    "pad": "096",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=096",
+    "narration": "Driver in Wilmington starts the map.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 97,
+    "pad": "097",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=097",
+    "narration": "Voice says: head east on the highway.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 98,
+    "pad": "098",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=098",
+    "narration": "Voice says: turn south to Wilmington.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 99,
+    "pad": "099",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=099",
+    "narration": "Voice says: turn onto Oak Street.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 100,
+    "pad": "100",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Map/?cb=100",
+    "narration": "Voice says: arrive at fourteen-eighteen Oak Street.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 101,
+    "pad": "101",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=101",
+    "narration": "Driver in Wilmington calls the buyer from the door.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 102,
+    "pad": "102",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=102",
+    "narration": "Car buyer comes to the door.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 103,
+    "pad": "103",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=103",
+    "narration": "Car buyer looks at the car.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 104,
+    "pad": "104",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=104",
+    "narration": "Car buyer pays at the door.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 105,
+    "pad": "105",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=105",
+    "narration": "Driver in Wilmington takes a delivery photo.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 106,
+    "pad": "106",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Chat/?cb=106",
+    "narration": "Driver in Wilmington hands over the keys.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 107,
+    "pad": "107",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=107",
+    "narration": "Admin opens the dashboard.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 108,
+    "pad": "108",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=108",
+    "narration": "All four drivers were paid.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 109,
+    "pad": "109",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=109",
+    "narration": "Driver from China was paid for leg one.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 110,
+    "pad": "110",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=110",
+    "narration": "Driver from Los Angeles was paid for leg two.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 111,
+    "pad": "111",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=111",
+    "narration": "Team driver in Phoenix was paid for leg three.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 112,
+    "pad": "112",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=112",
+    "narration": "Driver in Wilmington was paid for leg four.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 113,
+    "pad": "113",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=113",
+    "narration": "Driver from China is paid back for the factory cash.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 114,
+    "pad": "114",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=114",
+    "narration": "All shipping costs are paid.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 115,
+    "pad": "115",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=115",
+    "narration": "Customs fees are paid.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 116,
+    "pad": "116",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=116",
+    "narration": "The buyer paid in full.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 117,
+    "pad": "117",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=117",
+    "narration": "The platform earned its share.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 118,
+    "pad": "118",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=118",
+    "narration": "Every delivery was on time.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 119,
+    "pad": "119",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Investors/KPI/?cb=119",
+    "narration": "Every payment cleared.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 120,
+    "pad": "120",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Marketplace/?cb=120",
+    "narration": "The listing is closed.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  },
+  {
+    "index": 121,
+    "pad": "121",
+    "url": "https://cruzlauroiii.github.io/wolfstruckingco.com/Track/?cb=121",
+    "narration": "The order is delivered.",
+    "selector": "",
+    "typeText": "",
+    "profileDir": "C:\\chrome-profiles\\car-seller-google"
+  }
+]

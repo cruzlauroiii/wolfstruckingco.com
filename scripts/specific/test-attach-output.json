@@ -1,0 +1,5 @@
+Connecting to ws://127.0.0.1:50403/devtools/browser/6dbdd8d0-ee65-4ccd-8c55-860eeae841f9
+Clicked Allow
+Connected!
+Dismissed infobar (invoke)
+"{\u0022status\u0022:200,\u0022headers\u0022:{\u0022content-type\u0022:\u0022application/json\u0022},\u0022body\u0022:\u0022{\\\u0022ok\\\u0022:true,\\\u0022key\\\u0022:\\\u0022chat-attach/1777647430604_jahxev_test.jpg\\\u0022,\\\u0022size\\\u0022:24,\\\u0022contentType\\\u0022:\\\u0022image/jpeg\\\u0022,\\\u0022url\\\u0022:\\\u0022/api/file/chat-attach%2F1777647430604_jahxev_test.jpg\\\u0022}\u0022}"

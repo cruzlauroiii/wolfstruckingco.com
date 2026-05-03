@@ -1,0 +1,5 @@
+Connecting to ws://127.0.0.1:50403/devtools/browser/6dbdd8d0-ee65-4ccd-8c55-860eeae841f9
+Clicked Allow
+Connected!
+Dismissed infobar (invoke)
+"{\u0022status\u0022:200,\u0022sharedRefs\u0022:[\u0022SharedUI.wa\u0022,\u0022SharedUI.e70qiu943l.wa\u0022],\u0022anyWasm\u0022:[],\u0022len\u0022:89098,\u0022head\u0022:\u0022//! Licensed to the .NET Foundation under one or more agreements.\\n//! The .NET Foundation licenses this file to you under the MIT license.\\n\\nconst e=async()=\u003EWebAssembly.validate(new Uint8Array([0,97,1\u0022}"

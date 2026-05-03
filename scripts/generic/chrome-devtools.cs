@@ -93,6 +93,19 @@ public sealed partial class CdpCli
 
         if (await TryForwardToServeAsync(Argv))
         {
+            if (SilentBuf is not null)
+            {
+                Console.SetOut(OriginalOut);
+                Console.SetError(OriginalErr);
+                var Captured = SilentBuf.ToString();
+                if (!string.IsNullOrEmpty(OutputPath))
+                {
+                    var FullOut = Path.IsPathRooted(OutputPath) ? OutputPath : Path.Combine(Environment.CurrentDirectory, OutputPath);
+                    var Dir = Path.GetDirectoryName(FullOut);
+                    if (!string.IsNullOrEmpty(Dir)) { Directory.CreateDirectory(Dir); }
+                    await File.WriteAllTextAsync(FullOut, Captured);
+                }
+            }
             return;
         }
 
@@ -130,11 +143,11 @@ public sealed partial class CdpCli
         }
     }
 
-    private static async Task<bool> TryForwardToServeAsync(string[] Argv)
+    private static async Task<bool> TrySendOnceAsync(string[] Argv)
     {
         try
         {
-            using var Http = new System.Net.Http.HttpClient { Timeout = TimeSpan.FromSeconds(30) };
+            using var Http = new System.Net.Http.HttpClient { Timeout = TimeSpan.FromSeconds(60) };
             var Payload = string.Join(" ", Argv.Select(A => A.Contains(' ') ? $"\"{A}\"" : A));
             var Response = await Http.PostAsync($"http://127.0.0.1:{ServePort}/exec", new System.Net.Http.StringContent(Payload, Encoding.UTF8));
             Console.Write(await Response.Content.ReadAsStringAsync());
@@ -144,6 +157,47 @@ public sealed partial class CdpCli
         {
             return false;
         }
+    }
+
+    private static void SpawnServeBackground()
+    {
+        try
+        {
+            var Cwd = Environment.CurrentDirectory;
+            var Psi = new ProcessStartInfo("dotnet")
+            {
+                WorkingDirectory = Cwd,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+            };
+            Psi.ArgumentList.Add("run");
+            Psi.ArgumentList.Add("main/scripts/generic/chrome-devtools.cs");
+            Psi.ArgumentList.Add("main/scripts/specific/cdp-serve-scratch-config.cs");
+            Process.Start(Psi);
+        }
+        catch
+        {
+        }
+    }
+
+    private static async Task<bool> TryForwardToServeAsync(string[] Argv)
+    {
+        if (await TrySendOnceAsync(Argv))
+        {
+            return true;
+        }
+        SpawnServeBackground();
+        for (var I = 0; I < 30; I++)
+        {
+            await Task.Delay(500);
+            if (await TrySendOnceAsync(Argv))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private async Task RunServeModeAsync(Dictionary<string, object> ParsedArgs)
@@ -180,6 +234,14 @@ public sealed partial class CdpCli
             {
                 var LineArgs = SplitArgs(Line);
                 var (Cmd, Args) = ParseArgs(LineArgs);
+                if (WebSocket == null || WebSocket.State != System.Net.WebSockets.WebSocketState.Open)
+                {
+                    Output.AppendLine("serve: websocket not open, reconnecting...");
+                    WebSocket?.Dispose();
+                    WebSocket = null;
+                    SessionId = null;
+                    await ConnectToChromeAsync(Args);
+                }
                 if (Cmd == "allow")
                 {
                     ClickAllowPrompt(Args.ContainsKey("debug"));
@@ -287,7 +349,25 @@ public sealed partial class CdpCli
                 await ExecuteClosePageAsync(ParsedArgs);
                 break;
             case "new_page":
-                await ExecuteNewPageAsync(ParsedArgs);
+                {
+                    var KeepUrl = ParsedArgs.TryGetValue(CdpKey.Url, out var KU) ? KU.ToString()! : "";
+                    var Targets1 = await SendBrowserCommandAsync(Cdp.TargetGetTargets);
+                    var Existing = Targets1![CdpKey.TargetInfos]!.AsArray()
+                        .FirstOrDefault(T => T![CdpKey.Type]!.ToString() == CdpKey.Page
+                            && !T![CdpKey.Url]!.ToString().StartsWith(CdpProto.ChromeScheme, StringComparison.Ordinal));
+                    if (Existing != null && !string.IsNullOrEmpty(KeepUrl))
+                    {
+                        var KeptTid = Existing[CdpKey.TargetId]!.ToString();
+                        await AttachToTargetAsync(KeptTid);
+                        await SendCommandAsync(Cdp.PageNavigate, new JsonObject { [CdpKey.Url] = KeepUrl });
+                        Console.WriteLine($"reused active tab; navigated to {KeepUrl}");
+                    }
+                    else
+                    {
+                        await ExecuteNewPageAsync(ParsedArgs);
+                    }
+                    DismissInfobar();
+                }
                 break;
             case "navigate_page":
                 await ExecuteNavigatePageAsync(ParsedArgs);
@@ -337,6 +417,26 @@ public sealed partial class CdpCli
             case "upload_file":
                 await ExecuteUploadFileAsync(ParsedArgs);
                 break;
+            case "close_others":
+                {
+                    var Targets = await SendBrowserCommandAsync(Cdp.TargetGetTargets);
+                    var AllPages = Targets![CdpKey.TargetInfos]!.AsArray()
+                        .Where(T => T![CdpKey.Type]!.ToString() == CdpKey.Page)
+                        .Select(T => T!)
+                        .ToList();
+                    var Keep = ParsedArgs.TryGetValue(CdpArg.PageId, out var KeepIdRaw)
+                        ? int.Parse(KeepIdRaw.ToString()!, System.Globalization.CultureInfo.InvariantCulture) - 1
+                        : 0;
+                    var Closed = 0;
+                    for (var I = 0; I < AllPages.Count; I++)
+                    {
+                        if (I == Keep) continue;
+                        var Tid = AllPages[I][CdpKey.TargetId]!.ToString();
+                        try { await SendBrowserCommandAsync("Target.closeTarget", new JsonObject { [CdpKey.TargetId] = Tid }); Closed++; } catch { }
+                    }
+                    Console.WriteLine($"closed {Closed} other tab(s) of {AllPages.Count} total; kept index {Keep + 1}");
+                    break;
+                }
             case "clear_cache":
                 await SendCommandAsync("Network.clearBrowserCache");
                 await SendCommandAsync("Network.clearBrowserCookies");
@@ -371,21 +471,13 @@ public sealed partial class CdpCli
         }
         else if (TargetFilter == "desktop" && await ResolveEndpointAsync("desktop", ExplicitPort) == null)
         {
-            Console.Error.WriteLine("Desktop Chrome has no CDP port. Restarting with --remote-debugging-port...");
-            foreach (var Proc in Process.GetProcessesByName(CdpProto.ChromeProcessName))
+            Console.Error.WriteLine("Desktop Chrome has no CDP port; relying on approval-mode auto-bind. NOT killing existing Chrome.");
+            for (var Wait = 0; Wait < 6; Wait++)
             {
-                try
-                {
-                    Proc.Kill();
-                }
-                catch
-                {
-                }
+                await Task.Delay(2000);
+                if (await ResolveEndpointAsync("desktop", ExplicitPort) != null) break;
+                ClickAllowPrompt();
             }
-
-            await Task.Delay(5000);
-            LaunchChromeWithDebugging(ExplicitPort ?? DesktopDebugPort);
-            await Task.Delay(8000);
         }
 
         for (var Attempt = 0; Attempt < 6; Attempt++)
@@ -503,6 +595,12 @@ public sealed partial class CdpCli
         };
         StartInfo.ArgumentList.Add("--start-maximized");
         StartInfo.ArgumentList.Add("--remote-allow-origins=*");
+        StartInfo.ArgumentList.Add("--disable-features=SessionCrashedBubble,InfoBars");
+        StartInfo.ArgumentList.Add("--no-first-run");
+        StartInfo.ArgumentList.Add("--no-default-browser-check");
+        StartInfo.ArgumentList.Add("--hide-crash-restore-bubble");
+        StartInfo.ArgumentList.Add("--disable-session-crashed-bubble");
+        StartInfo.ArgumentList.Add("--restore-last-session=false");
         Process.Start(StartInfo);
     }
 

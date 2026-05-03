@@ -1,0 +1,16 @@
+{
+  "title": "Chat | Wolfs Trucking Co.",
+  "callBtn": "\u003Cbutton type=\u0022button\u0022 class=\u0022Btn Ghost ChatBtnRound\u0022 title=\u0022Call agent\u0022\u003E\u003C!--!--\u003E\uD83D\uDCDE\u003C/button\u003E",
+  "sendBtn": "button",
+  "formExists": false,
+  "fileMultiple": true,
+  "headerLinks": [
+    "About",
+    "Services",
+    "Pricing",
+    "Marketplace",
+    "\uD83D\uDE9B Apply to drive",
+    "Log off (cruzlauroiii)",
+    "\u2600 Light"
+  ]
+}

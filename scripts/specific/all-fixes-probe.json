@@ -1,0 +1,31 @@
+Connecting to ws://127.0.0.1:50403/devtools/browser/6dbdd8d0-ee65-4ccd-8c55-860eeae841f9
+Clicked Allow
+Connected!
+Dismissed infobar (invoke)
+{
+  "title": "Chat | Wolfs Trucking Co.",
+  "wolfs": "object",
+  "hasMsg": true,
+  "hasFileMultiple": true,
+  "hasFileName": "",
+  "callIsButton": "BUTTON",
+  "sendType": "button",
+  "formExists": false,
+  "formAction": null,
+  "headerLinks": [
+    "About",
+    "Services",
+    "Pricing",
+    "Marketplace",
+    "\uD83D\uDE9B Apply to drive",
+    "Log off (cruzlauroiii)",
+    "\u2600 Light"
+  ],
+  "hasDashboard": false,
+  "hasLogoff": true,
+  "hasRecognize": "function",
+  "hasSpeak": "function",
+  "hasScrollChat": "function",
+  "hasCancelSpeak": "function",
+  "streamBg": "rgba(0, 0, 0, 0)"
+}
