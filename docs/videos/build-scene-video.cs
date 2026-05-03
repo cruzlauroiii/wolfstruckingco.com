@@ -20,7 +20,7 @@ var FrameDir = Path.Combine(Path.GetTempPath(), "wolfs-video", "frames");
 var AudioDir = Path.Combine(Path.GetTempPath(), "wolfs-video", "audio");
 Directory.CreateDirectory(AudioDir);
 
-var ScenesPath = Path.Combine(Repo, "docs", "videos", "scenes-final.json");
+var ScenesPath = Path.Combine(Repo, "docs", "videos", "scenes-final-v2.json");
 if (!File.Exists(ScenesPath)) { await Console.Error.WriteLineAsync("scenes-final.json missing"); return 1; }
 var Scenes = JsonDocument.Parse(File.ReadAllText(ScenesPath)).RootElement.EnumerateArray().ToArray();
 
