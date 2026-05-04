@@ -335,14 +335,16 @@ async Task WaitForSsoPrePicker(string Provider, string Account, string Pad)
 async Task WaitForSsoPostPicker(string Provider, string Account, string Pad)
 {
     if (string.IsNullOrEmpty(Provider)) return;
+    bool FoundPassword = false;
     for (int It = 0; It < 12; It++)
     {
         var U = await CurrentUrl();
         if (U.Contains("wolfstruckingco")) { Console.WriteLine($"  *** SSO completed scene {Pad}: {Provider}"); return; }
-        if (await HasPasswordInput()) break;
+        if (await HasPasswordInput()) { FoundPassword = true; break; }
         if (!string.IsNullOrEmpty(Account)) await ClickAccountByEmail(Account);
         await Task.Delay(4000);
     }
+    if (!FoundPassword) { Console.WriteLine($"  SSO scene {Pad} no password input visible after {12*4}s; continuing without alarm"); return; }
     try { File.Delete(SsoAckPath); } catch { }
     Console.WriteLine($"  *** SSO PASSWORD REQUIRED scene {Pad}: {Provider} {Account} -- create {SsoAckPath} or wait {SsoHardTimeoutSec}s");
     try { MessageBeep(0xFFFFFFFF); } catch { }
@@ -398,7 +400,7 @@ if (MissingAudio.Count > 0)
     return 4;
 }
 
-Console.WriteLine($"v3 capture starting. total scenes={Scenes.GetArrayLength()}");
+Console.WriteLine($"v3-serve capture starting. total scenes={Scenes.GetArrayLength()}");
 
 string? CurrentGroup = null;
 int OkCount = 0;
