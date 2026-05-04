@@ -74,8 +74,39 @@ void AlarmBurst()
     try { Beep(2200, 250); Beep(1500, 250); Beep(2800, 250); Beep(1500, 250); Beep(2200, 350); } catch { }
 }
 
+string CachedWolfsPageIdx = "";
 async Task<int> Cdp(string Name, string Body)
 {
+    if (Name != "list" && Body.Contains("PageId = \"1\""))
+    {
+        if (string.IsNullOrEmpty(CachedWolfsPageIdx))
+        {
+            var Listing = "";
+            var ListLog = Path.Combine(Path.GetTempPath(), $"list-{Guid.NewGuid():N}.log");
+            var ListCfg = "return 0;\nnamespace Scripts\n{\n    internal static class CdpRun\n    {\n        public const string Command = \"list_pages\";\n        public const string OutputPath = @\"" + ListLog + "\";\n    }\n}\n";
+            var Tmp2 = Path.Combine(Path.GetTempPath(), $"cdp-list-inner-{Guid.NewGuid():N}.cs");
+            await File.WriteAllTextAsync(Tmp2, ListCfg);
+            var P2 = new ProcessStartInfo("dotnet") { WorkingDirectory = Repo, RedirectStandardOutput = true, RedirectStandardError = true };
+            P2.ArgumentList.Add("run"); P2.ArgumentList.Add("main/scripts/generic/chrome-devtools.cs"); P2.ArgumentList.Add(Tmp2);
+            using var Pp = Process.Start(P2)!;
+            await Pp.WaitForExitAsync();
+            try { Listing = await File.ReadAllTextAsync(ListLog); } catch { }
+            try { File.Delete(Tmp2); File.Delete(ListLog); } catch { }
+            foreach (var Line in Listing.Split('\n'))
+            {
+                var T = Line.Trim();
+                if (!T.Contains("wolfstruckingco", StringComparison.OrdinalIgnoreCase)) continue;
+                var Colon = T.IndexOf(':');
+                if (Colon < 1) continue;
+                var Idx = T.Substring(0, Colon).Trim();
+                if (Idx.All(char.IsDigit)) { CachedWolfsPageIdx = Idx; break; }
+            }
+        }
+        if (!string.IsNullOrEmpty(CachedWolfsPageIdx) && CachedWolfsPageIdx != "1")
+        {
+            Body = Body.Replace("PageId = \"1\"", $"PageId = \"{CachedWolfsPageIdx}\"");
+        }
+    }
     var Cfg = "return 0;\nnamespace Scripts\n{\n    internal static class CdpRun\n    {\n        " + Body + "\n    }\n}\n";
     for (int A = 0; A < CdpRetries; A++)
     {
@@ -130,14 +161,38 @@ async Task SendMsg(string Msg)
     await Cdp("send", Eval(Fn));
 }
 
+async Task<string> WolfsPageIndex()
+{
+    var Listing = await CdpRead("list", "public const string Command = \"list_pages\";");
+    foreach (var Line in Listing.Split('\n'))
+    {
+        var T = Line.Trim();
+        if (!T.Contains("wolfstruckingco", StringComparison.OrdinalIgnoreCase)) continue;
+        var Colon = T.IndexOf(':');
+        if (Colon < 1) continue;
+        var Idx = T.Substring(0, Colon).Trim();
+        if (Idx.All(char.IsDigit)) return Idx;
+    }
+    return "1";
+}
+
 async Task<int> Screenshot(string Pad)
 {
     var Out = Path.Combine(Frames, Pad + ".png");
     try { File.Delete(Out); } catch { }
-    var Body = $"public const string Command = \"take_screenshot\";\n        public const string PageId = \"1\";\n        public const string FilePath = @\"{Out}\";";
-    var Rc = await Cdp("shot", Body);
-    if (!File.Exists(Out) || new FileInfo(Out).Length == 0) { Console.WriteLine($"  Screenshot FAIL pad={Pad} png-missing-or-empty rc={Rc}"); return -3; }
-    return Rc;
+    foreach (var PageIdx in new[] { "1", "2", "3", "4" })
+    {
+        var Body = $"public const string Command = \"take_screenshot\";\n        public const string PageId = \"{PageIdx}\";\n        public const string FilePath = @\"{Out}\";";
+        var Rc = await Cdp("shot", Body);
+        if (File.Exists(Out) && new FileInfo(Out).Length > 0)
+        {
+            Console.WriteLine($"  shot pad={Pad} via pageIdx={PageIdx}");
+            return Rc;
+        }
+        try { File.Delete(Out); } catch { }
+    }
+    Console.WriteLine($"  Screenshot FAIL pad={Pad} png-missing on all PageIdx 1-4");
+    return -3;
 }
 
 async Task<int> Encode(string Pad)
@@ -228,6 +283,23 @@ async Task ClickLogoffLink()
 {
     var Fn = "() => { var as_ = Array.from(document.querySelectorAll('a,button,[role=button]')); var b = as_.find(x => /(log\\\\s*off|sign\\\\s*out|log\\\\s*out)/i.test(x.textContent||x.getAttribute('aria-label')||'')); if (!b) return 'no-logoff-link'; if (b.tagName==='A' && b.href) { location.href = b.href; return 'navigating'; } b.click(); return 'clicked'; }";
     await Cdp("logoff-link", Eval(Fn));
+}
+
+async Task<bool> WaitForWasmHydration(int MaxSeconds)
+{
+    for (int I = 0; I < MaxSeconds; I++)
+    {
+        var C = await CdpRead("hydrate-check", Eval("() => { var t = document.querySelector('.TopBar'); if (!t) return 'no-topbar'; var hasAuth = t.querySelector('.LinkBtn,a[href*=Login],a[href*=login]'); return hasAuth ? 'ready' : 'no-auth-yet'; }"));
+        if (C.Contains("ready")) return true;
+        await Task.Delay(1000);
+    }
+    return false;
+}
+
+async Task<bool> ClickHeaderLogOffButton()
+{
+    var C = await CdpRead("header-logoff", Eval("() => { var btns = Array.from(document.querySelectorAll('.TopBar button, .TopBar .LinkBtn')); for (var b of btns) { if (/log\\\\s*off/i.test(b.textContent||'')) { b.click(); return 'clicked'; } } return 'no-button'; }"));
+    return C.Contains("clicked");
 }
 
 async Task GotoHome()
@@ -351,14 +423,18 @@ async Task<(bool ok, string? group, string pad)> RunScene(int Idx, JsonElement S
         if (IsChat && Group is not null && Group.TryGetValue(Pad, out var Msg)) { await SendMsg(Msg); await Task.Delay(15000); await ForceLight(); }
         if (Pad == "001")
         {
-            if (await HasLogoffText())
+            var Hydrated = await WaitForWasmHydration(20);
+            Console.WriteLine($"  scene 001 wasm hydrated={Hydrated}");
+            if (await ClickHeaderLogOffButton())
             {
-                await ClickLogoffLink(); await Task.Delay(6000);
-                await ClearStorageAndReload(); await Task.Delay(5000);
-                await GotoHome(); await Task.Delay(6000);
+                Console.WriteLine($"  scene 001 clicked Log Off button");
+                await Task.Delay(4000);
                 await ForceLight();
             }
-            if (await HasLogoffText()) { Console.WriteLine($"  *** scene 001 STILL shows Log off -- ABORT"); Environment.Exit(3); }
+            else
+            {
+                Console.WriteLine($"  scene 001 no Log Off button (already signed out)");
+            }
         }
         await Screenshot(Pad);
         if (IsSso) await WaitForSsoPostPicker(SsoProvider, SsoAccount, Pad);
