@@ -533,6 +533,12 @@ async Task<(bool ok, string? group, string pad)> RunScene(int Idx, JsonElement S
             await FillMicrosoftEmailNoSubmit(SsoAccount);
             await Task.Delay(2000);
         }
+        if (Pad == "058" || Pad == "059")
+        {
+            var Fn = "() => { var s = document.querySelector('.MapStageFull') || document.querySelector('.MapStage') || document.querySelector('.Stage'); if (s) { s.style.maxWidth = 'none'; s.style.padding = '0'; s.style.margin = '0'; s.style.width = '100vw'; s.style.height = 'calc(100vh - 60px)'; } var svg = document.querySelector('.MapSvg'); if (svg) { svg.style.width = '100%'; svg.style.height = '100%'; svg.style.display = 'block'; } return s ? 'expanded' : 'no-stage'; }";
+            await Cdp("map-fullpage", Eval(Fn));
+            await Task.Delay(800);
+        }
         if (Pad == "001")
         {
             var Hydrated = await WaitForWasmHydration(20);

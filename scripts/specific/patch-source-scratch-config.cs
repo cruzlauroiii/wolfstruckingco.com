@@ -5,9 +5,7 @@ namespace Scripts
     internal static class PatchSourceScratchConfig
     {
         public const string TargetFile = @"C:\repo\public\wolfstruckingco.com\main\scripts\generic\rebuild-walkthrough-v3.cs";
-        public const string Find_01 = "async Task ClearStorageAndReload()";
-        public const string Replace_01 = "async Task FillMicrosoftEmailNoSubmit(string Account)\n{\n    var Fn = \"() => { var h = location.host; if (h.indexOf('login.microsoftonline.com') === -1 && h.indexOf('login.live.com') === -1) return 'not-ms'; var i = document.querySelector('input[type=email],input[name=loginfmt]'); if (!i) return 'no-input'; var nv = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype,'value').set; nv.call(i, '\" + Account + \"'); i.dispatchEvent(new Event('input',{bubbles:true})); i.dispatchEvent(new Event('change',{bubbles:true})); return 'filled'; }\";\n    await Cdp(\"msfill-nosubmit\", Eval(Fn));\n}\n\nasync Task ClearStorageAndReload()";
-        public const string Find_02 = "        if (Pad == \"001\")";
-        public const string Replace_02 = "        if (Pad == \"051\")\n        {\n            await ClickLogoutFirst();\n            await Task.Delay(3000);\n            await ClickSsoButton(\"microsoft\");\n            await Task.Delay(8000);\n            await FillMicrosoftEmailNoSubmit(SsoAccount);\n            await Task.Delay(2000);\n        }\n        if (Pad == \"001\")";
+        public const string Find_01 = "        if (Pad == \"001\")";
+        public const string Replace_01 = "        if (Pad == \"058\" || Pad == \"059\")\n        {\n            var Fn = \"() => { var s = document.querySelector('.MapStageFull') || document.querySelector('.MapStage') || document.querySelector('.Stage'); if (s) { s.style.maxWidth = 'none'; s.style.padding = '0'; s.style.margin = '0'; s.style.width = '100vw'; s.style.height = 'calc(100vh - 60px)'; } var svg = document.querySelector('.MapSvg'); if (svg) { svg.style.width = '100%'; svg.style.height = '100%'; svg.style.display = 'block'; } return s ? 'expanded' : 'no-stage'; }\";\n            await Cdp(\"map-fullpage\", Eval(Fn));\n            await Task.Delay(800);\n        }\n        if (Pad == \"001\")";
     }
 }
