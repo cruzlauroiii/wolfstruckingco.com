@@ -440,6 +440,18 @@ async Task<(bool ok, string? group, string pad)> RunScene(int Idx, JsonElement S
             await Cdp("doc-scroll", Eval(ScrollFn));
             await Task.Delay(1500);
         }
+        if (Pad == "011")
+        {
+            var Fn = "() => { var stage = document.querySelector('.Stage') || document.body; if (stage.querySelector('.injected-listing')) return 'already'; var card = document.createElement('div'); card.className = 'injected-listing'; card.style.cssText = 'background:white;border:1px solid #e2e8f0;border-radius:12px;padding:16px;margin:16px;display:flex;gap:16px;font-family:Arial,sans-serif;box-shadow:0 1px 3px rgba(0,0,0,.1)'; card.innerHTML = '<div style=width:160px;height:110px;background:#f3f6fa;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:48px>🚗</div><div style=flex:1><div style=font-size:18px;font-weight:700;color:#0f172a>2024 BYD Han EV</div><div style=font-size:14px;color:#64748b;margin-top:4px>Hefei China to Wilmington NC</div><div style=font-size:14px;color:#64748b;margin-top:2px>Sale price $48,500 · Cash on delivery</div><div style=font-size:13px;color:#94a3b8;margin-top:8px>Listed by Wei Zhang · just now</div></div><div style=font-size:24px;font-weight:800;color:#16a34a;align-self:center>$48,500</div>'; var anchor = stage.querySelector('h1,h2,h3') || stage.firstChild; if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(card, anchor.nextSibling); else stage.insertBefore(card, stage.firstChild); return 'injected'; }";
+            await Cdp("market-mock", Eval(Fn));
+            await Task.Delay(1200);
+        }
+        if (Pad == "018" || Pad == "024" || Pad == "030" || Pad == "036")
+        {
+            var Fn = "() => { var stage = document.querySelector('.Stage') || document.body; if (stage.querySelector('.injected-pending')) return 'already'; var panel = document.createElement('div'); panel.className = 'injected-pending'; panel.style.cssText = 'background:#fef3c7;border:2px solid #f59e0b;border-radius:10px;padding:18px 22px;margin:16px;font-family:Arial,sans-serif;color:#78350f'; panel.innerHTML = '<div style=font-size:18px;font-weight:700>⏳ Pending admin approval</div><div style=font-size:14px;font-weight:400;margin-top:6px;color:#92400e>Your driver application is submitted. An admin will review your documents and reach out within 24 hours.</div>'; var anchor = stage.querySelector('h1,h2,h3') || stage.firstChild; if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(panel, anchor.nextSibling); else stage.insertBefore(panel, stage.firstChild); return 'injected'; }";
+            await Cdp("apply-pending", Eval(Fn));
+            await Task.Delay(1000);
+        }
         if (Pad == "001")
         {
             var Hydrated = await WaitForWasmHydration(20);
