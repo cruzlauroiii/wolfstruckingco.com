@@ -273,6 +273,12 @@ async Task FillMicrosoftEmail(string Account)
     await Cdp("msfill", Eval(Fn));
 }
 
+async Task FillMicrosoftEmailNoSubmit(string Account)
+{
+    var Fn = "() => { var h = location.host; if (h.indexOf('login.microsoftonline.com') === -1 && h.indexOf('login.live.com') === -1) return 'not-ms'; var i = document.querySelector('input[type=email],input[name=loginfmt]'); if (!i) return 'no-input'; var nv = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype,'value').set; nv.call(i, '" + Account + "'); i.dispatchEvent(new Event('input',{bubbles:true})); i.dispatchEvent(new Event('change',{bubbles:true})); return 'filled'; }";
+    await Cdp("msfill-nosubmit", Eval(Fn));
+}
+
 async Task ClearStorageAndReload()
 {
     var Fn = "() => { try { localStorage.clear(); sessionStorage.clear(); document.cookie.split(';').forEach(c => { var n = c.split('=')[0].trim(); document.cookie = n + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/'; }); } catch(e){} location.reload(); return 'cleared'; }";
@@ -517,6 +523,15 @@ async Task<(bool ok, string? group, string pad)> RunScene(int Idx, JsonElement S
             var Fn = "() => { var stage = document.querySelector('.Stage') || document.body; if (stage.querySelector('.injected-pending')) return 'already'; var panel = document.createElement('div'); panel.className = 'injected-pending'; panel.style.cssText = 'background:#fef3c7;border:2px solid #f59e0b;border-radius:10px;padding:18px 22px;margin:16px;font-family:Arial,sans-serif;color:#78350f'; panel.innerHTML = '<div style=font-size:18px;font-weight:700>⏳ Pending admin approval</div><div style=font-size:14px;font-weight:400;margin-top:6px;color:#92400e>Your driver application is submitted. An admin will review your documents and reach out within 24 hours.</div>'; var anchor = stage.querySelector('h1,h2,h3') || stage.firstChild; if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(panel, anchor.nextSibling); else stage.insertBefore(panel, stage.firstChild); return 'injected'; }";
             await Cdp("apply-pending", Eval(Fn));
             await Task.Delay(1000);
+        }
+        if (Pad == "051")
+        {
+            await ClickLogoutFirst();
+            await Task.Delay(3000);
+            await ClickSsoButton("microsoft");
+            await Task.Delay(8000);
+            await FillMicrosoftEmailNoSubmit(SsoAccount);
+            await Task.Delay(2000);
         }
         if (Pad == "001")
         {
