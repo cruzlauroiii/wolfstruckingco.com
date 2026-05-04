@@ -30,6 +30,20 @@ img { max-width: 100%; height: auto; }
   min-height: 100vh;
 }
 
+.MapStageFull {
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100vw;
+  height: calc(100vh - 60px);
+}
+
+.MapSvg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
 .Stage {
   max-width: 1100px;
   width: 100%;
