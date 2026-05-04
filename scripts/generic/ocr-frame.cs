@@ -51,8 +51,8 @@ for (var I = 0; I < Files.Count; I++)
     var Pad = Path.GetFileNameWithoutExtension(File1);
     try
     {
-        var StorageFile = await StorageFile.GetFileFromPathAsync(File1);
-        using var Stream = await StorageFile.OpenAsync(FileAccessMode.Read);
+        var Sf = await StorageFile.GetFileFromPathAsync(File1);
+        using var Stream = await Sf.OpenAsync(FileAccessMode.Read);
         var Decoder = await BitmapDecoder.CreateAsync(Stream);
         var Bitmap = await Decoder.GetSoftwareBitmapAsync();
         var OcrResult = await Engine.RecognizeAsync(Bitmap);
