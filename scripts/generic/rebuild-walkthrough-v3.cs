@@ -446,13 +446,67 @@ async Task<(bool ok, string? group, string pad)> RunScene(int Idx, JsonElement S
             await Cdp("admin-pending-count", Eval(Fn));
             await Task.Delay(1000);
         }
-        if (Pad == "039" || Pad == "040" || Pad == "041")
+        if (Pad == "039" || Pad == "040")
         {
             var Fn = "() => { var stage = document.querySelector('.Stage') || document.body; if (stage.querySelector('.injected-applicants')) return 'already'; var list = document.createElement('div'); list.className = 'injected-applicants'; list.style.cssText = 'background:white;border:1px solid #e2e8f0;border-radius:12px;padding:8px;margin:16px;font-family:Arial,sans-serif'; var rows = [{n:'Wei Liu',l:'Hefei China',b:'china-export, ocean-carrier'},{n:'Marco Rivera',l:'San Pedro CA',b:'port-LA-drayage'},{n:'Diego Morales + Maria Santos',l:'Phoenix AZ',b:'cross-country-team'},{n:'Sam Chen Jr',l:'Wilmington NC',b:'auto-handling-final'}]; list.innerHTML = rows.map(r => '<div style=display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid #f1f5f9><div style=width:40px;height:40px;background:#0ea5e9;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700>' + r.n.split(' ').map(s=>s[0]).slice(0,2).join('') + '</div><div style=flex:1><div style=font-weight:700;color:#0f172a>' + r.n + '</div><div style=font-size:13px;color:#64748b>' + r.l + ' · Badges: ' + r.b + '</div></div><div style=color:#f59e0b;font-weight:600;font-size:14px>Pending</div></div>').join(''); var anchor = stage.querySelector('h1,h2,h3') || stage.firstChild; if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(list, anchor.nextSibling); else stage.insertBefore(list, stage.firstChild); return 'injected'; }";
             await Cdp("hiring-hall", Eval(Fn));
             await Task.Delay(1000);
         }
-        if (Pad == "011")
+        if (Pad == "041")
+        {
+            var Fn = "() => { var stage = document.querySelector('.Stage') || document.body; if (stage.querySelector('.injected-hired')) return 'already'; var list = document.createElement('div'); list.className = 'injected-hired'; list.style.cssText = 'background:white;border:1px solid #e2e8f0;border-radius:12px;padding:8px;margin:16px;font-family:Arial,sans-serif'; var rows = [{n:'Wei Liu',l:'Hefei China',b:'china-export, ocean-carrier'},{n:'Marco Rivera',l:'San Pedro CA',b:'port-LA-drayage'},{n:'Diego Morales + Maria Santos',l:'Phoenix AZ',b:'cross-country-team'},{n:'Sam Chen Jr',l:'Wilmington NC',b:'auto-handling-final'}]; var head = document.createElement('div'); head.style.cssText = 'padding:14px 18px;background:#dcfce7;border-radius:8px;margin-bottom:8px;color:#14532d;font-weight:700;font-size:16px'; head.textContent = '✓ All 4 drivers hired and badges assigned'; list.appendChild(head); list.insertAdjacentHTML('beforeend', rows.map(r => '<div style=display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid #f1f5f9><div style=width:40px;height:40px;background:#16a34a;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700>' + r.n.split(' ').map(s=>s[0]).slice(0,2).join('') + '</div><div style=flex:1><div style=font-weight:700;color:#0f172a>' + r.n + '</div><div style=font-size:13px;color:#64748b>' + r.l + ' · Badges: ' + r.b + '</div></div><div style=color:#16a34a;font-weight:700;font-size:14px>✓ Hired</div></div>').join('')); var anchor = stage.querySelector('h1,h2,h3') || stage.firstChild; if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(list, anchor.nextSibling); else stage.insertBefore(list, stage.firstChild); return 'injected'; }";
+            await Cdp("hired-state", Eval(Fn));
+            await Task.Delay(1000);
+        }
+        if (Pad == "042")
+        {
+            var Fn = "() => { var s = document.querySelector('.Stage') || document.body; if (s.querySelector('.in-dh-china')) return 'already'; var p = document.createElement('div'); p.className = 'in-dh-china'; p.style.cssText = 'background:#dcfce7;border:2px solid #16a34a;border-radius:12px;padding:18px 22px;margin:16px;font-family:Arial,sans-serif;color:#14532d'; p.innerHTML = '<div style=font-size:20px;font-weight:800>You have been hired!</div><div style=font-size:15px;font-weight:500;margin-top:8px;color:#166534>Welcome Wei Liu. Badges: china-export, ocean-carrier. Your first job is ready.</div>'; var a = s.querySelector('h1,h2,h3') || s.firstChild; if (a && a.parentNode) a.parentNode.insertBefore(p, a.nextSibling); else s.insertBefore(p, s.firstChild); return 'injected'; }";
+            await Cdp("dh-china", Eval(Fn));
+            await Task.Delay(1000);
+        }
+        if (Pad == "043")
+        {
+            var Fn = "() => { var s = document.querySelector('.Stage') || document.body; if (s.querySelector('.in-dj-china')) return 'already'; var c = document.createElement('div'); c.className = 'in-dj-china'; c.style.cssText = 'background:white;border:1px solid #e2e8f0;border-radius:12px;padding:16px;margin:16px;font-family:Arial,sans-serif'; c.innerHTML = '<div style=display:flex;justify-content:space-between;align-items:center><div><div style=font-size:18px;font-weight:700;color:#0f172a>Hefei to Wilmington NC</div><div style=font-size:14px;color:#64748b;margin-top:4px>2024 BYD Han EV - Ocean carrier export - Cargo $48,500</div><div style=font-size:13px;color:#94a3b8;margin-top:6px>Pickup tomorrow - ETA 14 days - Pay $2,200</div></div><button style=background:#16a34a;color:white;border:none;border-radius:8px;padding:10px 20px;font-weight:700;font-size:14px>Accept</button></div>'; var a = s.querySelector('h1,h2,h3') || s.firstChild; if (a && a.parentNode) a.parentNode.insertBefore(c, a.nextSibling); else s.insertBefore(c, s.firstChild); return 'injected'; }";
+            await Cdp("dj-china", Eval(Fn));
+            await Task.Delay(1000);
+        }
+        if (Pad == "044")
+        {
+            var Fn = "() => { var s = document.querySelector('.Stage') || document.body; if (s.querySelector('.in-dh-la')) return 'already'; var p = document.createElement('div'); p.className = 'in-dh-la'; p.style.cssText = 'background:#dcfce7;border:2px solid #16a34a;border-radius:12px;padding:18px 22px;margin:16px;font-family:Arial,sans-serif;color:#14532d'; p.innerHTML = '<div style=font-size:20px;font-weight:800>You have been hired!</div><div style=font-size:15px;font-weight:500;margin-top:8px;color:#166534>Welcome Marco Rivera. Badges: port-LA-drayage. Drayage runs from Port of LA are queued for you.</div>'; var a = s.querySelector('h1,h2,h3') || s.firstChild; if (a && a.parentNode) a.parentNode.insertBefore(p, a.nextSibling); else s.insertBefore(p, s.firstChild); return 'injected'; }";
+            await Cdp("dh-la", Eval(Fn));
+            await Task.Delay(1000);
+        }
+        if (Pad == "045")
+        {
+            var Fn = "() => { var s = document.querySelector('.Stage') || document.body; if (s.querySelector('.in-dj-la')) return 'already'; var c = document.createElement('div'); c.className = 'in-dj-la'; c.style.cssText = 'background:white;border:1px solid #e2e8f0;border-radius:12px;padding:16px;margin:16px;font-family:Arial,sans-serif'; c.innerHTML = '<div style=display:flex;justify-content:space-between;align-items:center><div><div style=font-size:18px;font-weight:700;color:#0f172a>Port of LA to Inland warehouse</div><div style=font-size:14px;color:#64748b;margin-top:4px>BYD Han EV container drayage - Wei Zhang shipment</div><div style=font-size:13px;color:#94a3b8;margin-top:6px>Pickup today - 4 hr run - Pay $480</div></div><button style=background:#16a34a;color:white;border:none;border-radius:8px;padding:10px 20px;font-weight:700;font-size:14px>Accept</button></div>'; var a = s.querySelector('h1,h2,h3') || s.firstChild; if (a && a.parentNode) a.parentNode.insertBefore(c, a.nextSibling); else s.insertBefore(c, s.firstChild); return 'injected'; }";
+            await Cdp("dj-la", Eval(Fn));
+            await Task.Delay(1000);
+        }
+        if (Pad == "046")
+        {
+            var Fn = "() => { var s = document.querySelector('.Stage') || document.body; if (s.querySelector('.in-dh-team')) return 'already'; var p = document.createElement('div'); p.className = 'in-dh-team'; p.style.cssText = 'background:#dcfce7;border:2px solid #16a34a;border-radius:12px;padding:18px 22px;margin:16px;font-family:Arial,sans-serif;color:#14532d'; p.innerHTML = '<div style=font-size:20px;font-weight:800>You have been hired!</div><div style=font-size:15px;font-weight:500;margin-top:8px;color:#166534>Welcome Diego Morales and Maria Santos. Badges: cross-country-team. Long-haul team runs are ready.</div>'; var a = s.querySelector('h1,h2,h3') || s.firstChild; if (a && a.parentNode) a.parentNode.insertBefore(p, a.nextSibling); else s.insertBefore(p, s.firstChild); return 'injected'; }";
+            await Cdp("dh-team", Eval(Fn));
+            await Task.Delay(1000);
+        }
+        if (Pad == "047")
+        {
+            var Fn = "() => { var s = document.querySelector('.Stage') || document.body; if (s.querySelector('.in-dj-team')) return 'already'; var c = document.createElement('div'); c.className = 'in-dj-team'; c.style.cssText = 'background:white;border:1px solid #e2e8f0;border-radius:12px;padding:16px;margin:16px;font-family:Arial,sans-serif'; c.innerHTML = '<div style=display:flex;justify-content:space-between;align-items:center><div><div style=font-size:18px;font-weight:700;color:#0f172a>Inland warehouse to Wilmington NC</div><div style=font-size:14px;color:#64748b;margin-top:4px>BYD Han EV cross-country team haul - 2,800 mi - 2 drivers</div><div style=font-size:13px;color:#94a3b8;margin-top:6px>Pickup in 3 days - 4 day run - Pay $5,600 split</div></div><button style=background:#16a34a;color:white;border:none;border-radius:8px;padding:10px 20px;font-weight:700;font-size:14px>Accept</button></div>'; var a = s.querySelector('h1,h2,h3') || s.firstChild; if (a && a.parentNode) a.parentNode.insertBefore(c, a.nextSibling); else s.insertBefore(c, s.firstChild); return 'injected'; }";
+            await Cdp("dj-team", Eval(Fn));
+            await Task.Delay(1000);
+        }
+        if (Pad == "048")
+        {
+            var Fn = "() => { var s = document.querySelector('.Stage') || document.body; if (s.querySelector('.in-dh-final')) return 'already'; var p = document.createElement('div'); p.className = 'in-dh-final'; p.style.cssText = 'background:#dcfce7;border:2px solid #16a34a;border-radius:12px;padding:18px 22px;margin:16px;font-family:Arial,sans-serif;color:#14532d'; p.innerHTML = '<div style=font-size:20px;font-weight:800>You have been hired!</div><div style=font-size:15px;font-weight:500;margin-top:8px;color:#166534>Welcome Sam Chen Jr. Badges: auto-handling-final. Final-mile drop in Wilmington NC is queued.</div>'; var a = s.querySelector('h1,h2,h3') || s.firstChild; if (a && a.parentNode) a.parentNode.insertBefore(p, a.nextSibling); else s.insertBefore(p, s.firstChild); return 'injected'; }";
+            await Cdp("dh-final", Eval(Fn));
+            await Task.Delay(1000);
+        }
+        if (Pad == "049")
+        {
+            var Fn = "() => { var s = document.querySelector('.Stage') || document.body; if (s.querySelector('.in-dj-final')) return 'already'; var c = document.createElement('div'); c.className = 'in-dj-final'; c.style.cssText = 'background:white;border:1px solid #e2e8f0;border-radius:12px;padding:16px;margin:16px;font-family:Arial,sans-serif'; c.innerHTML = '<div style=display:flex;justify-content:space-between;align-items:center><div><div style=font-size:18px;font-weight:700;color:#0f172a>Wilmington warehouse to buyer driveway</div><div style=font-size:14px;color:#64748b;margin-top:4px>BYD Han EV final delivery - Wei Zhang shipment</div><div style=font-size:13px;color:#94a3b8;margin-top:6px>Pickup tomorrow - 1 hr run - Pay $180</div></div><button style=background:#16a34a;color:white;border:none;border-radius:8px;padding:10px 20px;font-weight:700;font-size:14px>Accept</button></div>'; var a = s.querySelector('h1,h2,h3') || s.firstChild; if (a && a.parentNode) a.parentNode.insertBefore(c, a.nextSibling); else s.insertBefore(c, s.firstChild); return 'injected'; }";
+            await Cdp("dj-final", Eval(Fn));
+            await Task.Delay(1000);
+        }
+        if (Pad == "011" || Pad == "052")
         {
             var Fn = "() => { var stage = document.querySelector('.Stage') || document.body; if (stage.querySelector('.injected-listing')) return 'already'; var card = document.createElement('div'); card.className = 'injected-listing'; card.style.cssText = 'background:white;border:1px solid #e2e8f0;border-radius:12px;padding:16px;margin:16px;display:flex;gap:16px;font-family:Arial,sans-serif;box-shadow:0 1px 3px rgba(0,0,0,.1)'; card.innerHTML = '<div style=width:160px;height:110px;background:#f3f6fa;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:48px>🚗</div><div style=flex:1><div style=font-size:18px;font-weight:700;color:#0f172a>2024 BYD Han EV</div><div style=font-size:14px;color:#64748b;margin-top:4px>Hefei China to Wilmington NC</div><div style=font-size:14px;color:#64748b;margin-top:2px>Sale price $48,500 · Cash on delivery</div><div style=font-size:13px;color:#94a3b8;margin-top:8px>Listed by Wei Zhang · just now</div></div><div style=font-size:24px;font-weight:800;color:#16a34a;align-self:center>$48,500</div>'; var anchor = stage.querySelector('h1,h2,h3') || stage.firstChild; if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(card, anchor.nextSibling); else stage.insertBefore(card, stage.firstChild); return 'injected'; }";
             await Cdp("market-mock", Eval(Fn));
