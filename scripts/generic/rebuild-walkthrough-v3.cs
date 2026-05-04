@@ -420,6 +420,12 @@ async Task<(bool ok, string? group, string pad)> RunScene(int Idx, JsonElement S
             Cg = null;
         }
         if (IsChat && Group is not null && Group.TryGetValue(Pad, out var Msg)) { await SendMsg(Msg); await Task.Delay(15000); await ForceLight(); }
+        if (Pad == "016")
+        {
+            var ScrollFn = "() => { var pattern = /(cdl|export\\\\s*pass|driver.*licen|china.*export)/i; var els = Array.from(document.querySelectorAll('div,section,article,li,h1,h2,h3,h4,h5,p,a,button')); var target = els.find(e => pattern.test(e.textContent||'') && e.children.length < 12 && e.offsetParent !== null); if (target) { target.scrollIntoView({behavior:'instant', block:'center'}); return 'scrolled to: ' + (target.textContent||'').trim().slice(0,60); } return 'no-target'; }";
+            await Cdp("scene-016-scroll", Eval(ScrollFn));
+            await Task.Delay(1500);
+        }
         if (Pad == "001")
         {
             var Hydrated = await WaitForWasmHydration(20);
