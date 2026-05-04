@@ -416,7 +416,6 @@ async Task<(bool ok, string? group, string pad)> RunScene(int Idx, JsonElement S
         else
         {
             await ReplaceTab(Target); await Task.Delay(4000);
-            if (IsSso) await WaitForSsoPrePicker(SsoProvider, SsoAccount, Pad);
             await ForceLight();
             Cg = null;
         }
@@ -437,7 +436,11 @@ async Task<(bool ok, string? group, string pad)> RunScene(int Idx, JsonElement S
             }
         }
         await Screenshot(Pad);
-        if (IsSso) await WaitForSsoPostPicker(SsoProvider, SsoAccount, Pad);
+        if (IsSso)
+        {
+            await WaitForSsoPrePicker(SsoProvider, SsoAccount, Pad);
+            await WaitForSsoPostPicker(SsoProvider, SsoAccount, Pad);
+        }
         var Enc = await Encode(Pad);
         Console.WriteLine($"  {Pad} {(IsChat ? "chat" : "nav")} grp={GroupKey} sso={IsSso} enc={Enc}");
         return (Enc == 0, Cg, Pad);
