@@ -180,7 +180,10 @@ async Task<int> Screenshot(string Pad)
 {
     var Out = Path.Combine(Frames, Pad + ".png");
     try { File.Delete(Out); } catch { }
-    foreach (var PageIdx in new[] { "1", "2", "3", "4" })
+    var PageIndices = new List<string>();
+    if (!string.IsNullOrEmpty(CachedWolfsPageIdx)) PageIndices.Add(CachedWolfsPageIdx);
+    foreach (var I in new[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }) if (!PageIndices.Contains(I)) PageIndices.Add(I);
+    foreach (var PageIdx in PageIndices)
     {
         var Body = $"public const string Command = \"take_screenshot\";\n        public const string PageId = \"{PageIdx}\";\n        public const string FilePath = @\"{Out}\";";
         var Rc = await Cdp("shot", Body);
@@ -191,7 +194,7 @@ async Task<int> Screenshot(string Pad)
         }
         try { File.Delete(Out); } catch { }
     }
-    Console.WriteLine($"  Screenshot FAIL pad={Pad} png-missing on all PageIdx 1-4");
+    Console.WriteLine($"  Screenshot FAIL pad={Pad} png-missing on all PageIdx 1-12");
     return -3;
 }
 
