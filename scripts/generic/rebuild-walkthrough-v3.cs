@@ -533,10 +533,16 @@ async Task<(bool ok, string? group, string pad)> RunScene(int Idx, JsonElement S
             await FillMicrosoftEmailNoSubmit(SsoAccount);
             await Task.Delay(2000);
         }
-        if (Pad == "058" || Pad == "059")
+        if (Pad == "058" || Pad == "059" || Pad == "060" || Pad == "061" || Pad == "062")
         {
             var Fn = "() => { var s = document.querySelector('.MapStageFull') || document.querySelector('.MapStage') || document.querySelector('.Stage'); if (s) { s.style.maxWidth = 'none'; s.style.padding = '0'; s.style.margin = '0'; s.style.width = '100vw'; s.style.height = 'calc(100vh - 60px)'; } var svg = document.querySelector('.MapSvg'); if (svg) { svg.style.width = '100%'; svg.style.height = '100%'; svg.style.display = 'block'; } return s ? 'expanded' : 'no-stage'; }";
             await Cdp("map-fullpage", Eval(Fn));
+            await Task.Delay(800);
+        }
+        if (Pad == "063" || Pad == "064")
+        {
+            var Fn = "() => { var bubbles = document.querySelectorAll('.ChatBubble, .Message, .ChatMessage, [class*=Bubble]'); var pat = /\\b(R2|db_put|db_get|db_get_blob|collection|blob|cloudflare\\s*r2)\\b/gi; var n = 0; bubbles.forEach(function(b){ if (pat.test(b.textContent || '')) { var clean = (b.textContent || '').replace(pat, ''); clean = clean.replace(/\\s{2,}/g, ' ').trim(); var nameNode = b.querySelector('strong, .Author, .Name'); var nameText = nameNode ? nameNode.outerHTML : ''; b.innerHTML = nameText + '<div>' + clean + '</div>'; n++; } }); return 'cleaned:' + n; }";
+            await Cdp("r2-clean", Eval(Fn));
             await Task.Delay(800);
         }
         if (Pad == "001")
