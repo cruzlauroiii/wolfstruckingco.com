@@ -18,7 +18,7 @@
     }
     else
     {
-        <div class="msg-text">@Content</div>
+        <div class="msg-text">@((MarkupString)Linkify(Content))</div>
     }
 </div>
 
@@ -33,4 +33,13 @@
 
     private string CssRole => Role == "user" ? "msg-user" : "msg-agent";
     private string Label => Role == "user" ? "You" : "Dispatcher";
+
+    private static readonly System.Text.RegularExpressions.Regex UrlRegex = new(@"https?://[^\s<>""]+", System.Text.RegularExpressions.RegexOptions.Compiled);
+
+    private static string Linkify(string s)
+    {
+        if (string.IsNullOrEmpty(s)) return "";
+        var escaped = System.Net.WebUtility.HtmlEncode(s);
+        return UrlRegex.Replace(escaped, m => $"<a href=\"{m.Value}\" target=\"_blank\" rel=\"noopener\">{m.Value}</a>");
+    }
 }

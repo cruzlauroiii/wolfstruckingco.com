@@ -130,6 +130,7 @@ foreach (var Sc in ScenesDoc.RootElement.EnumerateArray())
         Errors++;
         Console.WriteLine($"  {Pad} ERR {E.Message}");
     }
+    await Task.Delay(2500);
 }
 
 Md.AppendLine();
