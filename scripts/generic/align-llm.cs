@@ -86,8 +86,8 @@ foreach (var Sc in ScenesDoc.RootElement.EnumerateArray())
     var Score = Similarity(Narration, OcrText);
     if (Score >= Threshold) continue;
 
-    var SystemPrompt = "You audit screen-reader narration. Compare the intended narration to the OCR'd on-screen text. Return ONLY a one-line JSON object: {\"score\": 0.0-1.0, \"rewrite\": \"plain English narration that better matches the visible UI\"}. Score 1.0 means perfect match. Drop technical jargon. After replying, persist the row via db_put to collection 'narration_alignment' with id '<pad>' and value containing pad, score, rewrite.";
-    var UserMsg = $"PAD: {Pad}\nINTENDED: {Narration}\nOCR: {OcrText}";
+    var SystemPrompt = "You are the Wolfs Trucking dispatch QA assistant. You audit how well our recorded walkthrough narrations match the on-screen UI text we OCR'd from the rendered page. Reply ONLY with the requested JSON object on a single line.";
+    var UserMsg = $"Dispatch QA scene {Pad}. Recorded narration: '{Narration}'. Rendered UI text from OCR: '{OcrText}'. Score how well the narration matches the rendered UI on 0.0-1.0 where 1.0 is a perfect match and 0.0 is unrelated. Then write a better dispatcher narration that matches the rendered UI in plain English without technical jargon. Reply EXACTLY: {{\"score\": 0.0-1.0, \"rewrite\": \"...\"}}";
     string EscJson(string s) => s.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n").Replace("\r", "\\r").Replace("\t", "\\t");
     var Payload = "{\"messages\":[{\"role\":\"user\",\"content\":\"" + EscJson(UserMsg) + "\"}],\"system\":\"" + EscJson(SystemPrompt) + "\",\"max_tokens\":512}";
     var Req = new HttpRequestMessage(HttpMethod.Post, WorkerUrl.TrimEnd('/') + "/ai")
@@ -102,15 +102,16 @@ foreach (var Sc in ScenesDoc.RootElement.EnumerateArray())
         var RespText = await Resp.Content.ReadAsStringAsync();
         var RespDoc = JsonDocument.Parse(RespText);
         var Text = RespDoc.RootElement.TryGetProperty("text", out var Tp) ? Tp.GetString() ?? "" : "";
-        var JsonStart = Text.IndexOf('{');
-        var JsonEnd = Text.LastIndexOf('}');
+        var Cleaned = Regex.Replace(Text, "```(?:json)?", "", RegexOptions.IgnoreCase).Trim();
+        var JsonStart = Cleaned.IndexOf('{');
+        var JsonEnd = Cleaned.LastIndexOf('}');
         var LlmScore = "?";
         var Rewrite = Text;
         if (JsonStart >= 0 && JsonEnd > JsonStart)
         {
             try
             {
-                var ParsedDoc = JsonDocument.Parse(Text.Substring(JsonStart, JsonEnd - JsonStart + 1));
+                var ParsedDoc = JsonDocument.Parse(Cleaned.Substring(JsonStart, JsonEnd - JsonStart + 1));
                 if (ParsedDoc.RootElement.TryGetProperty("score", out var Sp)) LlmScore = Sp.GetDouble().ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
                 if (ParsedDoc.RootElement.TryGetProperty("rewrite", out var Rp)) Rewrite = Rp.GetString() ?? Text;
             }

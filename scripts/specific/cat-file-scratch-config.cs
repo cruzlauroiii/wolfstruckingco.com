@@ -4,6 +4,6 @@ namespace Scripts
 {
     internal static class CatFileScratchConfig
     {
-        public const string SourcePath = @"C:\repo\public\wolfstruckingco.com\main\docs\videos\narration-llm-audit.md";
+        public const string SourcePath = @"C:\Users\user1\AppData\Local\Temp\worker-ai-probe2.txt";
     }
 }
