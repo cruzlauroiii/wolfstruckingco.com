@@ -434,10 +434,10 @@ async Task<(bool ok, string? group, string pad)> RunScene(int Idx, JsonElement S
             await Cdp("attach-injection", Eval(AttachFn));
             await Task.Delay(1500);
         }
-        if (Pad == "016")
+        if (Pad == "016" || Pad == "023" || Pad == "030" || Pad == "037")
         {
-            var ScrollFn = "() => { var pattern = /(cdl|export\\\\s*pass|driver.*licen|china.*export)/i; var els = Array.from(document.querySelectorAll('div,section,article,li,h1,h2,h3,h4,h5,p,a,button')); var target = els.find(e => pattern.test(e.textContent||'') && e.children.length < 12 && e.offsetParent !== null); if (target) { target.scrollIntoView({behavior:'instant', block:'center'}); return 'scrolled to: ' + (target.textContent||'').trim().slice(0,60); } return 'no-target'; }";
-            await Cdp("scene-016-scroll", Eval(ScrollFn));
+            var ScrollFn = "() => { var pattern = /(cdl|export\\\\s*pass|driver.*licen|china.*export|twic|drayage|team.*driver|auto.*handling|inspect|vehicle.*inspection|cert|license|upload)/i; var els = Array.from(document.querySelectorAll('div,section,article,li,h1,h2,h3,h4,h5,p,a,button')); var target = els.find(e => pattern.test(e.textContent||'') && e.children.length < 12 && e.offsetParent !== null); if (target) { target.scrollIntoView({behavior:'instant', block:'center'}); return 'scrolled to: ' + (target.textContent||'').trim().slice(0,60); } return 'no-target'; }";
+            await Cdp("doc-scroll", Eval(ScrollFn));
             await Task.Delay(1500);
         }
         if (Pad == "001")

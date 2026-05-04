@@ -5,6 +5,6 @@ namespace Scripts
     internal static class GitRunScratchConfig
     {
         public const string Repo = @"C:\repo\public\wolfstruckingco.com\main";
-        public const string Command = "add|scripts/generic/rebuild-walkthrough-v3.cs|scripts";
+        public const string Command = "add|worker/worker.js|scripts/generic/rebuild-walkthrough-v3.cs|scripts/specific/patch-source-scratch-config.cs|scripts";
     }
 }

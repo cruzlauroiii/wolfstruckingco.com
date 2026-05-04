@@ -5,9 +5,9 @@ namespace Scripts
     internal static class PatchSourceScratchConfig
     {
         public const string TargetFile = @"C:\repo\public\wolfstruckingco.com\main\worker\worker.js";
-        public const string Find_01 = "{ name: 'db_list', description: 'List record keys in a collection (max 50).', input_schema: { type: 'object', properties: { collection: { type: 'string' } }, required: ['collection'] } },";
-        public const string Replace_01 = "{ name: 'db_list', description: 'List record keys in a collection (max 50).', input_schema: { type: 'object', properties: { collection: { type: 'string' } }, required: ['collection'] } },\n          { name: 'db_get_blob', description: 'Read an uploaded file blob (chat-attach/* or uploads/*) from R2 as text. Returns first 4KB preview. Use this to verify documents the user attached.', input_schema: { type: 'object', properties: { key: { type: 'string' } }, required: ['key'] } },";
-        public const string Find_02 = "} else if (tu.name === 'db_list') {";
-        public const string Replace_02 = "} else if (tu.name === 'db_get_blob') {\n                const inp = tu.input || {};\n                const k = String(inp.key || '');\n                if (!k.startsWith('chat-attach/') && !k.startsWith('uploads/')) {\n                  result = JSON.stringify({ error: 'invalid key prefix' });\n                } else {\n                  const obj = await env.R2.get(k);\n                  if (!obj) { result = JSON.stringify({ found: false, key: k }); }\n                  else { const txt = await obj.text(); result = JSON.stringify({ key: k, size: txt.length, preview: txt.slice(0, 4096) }); }\n                }\n              } else if (tu.name === 'db_list') {";
+        public const string Find_01 = "After saving a listing via the db_put tool to the listings collection, ALWAYS include the marketplace URL";
+        public const string Replace_01 = "After publishing a listing, ALWAYS include the marketplace URL";
+        public const string Find_02 = "Avoid database names, internal collection names, API terms, model names, and acronyms unless the user used them first or asks for technical detail.";
+        public const string Replace_02 = "Avoid database names, internal collection names, API terms, model names, and acronyms unless the user used them first or asks for technical detail. Never reveal that you used a tool or internal storage. Specifically forbidden in your reply text: R2, db_put, db_get, db_get_blob, collection, applicants, listings, documents, audit, blob, tool, API, JSON. Speak as a normal Wolfs dispatcher would speak to a real user.";
     }
 }
