@@ -4,7 +4,7 @@ namespace Scripts
 {
     internal static class SetConfigScratchConfig
     {
-        public const string TargetConfig = @"C:\repo\public\wolfstruckingco.com\main\scripts\specific\dotnet-build-client-config.cs";
-        public const string Set_Target = @"C:\repo\public\wolfstruckingco.com\main\src\Client\Client.csproj";
+        public const string TargetConfig = @"C:\repo\public\wolfstruckingco.com\main\scripts\specific\rebuild-walkthrough-scratch-config.cs";
+        public const string Set_Repo = @"C:\repo\public\wolfstruckingco.com\main";
     }
 }
