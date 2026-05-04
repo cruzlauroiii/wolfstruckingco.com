@@ -4,8 +4,8 @@ namespace Scripts
 {
     internal static class ListFilesScratchConfig
     {
-        public const string Root = @"C:\repo\public\wolfstruckingco.com\main\src";
-        public const string Pattern = "*.scss";
-        public const string OutputPath = @"C:\Users\user1\AppData\Local\Temp\scss-list.txt";
+        public const string Root = @"C:\repo\public\wolfstruckingco.com\main\scripts\generic";
+        public const string Pattern = "*render*.cs";
+        public const string OutputPath = @"C:\Users\user1\AppData\Local\Temp\render-list.txt";
     }
 }
