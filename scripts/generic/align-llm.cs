@@ -88,13 +88,8 @@ foreach (var Sc in ScenesDoc.RootElement.EnumerateArray())
 
     var SystemPrompt = "You audit screen-reader narration. Compare the intended narration to the OCR'd on-screen text. Return ONLY a one-line JSON object: {\"score\": 0.0-1.0, \"rewrite\": \"plain English narration that better matches the visible UI\"}. Score 1.0 means perfect match. Drop technical jargon. After replying, persist the row via db_put to collection 'narration_alignment' with id '<pad>' and value containing pad, score, rewrite.";
     var UserMsg = $"PAD: {Pad}\nINTENDED: {Narration}\nOCR: {OcrText}";
-    var Body = new JsonObject(); // placeholder for clarity below
-    var Payload = JsonSerializer.Serialize(new
-    {
-        messages = new[] { new { role = "user", content = UserMsg } },
-        system = SystemPrompt,
-        max_tokens = 512,
-    });
+    string EscJson(string s) => s.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n").Replace("\r", "\\r").Replace("\t", "\\t");
+    var Payload = "{\"messages\":[{\"role\":\"user\",\"content\":\"" + EscJson(UserMsg) + "\"}],\"system\":\"" + EscJson(SystemPrompt) + "\",\"max_tokens\":512}";
     var Req = new HttpRequestMessage(HttpMethod.Post, WorkerUrl.TrimEnd('/') + "/ai")
     {
         Content = new StringContent(Payload, Encoding.UTF8, "application/json"),
@@ -126,11 +121,13 @@ foreach (var Sc in ScenesDoc.RootElement.EnumerateArray())
         if (RewEsc.Length > 200) RewEsc = RewEsc[..200] + "...";
         Md.AppendLine($"| {Pad} | {Score:F2} | {LlmScore} | {NarrEsc} | {RewEsc} |");
         Reviewed++;
+        Console.WriteLine($"  {Pad} llm={LlmScore} (j={Score:F2})");
     }
     catch (Exception E)
     {
         Md.AppendLine($"| {Pad} | {Score:F2} | error | {Narration.Replace("|", "\\|")} | {E.Message.Replace("|", "\\|")} |");
         Errors++;
+        Console.WriteLine($"  {Pad} ERR {E.Message}");
     }
 }
 
