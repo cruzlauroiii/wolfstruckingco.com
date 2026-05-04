@@ -52,8 +52,10 @@ public sealed partial class CdpCli : IDisposable
     internal async Task ExecuteNewPageAsync(Dictionary<string, object> Args)
     {
         var Url = Args.TryGetValue(CdpKey.Url, out var UrlValue) ? UrlValue.ToString()! : CdpProto.AboutBlank;
-        var Target = await SendBrowserCommandAsync(Cdp.TargetCreateTarget, new JsonObject { [CdpKey.Url] = Url });
+        var Target = await SendBrowserCommandAsync(Cdp.TargetCreateTarget, new JsonObject { [CdpKey.Url] = CdpProto.AboutBlank });
+        await SendBrowserCommandAsync(Cdp.TargetActivateTarget, new JsonObject { [CdpKey.TargetId] = Target![CdpKey.TargetId]!.ToString() });
         await AttachToTargetAsync(Target![CdpKey.TargetId]!.ToString());
+        await SendCommandAsync(Cdp.PageNavigate, new JsonObject { [CdpKey.Url] = Url });
         await Task.Delay(CdpTimeout.PageLoadDelayMs);
         Console.WriteLine(string.Concat(CdpMsg.Opened, Url));
         await ExecuteListPagesAsync();

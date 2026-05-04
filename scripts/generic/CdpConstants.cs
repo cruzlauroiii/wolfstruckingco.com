@@ -6,11 +6,13 @@ public static class Cdp
     public const string TargetAttachToTarget = "Target.attachToTarget";
     public const string TargetCloseTarget = "Target.closeTarget";
     public const string TargetCreateTarget = "Target.createTarget";
+    public const string TargetActivateTarget = "Target.activateTarget";
     public const string PageEnable = "Page.enable";
     public const string PageNavigate = "Page.navigate";
     public const string PageReload = "Page.reload";
     public const string PageGetLayoutMetrics = "Page.getLayoutMetrics";
     public const string PageCaptureScreenshot = "Page.captureScreenshot";
+    public const string PageLoadEventFired = "Page.loadEventFired";
     public const string PageHandleJavaScriptDialog = "Page.handleJavaScriptDialog";
     public const string RuntimeEnable = "Runtime.enable";
     public const string RuntimeEvaluate = "Runtime.evaluate";
@@ -189,10 +191,10 @@ public static class CdpJs
 public static class CdpTimeout
 {
     public const int RetryDelayMs = 3000;
-    public const int ConnectTimeoutMs = 30000;
+    public const int ConnectTimeoutMs = 10000;
     public const int NavigationDelayMs = 3000;
     public const int PageLoadDelayMs = 2000;
-    public const int ProcessWaitMs = 15000;
+    public const int ProcessWaitMs = 60000;
     public const int ClickDelayMs = 150;
     public const int ClickRepeatDelayMs = 200;
     public const int ForegroundDelayMs = 500;

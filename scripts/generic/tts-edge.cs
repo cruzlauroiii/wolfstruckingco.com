@@ -26,10 +26,10 @@ string SFromCfg(string Name, string Default)
     return Default;
 }
 
-var Voice = SFromCfg("Voice", "en-US-AnaNeural");
+var Voice = SFromCfg("Voice", "en-US-JennyNeural");
 var Text = SFromCfg("Text", string.Empty);
 var Output = SFromCfg("OutputPath", string.Empty);
-var Rate = SFromCfg("Rate", "+5%");
+var Rate = SFromCfg("Rate", "+0%");
 var Pitch = SFromCfg("Pitch", "+0Hz");
 
 if (string.IsNullOrEmpty(Text)) { await Console.Error.WriteLineAsync("Text const required"); return 3; }

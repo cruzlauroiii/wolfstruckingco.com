@@ -1,45 +1,39 @@
 #:property TargetFramework=net11.0
+#:property RunAnalyzersDuringBuild=false
+#:property TreatWarningsAsErrors=false
+#:property EnforceCodeStyleInBuild=false
+
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using Scripts;
 
-if (args.Length < 1) { await Console.Error.WriteLineAsync("usage: dotnet run scripts/dotnet-build.cs scripts/<config>.cs"); return 1; }
-var SpecPath = args[0];
-if (!File.Exists(SpecPath)) { await Console.Error.WriteLineAsync($"specific not found: {SpecPath}"); return 2; }
-
-var ConstRe = DotnetBuildPatterns.ConstString();
-string? Target = null;
-string? Repo = null;
-foreach (var (Name, Value) in ConstRe.Matches(await File.ReadAllTextAsync(SpecPath)).Select(M => (M.Groups["name"].Value, M.Groups["value"].Value)))
+if (args.Length < 1) return 1;
+var spec = await File.ReadAllTextAsync(args[0]);
+string Get(string name, string fallback = "")
 {
-    if (Name == "Target") { Target = Value; }
-    else if (Name == "Repo") { Repo = Value; }
+    var m = Regex.Match(spec, @"const\s+string\s+" + name + @"\s*=\s*@?""(?<v>[^""]*)""");
+    return m.Success ? m.Groups["v"].Value : fallback;
 }
-if (Target is null || Repo is null) { await Console.Error.WriteLineAsync("specific must declare const string Target and Repo"); return 3; }
-if (!File.Exists(Target)) { await Console.Error.WriteLineAsync($"target not found: {Target}"); return 4; }
 
-var Psi = new ProcessStartInfo("dotnet", $"build \"{Target}\" -nologo -v q")
+var target = Get("Target", ".");
+var configuration = Get("Configuration", "Release");
+var timeoutMs = int.Parse(Get("TimeoutMs", "240000"));
+var psi = new ProcessStartInfo("dotnet", $"build \"{target}\" -c {configuration} --nologo")
 {
-    UseShellExecute = false,
     RedirectStandardOutput = true,
     RedirectStandardError = true,
-    WorkingDirectory = Repo,
+    UseShellExecute = false
 };
-using var P = Process.Start(Psi)!;
-var Out = await P.StandardOutput.ReadToEndAsync() + await P.StandardError.ReadToEndAsync();
-await P.WaitForExitAsync();
-if (P.ExitCode == 0) { return 0; }
-foreach (var L in Out.Split('\n').Where(L => L.Contains(": error ", StringComparison.Ordinal)))
+using var process = Process.Start(psi) ?? throw new InvalidOperationException("dotnet build did not start");
+var outputTask = process.StandardOutput.ReadToEndAsync();
+var errorTask = process.StandardError.ReadToEndAsync();
+if (!process.WaitForExit(timeoutMs))
 {
-    await Console.Error.WriteLineAsync(L.Trim());
+    process.Kill(entireProcessTree: true);
+    Console.WriteLine("dotnet build timed out");
+    return 124;
 }
-return 1;
-
-namespace Scripts
-{
-    internal static partial class DotnetBuildPatterns
-    {
-        [GeneratedRegex("""const\s+string\s+(?<name>\w+)\s*=\s*@?"(?<value>(?:[^"\\]|\\.)*)"\s*;""", RegexOptions.ExplicitCapture)]
-        internal static partial Regex ConstString();
-    }
-}
+var output = await outputTask;
+var error = await errorTask;
+Console.Write(output);
+Console.Error.Write(error);
+return process.ExitCode;

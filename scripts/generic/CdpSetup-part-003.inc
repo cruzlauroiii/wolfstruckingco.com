@@ -1,0 +1,33 @@
+        Console.Write("\n");
+        Console.Write("Navigation:\n");
+        Console.Write("  list_pages                              List open pages\n");
+        Console.Write("  select_page <pageId>                    Select page\n");
+        Console.Write("  close_page <pageId>                     Close page\n");
+        Console.Write("  new_page <url>                          Open new tab\n");
+        Console.Write("  navigate_page --type url --url <url>    Navigate (url|back|forward|reload)\n");
+        Console.Write("\n");
+        Console.Write("Debugging:\n");
+        Console.Write("  take_screenshot [--filePath] [--format] [--fullPage] [--quality]\n");
+        Console.Write("  take_snapshot [--filePath]\n");
+        Console.Write("  evaluate_script <function>              Run JS\n");
+        Console.Write("  list_console_messages                   Console output\n");
+        Console.Write("  list_network_requests                   Network requests\n");
+        Console.Write("\n");
+        Console.Write("Input:\n");
+        Console.Write("  click <uid> [--dblClick]                Click element\n");
+        Console.Write("  hover <uid>                             Hover element\n");
+        Console.Write("  fill <uid> <value>                      Fill input/select\n");
+        Console.Write("  type_text <text> [--submitKey Enter]    Type text\n");
+        Console.Write("  press_key <key>                         Key combo (Control+A)\n");
+        Console.Write("  drag <from_uid> <to_uid>               Drag and drop\n");
+        Console.Write("  handle_dialog <accept|dismiss>          Handle dialog\n");
+        Console.Write("  upload_file --uid <uid> --filePath <p>  Upload file\n");
+        Console.Write("\n");
+        Console.Write("Emulation:\n");
+        Console.Write("  resize_page <width> <height>            Resize viewport\n");
+        Console.Write("  emulate [--userAgent] [--geolocation] [--colorScheme]\n");
+        Console.Write("\n");
+        Console.Write("Utility:\n");
+        Console.Write("  allow                                   Click Allow prompt\n");
+    }
+}

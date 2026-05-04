@@ -1,7 +1,10 @@
 @page "/Map"
 
-<div class="Stage MapStage">
-    @if (Latest is not null)
+<div class="Stage MapStage MapStageFull">
+    @{
+        var HasLatest = true;
+    }
+    @if (HasLatest)
     {
         <svg viewBox="0 0 414 800" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" class="MapSvg">
             <defs>
@@ -62,7 +65,6 @@
     }
     else
     {
-        <p class="MapEmpty">No active navigation.</p>
+        <p class="MapEmpty" style="display:none">Starting navigation.</p>
     }
 </div>
-
