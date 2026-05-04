@@ -420,6 +420,20 @@ async Task<(bool ok, string? group, string pad)> RunScene(int Idx, JsonElement S
             Cg = null;
         }
         if (IsChat && Group is not null && Group.TryGetValue(Pad, out var Msg)) { await SendMsg(Msg); await Task.Delay(15000); await ForceLight(); }
+        if (Pad == "015" || Pad == "022" || Pad == "029" || Pad == "036")
+        {
+            var AttsJs = Pad switch
+            {
+                "015" => "[{n:'china_cdl.pdf',m:'112 KB · CDL'},{n:'china_export_pass.pdf',m:'98 KB · Export Pass'}]",
+                "022" => "[{n:'twic_card.pdf',m:'64 KB · TWIC'},{n:'ca_cdl_class_a.pdf',m:'120 KB · CDL-A'}]",
+                "029" => "[{n:'team_papers.pdf',m:'204 KB · Team'},{n:'diego_cdl.pdf',m:'118 KB · CDL-A'},{n:'maria_cdl.pdf',m:'118 KB · CDL-A'}]",
+                "036" => "[{n:'auto_handling_cert.pdf',m:'88 KB · Auto Handling'}]",
+                _ => "[]"
+            };
+            var AttachFn = "() => { var s = document.getElementById('ChatStream'); if (!s) return 'no-stream'; var atts = " + AttsJs + "; atts.forEach(function(a){ var b = document.createElement('div'); b.className = 'ChatBubble User'; b.innerHTML = '<strong>You</strong><div class=msg-attach><div class=msg-attach-info><div class=msg-attach-name>📎 ' + a.n + '</div><div class=msg-attach-meta>' + a.m + '</div></div></div>'; s.appendChild(b); }); s.scrollTop = s.scrollHeight; return 'attached'; }";
+            await Cdp("attach-injection", Eval(AttachFn));
+            await Task.Delay(1500);
+        }
         if (Pad == "016")
         {
             var ScrollFn = "() => { var pattern = /(cdl|export\\\\s*pass|driver.*licen|china.*export)/i; var els = Array.from(document.querySelectorAll('div,section,article,li,h1,h2,h3,h4,h5,p,a,button')); var target = els.find(e => pattern.test(e.textContent||'') && e.children.length < 12 && e.offsetParent !== null); if (target) { target.scrollIntoView({behavior:'instant', block:'center'}); return 'scrolled to: ' + (target.textContent||'').trim().slice(0,60); } return 'no-target'; }";

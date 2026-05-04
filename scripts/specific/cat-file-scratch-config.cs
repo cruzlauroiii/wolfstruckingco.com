@@ -4,6 +4,6 @@ namespace Scripts
 {
     internal static class CatFileScratchConfig
     {
-        public const string SourcePath = @"C:\Users\user1\AppData\Local\Temp\cdp-list-probe.log";
+        public const string SourcePath = @"C:\repo\public\wolfstruckingco.com\main\src\SharedUI\Components\ChatBox.razor";
     }
 }
