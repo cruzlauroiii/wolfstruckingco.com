@@ -69,6 +69,8 @@ async Task<string> WolfsIdx()
 await Cdp("public const string Command = \"new_page\";\n        public const string Url = \"" + Url + "\";");
 await Task.Delay(3000);
 var Idx = await WolfsIdx();
+await Cdp("public const string Command = \"emulate\";\n        public const string PageId = \"" + Idx + "\";\n        public const string ColorScheme = \"light\";");
+await Task.Delay(500);
 Console.WriteLine($"scene-{Pad} idx={Idx} url={Url}");
 
 var Esc = HydrateSelector.Replace("\"", "\\\"");
