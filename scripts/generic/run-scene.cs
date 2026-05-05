@@ -69,8 +69,6 @@ async Task<string> WolfsIdx()
 await Cdp("public const string Command = \"new_page\";\n        public const string Url = \"" + Url + "\";");
 await Task.Delay(3000);
 var Idx = await WolfsIdx();
-await Cdp("public const string Command = \"emulate\";\n        public const string PageId = \"" + Idx + "\";\n        public const string ColorScheme = \"light\";");
-await Task.Delay(500);
 Console.WriteLine($"scene-{Pad} idx={Idx} url={Url}");
 
 var Esc = HydrateSelector.Replace("\"", "\\\"");
@@ -93,7 +91,13 @@ if (!string.IsNullOrEmpty(BeforeShotJs))
         await Task.Delay(1000);
     }
 }
-await Cdp("public const string Command = \"evaluate_script\";\n        public const string PageId = \"" + Idx + "\";\n        public const string Function = \"() => { document.documentElement.setAttribute('data-theme','light'); return 'ok'; }\";");
+for (int Ti = 0; Ti < 5; Ti++)
+{
+    var Tr = await CdpRead("public const string Command = \"evaluate_script\";\n        public const string PageId = \"" + Idx + "\";\n        public const string Function = \"() => document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : (document.documentElement.getAttribute('data-theme') || 'unset')\";");
+    if (Tr.Contains("\"light\"")) { Console.WriteLine($"scene-{Pad} theme=light after {Ti} clicks"); break; }
+    await Cdp("public const string Command = \"evaluate_script\";\n        public const string PageId = \"" + Idx + "\";\n        public const string Function = \"() => { var b = document.querySelector('.wt-theme-chip'); if (b) { b.click(); return 'clicked'; } return 'no-chip'; }\";");
+    await Task.Delay(900);
+}
 
 var Png = Path.Combine(Frames, $"{Pad}.png");
 try { File.Delete(Png); } catch {}
