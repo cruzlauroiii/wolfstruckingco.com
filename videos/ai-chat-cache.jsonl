@@ -1,0 +1,37 @@
+{"key":"sell:4","text":"Great! Let\u0027s get this shipment posted. **Where is the vehicle being picked up from?**"}
+{"key":"sell:5","text":"Perfect! **Who is the buyer or destination for this vehicle shipment?**"}
+{"key":"sell:6","text":"Got it\u2014$18,000 USD cash payment at pickup in Hefei. **Where should the vehicle be delivered to?**"}
+{"key":"sell:7","text":"Excellent! **What are your payment terms with the buyer\u2014is the $18,000 the full shipment cost, or are there additional fees (shipping, handling, insurance)?**"}
+{"key":"sell:8","text":"Perfect! **Just to confirm\u2014is the $48,500 the total shipment cost that Sam Carter will pay on delivery in Wilmington, NC?**"}
+{"key":"sell:9","text":"\u2713 Job published! Vehicle shipment posted: 2024 BYD Han EV from Hefei factory to Sam Carter, Wilmington NC (1418 Oak Street). Payment: $18,000 cash at pickup \u002B $48,500 COD at delivery."}
+{"key":"app:13","text":"Welcome, Liu Wei! That\u0027s solid experience. To help process your application for Wolfs Trucking, could you tell me which commercial credentials you currently hold\u2014for example, do you have a valid commercial driver\u0027s license, port pass, or drayage certification?"}
+{"key":"app:14","text":"Thanks for sharing that! While I can\u0027t process image files directly, I\u0027ll note that you\u0027re providing your license documentation. \n\nQuick question: Have you worked in port drayage or container handling before, or would this be your first role in that type of operation?"}
+{"key":"app:15","text":"Great\u2014that\u0027s valuable experience! Do you have any drayage or port terminal certifications (like a drayage card or auto-handling cert), or have you primarily worked on long-haul routes?"}
+{"key":"app:20","text":"Welcome, Pedro! That\u0027s solid experience in the port area. Do you currently hold a valid commercial driver\u0027s license and port pass, and are you interested in drayage, long-haul, or both types of runs?"}
+{"key":"app:21","text":"Thanks for sharing that, Pedro. I don\u0027t have access to file attachments in this chat, but I can help guide you through our process. Can you confirm your CDL is current and tell me\u2014do you have an active port pass for Los Angeles or Long Beach, or would you need to obtain one?"}
+{"key":"app:22","text":"Great, Pedro\u2014those are key credentials for port work. Since I can\u0027t view attachments here, could you just verbally confirm: are both your TWIC and drayage card currently valid and not expired? And have you done mostly local drayage around the ports, or a mix of drayage and longer hauls?"}
+{"key":"app:27","text":"Great to meet you both! To get started, can you each share your current valid CDL class and any port or drayage certifications you\u0027re holding?"}
+{"key":"app:28","text":"Perfect! I see the CDLs are in order. Do either of you have a current port pass or drayage card on file, or would you need to apply for those?"}
+{"key":"app:29","text":"Excellent\u2014thanks for sending those over. Just to confirm: do you both have active port passes, or will that be something we need to help you get set up with before your first run?"}
+{"key":"app:34","text":"That\u0027s solid experience, Jordan\u2014thanks for sharing. Do you currently hold a valid commercial driver\u0027s license and port pass for Wilmington operations, or would you need to obtain either of those?"}
+{"key":"app:35","text":"Great! I see your license is current. Just to confirm\u2014do you have an active port pass for Wilmington, or is that something you\u0027d need to apply for with us?"}
+{"key":"app:36","text":"Excellent\u2014auto-handling cert is in your file. Just to clarify: do you already have a valid Wilmington port pass, or would that be a new application for you?"}
+{"key":"disp:65","text":"Got it\u2014snap a photo of the gate sign and your odometer, then confirm the load ID on your bill of lading so we can log arrival."}
+{"key":"disp:66","text":"Copy that\u2014thanks for the receipt. Is the load ready for pickup, or do you need to wait for the warehouse team to stage it?"}
+{"key":"disp:67","text":"Roger\u2014that\u0027s not standard placement for cargo tracking; move it into the load bed itself so we get accurate weight-on-wheels data, then confirm when it\u0027s repositioned."}
+{"key":"disp:71","text":"Perfect\u2014what\u0027s your next destination, and what\u0027s your current ETA to that location?"}
+{"key":"disp:76","text":"Copy\u2014what\u0027s your ETA to LA terminal, and do you need a fuel stop or break before heading out?"}
+{"key":"disp:81","text":"Roger. What\u0027s your ETA to LA terminal, and confirm your fuel level\u2014do you need to stop before hitting the desert stretch?"}
+{"key":"disp:85","text":"Understood\u2014how long do you estimate the delay, and do you want us to reroute you or hold at current position until traffic clears?"}
+{"key":"disp:87","text":"Copy the reroute to I-40 east\u2014what\u0027s your revised ETA to LA terminal now?"}
+{"key":"disp:88","text":"Roger\u2014confirm you\u0027re pulling into Memphis yard now; we\u0027ll have the receiving team standing by to take the load off your hands."}
+{"key":"disp:94","text":"Copy\u2014unload the cargo, get the receiver\u0027s signature on the delivery confirmation, snap a photo of the completed paperwork, and confirm when you\u0027re clear."}
+{"key":"disp:95","text":"Roger\u2014once you get inside and the unload starts, confirm the load condition matches the bill of lading, then text me the final odometer reading when you\u0027re done."}
+{"key":"disp:101","text":"Good\u2014let Sam know we\u0027re ready to unload; confirm the cargo matches the manifest, then get his signature on the delivery doc once it\u0027s off the truck."}
+{"key":"disp:102","text":"Got it\u2014have Sam confirm the vehicle condition matches the delivery paperwork, then once he signs off, you\u0027re clear to roll; what\u0027s your next assignment after this hand-off?"}
+{"key":"disp:103","text":"Excellent\u2014receipt to payout confirmed; you\u0027re cleared to depart Memphis yard now, heading back to base or do you have another load waiting?"}
+{"key":"disp:104","text":"Perfect\u2014photo logged; you\u0027re officially cleared from Memphis delivery. Heading back to base or standing by for next dispatch assignment?"}
+{"key":"disp:105","text":"Roger\u2014delivery complete and signed off; head back to base for fuel and rest, or confirm if you\u0027re ready for the next load assignment now."}
+{"key":"disp:106","text":"Great work out there\u2014safe travels back to base. Check in when you arrive and we\u0027ll get you set up for your next run."}
+{"key":"disp:83","text":"Understood\u2014how long do you estimate the backup will delay you, and do you need me to notify the LA terminal to push back your window?"}
+{"key":"disp:84","text":"Copy\u2014rerouting noted. What\u0027s your revised ETA to LA terminal on I-40, and confirm you have enough fuel for the alternate route?"}

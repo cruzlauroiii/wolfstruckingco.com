@@ -1,0 +1,14 @@
+voice: Microsoft Zira (en-US, Female)
+  ✓ 020/127 synth — running 76.7s
+  ✓ 040/127 synth — running 152.1s
+  ✓ 060/127 synth — running 225.8s
+  ✓ 080/127 synth — running 292.3s
+  ✓ 100/127 synth — running 363.0s
+  ✓ 120/127 synth — running 423.8s
+  ✓ 127/127 synth — running 439.1s
+
+concat: 127 frames, total 439.1s = 7.32 min
+running ffmpeg → C:\repo\public\wolfstruckingco.com\main\docs\videos\walkthrough.mp4
+
+✓ walkthrough.mp4 — 11.1 MB, 439.1s (7.32 min) with TTS narration
+  open: C:\repo\public\wolfstruckingco.com\main\docs\videos\walkthrough.mp4

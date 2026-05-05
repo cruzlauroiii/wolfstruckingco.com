@@ -1,0 +1,1548 @@
+Serving C:\repo\public\wolfstruckingco.com\main\docs
+  HTTPS: https://localhost:8443/wolfstruckingco.com/
+  HTTP:  http://localhost:8080/wolfstruckingco.com/  (→ HTTPS)
+Stop with Ctrl+C.
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: https://[::]:8443
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://[::]:8080
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\repo\public\wolfstruckingco.com\main\docs\videos
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 HEAD https://localhost:8443/wolfstruckingco.com/ - - -
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 HEAD https://localhost:8443/wolfstruckingco.com/index.html - 200 18421 text/html 35.0010ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/?cb=001 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/index.html?cb=001 - 200 17675 text/html 31.1784ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/favicon.ico - - -
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/favicon.ico - 404 0 - 0.2862ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
+      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:8443/favicon.ico, Response status code: 404
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/?cb=002 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/SignUp/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\SignUp\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/index.html?cb=002 - 200 13715 text/html 1.3769ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/?cb=003 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Login/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Login\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/index.html?cb=003 - 200 14407 text/html 1.6982ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/?cb=004 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/index.html?cb=004 - 200 17679 text/html 1.8581ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=005 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Sell/Chat/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Sell\Chat\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/index.html?cb=005 - 200 14481 text/html 0.9076ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=006 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Sell/Chat/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Sell\Chat\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/index.html?cb=006 - 200 15161 text/html 1.4941ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=007 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Sell/Chat/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Sell\Chat\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/index.html?cb=007 - 200 15831 text/html 0.9203ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=008 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Sell/Chat/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Sell\Chat\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/index.html?cb=008 - 200 15862 text/html 0.7227ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=009 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Sell/Chat/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Sell\Chat\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/index.html?cb=009 - 200 16505 text/html 1.0474ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=010 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Sell/Chat/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Sell\Chat\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/index.html?cb=010 - 200 16505 text/html 1.0008ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Marketplace/?cb=011 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Marketplace/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Marketplace\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Marketplace/index.html?cb=011 - 200 20320 text/html 0.8338ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/?cb=012 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/SignUp/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\SignUp\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/index.html?cb=012 - 200 13717 text/html 1.3351ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/?cb=013 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Login/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Login\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/index.html?cb=013 - 200 14409 text/html 0.7938ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=014 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=014 - 200 14064 text/html 1.0688ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=015 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=015 - 200 14637 text/html 0.7747ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=016 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=016 - 200 15520 text/html 0.6885ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=017 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=017 - 200 16463 text/html 0.8974ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Documents/?cb=018 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Documents/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Documents\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Documents/index.html?cb=018 - 200 25760 text/html 0.9885ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=019 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=019 - 200 13952 text/html 0.8245ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/?cb=020 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/SignUp/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\SignUp\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/index.html?cb=020 - 200 13717 text/html 0.7111ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/?cb=021 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Login/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Login\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/index.html?cb=021 - 200 14409 text/html 0.7093ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=022 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=022 - 200 14064 text/html 5.7572ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=023 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=023 - 200 14641 text/html 0.7403ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=024 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=024 - 200 15524 text/html 1.0698ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=025 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=025 - 200 16433 text/html 0.8009ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Documents/?cb=026 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Documents/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Documents\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Documents/index.html?cb=026 - 200 25762 text/html 1.1989ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=027 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=027 - 200 13952 text/html 0.8412ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/?cb=028 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/SignUp/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\SignUp\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/index.html?cb=028 - 200 13717 text/html 1.0561ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/?cb=029 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Login/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Login\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/index.html?cb=029 - 200 14409 text/html 0.9090ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=030 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=030 - 200 14064 text/html 0.6864ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=031 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=031 - 200 14652 text/html 0.9546ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=032 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=032 - 200 15554 text/html 0.6810ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=033 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=033 - 200 16462 text/html 0.8278ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Documents/?cb=034 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Documents/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Documents\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Documents/index.html?cb=034 - 200 25763 text/html 0.7269ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=035 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=035 - 200 13952 text/html 0.7160ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/?cb=036 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/SignUp/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\SignUp\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/index.html?cb=036 - 200 13717 text/html 0.6774ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/?cb=037 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Login/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Login\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/index.html?cb=037 - 200 14409 text/html 0.5609ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=038 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=038 - 200 14064 text/html 0.7229ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=039 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=039 - 200 14641 text/html 0.8813ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=040 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=040 - 200 15524 text/html 0.6295ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=041 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=041 - 200 16422 text/html 0.6751ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Documents/?cb=042 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Documents/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Documents\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Documents/index.html?cb=042 - 200 25764 text/html 0.7580ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=043 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=043 - 200 13952 text/html 0.6762ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/?cb=044 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Login/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Login\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/index.html?cb=044 - 200 14408 text/html 0.6692ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Admin/?cb=045 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Admin/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Admin\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Admin/index.html?cb=045 - 200 14953 text/html 0.6232ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/HiringHall/?cb=046 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/HiringHall/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\HiringHall\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/HiringHall/index.html?cb=046 - 200 16649 text/html 0.8833ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/HiringHall/?cb=047 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/HiringHall/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\HiringHall\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/HiringHall/index.html?cb=047 - 200 16625 text/html 0.6891ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/HiringHall/?cb=048 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/HiringHall/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\HiringHall\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/HiringHall/index.html?cb=048 - 200 16625 text/html 0.8054ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=049 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=049 - 200 13865 text/html 0.6357ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dashboard/?cb=050 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dashboard/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dashboard\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dashboard/index.html?cb=050 - 200 15286 text/html 0.6473ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=051 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=051 - 200 13871 text/html 0.5489ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dashboard/?cb=052 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dashboard/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dashboard\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dashboard/index.html?cb=052 - 200 15279 text/html 0.5427ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=053 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=053 - 200 13879 text/html 0.6372ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dashboard/?cb=054 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dashboard/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dashboard\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dashboard/index.html?cb=054 - 200 15292 text/html 0.5875ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=055 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=055 - 200 13873 text/html 0.5747ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dashboard/?cb=056 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dashboard/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dashboard\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dashboard/index.html?cb=056 - 200 15294 text/html 0.6707ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/?cb=057 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/index.html?cb=057 - 200 17675 text/html 1.1474ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/?cb=058 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/SignUp/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\SignUp\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/index.html?cb=058 - 200 13715 text/html 0.9870ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/?cb=059 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Login/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Login\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/index.html?cb=059 - 200 14407 text/html 0.7481ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Marketplace/?cb=060 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Marketplace/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Marketplace\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Marketplace/index.html?cb=060 - 200 23339 text/html 0.7528ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/ShipTo/?cb=061 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Buy/ShipTo/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Buy\ShipTo\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/ShipTo/index.html?cb=061 - 200 14993 text/html 0.6662ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/Contact/?cb=062 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Buy/Contact/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Buy\Contact\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/Contact/index.html?cb=062 - 200 14137 text/html 0.8681ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/Window/?cb=063 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Buy/Window/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Buy\Window\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/Window/index.html?cb=063 - 200 14219 text/html 0.6569ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/Pay/?cb=064 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Buy/Pay/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Buy\Pay\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/Pay/index.html?cb=064 - 200 14203 text/html 0.6603ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/Notes/?cb=065 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Buy/Notes/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Buy\Notes\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/Notes/index.html?cb=065 - 200 14824 text/html 0.5966ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=066 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=066 - 200 17629 text/html 0.5859ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=067 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=067 - 200 17611 text/html 0.5868ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=068 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=068 - 200 17613 text/html 0.8208ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=069 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=069 - 200 17624 text/html 0.5190ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=070 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=070 - 200 17611 text/html 0.6649ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=071 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=071 - 200 15319 text/html 0.5607ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=072 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=072 - 200 15377 text/html 0.5676ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=073 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=073 - 200 15336 text/html 0.7118ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=074 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=074 - 200 17612 text/html 0.6011ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=075 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=075 - 200 17619 text/html 0.6447ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=076 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=076 - 200 17604 text/html 0.7544ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=077 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=077 - 200 15329 text/html 0.6634ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/?cb=078 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Track/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Track\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/index.html?cb=078 - 200 16168 text/html 0.6639ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/?cb=079 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Track/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Track\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/index.html?cb=079 - 200 16714 text/html 0.5265ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/?cb=080 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Track/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Track\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/index.html?cb=080 - 200 17293 text/html 0.7051ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/?cb=081 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Track/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Track\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/index.html?cb=081 - 200 17851 text/html 0.6595ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=082 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=082 - 200 15108 text/html 0.6898ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=083 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=083 - 200 17599 text/html 0.7390ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=084 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=084 - 200 17577 text/html 0.6351ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=085 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=085 - 200 17582 text/html 0.5871ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=086 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=086 - 200 17584 text/html 0.4979ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=087 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=087 - 200 15065 text/html 0.5299ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=088 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=088 - 200 17590 text/html 0.6413ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/?cb=089 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Track/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Track\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/index.html?cb=089 - 200 18461 text/html 0.5848ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Schedule/?cb=090 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Schedule/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Schedule\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Schedule/index.html?cb=090 - 200 16744 text/html 0.6097ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=091 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=091 - 200 15161 text/html 0.6216ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=092 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=092 - 200 17572 text/html 0.6869ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=093 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=093 - 200 15062 text/html 0.6747ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=094 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=094 - 200 15100 text/html 0.5541ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=095 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=095 - 200 17715 text/html 0.7597ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=096 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=096 - 200 17695 text/html 0.5420ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=097 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=097 - 200 17712 text/html 0.7292ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=098 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=098 - 200 17690 text/html 0.6029ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=099 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=099 - 200 17697 text/html 0.5347ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=100 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=100 - 200 15100 text/html 0.6861ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=101 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=101 - 200 15062 text/html 0.5764ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=102 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=102 - 200 17720 text/html 0.6081ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=103 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=103 - 200 17700 text/html 0.5450ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=104 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=104 - 200 17700 text/html 0.5893ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=105 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=105 - 200 17696 text/html 0.7556ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=106 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=106 - 200 17714 text/html 0.5777ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=107 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=107 - 200 15082 text/html 0.4982ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=108 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=108 - 200 15056 text/html 0.6133ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=109 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=109 - 200 15056 text/html 0.6160ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=110 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=110 - 200 15056 text/html 0.4868ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=111 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=111 - 200 15062 text/html 10.2130ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=112 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=112 - 200 15062 text/html 0.5185ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=113 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=113 - 200 17114 text/html 0.6255ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=114 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=114 - 200 17157 text/html 0.8803ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=115 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=115 - 200 17218 text/html 0.5302ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=116 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=116 - 200 17281 text/html 0.5705ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=117 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=117 - 200 17353 text/html 0.6491ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=118 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=118 - 200 17421 text/html 0.7575ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=119 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=119 - 200 17417 text/html 0.5313ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=120 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=120 - 200 17421 text/html 0.6096ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=121 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=121 - 200 17416 text/html 0.6631ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=122 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=122 - 200 17396 text/html 0.6043ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=123 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=123 - 200 17381 text/html 0.4840ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=124 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=124 - 200 17381 text/html 0.5399ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=125 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=125 - 200 17381 text/html 0.5962ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Marketplace/?cb=126 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Marketplace/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Marketplace\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Marketplace/index.html?cb=126 - 200 26358 text/html 0.8813ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/?cb=127 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Track/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Track\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/index.html?cb=127 - 200 18411 text/html 0.5952ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/?cb=001 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/index.html?cb=001 - 200 17675 text/html 0.6524ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/?cb=002 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/SignUp/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\SignUp\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/index.html?cb=002 - 200 13715 text/html 0.4691ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/?cb=003 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Login/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Login\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/index.html?cb=003 - 200 14407 text/html 0.5774ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/?cb=004 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/index.html?cb=004 - 200 17679 text/html 0.6624ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=005 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Sell/Chat/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Sell\Chat\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/index.html?cb=005 - 200 14503 text/html 0.5301ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=006 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Sell/Chat/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Sell\Chat\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/index.html?cb=006 - 200 15194 text/html 0.8453ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=007 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Sell/Chat/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Sell\Chat\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/index.html?cb=007 - 200 15895 text/html 0.6099ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=008 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Sell/Chat/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Sell\Chat\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/index.html?cb=008 - 200 15897 text/html 0.5336ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=009 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Sell/Chat/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Sell\Chat\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/index.html?cb=009 - 200 16634 text/html 0.6974ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/?cb=010 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Sell/Chat/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Sell\Chat\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Sell/Chat/index.html?cb=010 - 200 16638 text/html 0.5265ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Marketplace/?cb=011 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Marketplace/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Marketplace\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Marketplace/index.html?cb=011 - 200 20320 text/html 0.9254ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/?cb=012 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/SignUp/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\SignUp\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/index.html?cb=012 - 200 13717 text/html 0.7815ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/?cb=013 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Login/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Login\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/index.html?cb=013 - 200 14409 text/html 0.6124ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=014 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=014 - 200 14064 text/html 0.6609ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=015 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=015 - 200 14770 text/html 0.5774ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=016 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=016 - 200 15458 text/html 0.5254ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=017 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=017 - 200 16164 text/html 0.5657ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Documents/?cb=018 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Documents/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Documents\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Documents/index.html?cb=018 - 200 25760 text/html 0.7520ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=019 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=019 - 200 13952 text/html 0.5665ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/?cb=020 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/SignUp/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\SignUp\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/index.html?cb=020 - 200 13717 text/html 2.6229ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/?cb=021 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Login/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Login\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/index.html?cb=021 - 200 14409 text/html 0.5631ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=022 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=022 - 200 14064 text/html 0.4927ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=023 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=023 - 200 14769 text/html 0.4904ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=024 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=024 - 200 15507 text/html 0.4854ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=025 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=025 - 200 16253 text/html 0.5640ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Documents/?cb=026 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Documents/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Documents\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Documents/index.html?cb=026 - 200 25762 text/html 0.8134ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=027 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=027 - 200 13952 text/html 0.5107ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/?cb=028 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/SignUp/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\SignUp\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/index.html?cb=028 - 200 13717 text/html 0.6082ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/?cb=029 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Login/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Login\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/index.html?cb=029 - 200 14409 text/html 0.4161ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=030 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=030 - 200 14064 text/html 0.4703ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=031 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=031 - 200 14766 text/html 0.5054ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=032 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=032 - 200 15460 text/html 0.5600ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=033 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=033 - 200 16187 text/html 0.5881ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Documents/?cb=034 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Documents/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Documents\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Documents/index.html?cb=034 - 200 25763 text/html 0.6014ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=035 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=035 - 200 13952 text/html 0.5338ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/?cb=036 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/SignUp/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\SignUp\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/index.html?cb=036 - 200 13717 text/html 0.7869ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/?cb=037 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Login/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Login\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/index.html?cb=037 - 200 14409 text/html 0.5948ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=038 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=038 - 200 14064 text/html 0.6197ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=039 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=039 - 200 14786 text/html 0.6791ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=040 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=040 - 200 15474 text/html 0.4399ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/?cb=041 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Applicant/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Applicant\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Applicant/index.html?cb=041 - 200 16184 text/html 0.5896ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Documents/?cb=042 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Documents/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Documents\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Documents/index.html?cb=042 - 200 25764 text/html 0.9778ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=043 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=043 - 200 13952 text/html 0.6453ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/?cb=044 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Login/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Login\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/index.html?cb=044 - 200 14408 text/html 0.5196ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Admin/?cb=045 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Admin/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Admin\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Admin/index.html?cb=045 - 200 14953 text/html 0.5724ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/HiringHall/?cb=046 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/HiringHall/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\HiringHall\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/HiringHall/index.html?cb=046 - 200 16649 text/html 0.6986ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/HiringHall/?cb=047 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/HiringHall/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\HiringHall\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/HiringHall/index.html?cb=047 - 200 16625 text/html 0.5031ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/HiringHall/?cb=048 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/HiringHall/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\HiringHall\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/HiringHall/index.html?cb=048 - 200 16625 text/html 0.6060ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=049 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=049 - 200 13865 text/html 0.4969ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dashboard/?cb=050 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dashboard/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dashboard\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dashboard/index.html?cb=050 - 200 15286 text/html 0.5356ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=051 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=051 - 200 13871 text/html 0.5064ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dashboard/?cb=052 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dashboard/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dashboard\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dashboard/index.html?cb=052 - 200 15279 text/html 0.5668ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=053 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=053 - 200 13879 text/html 0.4627ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dashboard/?cb=054 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dashboard/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dashboard\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dashboard/index.html?cb=054 - 200 15292 text/html 0.4620ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/?cb=055 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Apply/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Apply\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Apply/index.html?cb=055 - 200 13873 text/html 0.4526ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dashboard/?cb=056 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dashboard/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dashboard\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dashboard/index.html?cb=056 - 200 15294 text/html 0.4963ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/?cb=057 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/index.html?cb=057 - 200 17675 text/html 0.6425ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/?cb=058 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/SignUp/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\SignUp\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/SignUp/index.html?cb=058 - 200 13715 text/html 0.4850ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/?cb=059 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Login/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Login\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Login/index.html?cb=059 - 200 14407 text/html 0.4576ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Marketplace/?cb=060 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Marketplace/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Marketplace\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Marketplace/index.html?cb=060 - 200 23339 text/html 0.6945ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/ShipTo/?cb=061 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Buy/ShipTo/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Buy\ShipTo\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/ShipTo/index.html?cb=061 - 200 14993 text/html 0.5952ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/Contact/?cb=062 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Buy/Contact/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Buy\Contact\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/Contact/index.html?cb=062 - 200 14137 text/html 0.6051ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/Window/?cb=063 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Buy/Window/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Buy\Window\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/Window/index.html?cb=063 - 200 14219 text/html 0.5758ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/Pay/?cb=064 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Buy/Pay/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Buy\Pay\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/Pay/index.html?cb=064 - 200 14203 text/html 0.5837ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/Notes/?cb=065 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Buy/Notes/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Buy\Notes\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Buy/Notes/index.html?cb=065 - 200 14824 text/html 0.5852ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=066 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=066 - 200 17629 text/html 0.5494ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=067 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=067 - 200 17611 text/html 0.7459ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=068 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=068 - 200 17613 text/html 0.9738ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=069 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=069 - 200 17624 text/html 0.6609ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=070 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=070 - 200 17611 text/html 0.5513ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=071 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=071 - 200 15319 text/html 0.4411ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=072 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=072 - 200 15377 text/html 0.4722ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=073 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=073 - 200 15200 text/html 0.5224ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=074 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=074 - 200 17612 text/html 0.5523ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=075 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=075 - 200 17619 text/html 0.6088ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=076 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=076 - 200 17604 text/html 0.5999ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=077 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=077 - 200 15951 text/html 0.6274ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/?cb=078 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Track/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Track\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/index.html?cb=078 - 200 16168 text/html 0.5461ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/?cb=079 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Track/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Track\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/index.html?cb=079 - 200 16714 text/html 0.5172ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/?cb=080 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Track/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Track\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/index.html?cb=080 - 200 17293 text/html 0.5359ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/?cb=081 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Track/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Track\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/index.html?cb=081 - 200 17851 text/html 0.6623ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=082 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=082 - 200 15108 text/html 0.4912ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=083 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=083 - 200 17599 text/html 0.6608ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=084 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=084 - 200 17577 text/html 0.5301ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=085 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=085 - 200 17582 text/html 0.5838ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=086 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=086 - 200 17584 text/html 0.5467ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=087 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=087 - 200 15065 text/html 0.6366ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=088 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=088 - 200 17590 text/html 0.5607ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/?cb=089 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Track/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Track\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/index.html?cb=089 - 200 18461 text/html 0.5564ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Schedule/?cb=090 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Schedule/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Schedule\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Schedule/index.html?cb=090 - 200 16744 text/html 0.6728ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=091 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=091 - 200 15161 text/html 0.5168ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=092 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=092 - 200 17572 text/html 0.5473ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=093 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=093 - 200 16696 text/html 0.6835ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=094 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=094 - 200 15100 text/html 0.6671ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=095 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=095 - 200 17715 text/html 0.7096ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=096 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=096 - 200 17695 text/html 0.7020ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=097 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=097 - 200 17712 text/html 0.5373ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=098 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=098 - 200 17690 text/html 0.6415ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=099 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=099 - 200 17697 text/html 0.5259ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=100 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=100 - 200 16679 text/html 0.6234ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=101 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=101 - 200 15062 text/html 0.6077ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=102 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=102 - 200 17720 text/html 0.5901ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=103 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=103 - 200 17700 text/html 0.6031ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=104 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=104 - 200 17700 text/html 1.6752ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=105 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=105 - 200 17696 text/html 0.7410ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/?cb=106 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Map/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Map\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Map/index.html?cb=106 - 200 17714 text/html 0.6191ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=107 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=107 - 200 16634 text/html 0.7088ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=108 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=108 - 200 16572 text/html 0.6293ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=109 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=109 - 200 16590 text/html 0.5140ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=110 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=110 - 200 16573 text/html 0.5213ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=111 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=111 - 200 16643 text/html 0.5248ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/?cb=112 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Dispatcher/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Dispatcher\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Dispatcher/index.html?cb=112 - 200 16649 text/html 0.5117ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=113 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=113 - 200 17114 text/html 0.6335ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=114 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=114 - 200 17157 text/html 0.6443ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=115 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=115 - 200 17218 text/html 0.5353ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=116 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=116 - 200 17281 text/html 0.7480ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=117 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=117 - 200 17353 text/html 0.5952ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=118 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=118 - 200 17421 text/html 0.5623ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=119 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=119 - 200 17417 text/html 0.5986ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=120 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=120 - 200 17421 text/html 1.0142ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=121 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=121 - 200 17416 text/html 0.6023ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=122 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=122 - 200 17396 text/html 0.6734ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=123 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=123 - 200 17381 text/html 0.4930ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=124 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=124 - 200 17381 text/html 0.5534ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/?cb=125 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Investors/KPI/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Investors\KPI\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Investors/KPI/index.html?cb=125 - 200 17381 text/html 0.6328ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Marketplace/?cb=126 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Marketplace/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Marketplace\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Marketplace/index.html?cb=126 - 200 26358 text/html 0.6151ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/?cb=127 - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/Track/index.html'. Physical path: 'C:\repo\public\wolfstruckingco.com\main\docs\Track\index.html'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://localhost:8443/wolfstruckingco.com/Track/index.html?cb=127 - 200 18411 text/html 0.5297ms

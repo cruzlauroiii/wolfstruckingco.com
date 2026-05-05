@@ -1,0 +1,156 @@
+C:\repo\public\wolfstruckingco.com\main\docs\videos\run-crud-pipeline.cs(1469,15): warning CS8602: Dereference of a possibly null reference.
+C:\repo\public\wolfstruckingco.com\main\docs\videos\run-crud-pipeline.cs(916,15): warning CS8321: The local function 'ExtractFrom' is declared but never used
+C:\repo\public\wolfstruckingco.com\main\docs\videos\run-crud-pipeline.cs(925,15): warning CS8321: The local function 'ExtractTo' is declared but never used
+C:\repo\public\wolfstruckingco.com\main\docs\videos\run-crud-pipeline.cs(932,15): warning CS8321: The local function 'ExtractDistance' is declared but never used
+C:\repo\public\wolfstruckingco.com\main\docs\videos\run-crud-pipeline.cs(945,19): warning CS8321: The local function 'PerformSceneCrudOld' is declared but never used
+reset scene-effect stores; db = 119 base rows
+loaded 127 scenes
+  ai: app:24 → Thanks for sending the license, Pedro. Can you confirm if yo...
+  ai: app:25 → Great, that covers the port essentials! Do you also have any...
+  ai: app:31 → Welcome, Maya and Tom — that's a strong combined background!...
+  ai: app:32 → Great, thanks for sending those over! Do you also have an ac...
+  ai: app:33 → Perfect, got the team-driver papers — thank you! Do either o...
+  ai: app:39 → Welcome, Jordan — 10 years of final-mile in Wilmington is gr...
+  ai: app:40 → Thanks for sending the license over! Do you also have a TWIC...
+  ai: app:41 → Great, the auto-handling cert is a nice plus! Do you have a ...
+  ai: disp:73 → Got it — please confirm your trailer number with security an...
+  ai: disp:77 → Received — please proceed to the loading dock as directed by...
+  ai: disp:93 → Confirmed — keep it powered and concealed, and send me a pho...
+  ai: disp:100 → Send me the seal number and the photos, then head to the por...
+  ai: disp:107 → Copy — share your ETA to the terminal and notify me immediat...
+  ai: disp:108 → Copy — what's your ETA to the next checkpoint, and is the GP...
+  ai: disp:109 → Stay with the load and keep eyes on it — send me your exact ...
+  ai: disp:110 → Copy the reroute — give me your updated ETA and confirm the ...
+  ai: disp:111 → Copy — confirm the receiving driver's name and truck number ...
+  ai: disp:112 → Confirm seal is still intact, get the buyer's signature on t...
+AI chat: 28 scenes generated, 28 entries in cache
+  ✓ 001 /
+  ✓ 002 /SignUp/
+  ✓ 003 /Login/
+  ✓ 004 /
+  ✓ 005 /Sell/Chat/
+  ✓ 006 /Sell/Chat/
+  ✓ 007 /Sell/Chat/
+  ✓ 008 /Sell/Chat/
+  ✓ 009 /Sell/Chat/
+  ✓ 010 /Sell/Chat/
+  ✓ 011 /Marketplace/
+  ✓ 012 /SignUp/
+  ✓ 013 /Login/
+  ✓ 014 /Apply/
+  ✓ 015 /Applicant/
+  ✓ 016 /Applicant/
+  ✓ 017 /Applicant/
+  ✓ 018 /Documents/
+  ✓ 019 /Apply/
+  ✓ 020 /SignUp/
+  ✓ 021 /Login/
+  ✓ 022 /Apply/
+  ✓ 023 /Applicant/
+  ✓ 024 /Applicant/
+  ✓ 025 /Applicant/
+  ✓ 026 /Documents/
+  ✓ 027 /Apply/
+  ✓ 028 /SignUp/
+  ✓ 029 /Login/
+  ✓ 030 /Apply/
+  ✓ 031 /Applicant/
+  ✓ 032 /Applicant/
+  ✓ 033 /Applicant/
+  ✓ 034 /Documents/
+  ✓ 035 /Apply/
+  ✓ 036 /SignUp/
+  ✓ 037 /Login/
+  ✓ 038 /Apply/
+  ✓ 039 /Applicant/
+  ✓ 040 /Applicant/
+  ✓ 041 /Applicant/
+  ✓ 042 /Documents/
+  ✓ 043 /Apply/
+  ✓ 044 /Login/
+  ✓ 045 /Admin/
+  ✓ 046 /HiringHall/
+  ✓ 047 /HiringHall/
+  ✓ 048 /HiringHall/
+  ✓ 049 /Apply/
+  ✓ 050 /Dashboard/
+  ✓ 051 /Apply/
+  ✓ 052 /Dashboard/
+  ✓ 053 /Apply/
+  ✓ 054 /Dashboard/
+  ✓ 055 /Apply/
+  ✓ 056 /Dashboard/
+  ✓ 057 /
+  ✓ 058 /SignUp/
+  ✓ 059 /Login/
+  ✓ 060 /Marketplace/
+  ✓ 061 /Buy/ShipTo/
+  ✓ 062 /Buy/Contact/
+  ✓ 063 /Buy/Window/
+  ✓ 064 /Buy/Pay/
+  ✓ 065 /Buy/Notes/
+  ✓ 066 /Map/
+  ✓ 067 /Map/
+  ✓ 068 /Map/
+  ✓ 069 /Map/
+  ✓ 070 /Map/
+  ✓ 071 /Dispatcher/
+  ✓ 072 /Dispatcher/
+  ✓ 073 /Dispatcher/
+  ✓ 074 /Map/
+  ✓ 075 /Map/
+  ✓ 076 /Map/
+  ✓ 077 /Dispatcher/
+  ✓ 078 /Track/
+  ✓ 079 /Track/
+  ✓ 080 /Track/
+  ✓ 081 /Track/
+  ✓ 082 /Dispatcher/
+  ✓ 083 /Map/
+  ✓ 084 /Map/
+  ✓ 085 /Map/
+  ✓ 086 /Map/
+  ✓ 087 /Dispatcher/
+  ✓ 088 /Map/
+  ✓ 089 /Track/
+  ✓ 090 /Schedule/
+  ✓ 091 /Dispatcher/
+  ✓ 092 /Map/
+  ✓ 093 /Dispatcher/
+  ✓ 094 /Dispatcher/
+  ✓ 095 /Map/
+  ✓ 096 /Map/
+  ✓ 097 /Map/
+  ✓ 098 /Map/
+  ✓ 099 /Map/
+  ✓ 100 /Dispatcher/
+  ✓ 101 /Dispatcher/
+  ✓ 102 /Map/
+  ✓ 103 /Map/
+  ✓ 104 /Map/
+  ✓ 105 /Map/
+  ✓ 106 /Map/
+  ✓ 107 /Dispatcher/
+  ✓ 108 /Dispatcher/
+  ✓ 109 /Dispatcher/
+  ✓ 110 /Dispatcher/
+  ✓ 111 /Dispatcher/
+  ✓ 112 /Dispatcher/
+  ✓ 113 /Investors/KPI/
+  ✓ 114 /Investors/KPI/
+  ✓ 115 /Investors/KPI/
+  ✓ 116 /Investors/KPI/
+  ✓ 117 /Investors/KPI/
+  ✓ 118 /Investors/KPI/
+  ✓ 119 /Investors/KPI/
+  ✓ 120 /Investors/KPI/
+  ✓ 121 /Investors/KPI/
+  ✓ 122 /Investors/KPI/
+  ✓ 123 /Investors/KPI/
+  ✓ 124 /Investors/KPI/
+  ✓ 125 /Investors/KPI/
+  ✓ 126 /Marketplace/
+  ✓ 127 /Track/
+
+OCR uniqueness: 116/127
+wrote frame-references.md
