@@ -233,6 +233,14 @@ dotnet run docs/videos/match-check.cs -- --scenes scenes-full.json --frames C:\p
 ```
 For each scene, compares the narration against the page's `document.body.innerText` captured by `build-video.cs` at screenshot time (`frames/NNN.txt`). Reports a content-word overlap percentage per scene; `⚠ very weak` flags a frame that almost certainly doesn't match what the narrator says.
 
+### `docs/videos/extract-frame-text-compare.cs` — local OCR vs narration markdown
+
+```bash
+dotnet run docs/videos/extract-frame-text-compare.cs -- --scenes docs/videos/scenes-final.json --frames %TEMP%\wolfs-video\frames
+```
+
+Runs Windows OCR locally on `NNN.png` frames, compares extracted text with each scene narration, and writes `docs/videos/ocr-narration-check.md`.
+
 ### `docs/videos/video-duration.cs` — duration probe
 ```powershell
 dotnet run docs/videos/video-duration.cs                            # defaults to ./walkthrough.mp4

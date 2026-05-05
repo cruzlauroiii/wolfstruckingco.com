@@ -147,7 +147,9 @@ public partial class MapPage
 
     protected override async Task OnInitializedAsync()
     {
-        var Audit = await Wolfs.DbAllAsync<JsonObject>(AuditStore);
+        System.Collections.Generic.IEnumerable<JsonObject> Audit;
+        try { Audit = await Wolfs.DbAllAsync<JsonObject>(AuditStore); }
+        catch (Exception E) when (E is Microsoft.JSInterop.JSException or InvalidOperationException) { Audit = System.Array.Empty<JsonObject>(); }
         var Rows = Audit
             .Where(R => R is not null && string.Equals(R?[FieldKind]?.GetValue<string>(), KindNav, StringComparison.Ordinal))
             .OrderByDescending(R => R?[FieldId]?.GetValue<string>() ?? Empty, StringComparer.Ordinal)

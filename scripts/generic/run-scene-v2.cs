@@ -121,37 +121,25 @@ for (int I = 0; I < 30; I++)
     await Task.Delay(1000);
 }
 
-Console.WriteLine($"scene-{Pad} waiting 10s for WASM hydration before theme click");
-await Task.Delay(10000);
-bool ThemeIsLight(string PngPath)
+Console.WriteLine($"scene-{Pad} waiting 12s for WASM hydration");
+await Task.Delay(12000);
+for (int Ti = 0; Ti < 10; Ti++)
 {
-    try
+    var Cur = await Snap();
+    int AutoUid = FindUidByRoleText(Cur, "button", "Auto");
+    int DarkUid = FindUidByRoleText(Cur, "button", "Dark");
+    int LightUid = FindUidByRoleText(Cur, "button", "Light");
+    Console.WriteLine($"scene-{Pad} iter {Ti} chip uids: Auto={AutoUid} Dark={DarkUid} Light={LightUid}");
+    if (LightUid != 0 && AutoUid == 0 && DarkUid == 0)
     {
-        using var Bm = new Bitmap(PngPath);
-        var P = Bm.GetPixel(Math.Min(50, Bm.Width - 1), Math.Min(30, Bm.Height - 1));
-        return P.R > 235 && P.G > 235 && P.B > 235;
-    }
-    catch { return false; }
-}
-var ThemeProbe = Path.Combine(Path.GetTempPath(), $"theme-probe-{Pad}.png");
-for (int Ti = 0; Ti < 8; Ti++)
-{
-    try { File.Delete(ThemeProbe); } catch {}
-    await Cdp("public const string Command = \"take_screenshot\";\n        public const string PageId = \"" + CurrentIdx + "\";\n        public const string FilePath = @\"" + ThemeProbe + "\";");
-    if (File.Exists(ThemeProbe) && new FileInfo(ThemeProbe).Length > 0 && ThemeIsLight(ThemeProbe))
-    {
-        Console.WriteLine($"scene-{Pad} theme verified light after {Ti} clicks");
-        try { File.Delete(ThemeProbe); } catch {}
+        Console.WriteLine($"scene-{Pad} chip=Light verified after {Ti} clicks");
+        await Task.Delay(2000);
         break;
     }
-    var Cur = await Snap();
-    var ClickU = FindUidByRoleText(Cur, "button", "Auto");
-    if (ClickU == 0) ClickU = FindUidByRoleText(Cur, "button", "Dark");
-    if (ClickU == 0) ClickU = FindUidByRoleText(Cur, "button", "Light");
-    if (ClickU == 0) { Console.WriteLine($"scene-{Pad} no theme chip in snapshot at iter {Ti}"); break; }
-    Console.WriteLine($"scene-{Pad} pixel non-light, click chip uid={ClickU} (iter {Ti})");
+    int ClickU = AutoUid != 0 ? AutoUid : (DarkUid != 0 ? DarkUid : LightUid);
+    if (ClickU == 0) { Console.WriteLine($"scene-{Pad} no theme chip at iter {Ti}"); break; }
     await ClickUid(ClickU);
-    await Task.Delay(1500);
+    await Task.Delay(5000);
 }
 
 if (RequiresLogin)
@@ -186,6 +174,14 @@ try { File.Delete(Png); } catch {}
 await Cdp("public const string Command = \"take_screenshot\";\n        public const string PageId = \"" + CurrentIdx + "\";\n        public const string FilePath = @\"" + Png + "\";");
 if (!File.Exists(Png) || new FileInfo(Png).Length == 0) { Console.Error.WriteLine($"scene-{Pad} SCREENSHOT FAIL"); return 3; }
 Console.WriteLine($"scene-{Pad} png_size={new FileInfo(Png).Length}");
+try
+{
+    using var TestBmp = new System.Drawing.Bitmap(Png);
+    var Px = TestBmp.GetPixel(Math.Min(50, TestBmp.Width - 1), Math.Min(30, TestBmp.Height - 1));
+    var Bright = (Px.R + Px.G + Px.B) / 3;
+    if (Bright < 150) { Console.Error.WriteLine($"scene-{Pad} THEME-FAIL pixel-bright={Bright} (still dark)"); return 5; }
+}
+catch (Exception E) { Console.Error.WriteLine($"scene-{Pad} pixel-check exc: {E.Message}"); }
 
 var Wav = Path.Combine(Audio, $"scene-{Pad}.mp3");
 var Mp4 = Path.Combine(Docs, $"scene-{Pad}.mp4");

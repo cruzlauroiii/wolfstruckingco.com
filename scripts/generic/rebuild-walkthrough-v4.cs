@@ -173,22 +173,28 @@ async Task<string> CdpRead(string Name, string Body)
     return await PostServeAsync(Line3);
 }
 
-string Eval(string Fn) =>
-    "public const string Command = \"evaluate_script\";\n        " +
-    "public const string PageId = \"1\";\n        " +
-    $"public const string Function = \"{Fn}\";";
+
 
 async Task NewPageAt(string Url) => await Cdp("new", $"public const string Command = \"new_page\";\n        public const string Url = \"{Url.Replace("\"", "\\\"")}\";");
 
 async Task ReplaceTab(string Url) => await NewPageAt(Url);
 
-async Task ForceLight() => await Cdp("light", Eval("() => { document.documentElement.setAttribute('data-theme','light'); return 'ok'; }"));
+async Task ForceLight() => await Task.CompletedTask;
 
 async Task SendMsg(string Msg)
 {
-    var Esc = Msg.Replace("\\", "\\\\").Replace("'", "\\'");
-    var Fn = $"() => {{ var i = document.querySelector('.ChatInputRow input[type=text]'); if (!i) return 'no-input'; var nv = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype,'value').set; nv.call(i,'{Esc}'); i.dispatchEvent(new Event('input',{{bubbles:true}})); var s = document.querySelector('.ChatBtnRound.Send'); if (!s) return 'no-send'; s.click(); return 'sent'; }}";
-    await Cdp("send", Eval(Fn));
+    var Pid = string.IsNullOrEmpty(CachedWolfsPageIdx) ? "1" : CachedWolfsPageIdx;
+    var Snap = await CdpRead("snap-input", "public const string Command = \"take_snapshot\";\n        public const string PageId = \"" + Pid + "\";");
+    var InputRx = new System.Text.RegularExpressions.Regex(@"^\s*\[(\d+)\]\s+textbox", System.Text.RegularExpressions.RegexOptions.Multiline);
+    var InputMatch = InputRx.Match(Snap);
+    if (!InputMatch.Success) return;
+    var EscMsg = Msg.Replace("\\", "\\\\", StringComparison.Ordinal).Replace("\"", "\\\"", StringComparison.Ordinal);
+    await Cdp("fill-msg", "public const string Command = \"fill\";\n        public const string PageId = \"" + Pid + "\";\n        public const string Uid = \"" + InputMatch.Groups[1].Value + "\";\n        public const string Value = \"" + EscMsg + "\";");
+    var Snap2 = await CdpRead("snap-send", "public const string Command = \"take_snapshot\";\n        public const string PageId = \"" + Pid + "\";");
+    var SendRx = new System.Text.RegularExpressions.Regex(@"^\s*\[(\d+)\]\s+button\s+""[^""]*Send", System.Text.RegularExpressions.RegexOptions.Multiline | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+    var SendMatch = SendRx.Match(Snap2);
+    if (!SendMatch.Success) return;
+    await Cdp("click-send", "public const string Command = \"click\";\n        public const string PageId = \"" + Pid + "\";\n        public const string Uid = \"" + SendMatch.Groups[1].Value + "\";");
 }
 
 async Task<int> Screenshot(string Pad)
@@ -235,57 +241,84 @@ async Task<int> Encode(string Pad)
 
 async Task<bool> HasPasswordInput()
 {
-    var C = await CdpRead("hp", Eval("() => document.querySelector('input[type=password]') ? 'yes' : 'no'"));
-    return C.Contains("yes");
+    var Pid = string.IsNullOrEmpty(CachedWolfsPageIdx) ? "1" : CachedWolfsPageIdx;
+    var Snap = await CdpRead("snap-pw", "public const string Command = \"take_snapshot\";\n        public const string PageId = \"" + Pid + "\";");
+    return Snap.Contains("Password", StringComparison.OrdinalIgnoreCase);
 }
 
 async Task<string> CurrentUrl()
 {
-    var C = await CdpRead("url", Eval("() => location.href"));
-    return C.Trim().Trim('"').Trim('\'');
+    var Pid = string.IsNullOrEmpty(CachedWolfsPageIdx) ? "1" : CachedWolfsPageIdx;
+    var Snap = await CdpRead("snap-url", "public const string Command = \"take_snapshot\";\n        public const string PageId = \"" + Pid + "\";");
+    if (Snap.Contains("Wolfs Trucking", StringComparison.OrdinalIgnoreCase) || Snap.Contains("Sign In", StringComparison.OrdinalIgnoreCase)) return "wolfstruckingco";
+    return "external";
 }
 
 async Task ClickLogoutFirst()
 {
-    var Fn = "() => { var btns = Array.from(document.querySelectorAll('button,a,[role=button]')); var b = btns.find(x => /(log\\\\s*out|sign\\\\s*out|log\\\\s*off)/i.test(x.textContent||x.getAttribute('aria-label')||'')); if (!b) return 'no-logout'; b.click(); return 'logged-out'; }";
-    await Cdp("logout", Eval(Fn));
+    var Pid = string.IsNullOrEmpty(CachedWolfsPageIdx) ? "1" : CachedWolfsPageIdx;
+    var Snap = await CdpRead("snap-logout", "public const string Command = \"take_snapshot\";\n        public const string PageId = \"" + Pid + "\";");
+    var Rx = new System.Text.RegularExpressions.Regex(@"^\s*\[(\d+)\]\s+(?:button|link)\s+""[^""]*(?:Log\s*Out|Sign\s*Out|Log\s*Off)", System.Text.RegularExpressions.RegexOptions.Multiline | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+    var M = Rx.Match(Snap);
+    if (!M.Success) return;
+    await Cdp("click-logout", "public const string Command = \"click\";\n        public const string PageId = \"" + Pid + "\";\n        public const string Uid = \"" + M.Groups[1].Value + "\";");
 }
 
 async Task ClickSsoButton(string Provider)
 {
-    var Fn = $"() => {{ var btns = Array.from(document.querySelectorAll('button,a,[role=button]')); var b = btns.find(x => /{Provider}/i.test(x.textContent||x.getAttribute('aria-label')||'')); if (!b) return 'no-btn'; b.click(); return 'clicked'; }}";
-    await Cdp("sso-click", Eval(Fn));
+    var Pid = string.IsNullOrEmpty(CachedWolfsPageIdx) ? "1" : CachedWolfsPageIdx;
+    var Snap = await CdpRead("snap-sso", "public const string Command = \"take_snapshot\";\n        public const string PageId = \"" + Pid + "\";");
+    var Rx = new System.Text.RegularExpressions.Regex(@"^\s*\[(\d+)\]\s+(?:button|link)\s+""[^""]*" + System.Text.RegularExpressions.Regex.Escape(Provider), System.Text.RegularExpressions.RegexOptions.Multiline | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+    var M = Rx.Match(Snap);
+    if (!M.Success) return;
+    await Cdp("click-sso", "public const string Command = \"click\";\n        public const string PageId = \"" + Pid + "\";\n        public const string Uid = \"" + M.Groups[1].Value + "\";");
 }
 
 async Task ClickAccountByEmail(string Email)
 {
     if (string.IsNullOrEmpty(Email)) return;
-    var Esc = Email.Replace("'", "\\'");
-    var Fn = $"() => {{ var els = Array.from(document.querySelectorAll('[data-email],[data-identifier],div,button,a,li,span')); var m = els.find(x => {{ var de = (x.getAttribute('data-email')||x.getAttribute('data-identifier')||'').toLowerCase(); var tx = (x.textContent||'').toLowerCase(); var al = (x.getAttribute('aria-label')||'').toLowerCase(); return de === '{Esc}'.toLowerCase() || tx.includes('{Esc}'.toLowerCase()) || al.includes('{Esc}'.toLowerCase()); }}); if (!m) return 'no-account'; m.click(); return 'clicked:' + (m.textContent||'').trim().slice(0,40); }}";
-    var Body = ("public const string Command = \"evaluate_script\";\n        " +
-                "public const string PageId = \"1\";\n        " +
-                $"public const string Function = \"{Fn}\";");
-    await Cdp("acct-click", Body);
+    var Pid = string.IsNullOrEmpty(CachedWolfsPageIdx) ? "1" : CachedWolfsPageIdx;
+    var Snap = await CdpRead("snap-account", "public const string Command = \"take_snapshot\";\n        public const string PageId = \"" + Pid + "\";");
+    var Rx = new System.Text.RegularExpressions.Regex(@"^\s*\[(\d+)\]\s+(?:button|link|listitem|option)\s+""[^""]*" + System.Text.RegularExpressions.Regex.Escape(Email), System.Text.RegularExpressions.RegexOptions.Multiline | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+    var M = Rx.Match(Snap);
+    if (!M.Success) return;
+    await Cdp("click-account", "public const string Command = \"click\";\n        public const string PageId = \"" + Pid + "\";\n        public const string Uid = \"" + M.Groups[1].Value + "\";");
 }
 
 async Task FillMicrosoftEmail(string Account)
 {
-    var Fn = "() => { if (!/login\\\\.microsoftonline\\\\.com|login\\\\.live\\\\.com/.test(location.host)) return 'not-ms'; var i = document.querySelector('input[type=email],input[name=loginfmt]'); if (!i) return 'no-input'; var nv = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype,'value').set; nv.call(i, '" + Account + "'); i.dispatchEvent(new Event('input',{bubbles:true})); i.dispatchEvent(new Event('change',{bubbles:true})); var btn = document.querySelector('#idSIButton9,input[type=submit],button[type=submit]'); if (!btn) return 'no-next'; btn.click(); return 'submitted'; }";
-    await Cdp("msfill", Eval(Fn));
+    var Pid = string.IsNullOrEmpty(CachedWolfsPageIdx) ? "1" : CachedWolfsPageIdx;
+    var Snap = await CdpRead("snap-msemail", "public const string Command = \"take_snapshot\";\n        public const string PageId = \"" + Pid + "\";");
+    var InputRx = new System.Text.RegularExpressions.Regex(@"^\s*\[(\d+)\]\s+textbox", System.Text.RegularExpressions.RegexOptions.Multiline);
+    var InputMatch = InputRx.Match(Snap);
+    if (!InputMatch.Success) return;
+    var EscAccount = Account.Replace("\\", "\\\\", StringComparison.Ordinal).Replace("\"", "\\\"", StringComparison.Ordinal);
+    await Cdp("fill-msemail", "public const string Command = \"fill\";\n        public const string PageId = \"" + Pid + "\";\n        public const string Uid = \"" + InputMatch.Groups[1].Value + "\";\n        public const string Value = \"" + EscAccount + "\";");
+    var Snap2 = await CdpRead("snap-mssubmit", "public const string Command = \"take_snapshot\";\n        public const string PageId = \"" + Pid + "\";");
+    var SubmitRx = new System.Text.RegularExpressions.Regex(@"^\s*\[(\d+)\]\s+button\s+""[^""]*(?:Next|Sign in|submit|Continue)", System.Text.RegularExpressions.RegexOptions.Multiline | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+    var SubmitMatch = SubmitRx.Match(Snap2);
+    if (!SubmitMatch.Success) return;
+    await Cdp("click-mssubmit", "public const string Command = \"click\";\n        public const string PageId = \"" + Pid + "\";\n        public const string Uid = \"" + SubmitMatch.Groups[1].Value + "\";");
 }
 
 async Task FillMicrosoftEmailNoSubmit(string Account)
 {
-    var Fn = "() => { var h = location.host; if (h.indexOf('login.microsoftonline.com') === -1 && h.indexOf('login.live.com') === -1) return 'not-ms'; var i = document.querySelector('input[type=email],input[name=loginfmt]'); if (!i) return 'no-input'; var nv = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype,'value').set; nv.call(i, '" + Account + "'); i.dispatchEvent(new Event('input',{bubbles:true})); i.dispatchEvent(new Event('change',{bubbles:true})); return 'filled'; }";
-    await Cdp("msfill-nosubmit", Eval(Fn));
+    var Pid = string.IsNullOrEmpty(CachedWolfsPageIdx) ? "1" : CachedWolfsPageIdx;
+    var Snap = await CdpRead("snap-msnosubmit", "public const string Command = \"take_snapshot\";\n        public const string PageId = \"" + Pid + "\";");
+    var InputRx = new System.Text.RegularExpressions.Regex(@"^\s*\[(\d+)\]\s+textbox", System.Text.RegularExpressions.RegexOptions.Multiline);
+    var InputMatch = InputRx.Match(Snap);
+    if (!InputMatch.Success) return;
+    var EscAccount = Account.Replace("\\", "\\\\", StringComparison.Ordinal).Replace("\"", "\\\"", StringComparison.Ordinal);
+    await Cdp("fill-msnosubmit", "public const string Command = \"fill\";\n        public const string PageId = \"" + Pid + "\";\n        public const string Uid = \"" + InputMatch.Groups[1].Value + "\";\n        public const string Value = \"" + EscAccount + "\";");
 }
 
 async Task<bool> WaitForWasmHydration(int MaxSeconds)
 {
+    var Pid = string.IsNullOrEmpty(CachedWolfsPageIdx) ? "1" : CachedWolfsPageIdx;
     for (int I = 0; I < MaxSeconds; I++)
     {
-        var C = await CdpRead("hydrate-check", Eval("() => { var t = document.querySelector('.TopBar'); if (!t) return 'no-topbar'; var hasAuth = t.querySelector('.LinkBtn,a[href*=Login],a[href*=login]'); return hasAuth ? 'ready' : 'no-auth-yet'; }"));
-        if (C.Contains("ready")) return true;
+        var Snap = await CdpRead("snap-hydrate", "public const string Command = \"take_snapshot\";\n        public const string PageId = \"" + Pid + "\";");
+        if (Snap.Contains("Sign In", StringComparison.OrdinalIgnoreCase) || Snap.Contains("Log Off", StringComparison.OrdinalIgnoreCase)) return true;
         await Task.Delay(1000);
     }
     return false;
@@ -293,8 +326,13 @@ async Task<bool> WaitForWasmHydration(int MaxSeconds)
 
 async Task<bool> ClickHeaderLogOffButton()
 {
-    var C = await CdpRead("header-logoff", Eval("() => { var btns = Array.from(document.querySelectorAll('.TopBar button, .TopBar .LinkBtn')); for (var b of btns) { if (/log\\\\s*off/i.test(b.textContent||'')) { b.click(); return 'clicked'; } } return 'no-button'; }"));
-    return C.Contains("clicked");
+    var Pid = string.IsNullOrEmpty(CachedWolfsPageIdx) ? "1" : CachedWolfsPageIdx;
+    var Snap = await CdpRead("snap-logoff", "public const string Command = \"take_snapshot\";\n        public const string PageId = \"" + Pid + "\";");
+    var Rx = new System.Text.RegularExpressions.Regex(@"^\s*\[(\d+)\]\s+(?:button|link)\s+""[^""]*Log\s*Off", System.Text.RegularExpressions.RegexOptions.Multiline | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+    var M = Rx.Match(Snap);
+    if (!M.Success) return false;
+    await Cdp("click-logoff", "public const string Command = \"click\";\n        public const string PageId = \"" + Pid + "\";\n        public const string Uid = \"" + M.Groups[1].Value + "\";");
+    return true;
 }
 
 async Task WaitForSsoPrePicker(string Provider, string Account, string Pad)
@@ -389,6 +427,10 @@ async Task<(bool ok, string? group, string pad)> RunScene(int Idx, JsonElement S
 {
     var Pad = PadFor(Scene, Idx);
     var Target = Scene.GetProperty("target").GetString() ?? "";
+    if (!Target.Contains("theme=", StringComparison.Ordinal))
+    {
+        Target = Target + (Target.Contains('?') ? "&theme=light" : "?theme=light");
+    }
     var IsChat = Target.Contains("/Chat/");
     var IsSso = Scene.TryGetProperty("sso", out var SsoEl) && !string.IsNullOrEmpty(SsoEl.GetString());
     var SsoProvider = IsSso ? SsoEl.GetString() ?? "" : "";

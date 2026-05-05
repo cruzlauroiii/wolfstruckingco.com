@@ -382,7 +382,7 @@ You are Wolfs Trucking Co.'s dispatcher AI. Use normal plain English for non-tec
           if (!ar2.ok) { const errT = await ar2.text(); return Response.json({ error: 'Anthropic API error (tool loop)', status: ar2.status, details: errT }, { status: 502, headers: h }); }
           data = await ar2.json();
         }
-        const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n');
+        const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n').replace(/^(Driver|Buyer|Seller|Admin|Agent|Dispatcher|You):\s*/i, '');
         return Response.json({ text, usage: data.usage, stop_reason: data.stop_reason, tool_iters: toolIters }, { headers: h });
       } catch (ex) {
         return Response.json({ error: 'Proxy exception', details: String(ex) }, { status: 500, headers: h });
