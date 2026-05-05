@@ -1,9 +1,11 @@
-#:property TargetFramework=net11.0
+#:property TargetFramework=net11.0-windows
+#:package System.Drawing.Common@9.0.0
 #:property RunAnalyzersDuringBuild=false
 #:property TreatWarningsAsErrors=false
 #:property EnforceCodeStyleInBuild=false
 
 using System.Diagnostics;
+using System.Drawing;
 using System.Text.RegularExpressions;
 
 if (args.Length < 1) { Console.Error.WriteLine("usage: dotnet run run-scene-v2.cs scene-NNN-config.cs"); return 1; }
@@ -121,14 +123,33 @@ for (int I = 0; I < 30; I++)
 
 Console.WriteLine($"scene-{Pad} waiting 10s for WASM hydration before theme click");
 await Task.Delay(10000);
-for (int Ti = 0; Ti < 3; Ti++)
+bool ThemeIsLight(string PngPath)
 {
+    try
+    {
+        using var Bm = new Bitmap(PngPath);
+        var P = Bm.GetPixel(Math.Min(50, Bm.Width - 1), Math.Min(30, Bm.Height - 1));
+        return P.R > 235 && P.G > 235 && P.B > 235;
+    }
+    catch { return false; }
+}
+var ThemeProbe = Path.Combine(Path.GetTempPath(), $"theme-probe-{Pad}.png");
+for (int Ti = 0; Ti < 8; Ti++)
+{
+    try { File.Delete(ThemeProbe); } catch {}
+    await Cdp("public const string Command = \"take_screenshot\";\n        public const string PageId = \"" + CurrentIdx + "\";\n        public const string FilePath = @\"" + ThemeProbe + "\";");
+    if (File.Exists(ThemeProbe) && new FileInfo(ThemeProbe).Length > 0 && ThemeIsLight(ThemeProbe))
+    {
+        Console.WriteLine($"scene-{Pad} theme verified light after {Ti} clicks");
+        try { File.Delete(ThemeProbe); } catch {}
+        break;
+    }
     var Cur = await Snap();
     var ClickU = FindUidByRoleText(Cur, "button", "Auto");
     if (ClickU == 0) ClickU = FindUidByRoleText(Cur, "button", "Dark");
     if (ClickU == 0) ClickU = FindUidByRoleText(Cur, "button", "Light");
     if (ClickU == 0) { Console.WriteLine($"scene-{Pad} no theme chip in snapshot at iter {Ti}"); break; }
-    Console.WriteLine($"scene-{Pad} click chip uid={ClickU} (iter {Ti})");
+    Console.WriteLine($"scene-{Pad} pixel non-light, click chip uid={ClickU} (iter {Ti})");
     await ClickUid(ClickU);
     await Task.Delay(1500);
 }
