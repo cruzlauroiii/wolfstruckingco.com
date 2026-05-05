@@ -1,44 +1,29 @@
 #:property TargetFramework=net11.0
+#:property RunAnalyzersDuringBuild=false
+#:property TreatWarningsAsErrors=false
+#:property EnforceCodeStyleInBuild=false
+
 using System.Text.RegularExpressions;
-using Scripts;
 
-if (args.Length < 1) { return 1; }
-var SpecPath = args[0];
-if (!File.Exists(SpecPath)) { return 2; }
+if (args.Length < 1) { Console.Error.WriteLine("usage: dotnet run bulk-replace.cs <config>"); return 1; }
+var Spec = await File.ReadAllTextAsync(args[0]);
+string Get(string Name) { var M = Regex.Match(Spec, "const\\s+string\\s+" + Name + "\\s*=\\s*@?\"((?:[^\"\\\\]|\\\\.)*)\""); return M.Success ? M.Groups[1].Value : ""; }
 
-var ConstRe = BulkReplacePatterns.ConstString();
-string? Root = null;
-string? FilePattern = null;
-string? Find = null;
-string? Replace = null;
-foreach (var (Name, Value) in ConstRe.Matches(await File.ReadAllTextAsync(SpecPath)).Select(M => (M.Groups["name"].Value, M.Groups["value"].Value)))
+var RootDir = Get("RootDir");
+var Glob = Get("Glob");
+var Find = Regex.Unescape(Get("Find"));
+var Replace = Regex.Unescape(Get("Replace"));
+if (string.IsNullOrEmpty(RootDir) || string.IsNullOrEmpty(Glob) || string.IsNullOrEmpty(Find)) { Console.Error.WriteLine("missing RootDir/Glob/Find"); return 2; }
+
+int touched = 0, changed = 0;
+foreach (var File1 in Directory.EnumerateFiles(RootDir, Glob, SearchOption.AllDirectories))
 {
-    if (Name == "Root") { Root = Value; }
-    else if (Name == "FilePattern") { FilePattern = Value; }
-    else if (Name == "Find") { Find = Regex.Unescape(Value); }
-    else if (Name == "Replace") { Replace = Regex.Unescape(Value); }
+    touched++;
+    var Body = await File.ReadAllTextAsync(File1);
+    if (!Body.Contains(Find, StringComparison.Ordinal)) continue;
+    var New = Body.Replace(Find, Replace);
+    await File.WriteAllTextAsync(File1, New);
+    changed++;
 }
-if (Root is null || FilePattern is null || Find is null || Replace is null) { return 3; }
-if (!Directory.Exists(Root)) { return 4; }
-
-var Count = 0;
-foreach (var F in Directory.EnumerateFiles(Root, FilePattern, SearchOption.AllDirectories))
-{
-    var Body = await File.ReadAllTextAsync(F);
-    if (!Body.Contains(Find, StringComparison.Ordinal)) { continue; }
-    var New = Body.Replace(Find, Replace, StringComparison.Ordinal);
-    if (New == Body) { continue; }
-    await File.WriteAllTextAsync(F, New);
-    Count++;
-}
-await Console.Out.WriteLineAsync($"replaced in {Count.ToString(System.Globalization.CultureInfo.InvariantCulture)} files");
+Console.WriteLine($"bulk-replace touched={touched} changed={changed}");
 return 0;
-
-namespace Scripts
-{
-    internal static partial class BulkReplacePatterns
-    {
-        [GeneratedRegex("""const\s+string\s+(?<name>\w+)\s*=\s*@?"(?<value>(?:[^"\\]|\\.)*)"\s*;""", RegexOptions.ExplicitCapture)]
-        internal static partial Regex ConstString();
-    }
-}
