@@ -457,6 +457,7 @@ You are Wolfs Trucking Co.'s dispatcher AI. Use normal plain English for non-tec
         scope: cfg.scope,
         state,
       });
+      if (url.searchParams.get('silent') === '1') { params.set('prompt', 'none'); }
       return Response.redirect(cfg.authUrl + '?' + params.toString(), 302);
     }
     if (url.pathname.startsWith('/oauth/') && url.pathname.endsWith('/callback') && request.method === 'GET') {
@@ -464,7 +465,7 @@ You are Wolfs Trucking Co.'s dispatcher AI. Use normal plain English for non-tec
       const cfg = OAUTH_CFG[provider];
       if (!cfg) return new Response('unknown provider', { status: 404, headers: h });
       const code = url.searchParams.get('code');
-      if (!code) return new Response('missing code', { status: 400, headers: h });
+      const oauthError = url.searchParams.get('error'); if (oauthError) { return Response.redirect((env.PAGES_ORIGIN || 'https://cruzlauroiii.github.io/wolfstruckingco.com') + '/Login/?silentTried=1&silentError=' + encodeURIComponent(oauthError), 302); } if (!code) return new Response('missing code', { status: 400, headers: h });
       const clientId = env[cfg.idKey];
       const clientSecret = env[cfg.secretKey] && (typeof env[cfg.secretKey] === 'string' ? env[cfg.secretKey] : await env[cfg.secretKey].get());
       if (!clientId || !clientSecret) return new Response('OAuth not fully configured', { status: 503, headers: h });
@@ -493,7 +494,7 @@ You are Wolfs Trucking Co.'s dispatcher AI. Use normal plain English for non-tec
         'try{localStorage.setItem(\'wolfs_session\',\'' + session + '\');' +
         'localStorage.setItem(\'wolfs_role\',\'user\');' +
         'localStorage.setItem(\'wolfs_email\',' + JSON.stringify(email) + ');}catch(e){}' +
-        'location.replace(\'' + (env.PAGES_ORIGIN || 'https://cruzlauroiii.github.io/wolfstruckingco.com') + '/?wsso=' + provider + '&email=' + encodeURIComponent(email) + '&session=' + encodeURIComponent(session) + '\');' +
+        'location.replace(\'' + (env.PAGES_ORIGIN || 'https://cruzlauroiii.github.io/wolfstruckingco.com') + '/Login/?session=' + encodeURIComponent(session) + '&email=' + encodeURIComponent(email) + '&role=user&wsso=' + provider + '\');' +
         '</script>Signed in as ' + email + '. Redirecting&hellip;</body></html>';
       return new Response(html, { headers: { ...h, 'Content-Type': 'text/html;charset=utf-8' } });
     }
