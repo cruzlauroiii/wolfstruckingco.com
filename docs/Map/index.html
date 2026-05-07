@@ -53,7 +53,7 @@
 <script>
 (function(){function paint(){try{var role=localStorage.getItem('wolfs_role');var email=localStorage.getItem('wolfs_email')||'';if(!role){return;}var roleLabel=({client:'buyer',customer:'buyer',buyer:'buyer',shipper:'seller',seller:'seller',admin:'admin',administrator:'admin',driver:'driver',carrier:'driver'})[(role||'').toLowerCase()]||role||'buyer';var actions=document.querySelector('.TopActions');if(!actions){return;}var anchors=actions.querySelectorAll('a');for(var i=0;i<anchors.length;i++){var a=anchors[i];if((a.textContent||'').trim()==='Sign In'){a.outerHTML='<a href="Marketplace">Dashboard</a><button type="button" class="LinkBtn" id="WolfsSignOut">Log Off ('+(email||'signed-in user')+') - '+roleLabel+'</button>';break;}}var btn=document.getElementById('WolfsSignOut');if(btn){btn.addEventListener('click',function(){['wolfs_role','wolfs_email','wolfs_session','wolfs_sso'].forEach(function(k){localStorage.removeItem(k);});location.replace(location.pathname.replace(/[^\/]+\/?$/,''));});}}catch(e){}}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',paint);}else{paint();}})();
 </script>
-<script src="/wolfstruckingco.com/app/_framework/blazor.webassembly.js" autostart="true"></script>
+<script src="/wolfstruckingco.com/app/_framework/blazor.webassembly.js" autostart="false"></script>
 <script>
 Blazor.start({
   loadBootResource: function (type, name, defaultUri, integrity) {

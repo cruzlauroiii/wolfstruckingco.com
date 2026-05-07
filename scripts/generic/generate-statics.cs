@@ -131,7 +131,7 @@ static string WrapHtml(string Title, string Body, string Css)
         "<script>",
         HeaderAuthSnippet,
         "</script>",
-        "<script src=\"/wolfstruckingco.com/app/_framework/blazor.webassembly.js\" autostart=\"true\"></script>",
+        "<script src=\"/wolfstruckingco.com/app/_framework/blazor.webassembly.js\" autostart=\"false\"></script>",
         "<script>",
         "Blazor.start({",
         "  loadBootResource: function (type, name, defaultUri, integrity) {",
