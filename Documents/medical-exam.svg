@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 900" width="700" height="900">
+  <rect width="700" height="900" fill="#fefce8"/>
+  <rect x="0" y="0" width="700" height="80" fill="#0e7490"/>
+  <text x="350" y="40" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="22" fill="#fff">DOT MEDICAL EXAMINER'S CERTIFICATE</text>
+  <text x="350" y="62" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#cffafe">FMCSA · 49 CFR 391.43 — Federal Motor Carrier Safety Administration</text>
+  <g font-family="Arial,sans-serif" fill="#111">
+    <text x="50" y="130" font-size="16" font-weight="bold">DRIVER NAME</text>
+    <text x="260" y="130" font-size="16">VEGA, JORDAN A</text>
+    <text x="50" y="162" font-size="16" font-weight="bold">DATE OF BIRTH</text>
+    <text x="260" y="162" font-size="16">03/14/1988</text>
+    <text x="50" y="194" font-size="16" font-weight="bold">CDL NUMBER</text>
+    <text x="260" y="194" font-size="16">D1234567 (CA)</text>
+    <text x="50" y="226" font-size="16" font-weight="bold">ADDRESS</text>
+    <text x="260" y="226" font-size="16">1427 Harbor View Dr, Wilmington, CA 90744</text>
+    <line x1="40" y1="260" x2="660" y2="260" stroke="#0e7490" stroke-width="2"/>
+    <text x="50" y="290" font-size="18" font-weight="bold" fill="#0e7490">MEDICAL CERTIFICATION</text>
+    <rect x="50" y="310" width="600" height="130" rx="6" fill="#ecfeff" stroke="#0e7490"/>
+    <text x="72" y="340" font-size="15">The examiner certifies that the driver listed above has been</text>
+    <text x="72" y="362" font-size="15">examined in accordance with 49 CFR 391.41 and found</text>
+    <text x="72" y="384" font-size="15">qualified under the Federal Motor Carrier Safety Regulations.</text>
+    <text x="72" y="420" font-size="17" font-weight="bold" fill="#065f46">✓ Physically qualified — 2-year certificate</text>
+    <text x="50" y="482" font-size="16" font-weight="bold">EXAM DATE</text>
+    <text x="260" y="482" font-size="16">11/09/2025</text>
+    <text x="50" y="514" font-size="16" font-weight="bold">EXPIRES</text>
+    <text x="260" y="514" font-size="16">11/09/2027</text>
+    <line x1="40" y1="560" x2="660" y2="560" stroke="#0e7490" stroke-width="2"/>
+    <text x="50" y="590" font-size="18" font-weight="bold" fill="#0e7490">EXAMINER INFORMATION</text>
+    <text x="50" y="620" font-size="15" font-weight="bold">NAME</text>
+    <text x="180" y="620" font-size="15">Maya Chen, MD</text>
+    <text x="50" y="650" font-size="15" font-weight="bold">NRCME REG #</text>
+    <text x="180" y="650" font-size="15" font-family="monospace">MCR-CA-552014</text>
+    <text x="50" y="680" font-size="15" font-weight="bold">CLINIC</text>
+    <text x="180" y="680" font-size="15">Harbor Occupational Health, Long Beach CA</text>
+    <text x="50" y="710" font-size="15" font-weight="bold">PHONE</text>
+    <text x="180" y="710" font-size="15">(562) 555-0184</text>
+    <line x1="40" y1="750" x2="660" y2="750" stroke="#ccc" stroke-width="1"/>
+    <text x="50" y="790" font-size="14" fill="#555">Driver's signature: </text>
+    <text x="180" y="790" font-size="22" font-family="cursive" fill="#1e40af" font-style="italic">Jordan Vega</text>
+    <text x="50" y="822" font-size="14" fill="#555">Examiner's signature: </text>
+    <text x="200" y="822" font-size="22" font-family="cursive" fill="#1e40af" font-style="italic">M. Chen, MD</text>
+  </g>
+  <text x="350" y="870" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="13" fill="#c41f2d">★ SAMPLE DOCUMENT — WOLFS TRUCKING APPLICATION TEST USE ONLY ★</text>
+</svg>

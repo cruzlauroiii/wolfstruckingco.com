@@ -285,8 +285,14 @@ Applicant's email on file: ${email || 'unknown'}. Applicant's current transcript
       const r = await fetch(SIDECAR + '/tts', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({text}) });
       if (!r.ok) return;
       const blob = await r.blob();
-      audioEl = new Audio(URL.createObjectURL(blob));
-      audioEl.play().catch(()=>{});
+      const url = URL.createObjectURL(blob);
+      audioEl = new Audio(url);
+      await new Promise((resolve) => {
+        audioEl.addEventListener('ended', resolve, { once:true });
+        audioEl.addEventListener('error', resolve, { once:true });
+        audioEl.play().catch(resolve);
+      });
+      URL.revokeObjectURL(url);
     } catch {}
   }
   async function holdDown() {
@@ -305,11 +311,11 @@ Applicant's email on file: ${email || 'unknown'}. Applicant's current transcript
           if (!text) { callSub.textContent = 'No speech detected.'; return; }
           // Drop transcript into the chat and close overlay; user taps Call again for the next turn.
           document.getElementById('ChatInput').value = text;
-          endCall();
           await sendApplicantMessage(text);
           // Speak the reply back using the same Aria voice.
           const last = applicant.transcript[applicant.transcript.length - 1];
           if (last && last.role === 'assistant') await speak(last.content);
+          endCall();
         } catch (ex) { callSub.textContent = 'Call error: ' + ex.message; }
       };
       rec.start();

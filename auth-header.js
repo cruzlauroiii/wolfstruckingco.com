@@ -25,6 +25,17 @@
   }
   window.__wolfsSignOut = signOut;
 
+  function providerName() {
+    var p = (localStorage.getItem('wolfs_sso_provider') || '').trim();
+    if (p) return p;
+    var sess = (localStorage.getItem('wolfs_session') || '').toLowerCase();
+    if (sess.indexOf('google') >= 0) return 'google';
+    if (sess.indexOf('github') >= 0) return 'github';
+    if (sess.indexOf('azure') >= 0 || sess.indexOf('microsoft') >= 0) return 'microsoft';
+    if (sess.indexOf('okta') >= 0) return 'okta';
+    return 'sso';
+  }
+
   function buildSignOutAnchor(label) {
     var a = document.createElement('a');
     a.href = '#signout';
@@ -39,9 +50,9 @@
   function apply() {
     var sess = localStorage.getItem('wolfs_session');
     if (!sess) return;
-    var name = cleanDisplayName();
     var role = (localStorage.getItem('wolfs_role') || '').toLowerCase();
-    var label = name + (role ? ' · ' + role : '') + '  ·  Sign out';
+    var email = (localStorage.getItem('wolfs_email') || cleanDisplayName()).trim();
+    var label = 'Log Off (' + email + ' - ' + providerName() + ')' + (role ? ' - ' + role : '');
 
     // Strategy (a): rewrite any existing /Login anchor into a sign-out affordance.
     var links = document.querySelectorAll('a[href*="/Login"]');

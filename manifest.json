@@ -56,7 +56,7 @@
       "name": "Apply to Drive",
       "short_name": "Apply",
       "description": "Start AI hiring interview",
-      "url": "/wolfstruckingco.com/Interview/",
+      "url": "/wolfstruckingco.com/Applicant/",
       "icons": [{"src": "/wolfstruckingco.com/icon.svg", "sizes": "any"}]
     }
   ]

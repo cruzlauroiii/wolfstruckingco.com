@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Employer/Post | Wolfs Trucking Co.</title>
+<meta name="theme-color" content="#ff6b35">
+<link rel="stylesheet" href="/wolfstruckingco.com/css/app.css">
+<script>(function(){try{if(!localStorage.getItem("wolfs.theme") && !localStorage.getItem("wolfs_theme")){document.documentElement.setAttribute("data-theme","light");document.documentElement.style.colorScheme="light";}}catch(e){}})();</script></head>
+<body>
+<div class="TopBar">
+  <div class="Brand"><span class="Logo">W</span><a href="/wolfstruckingco.com/">Wolfs — Trucking</a></div>
+  <div class="TopActions">
+    <a href="/wolfstruckingco.com/About/">About</a>
+    <a href="/wolfstruckingco.com/Services/">Services</a>
+    <a href="/wolfstruckingco.com/Pricing/">Pricing</a>
+    <a href="/wolfstruckingco.com/Marketplace/">Marketplace</a>
+    <a href="/wolfstruckingco.com/Login/">Sign In</a>
+  </div>
+</div>
+<div class="PageHeader"><h1>Post a job</h1>
+    <div class="Sub">Define the role, set the pay, pick the credentials required to apply.</div></div>
+
+<div class="Card"><form action="/"><div class="Field"><label>Title</label><input id="Form_Title" name="Form.Title" class="valid" value="" /></div>
+        <div class="Field"><label>Pickup</label><input id="Form_Pickup" name="Form.Pickup" class="valid" value="" /></div>
+        <div class="Field"><label>Delivery</label><input id="Form_Delivery" name="Form.Delivery" class="valid" value="" /></div>
+        <div class="Field"><label>Pay rate ($/hr)</label><input step="any" type="number" id="Form_PayRate" name="Form.PayRate" class="valid" value="35" /></div>
+        <div class="Field"><label>Delivery type</label>
+            <select id="Form_DeliveryType" name="Form.DeliveryType" class="valid" value="regular"><option value="regular">Regular hourly</option>
+                <option value="cod">Cash on delivery</option>
+                <option value="pickup">Pickup with proof</option>
+                <option value="buy">Buy on demand</option></select></div>
+        <button class="Btn" type="submit">Post job</button></form></div>
+</body>
+</html>

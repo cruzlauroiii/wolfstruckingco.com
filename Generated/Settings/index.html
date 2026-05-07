@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Settings | Wolfs Trucking Co.</title>
+<meta name="theme-color" content="#ff6b35">
+<link rel="stylesheet" href="/wolfstruckingco.com/css/app.css">
+<script>(function(){try{if(!localStorage.getItem("wolfs.theme") && !localStorage.getItem("wolfs_theme")){document.documentElement.setAttribute("data-theme","light");document.documentElement.style.colorScheme="light";}}catch(e){}})();</script></head>
+<body>
+<div class="TopBar">
+  <div class="Brand"><span class="Logo">W</span><a href="/wolfstruckingco.com/">Wolfs — Trucking</a></div>
+  <div class="TopActions">
+    <a href="/wolfstruckingco.com/About/">About</a>
+    <a href="/wolfstruckingco.com/Services/">Services</a>
+    <a href="/wolfstruckingco.com/Pricing/">Pricing</a>
+    <a href="/wolfstruckingco.com/Marketplace/">Marketplace</a>
+    <a href="/wolfstruckingco.com/Login/">Sign In</a>
+  </div>
+</div>
+<div class="PageHeader"><h1>Settings</h1>
+    <div class="Sub">Account, theme, and notification preferences.</div></div>
+
+<div class="Card Card"><div class="Field"><label>Email</label>
+        <input value="&#x2014;" readonly /></div>
+    <div class="Field"><label>Role</label>
+        <input value="&#x2014;" readonly /></div>
+    <div class="Field"><label>Theme</label>
+        <button type="button" class="wt-theme-chip" title="Switch theme">&#x1F317; Auto</button></div>
+    <button class="Btn Ghost" onclick="['wolfs_role','wolfs_email','wolfs_session'].forEach(function(k){localStorage.removeItem(k);});location.replace(location.pathname.replace(/[^/]+\/?$/,''));">Sign out</button></div>
+</body>
+</html>
