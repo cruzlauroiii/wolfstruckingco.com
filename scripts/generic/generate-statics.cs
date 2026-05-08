@@ -114,7 +114,7 @@ static string WrapHtml(string Title, string Body, string Css)
         $"<title>{Display} | Wolfs Trucking Co.</title>",
         $"<meta name=\"description\" content=\"{Display} — Wolfs Trucking Co. Three-role logistics platform: freight marketplace, real-time tracking, voice navigation, and a dispatcher you can call.\">",
         "<meta name=\"theme-color\" content=\"#ff6b35\">",
-        "<meta name=\"color-scheme\" content=\"light\">",
+        "<meta name=\"color-scheme\" content=\"light dark\">",
         $"<link rel=\"canonical\" href=\"https://cruzlauroiii.github.io/wolfstruckingco.com/{Slug}\">",
         "<link rel=\"icon\" type=\"image/svg+xml\" href=\"/wolfstruckingco.com/icon.svg\">",
         "<style>",
