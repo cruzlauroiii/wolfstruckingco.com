@@ -108,6 +108,7 @@ static string WrapHtml(string Title, string Body, string Css)
         "<!DOCTYPE html>",
         "<html lang=\"en\">",
         "<head>",
+        "<script>(function(){try{var t=localStorage.getItem('wolfs_theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>",
         "<meta charset=\"UTF-8\">",
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\">",
         "<base href=\"/wolfstruckingco.com/\">",
