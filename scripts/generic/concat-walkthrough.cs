@@ -30,7 +30,23 @@ var ScenesDir = Get("ScenesDir") ?? "";
 var OutPath = Get("OutPath") ?? "";
 if (string.IsNullOrEmpty(ScenesDir) || string.IsNullOrEmpty(OutPath)) return 3;
 
-var Mp4s = Directory.GetFiles(ScenesDir, "scene-*.mp4").OrderBy(f => f).ToList();
+static int CompareScenes(string A, string B)
+{
+    var Na = System.IO.Path.GetFileNameWithoutExtension(A);
+    var Nb = System.IO.Path.GetFileNameWithoutExtension(B);
+    var PadA = Na.StartsWith("scene-", StringComparison.Ordinal) ? Na[6..] : Na;
+    var PadB = Nb.StartsWith("scene-", StringComparison.Ordinal) ? Nb[6..] : Nb;
+    var DigitsA = PadA.TrimEnd('a');
+    var DigitsB = PadB.TrimEnd('a');
+    var Ia = int.Parse(DigitsA, System.Globalization.CultureInfo.InvariantCulture);
+    var Ib = int.Parse(DigitsB, System.Globalization.CultureInfo.InvariantCulture);
+    if (Ia != Ib) return Ia.CompareTo(Ib);
+    var SuffA = PadA.EndsWith('a') ? 0 : 1;
+    var SuffB = PadB.EndsWith('a') ? 0 : 1;
+    return SuffA.CompareTo(SuffB);
+}
+var Mp4s = Directory.GetFiles(ScenesDir, "scene-*.mp4").ToList();
+Mp4s.Sort(CompareScenes);
 if (Mp4s.Count == 0) return 4;
 
 var ConcatTxt = Path.Combine(Path.GetTempPath(), "concat-walkthrough.txt");
