@@ -352,6 +352,8 @@ Per memory rule `feedback_replace_update_read.md`, harness Read/Edit/WebSearch a
 | `scripts/generic/delete-dir.cs` | `scripts/generic/` | Generic. Recursively deletes Target after clearing read-only attributes on all child files. |
 | `scripts/specific/delete-dir-public-config.cs` | `scripts/specific/` | Specific. Target=tmp tree (one of several). |
 | `scripts/generic/wait-sentinel.cs` | `scripts/generic/` | Generic. Polls SentinelPath every 1s until file has non-empty content (exit 0) or matches FailMarker (exit 4) or hits TimeoutSeconds (exit 5). Used for cross-process coordination between long-running pipelines. |
+| `scripts/generic/sync-tree.cs` | `scripts/generic/` | Generic. Recursively copies all files from Source to Dest (overwrite). Used to mirror published WASM into docs/, etc. |
+| `scripts/generic/inspect-paths.cs` | `scripts/generic/` | Diagnostic. Prints DIR_EXISTS/FILE_EXISTS/MISSING per path; runs glob; checks TCP port reachability. Used to debug pipeline state. |
 
 ## Adding a new script
 
