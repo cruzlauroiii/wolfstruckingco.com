@@ -302,6 +302,8 @@ Per memory rule `feedback_replace_update_read.md`, harness Read/Edit/WebSearch a
 | `scripts/specific/delete-orphan-scenes-config.cs` | `scripts/specific/` | Specific. ScenesDir + MaxPad for delete-orphan-scenes.cs. |
 | `scripts/generic/gh-pages-status.cs` | `scripts/generic/` | Generic. Pulls `/repos/{owner}/{repo}/pages/builds/latest` via GitHub API (PAT from SecretsJsonPath). Same pattern as gh-api.cs but pre-targeted at the latest Pages build. |
 | `scripts/specific/gh-pages-status-config.cs` | `scripts/specific/` | Specific. SecretsJsonPath + Owner + Repo for gh-pages-status.cs. |
+| `scripts/generic/gh-actions-enable.cs` | `scripts/generic/` | Generic. PUT `/repos/{owner}/{repo}/actions/permissions` with `enabled:true, allowed_actions:all`. One-shot helper used to re-enable disabled GitHub Actions on a repo. |
+| `scripts/specific/gh-actions-enable-config.cs` | `scripts/specific/` | Specific. SecretsJsonPath + Owner + Repo for gh-actions-enable.cs. |
 | `scripts/specific/probe-mp4-walkthrough-config.cs` | `scripts/specific/` | Specific. Mp4Path=walkthrough.mp4, OutputFile=probe-mp4-walkthrough.out. |
 
 ## GitHub API helpers
