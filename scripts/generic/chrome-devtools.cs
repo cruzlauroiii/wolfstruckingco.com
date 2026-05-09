@@ -46,7 +46,7 @@ public sealed partial class CdpCli
     private int CommandId = 1;
     private readonly List<JsonNode> EventBuffer = [];
 
-    private const int ServePort = 9333;
+    private const int ServePort = 9334;
 
     public async Task RunAsync(string[] Argv)
     {
