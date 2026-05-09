@@ -283,6 +283,23 @@ Per memory rule `feedback_replace_update_read.md`, harness Read/Edit/WebSearch a
 | `scripts/generic/delete-lines.cs` | `scripts/generic/` | Generic. Reads TargetFile + StartLine + EndLine from a specific config and removes that inclusive 1-indexed line range from the target — used for bulk removal of dead code blocks where patch-source's full-text Find/Replace would be impractically large. |
 | `scripts/specific/delete-lines-scratch-config.cs` | `scripts/specific/` | Specific. TargetFile + StartLine + EndLine for delete-lines.cs. |
 
+## HTTP probes and verification
+
+| Script | Folder | Purpose |
+|--------|--------|---------|
+| `scripts/generic/http-head.cs` | `scripts/generic/` | Generic. HEAD request to Url from specific config; writes status|content-length|content-type to OutputFile. Exit 0 if 2xx. |
+| `scripts/specific/http-head-walkthrough-config.cs` | `scripts/specific/` | Specific. Url + OutputFile for HEAD probe of deployed walkthrough.mp4. |
+| `scripts/specific/http-head-serve-probe-config.cs` | `scripts/specific/` | Specific. Url + OutputFile for HEAD probe of chrome-devtools serve daemon health. |
+| `scripts/generic/http-grep.cs` | `scripts/generic/` | Generic. GET Url from specific config; exit 0 only if response body contains Expected substring. Span-based config parser. |
+| `scripts/specific/http-grep-homepage-theme-config.cs` | `scripts/specific/` | Specific. Url + Expected substring for verifying deployed homepage contains theme bootstrap markers. |
+| `scripts/generic/verify-page-errors.cs` | `scripts/generic/` | Generic. Spawns chrome-devtools serve as child process (handles Allow popup + automation infobar), POSTs `new_page` per route, polls for WolfsInterop hydration, captures `list_console_messages` per page, kills child on exit. clear_cache at startup ensures fresh WASM after schema changes. |
+| `scripts/specific/verify-page-errors-config.cs` | `scripts/specific/` | Specific. ServeUrl + BaseUrl + OutputFile + Routes (pipe-separated) for verify-page-errors.cs. |
+| `scripts/generic/probe-chrome-debug.cs` | `scripts/generic/` | Diagnostic. Reads Chrome's DevToolsActivePort file, then HTTP GETs /json, /json/list, /json/version on the debug port. Used to diagnose Chrome 121+ Origin-header gating. |
+| `scripts/specific/probe-chrome-debug-config.cs` | `scripts/specific/` | Specific. No params (probe paths hardcoded). |
+| `scripts/specific/chrome-devtools-serve-config.cs` | `scripts/specific/` | Specific. Command="serve" — minimal config to launch chrome-devtools.cs serve-mode HTTP listener on port 9334. |
+| `scripts/specific/kill-by-port-9334-config.cs` | `scripts/specific/` | Specific. Port=9334 — kills any process holding the chrome-devtools serve port (use after a hung daemon). |
+| `scripts/specific/generate-statics-scratch-config.cs` | `scripts/specific/` | Specific. No params (generate-statics.cs uses --in-place inferred from config dir). |
+
 ## Video-pipeline support helpers (Chrome 144+ approval-mode)
 
 | Script | Folder | Purpose |
