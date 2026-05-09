@@ -293,6 +293,8 @@ Per memory rule `feedback_replace_update_read.md`, harness Read/Edit/WebSearch a
 | `scripts/generic/ffprobe-duration.cs` | `scripts/generic/` | Generic. Wraps `ffprobe -show_entries format=duration` for FilePath; prints `<path>: Mm S.Ss (total)`. |
 | `scripts/specific/ffprobe-duration-config.cs` | `scripts/specific/` | Specific. FilePath for ffprobe-duration.cs (one-shot). |
 | `scripts/specific/ffprobe-duration-walkthrough-config.cs` | `scripts/specific/` | Specific. FilePath=walkthrough.mp4 for ffprobe-duration.cs. |
+| `scripts/generic/audio-durations.cs` | `scripts/generic/` | Generic. ffprobes every file matching Pattern under Root and writes a TSV (`<filename>\t<seconds>`) plus TOTAL rows to OutputPath. Used to plan walkthrough length from per-scene mp3s. |
+| `scripts/specific/audio-durations-scratch-config.cs` | `scripts/specific/` | Specific. Root + Pattern + OutputPath for audio-durations.cs. |
 | `scripts/generic/count-files.cs` | `scripts/generic/` | Generic. `Directory.GetFiles(Dir, Pattern)` and prints `count=N` plus the first 3 + last 3 filenames. Used to confirm scene mp4/mp3 counts. |
 | `scripts/specific/count-mp4-config.cs` | `scripts/specific/` | Specific. Dir=docs/videos, Pattern=scene-*.mp4. |
 | `scripts/specific/count-mp3-config.cs` | `scripts/specific/` | Specific. Dir=audio dir, Pattern=scene-*.mp3. |
