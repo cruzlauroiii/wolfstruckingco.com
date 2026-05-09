@@ -98,6 +98,7 @@ try
         await Task.Delay(300).ConfigureAwait(false);
         var Msgs = await Post("list_console_messages").ConfigureAwait(false);
         var Errs = new List<string>();
+        var Warns = new List<string>();
         foreach (var L in Msgs.Split('\n'))
         {
             if (string.IsNullOrWhiteSpace(L)) continue;
@@ -106,9 +107,18 @@ try
             {
                 Errs.Add(L.Trim());
             }
+            else if (Lower.Contains("[warning]", StringComparison.Ordinal) || Lower.Contains("warn:", StringComparison.Ordinal) || Lower.Contains("deprecat", StringComparison.Ordinal))
+            {
+                Warns.Add(L.Trim());
+            }
         }
-        if (Errs.Count == 0) { Report.AppendLine("OK"); }
-        else { Total += Errs.Count; foreach (var E in Errs) Report.Append("  ! ").AppendLine(E); }
+        if (Errs.Count == 0 && Warns.Count == 0) { Report.AppendLine("OK"); }
+        else
+        {
+            Total += Errs.Count;
+            foreach (var E in Errs) Report.Append("  ! ").AppendLine(E);
+            foreach (var W in Warns) Report.Append("  ~ ").AppendLine(W);
+        }
     }
     Report.Append("\nTOTAL ERRORS: ").AppendLine(Total.ToString(CultureInfo.InvariantCulture));
 }
