@@ -86,7 +86,7 @@ try
         var Url = BaseUrl + Route;
         Report.Append("=== [").Append((I + 1).ToString(CultureInfo.InvariantCulture)).Append('/').Append(Routes.Length.ToString(CultureInfo.InvariantCulture)).Append("] ").Append(Route).AppendLine(" ===");
         await Post("new_page --url " + Url).ConfigureAwait(false);
-        await Task.Delay(1500).ConfigureAwait(false);
+        await Task.Delay(500).ConfigureAwait(false);
         var Hyd = false;
         for (var W = 0; W < 30; W++)
         {
@@ -95,7 +95,7 @@ try
             await Task.Delay(400).ConfigureAwait(false);
         }
         Report.Append("hydrated: ").AppendLine(Hyd ? "true" : "false");
-        await Task.Delay(800).ConfigureAwait(false);
+        await Task.Delay(300).ConfigureAwait(false);
         var Msgs = await Post("list_console_messages").ConfigureAwait(false);
         var Errs = new List<string>();
         foreach (var L in Msgs.Split('\n'))
