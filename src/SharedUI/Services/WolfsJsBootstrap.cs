@@ -44,10 +44,10 @@ public sealed class WolfsJsBootstrap(IJSRuntime Js)
         "  };" + "\n" +
         "  function dbOpen() {" + "\n" +
         "    return new Promise((res, rej) => {" + "\n" +
-        "      const r = indexedDB.open('wolfs', 1);" + "\n" +
+        "      const r = indexedDB.open('wolfs', 2);" + "\n" +
         "      r.onupgradeneeded = () => {" + "\n" +
         "        const d = r.result;" + "\n" +
-        "        ['users','workers','jobs','timesheets','applicants','listings','purchases','badges','roles','customers','audit'].forEach(s => {" + "\n" +
+        "        ['users','workers','jobs','timesheets','applicants','listings','purchases','badges','roles','customers','audit','schedules','charges'].forEach(s => {" + "\n" +
         "          if (!d.objectStoreNames.contains(s)) d.createObjectStore(s, { keyPath: 'id' });" + "\n" +
         "        });" + "\n" +
         "      };" + "\n" +
