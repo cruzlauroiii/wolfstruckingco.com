@@ -90,7 +90,7 @@ async Task EnsureServeAsync()
 }
 async Task<string> PostServeAsync(string Ln)
 {
-    try { using var Resp = await ServeHttp.PostAsync("http://127.0.0.1:9333/", new System.Net.Http.StringContent(Ln)); return await Resp.Content.ReadAsStringAsync(); } catch { return ""; }
+    try { using var Resp = await ServeHttp.PostAsync("http://127.0.0.1:9334/", new System.Net.Http.StringContent(Ln)); return await Resp.Content.ReadAsStringAsync(); } catch { return ""; }
 }
 string BodyToLine(string Body)
 {
@@ -380,8 +380,9 @@ async Task WaitForSsoPostPicker(string Provider, string Account, string Pad)
 
 string PadFor(JsonElement Scene, int Idx)
 {
+    if (Scene.TryGetProperty("pad", out var PadEl) && PadEl.ValueKind == JsonValueKind.String) { var Pp = PadEl.GetString(); if (!string.IsNullOrEmpty(Pp)) return Pp; }
     var T = Scene.GetProperty("target").GetString() ?? "";
-    if (T.Contains("cb=")) { var Cb = T.Split("cb=")[^1].Replace("?", "").Replace("/", "").Trim(); return Cb.Substring(0, Math.Min(3, Cb.Length)); }
+    if (T.Contains("cb=")) { var Cb = T.Split("cb=")[^1].Replace("?", "").Replace("/", "").Trim(); return Cb.Substring(0, Math.Min(4, Cb.Length)); }
     return Idx.ToString("D3");
 }
 

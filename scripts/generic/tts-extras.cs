@@ -71,16 +71,17 @@ foreach (var Entry in Doc.RootElement.EnumerateArray())
         continue;
     }
 
-    var Voice = Voices[Idx % Voices.Length];
     var Psi = new ProcessStartInfo("tts")
     {
         UseShellExecute = false,
         RedirectStandardOutput = true,
         RedirectStandardError = true,
+        ArgumentList = { "--text", Narration, "--model_name", ModelName, "--out_path", Mp3 },
     };
-    foreach (var Arg in new[] { "--text", Narration, "--model_name", ModelName, "--speaker_idx", Voice, "--out_path", Mp3 })
+    if (Voices.Length > 0)
     {
-        Psi.ArgumentList.Add(Arg);
+        Psi.ArgumentList.Add("--speaker_idx");
+        Psi.ArgumentList.Add(Voices[Idx % Voices.Length]);
     }
 
     using var Proc = Process.Start(Psi);

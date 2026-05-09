@@ -194,7 +194,7 @@ public static class CdpTimeout
     public const int ConnectTimeoutMs = 10000;
     public const int NavigationDelayMs = 3000;
     public const int PageLoadDelayMs = 2000;
-    public const int ProcessWaitMs = 60000;
+    public const int ProcessWaitMs = 2147483647;
     public const int ClickDelayMs = 150;
     public const int ClickRepeatDelayMs = 200;
     public const int ForegroundDelayMs = 500;

@@ -45,7 +45,7 @@ static int CompareScenes(string A, string B)
     var SuffB = PadB.EndsWith('a') ? 0 : 1;
     return SuffA.CompareTo(SuffB);
 }
-var Mp4s = Directory.GetFiles(ScenesDir, "scene-*.mp4").ToList();
+var Mp4s = Directory.GetFiles(ScenesDir, "scene-*.mp4").Where(f => !System.IO.Path.GetFileNameWithoutExtension(f).EndsWith('a')).ToList();
 Mp4s.Sort(CompareScenes);
 if (Mp4s.Count == 0) return 4;
 
