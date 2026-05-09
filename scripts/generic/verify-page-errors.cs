@@ -82,7 +82,8 @@ try
 {
     for (var I = 0; I < Routes.Length; I++)
     {
-        var Route = Routes[I].Trim();
+        var RouteRaw = Routes[I].Trim();
+        var Route = RouteRaw == "_HOMEPAGE_" ? string.Empty : RouteRaw;
         var Url = BaseUrl + Route;
         Report.Append("=== [").Append((I + 1).ToString(CultureInfo.InvariantCulture)).Append('/').Append(Routes.Length.ToString(CultureInfo.InvariantCulture)).Append("] ").Append(Route).AppendLine(" ===");
         await Post("new_page --url " + Url).ConfigureAwait(false);
