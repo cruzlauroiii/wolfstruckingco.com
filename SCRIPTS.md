@@ -345,6 +345,14 @@ Per memory rule `feedback_replace_update_read.md`, harness Read/Edit/WebSearch a
 | `scripts/generic/dump-uia-buttons.cs` | `scripts/generic/` | Diagnostic. Lists all buttons within Y<250 of every Chrome window via UI Automation — used to identify infobar X-button selectors. |
 | `docs/videos/pipeline-cdp.cs` | `docs/videos/` | Extracted CdpClient class (single-click Allow approval, Target.attachToTarget flatten:true, send/event multiplexing). Included from run-crud-pipeline.cs via `#:include`. |
 
+## Generic primitives
+
+| Script | Folder | Purpose |
+|--------|--------|---------|
+| `scripts/generic/delete-dir.cs` | `scripts/generic/` | Generic. Recursively deletes Target after clearing read-only attributes on all child files. |
+| `scripts/specific/delete-dir-public-config.cs` | `scripts/specific/` | Specific. Target=tmp tree (one of several). |
+| `scripts/generic/wait-sentinel.cs` | `scripts/generic/` | Generic. Polls SentinelPath every 1s until file has non-empty content (exit 0) or matches FailMarker (exit 4) or hits TimeoutSeconds (exit 5). Used for cross-process coordination between long-running pipelines. |
+
 ## Adding a new script
 
 1. Create `scripts/<name>.cs` (or wherever it logically belongs).
