@@ -88,7 +88,7 @@ foreach (var Scene in Scenes)
         try
         {
             await Post("new_page --url " + Url);
-            await Task.Delay(2500);
+            await Task.Delay(1500);
             for (var Wi = 0; Wi < 25; Wi++)
             {
                 var Wr = await Post("evaluate_script --function \u0022() => typeof window.WolfsInterop\u0022");
@@ -99,7 +99,7 @@ foreach (var Scene in Scenes)
                 await Task.Delay(400);
             }
             await Post("evaluate_script --function \u0022() => { try { localStorage.setItem('wolfs_theme','light'); document.documentElement.setAttribute('data-theme','light'); if (window.WolfsInterop && window.WolfsInterop.themeWrite) window.WolfsInterop.themeWrite('light'); } catch(e){} return 'themed'; }\u0022");
-            await Task.Delay(800);
+            await Task.Delay(400);
             if (!string.IsNullOrEmpty(Sso))
             {
                 var ClickJs = "() => { const a = Array.from(document.querySelectorAll('a')).find(x => new RegExp('" + Sso + "','i').test(x.textContent) && /oauth|google|github|microsoft|okta/i.test(x.href||'')); if (a) { window.location.href = a.href; return 'sso_click'; } return 'no_sso_link'; }";
@@ -110,10 +110,10 @@ foreach (var Scene in Scenes)
             {
                 var TypeJs = "() => { const i = document.querySelector('.WChat input, .WChat textarea, input[type=text], textarea'); if (!i) return 'no_input'; i.focus(); i.value = '" + ChatMsg.Replace("'", "\\'") + "'; i.dispatchEvent(new Event('input', {bubbles:true})); const b = document.querySelector('.WChat button, button[type=submit]'); if (b) b.click(); return 'typed'; }";
                 await Post("evaluate_script --function \u0022" + TypeJs.Replace("\u0022", "\\\u0022") + "\u0022");
-                await Task.Delay(2500);
+                await Task.Delay(1500);
             }
             await Post("take_screenshot --filePath \u0022" + Png.Replace("\\", "/") + "\u0022 --fullPage true");
-            await Task.Delay(500);
+            await Task.Delay(200);
             if (!File.Exists(Png)) { Interlocked.Increment(ref Failed); return; }
             var Psi = new ProcessStartInfo("ffmpeg") { UseShellExecute = false, RedirectStandardError = true, RedirectStandardOutput = true };
             var HasMp3 = File.Exists(Mp3);
