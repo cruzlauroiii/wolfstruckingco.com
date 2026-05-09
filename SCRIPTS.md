@@ -283,6 +283,15 @@ Per memory rule `feedback_replace_update_read.md`, harness Read/Edit/WebSearch a
 | `scripts/generic/delete-lines.cs` | `scripts/generic/` | Generic. Reads TargetFile + StartLine + EndLine from a specific config and removes that inclusive 1-indexed line range from the target — used for bulk removal of dead code blocks where patch-source's full-text Find/Replace would be impractically large. |
 | `scripts/specific/delete-lines-scratch-config.cs` | `scripts/specific/` | Specific. TargetFile + StartLine + EndLine for delete-lines.cs. |
 
+## TTS / audio / video probes
+
+| Script | Folder | Purpose |
+|--------|--------|---------|
+| `scripts/generic/edge-tts-batch.cs` | `scripts/generic/` | Generic. Iterates a scenes JSON; for each entry without an existing `scene-{pad}.mp3`, spawns `python -m edge_tts` with rotating voices to synthesize narration. Pad parsed from `?cb=` query param. |
+| `scripts/specific/edge-tts-batch-scratch-config.cs` | `scripts/specific/` | Specific. ScenesJsonPath + AudioDir + VoicesCsv for edge-tts-batch.cs (canonical scenes-final-v3.json + en-US voices). |
+| `scripts/generic/probe-mp4-duration.cs` | `scripts/generic/` | Generic. Runs `ffprobe -show_format <Mp4Path>` and writes MM:SS.cc to OutputFile. |
+| `scripts/specific/probe-mp4-walkthrough-config.cs` | `scripts/specific/` | Specific. Mp4Path=walkthrough.mp4, OutputFile=probe-mp4-walkthrough.out. |
+
 ## GitHub API helpers
 
 | Script | Folder | Purpose |
