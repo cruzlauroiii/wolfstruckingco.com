@@ -106,6 +106,6 @@ public sealed class WolfsInteropService(IJSRuntime Js, AuthenticationStateProvid
 public record ChatMessage(string Role, string Content);
 
 public record WorkerResponse(bool Ok, int Status, string Body);
-public record AuthState(string? Role, string? Email, string? Sess);
+public record AuthState([property: System.Text.Json.Serialization.JsonPropertyName("role")] string? Role, [property: System.Text.Json.Serialization.JsonPropertyName("email")] string? Email, [property: System.Text.Json.Serialization.JsonPropertyName("sess")] string? Sess);
 
 public sealed record RecognizeResult(string? Text, string? Error);
