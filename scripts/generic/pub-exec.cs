@@ -89,7 +89,16 @@ while (Ws.State == WebSocketState.Open && !Timeout.Token.IsCancellationRequested
     if (string.IsNullOrEmpty(Body)) break;
     using var Doc = JsonDocument.Parse(Body);
     var Root = Doc.RootElement;
-    if (Root.GetProperty("type").GetString() == "result" && Root.GetProperty("id").GetString() == Id)
+    var T = Root.GetProperty("type").GetString() ?? string.Empty;
+    if (T == "log" && Root.GetProperty("id").GetString() == Id)
+    {
+        var S = Root.TryGetProperty("stream", out var Sm) ? Sm.GetString() ?? "stdout" : "stdout";
+        var Ln = Root.TryGetProperty("line", out var Lne) ? Lne.GetString() ?? string.Empty : string.Empty;
+        if (S == "stderr") { await Console.Error.WriteLineAsync(Ln); }
+        else { await Console.Out.WriteLineAsync(Ln); }
+        continue;
+    }
+    if (T == "result" && Root.GetProperty("id").GetString() == Id)
     {
         var ExitCode = Root.GetProperty("exit_code").GetInt32();
         var Stdout = Root.TryGetProperty("stdout", out var So) ? So.GetString() ?? string.Empty : string.Empty;

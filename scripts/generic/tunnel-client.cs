@@ -112,8 +112,16 @@ while (Ws.State == WebSocketState.Open)
             Psi.ArgumentList.Add(Generic);
             Psi.ArgumentList.Add(Config);
             using var P = Process.Start(Psi)!;
-            Stdout = await P.StandardOutput.ReadToEndAsync();
-            Stderr = await P.StandardError.ReadToEndAsync();
+            async Task Stream(StreamReader Rd, string StreamName)
+            {
+                string? L;
+                while ((L = await Rd.ReadLineAsync()) != null)
+                {
+                    var Msg = "{\u0022type\u0022:\u0022log\u0022,\u0022id\u0022:\u0022" + Esc(Id) + "\u0022,\u0022client\u0022:\u0022" + Esc(ClientName) + "\u0022,\u0022stream\u0022:\u0022" + StreamName + "\u0022,\u0022line\u0022:\u0022" + Esc(L) + "\u0022}";
+                    await SendJson(Ws, Msg);
+                }
+            }
+            await Task.WhenAll(Stream(P.StandardOutput, "stdout"), Stream(P.StandardError, "stderr"));
             await P.WaitForExitAsync();
             ExitCode = P.ExitCode;
         }

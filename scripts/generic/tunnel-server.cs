@@ -94,6 +94,11 @@ async Task HandlePeer(WebSocket Ws)
                     CmdSenders.TryRemove(Id, out _);
                 }
             }
+            else if (Type == "log")
+            {
+                var Id = Root.GetProperty("id").GetString() ?? string.Empty;
+                if (CmdSenders.TryGetValue(Id, out var Sender)) { await SendJson(Sender, Body); }
+            }
             else if (Type == "result")
             {
                 var Id = Root.GetProperty("id").GetString() ?? string.Empty;
