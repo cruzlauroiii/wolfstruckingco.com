@@ -17,9 +17,11 @@ private async Task RunServeModeAsync(Dictionary<string, object> ParsedArgs)
         Listener.Prefixes.Add($"http://127.0.0.1:{ServePort}/");
         Listener.Start();
         Console.Error.WriteLine($"serve: connected, listening on http://127.0.0.1:{ServePort}");
+        Task<System.Net.HttpListenerContext>? NextCtx = null;
         while (Listener.IsListening)
         {
-            var Ctx = await Listener.GetContextAsync();
+            var Ctx = NextCtx is null ? await Listener.GetContextAsync() : await NextCtx;
+            NextCtx = Listener.GetContextAsync();
             var Req = Ctx.Request;
             var Res = Ctx.Response;
             if (Req.HttpMethod == "OPTIONS")
