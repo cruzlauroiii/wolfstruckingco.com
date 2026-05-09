@@ -51,6 +51,10 @@ var DevRun = await Run(@"main\scripts\generic\pub-exec.cs", @"main\scripts\speci
 await Console.Out.WriteLineAsync("[DEVELOPER] exit=" + DevRun.ExitCode.ToString(CultureInfo.InvariantCulture) + " stdout=" + DevRun.Stdout.Trim());
 if (DevRun.ExitCode != 0 || !DevRun.Stdout.Contains("hello from developer", StringComparison.Ordinal)) { Ok = false; await Console.Error.WriteLineAsync("[DEVELOPER] FAIL stderr=" + DevRun.Stderr); }
 
+var DotnetRun = await Run(@"main\scripts\generic\pub-exec.cs", @"main\scripts\specific\pub-exec-dotnet-run-tester-config.cs", Wd, TimeSpan.FromSeconds(120));
+await Console.Out.WriteLineAsync("[DOTNET_RUN] exit=" + DotnetRun.ExitCode.ToString(CultureInfo.InvariantCulture) + " stdout=" + DotnetRun.Stdout.Trim());
+if (DotnetRun.ExitCode != 0 || !DotnetRun.Stdout.Contains("count=", StringComparison.Ordinal)) { Ok = false; await Console.Error.WriteLineAsync("[DOTNET_RUN] FAIL stderr=" + DotnetRun.Stderr); }
+
 try { Tester.Kill(true); } catch { }
 try { Developer.Kill(true); } catch { }
 try { Server.Kill(true); } catch { }
