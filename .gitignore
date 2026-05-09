@@ -112,3 +112,8 @@ docs/videos/frame-references.md
 data/wolfs-db.jsonl
 slnx/
 wasm-publish/
+
+## Run-time logs and probe outputs (added 2026-05-09)
+*.log
+scripts/specific/*.out
+verify-*.txt
