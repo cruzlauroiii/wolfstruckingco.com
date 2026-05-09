@@ -283,6 +283,14 @@ Per memory rule `feedback_replace_update_read.md`, harness Read/Edit/WebSearch a
 | `scripts/generic/delete-lines.cs` | `scripts/generic/` | Generic. Reads TargetFile + StartLine + EndLine from a specific config and removes that inclusive 1-indexed line range from the target — used for bulk removal of dead code blocks where patch-source's full-text Find/Replace would be impractically large. |
 | `scripts/specific/delete-lines-scratch-config.cs` | `scripts/specific/` | Specific. TargetFile + StartLine + EndLine for delete-lines.cs. |
 
+## GitHub API helpers
+
+| Script | Folder | Purpose |
+|--------|--------|---------|
+| `scripts/generic/gh-api.cs` | `scripts/generic/` | Generic. Calls GitHub REST API at the configured Path with Method + optional Body. Reads PAT from SecretsJsonPath (e.g. `dotnet user-secrets` JSON) under key `GitHub:Pat`. Prints status + response body. |
+| `scripts/specific/gh-api-pages-builds-config.cs` | `scripts/specific/` | Specific. Path=/repos/.../pages/builds, Method=GET — list recent Pages builds + status. |
+| `scripts/specific/gh-api-pages-rebuild-config.cs` | `scripts/specific/` | Specific. Path=/repos/.../pages/builds, Method=POST — request a fresh Pages build for the latest commit. |
+
 ## HTTP probes and verification
 
 | Script | Folder | Purpose |
