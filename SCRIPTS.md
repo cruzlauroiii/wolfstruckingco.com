@@ -296,6 +296,10 @@ Per memory rule `feedback_replace_update_read.md`, harness Read/Edit/WebSearch a
 | `scripts/generic/count-files.cs` | `scripts/generic/` | Generic. `Directory.GetFiles(Dir, Pattern)` and prints `count=N` plus the first 3 + last 3 filenames. Used to confirm scene mp4/mp3 counts. |
 | `scripts/specific/count-mp4-config.cs` | `scripts/specific/` | Specific. Dir=docs/videos, Pattern=scene-*.mp4. |
 | `scripts/specific/count-mp3-config.cs` | `scripts/specific/` | Specific. Dir=audio dir, Pattern=scene-*.mp3. |
+| `scripts/generic/delete-orphan-scenes.cs` | `scripts/generic/` | Generic. Reads ScenesDir + MaxPad; deletes any `scene-NNN.mp4` whose pad number > MaxPad. Used when extending or trimming the scene list. |
+| `scripts/specific/delete-orphan-scenes-config.cs` | `scripts/specific/` | Specific. ScenesDir + MaxPad for delete-orphan-scenes.cs. |
+| `scripts/generic/gh-pages-status.cs` | `scripts/generic/` | Generic. Pulls `/repos/{owner}/{repo}/pages/builds/latest` via GitHub API (PAT from SecretsJsonPath). Same pattern as gh-api.cs but pre-targeted at the latest Pages build. |
+| `scripts/specific/gh-pages-status-config.cs` | `scripts/specific/` | Specific. SecretsJsonPath + Owner + Repo for gh-pages-status.cs. |
 | `scripts/specific/probe-mp4-walkthrough-config.cs` | `scripts/specific/` | Specific. Mp4Path=walkthrough.mp4, OutputFile=probe-mp4-walkthrough.out. |
 
 ## GitHub API helpers
