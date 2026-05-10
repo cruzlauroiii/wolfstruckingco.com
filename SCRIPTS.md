@@ -373,7 +373,15 @@ Per memory rule `feedback_replace_update_read.md`, harness Read/Edit/WebSearch a
 | `scripts/generic/tunnel-host.cs` | `scripts/generic/` | Idempotently `devtunnel create`/`port create`/`access create` then long-running `devtunnel host -p Port`. Exposes the local tunnel-server WSS publicly. Needs `winget install Microsoft.devtunnel` + `devtunnel user login`. |
 | `scripts/specific/tunnel-host-config.cs` | `scripts/specific/` | Specific. TunnelName + Port. |
 | `scripts/generic/tunnel-show-url.cs` | `scripts/generic/` | Calls `devtunnel show <name>` to print public WSS URL for clients. |
-| `scripts/specific/tunnel-show-url-config.cs` | `scripts/specific/` | Specific. TunnelName. |
+| `scripts/specific/tunnel-show-url-config.cs` | `scripts/specific/` | Specific. TunnelName + DevtunnelExe (abs path). |
+| `scripts/generic/tunnel-login.cs` | `scripts/generic/` | Non-interactive devtunnel auth via Azure AD service principal. Reads Azure:ClientId + Azure:ClientSecret from a secrets JSON, runs `devtunnel user login --sp-tenant-id ... --sp-client-id ... --sp-secret ...`. Default tenant = personal-account tenant `9188040d-...`. |
+| `scripts/specific/tunnel-login-config.cs` | `scripts/specific/` | Specific. SecretsJsonPath + TenantKey + ClientIdKey + ClientSecretKey + DefaultTenant + DevtunnelExe. |
+| `scripts/generic/tunnel-create.cs` | `scripts/generic/` | Idempotent: creates the named tunnel + adds port + grants anonymous access, then exits. (vs `tunnel-host.cs` which then blocks on `host`.) |
+| `scripts/specific/tunnel-create-config.cs` | `scripts/specific/` | Specific. TunnelName + Port + DevtunnelExe. |
+| `scripts/generic/tunnel-test-cloud.cs` | `scripts/generic/` | End-to-end smoke for the public WSS path: spawns tunnel-server + tunnel-host + tester (with cloud URL config) + runs pub-exec via `wss://<tunnel>-4444.<region>.devtunnels.ms/`. Validates the full cross-machine pipeline. Both clients set `X-Tunnel-Skip-AntiPhishing-Page:true` on WS connect to bypass DevTunnel's interstitial. |
+| `scripts/specific/tunnel-test-cloud-config.cs` | `scripts/specific/` | Specific. (no params yet — paths hardcoded). |
+| `scripts/specific/tunnel-client-tester-cloud-config.cs` | `scripts/specific/` | Specific. ServerUrl=wss://wolfs-execution-4444.asse.devtunnels.ms/, ClientName=tester. |
+| `scripts/specific/pub-exec-echo-tester-cloud-config.cs` | `scripts/specific/` | Specific. Echo round-trip through DevTunnel public WSS. |
 
 ## Capture-pipeline alternates
 
