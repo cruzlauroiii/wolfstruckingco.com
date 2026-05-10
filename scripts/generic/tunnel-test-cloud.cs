@@ -41,19 +41,34 @@ await Task.Delay(15000);
 
 var Tester = Spawn(@"main\scripts\generic\tunnel-client.cs", @"main\scripts\specific\tunnel-client-tester-cloud-config.cs", Wd);
 await Console.Out.WriteLineAsync("tester(cloud) pid=" + Tester.Id.ToString(CultureInfo.InvariantCulture));
-await Task.Delay(15000);
+await Task.Delay(10000);
+var Developer = Spawn(@"main\scripts\generic\tunnel-client.cs", @"main\scripts\specific\tunnel-client-developer-cloud-config.cs", Wd);
+await Console.Out.WriteLineAsync("developer(cloud) pid=" + Developer.Id.ToString(CultureInfo.InvariantCulture));
+await Task.Delay(10000);
 
 var Ok = true;
-var TR = await Run(@"main\scripts\generic\pub-exec.cs", @"main\scripts\specific\pub-exec-echo-tester-cloud-config.cs", Wd, TimeSpan.FromSeconds(60));
-await Console.Out.WriteLineAsync("[CLOUD] exit=" + TR.Item1.ToString(CultureInfo.InvariantCulture) + " stdout=" + TR.Item2.Trim());
-if (TR.Item1 != 0 || !TR.Item2.Contains("hello via cloud tunnel", StringComparison.Ordinal)) { Ok = false; await Console.Error.WriteLineAsync("[CLOUD] FAIL stderr=" + TR.Item3); }
+
+async Task Step(string Label, string ConfigPath, string Expected)
+{
+    var R = await Run(@"main\scripts\generic\pub-exec.cs", ConfigPath, Wd, TimeSpan.FromSeconds(90));
+    await Console.Out.WriteLineAsync("[" + Label + "] exit=" + R.Item1.ToString(CultureInfo.InvariantCulture) + " stdout=" + R.Item2.Trim());
+    if (R.Item1 != 0 || !R.Item2.Contains(Expected, StringComparison.Ordinal))
+    {
+        Ok = false;
+        await Console.Error.WriteLineAsync("[" + Label + "] FAIL stderr=" + R.Item3);
+    }
+}
+
+await Step("ECHO_TESTER", @"main\scripts\specific\pub-exec-echo-tester-cloud-config.cs", "hello via cloud tunnel");
+await Step("ECHO_DEVELOPER", @"main\scripts\specific\pub-exec-echo-developer-cloud-config.cs", "hello dev via cloud tunnel");
+await Step("DOTNET_RUN_TESTER", @"main\scripts\specific\pub-exec-dotnet-run-tester-cloud-config.cs", "count=");
+await Step("DOTNET_RUN_DEVELOPER", @"main\scripts\specific\pub-exec-dotnet-run-developer-cloud-config.cs", "count=");
 
 try { Tester.Kill(true); } catch { }
+try { Developer.Kill(true); } catch { }
 try { TunnelHost.Kill(true); } catch { }
 try { Server.Kill(true); } catch { }
-Tester.Dispose();
-TunnelHost.Dispose();
-Server.Dispose();
+Tester.Dispose(); Developer.Dispose(); TunnelHost.Dispose(); Server.Dispose();
 
-await Console.Out.WriteLineAsync(Ok ? "OK: cloud tunnel pub/sub end-to-end works" : "FAIL: cloud tunnel broken");
+await Console.Out.WriteLineAsync(Ok ? "OK: cloud tunnel pub/sub end-to-end works for tester+developer, echo+dotnet_run" : "FAIL: cloud tunnel broken");
 return Ok ? 0 : 1;
