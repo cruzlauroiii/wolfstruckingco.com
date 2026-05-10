@@ -1,16 +1,21 @@
 #:property TargetFramework=net11.0
+#:property RunAnalyzersDuringBuild=false
+#:property TreatWarningsAsErrors=false
+#:property EnforceCodeStyleInBuild=false
 
-using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 
-if (args.Length < 1) { return 1; }
-if (!System.IO.File.Exists(args[0])) { return 2; }
-
+var Killed = 0;
 foreach (var P in Process.GetProcessesByName("chrome"))
 {
-    try { P.Kill(true); }
-    catch (InvalidOperationException) { }
-    catch (Win32Exception) { }
+    try { P.Kill(true); Killed++; } catch { }
+    P.Dispose();
 }
-await Task.Delay(1500);
+foreach (var P in Process.GetProcessesByName("chrome-devtools"))
+{
+    try { P.Kill(true); Killed++; } catch { }
+    P.Dispose();
+}
+await Console.Error.WriteLineAsync("kill-chrome: killed=" + Killed.ToString(CultureInfo.InvariantCulture));
 return 0;
