@@ -25,12 +25,15 @@ string? Get(string Name)
     return null;
 }
 
-var TunnelName = Get("TunnelName") ?? "wolfs-execution";
-var DevtunnelExe = Get("DevtunnelExe") ?? "devtunnel";
+var PackageId = Get("PackageId")!;
 
-var Psi = new ProcessStartInfo(DevtunnelExe) { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true };
-Psi.ArgumentList.Add("show");
-Psi.ArgumentList.Add(TunnelName);
+var Psi = new ProcessStartInfo("winget") { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true };
+Psi.ArgumentList.Add("install");
+Psi.ArgumentList.Add("--id");
+Psi.ArgumentList.Add(PackageId);
+Psi.ArgumentList.Add("--silent");
+Psi.ArgumentList.Add("--accept-source-agreements");
+Psi.ArgumentList.Add("--accept-package-agreements");
 using var P = Process.Start(Psi)!;
 var Out = await P.StandardOutput.ReadToEndAsync();
 var Err = await P.StandardError.ReadToEndAsync();

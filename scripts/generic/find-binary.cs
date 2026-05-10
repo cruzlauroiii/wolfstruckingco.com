@@ -3,8 +3,6 @@
 #:property TreatWarningsAsErrors=false
 #:property EnforceCodeStyleInBuild=false
 
-using System.Diagnostics;
-
 if (args.Length < 1) return 1;
 var Spec = await File.ReadAllLinesAsync(args[0]);
 
@@ -25,16 +23,16 @@ string? Get(string Name)
     return null;
 }
 
-var TunnelName = Get("TunnelName") ?? "wolfs-execution";
-var DevtunnelExe = Get("DevtunnelExe") ?? "devtunnel";
+var Name = Get("Name")!;
+var SearchRoots = (Get("SearchRoots") ?? string.Empty).Split('|', StringSplitOptions.RemoveEmptyEntries);
 
-var Psi = new ProcessStartInfo(DevtunnelExe) { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true };
-Psi.ArgumentList.Add("show");
-Psi.ArgumentList.Add(TunnelName);
-using var P = Process.Start(Psi)!;
-var Out = await P.StandardOutput.ReadToEndAsync();
-var Err = await P.StandardError.ReadToEndAsync();
-await P.WaitForExitAsync();
-await Console.Out.WriteAsync(Out);
-if (!string.IsNullOrEmpty(Err)) await Console.Error.WriteAsync(Err);
-return P.ExitCode;
+foreach (var Root in SearchRoots)
+{
+    var R = Environment.ExpandEnvironmentVariables(Root);
+    if (!Directory.Exists(R)) continue;
+    foreach (var F in Directory.EnumerateFiles(R, Name, SearchOption.AllDirectories))
+    {
+        await Console.Out.WriteLineAsync(F);
+    }
+}
+return 0;
