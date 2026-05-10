@@ -27,6 +27,7 @@ string? Get(string Name)
 
 var TunnelName = Get("TunnelName") ?? "wolfs-execution";
 var Port = Get("Port") ?? "4444";
+var DevtunnelExe = Get("DevtunnelExe") ?? "devtunnel";
 
 static async Task<int> Run(string Cmd, params string[] Args)
 {
@@ -48,8 +49,8 @@ static async Task<int> RunSilent(string Cmd, params string[] Args)
     return P.ExitCode;
 }
 
-_ = await RunSilent("devtunnel", "create", TunnelName);
-_ = await RunSilent("devtunnel", "port", "create", TunnelName, "-p", Port, "--protocol", "http");
-_ = await RunSilent("devtunnel", "access", "create", TunnelName, "-p", Port, "--anonymous");
+_ = await RunSilent(DevtunnelExe, "create", TunnelName);
+_ = await RunSilent(DevtunnelExe, "port", "create", TunnelName, "-p", Port, "--protocol", "http");
+_ = await RunSilent(DevtunnelExe, "access", "create", TunnelName, "-p", Port, "--anonymous");
 await Console.Out.WriteLineAsync("tunnel-host: about to run `devtunnel host -p " + Port + "` (long-running). Open a new pane to keep this alive while you use the tunnel; Ctrl+C to stop.");
-return await Run("devtunnel", "host", "-p", Port);
+return await Run(DevtunnelExe, "host", "-p", Port);
