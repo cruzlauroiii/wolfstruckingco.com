@@ -112,7 +112,7 @@ foreach (var Scene in Scenes)
                 await Post("evaluate_script --function \u0022" + TypeJs.Replace("\u0022", "\\\u0022") + "\u0022");
                 await Task.Delay(1500);
             }
-            await Post("take_screenshot --filePath \u0022" + Png.Replace("\\", "/") + "\u0022 --fullPage true");
+            await Post("take_screenshot --filePath \u0022" + Png.Replace("\\", "/") + "\u0022");
             await Task.Delay(200);
             if (!File.Exists(Png)) { Interlocked.Increment(ref Failed); return; }
             var Psi = new ProcessStartInfo("ffmpeg") { UseShellExecute = false, RedirectStandardError = true, RedirectStandardOutput = true };
