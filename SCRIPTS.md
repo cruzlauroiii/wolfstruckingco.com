@@ -355,6 +355,33 @@ Per memory rule `feedback_replace_update_read.md`, harness Read/Edit/WebSearch a
 | `scripts/generic/sync-tree.cs` | `scripts/generic/` | Generic. Recursively copies all files from Source to Dest (overwrite). Used to mirror published WASM into docs/, etc. |
 | `scripts/generic/inspect-paths.cs` | `scripts/generic/` | Diagnostic. Prints DIR_EXISTS/FILE_EXISTS/MISSING per path; runs glob; checks TCP port reachability. Used to debug pipeline state. |
 
+## Tunnel WSS pub/sub (remote execution)
+
+| Script | Folder | Purpose |
+|--------|--------|---------|
+| `scripts/generic/tunnel-server.cs` | `scripts/generic/` | WSS server: HttpListener on Port, accepts WebSocket upgrade, routes messages by client name. cmd id maps to original sender so result/log replies route back. Long-running. |
+| `scripts/specific/tunnel-server-config.cs` | `scripts/specific/` | Specific. Port (default 4444). |
+| `scripts/generic/tunnel-client.cs` | `scripts/generic/` | Long-running client: connects WSS to ServerUrl, subscribes by ClientName, executes `echo` and `dotnet_run` actions. Streams stdout/stderr line-by-line as `log` messages, sends final `result` with exit_code. |
+| `scripts/specific/tunnel-client-tester-config.cs` | `scripts/specific/` | Specific. ServerUrl + ClientName=tester. |
+| `scripts/specific/tunnel-client-developer-config.cs` | `scripts/specific/` | Specific. ServerUrl + ClientName=developer. |
+| `scripts/generic/pub-exec.cs` | `scripts/generic/` | Orchestrator-side publisher: opens WSS, sends `cmd { target, action: dotnet_run|echo, args }`, processes streamed `log` messages by writing to local stdout/stderr, exits with remote `result.exit_code`. |
+| `scripts/specific/pub-exec-echo-tester-config.cs` | `scripts/specific/` | Specific. Echo round-trip via tester. |
+| `scripts/specific/pub-exec-echo-developer-config.cs` | `scripts/specific/` | Specific. Echo round-trip via developer. |
+| `scripts/specific/pub-exec-dotnet-run-tester-config.cs` | `scripts/specific/` | Specific. Run count-files.cs remotely on tester (smoke test). |
+| `scripts/generic/tunnel-test-all.cs` | `scripts/generic/` | End-to-end smoke: spawns server, then sequenced tester+developer clients (8s gap to avoid dotnet runfile cache contention), runs 2 echo + 1 dotnet_run round-trips, kills children, reports OK/FAIL. |
+| `scripts/specific/tunnel-test-all-config.cs` | `scripts/specific/` | Specific. (no params yet — paths hardcoded). |
+| `scripts/generic/tunnel-host.cs` | `scripts/generic/` | Idempotently `devtunnel create`/`port create`/`access create` then long-running `devtunnel host -p Port`. Exposes the local tunnel-server WSS publicly. Needs `winget install Microsoft.devtunnel` + `devtunnel user login`. |
+| `scripts/specific/tunnel-host-config.cs` | `scripts/specific/` | Specific. TunnelName + Port. |
+| `scripts/generic/tunnel-show-url.cs` | `scripts/generic/` | Calls `devtunnel show <name>` to print public WSS URL for clients. |
+| `scripts/specific/tunnel-show-url-config.cs` | `scripts/specific/` | Specific. TunnelName. |
+
+## Capture-pipeline alternates
+
+| Script | Folder | Purpose |
+|--------|--------|---------|
+| `scripts/generic/captures-direct.cs` | `scripts/generic/` | Self-contained capture orchestrator: direct CDP via Chrome's DevToolsActivePort browser-WS, attaches to a page target with flatten-session, primes localStorage (`wolfs_session`/`wolfs_role`/`wolfs_email`/`wolfs_theme=light`), iterates scenes-final-v3.json, for each scene navigates + waits for WolfsInterop + types chat message if present + Page.captureScreenshot(beyondViewport) + ffmpeg encode. No chrome-devtools serve daemon dependency. |
+| `scripts/specific/captures-direct-config.cs` | `scripts/specific/` | Specific. ScenesJsonPath + AudioDir + FramesDir + OutDir. |
+
 ## Adding a new script
 
 1. Create `scripts/<name>.cs` (or wherever it logically belongs).
