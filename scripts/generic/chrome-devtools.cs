@@ -7,6 +7,7 @@
 #:property RunAnalyzersDuringBuild=false
 #:property TreatWarningsAsErrors=false
 #:property EnforceCodeStyleInBuild=false
+// cache-bust v5 readywait-timeout
 #:include CdpCommands.cs
 #:include CdpConstants.cs
 #:include CdpScratchConfig.cs
