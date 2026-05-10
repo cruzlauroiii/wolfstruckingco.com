@@ -4,10 +4,10 @@ namespace Scripts
 {
     internal static class DumpFileScratchConfig
     {
-        public const string Path = @"C:\repo\public\wolfstruckingco.com\main\.build-scenes.log";
+        public const string Path = @"C:\repo\public\wolfstruckingco.com\main\scripts\generic\run-scene-v2.cs";
         public const string Mode = "lines";
         public const int LineStart = 1;
-        public const int LineEnd = 500;
+        public const int LineEnd = 200;
         public const int TailN = 30;
         public const int BytePos = 0;
         public const int ByteLen = 4096;

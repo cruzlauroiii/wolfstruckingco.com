@@ -74,7 +74,9 @@ var Id = Guid.NewGuid().ToString("N");
 string ArgsJson;
 if (Action == "dotnet_run")
 {
-    ArgsJson = "{\u0022generic\u0022:\u0022" + Esc(Generic) + "\u0022,\u0022config\u0022:\u0022" + Esc(Config) + "\u0022,\u0022workdir\u0022:\u0022" + Esc(Workdir) + "\u0022}";
+    var GenericContent = File.Exists(Generic) ? await File.ReadAllTextAsync(Generic) : string.Empty;
+    var ConfigContent = File.Exists(Config) ? await File.ReadAllTextAsync(Config) : string.Empty;
+    ArgsJson = "{\u0022generic\u0022:\u0022" + Esc(Generic) + "\u0022,\u0022config\u0022:\u0022" + Esc(Config) + "\u0022,\u0022workdir\u0022:\u0022" + Esc(Workdir) + "\u0022,\u0022genericContent\u0022:\u0022" + Esc(GenericContent) + "\u0022,\u0022configContent\u0022:\u0022" + Esc(ConfigContent) + "\u0022}";
 }
 else
 {

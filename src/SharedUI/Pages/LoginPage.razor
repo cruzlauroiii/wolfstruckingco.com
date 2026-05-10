@@ -12,8 +12,13 @@
             <a class="SsoBtn" href="@Domain.Constants.WorkerConstants.OAuthMicrosoftStart">🪟 Microsoft</a>
             <a class="SsoBtn" href="@Domain.Constants.WorkerConstants.OAuthOktaStart">🔑 Okta</a>
         </div>
+
+        <p class="DemoHint">Demo (no OAuth roundtrip):</p>
+        <div class="SsoButtons">
+            <button class="SsoBtn DemoBtn" type="button" @onclick="DemoGoogleAsync">Google (demo)</button>
+            <button class="SsoBtn DemoBtn" type="button" @onclick="DemoGithubAsync">GitHub (demo)</button>
+            <button class="SsoBtn DemoBtn" type="button" @onclick="DemoMicrosoftAsync">Microsoft (demo)</button>
+            <button class="SsoBtn DemoBtn" type="button" @onclick="DemoOktaAsync">Okta (demo)</button>
+        </div>
     </div>
 </div>
-
-
-

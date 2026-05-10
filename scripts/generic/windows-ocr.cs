@@ -30,9 +30,9 @@ string? Get(string Name)
     return null;
 }
 
-var Dir = Get("Dir")!;
+var Dir = Get("Dir") ?? System.IO.Path.Combine(System.IO.Path.GetTempPath(), "wolfs-frames");
 var Pattern = Get("Pattern") ?? "scene-*.png";
-var OutDir = Get("OutDir")!;
+var OutDir = Get("OutDir") ?? System.IO.Path.Combine(System.IO.Path.GetTempPath(), "wolfs-ocr");
 Directory.CreateDirectory(OutDir);
 
 var Lang = new Language("en-US");
@@ -46,7 +46,7 @@ foreach (var Png in Files)
 {
     var Name = Path.GetFileNameWithoutExtension(Png);
     var TxtPath = Path.Combine(OutDir, Name + ".txt");
-    if (File.Exists(TxtPath)) { Done++; continue; }
+    if (File.Exists(TxtPath) && File.GetLastWriteTimeUtc(TxtPath) > File.GetLastWriteTimeUtc(Png)) { Done++; continue; }
     try
     {
         var File1 = await StorageFile.GetFileFromPathAsync(Png);

@@ -51,14 +51,14 @@ string? Get(string Name)
     return null;
 }
 
-var Repo = Get("Repo")!;
-var Frames = Get("Frames")!;
-var Audio = Get("Audio")!;
-var Docs = Get("Docs")!;
-var ScenesPath = Get("ScenesPath")!;
+var Repo = Get("Repo") ?? Environment.GetEnvironmentVariable("WOLFS_REPO") ?? Environment.CurrentDirectory;
+var Frames = Get("Frames") ?? System.IO.Path.Combine(System.IO.Path.GetTempPath(), "wolfs-frames");
+var Audio = Get("Audio") ?? System.IO.Path.Combine(System.IO.Path.GetTempPath(), "wolfs-video", "audio-edge");
+var Docs = Get("Docs") ?? System.IO.Path.Combine(Repo, "docs", "videos");
+var ScenesPath = Get("ScenesPath") ?? System.IO.Path.Combine(Repo, "docs", "videos", "scenes-final-v3.json");
 var ChatGroupsJson = Get("ChatGroupsJson")!;
-var SsoAckPath = Get("SsoAckPath")!;
-var HomeUrl = Get("HomeUrl")!;
+var SsoAckPath = Get("SsoAckPath") ?? System.IO.Path.Combine(System.IO.Path.GetTempPath(), "sso-ack.txt");
+var HomeUrl = Get("HomeUrl") ?? "https://cruzlauroiii.github.io/wolfstruckingco.com/?cb=001";
 var SsoWaitSec = int.Parse(Get("SsoWaitSec") ?? "90");
 var SsoHardTimeoutSec = int.Parse(Get("SsoHardTimeoutSec") ?? "600");
 var CdpTimeoutSec = int.Parse(Get("CdpTimeoutSec") ?? "60");
@@ -80,6 +80,7 @@ Process? ServeProc = null;
 async Task EnsureServeAsync()
 {
     if (ServeProc != null && !ServeProc.HasExited) return;
+    try { using var Probe = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Post, "http://127.0.0.1:9334/") { Content = new System.Net.Http.StringContent("list_pages") }; using var ProbeResp = await ServeHttp.SendAsync(Probe).ConfigureAwait(false); var ProbeBody = await ProbeResp.Content.ReadAsStringAsync().ConfigureAwait(false); if (!string.IsNullOrEmpty(ProbeBody)) { return; } } catch { }
     var Cfg = "return 0;\nnamespace Scripts\n{\n    internal static class CdpRun\n    {\n        public const string Command = \"serve\";\n    }\n}\n";
     var Tmp = Path.Combine(Path.GetTempPath(), $"serve-{Guid.NewGuid():N}.cs");
     await File.WriteAllTextAsync(Tmp, Cfg);
@@ -374,8 +375,8 @@ async Task WaitForSsoPostPicker(string Provider, string Account, string Pad)
         for (int I = 0; I < 20; I++) { if (File.Exists(SsoAckPath)) { try { File.Delete(SsoAckPath); } catch { } Console.WriteLine($"  *** SSO ack scene {Pad}"); return; } await Task.Delay(100); }
     }
     var FinalUrl = await CurrentUrl();
-    Console.WriteLine($"  *** SSO hard timeout scene {Pad}, url={FinalUrl} -- ABORT");
-    Environment.Exit(2);
+    Console.WriteLine($"  *** SSO hard timeout scene {Pad}, url={FinalUrl} -- skipping");
+    return;
 }
 
 string PadFor(JsonElement Scene, int Idx)
@@ -421,12 +422,20 @@ if (MissingAudio.Count > 0)
 
 Console.WriteLine($"v4 (serve-mode) capture starting. total scenes={Scenes.GetArrayLength()}");
 
+await EnsureServeAsync();
+var AuthUrl = HomeUrl.Contains('?', StringComparison.Ordinal) ? HomeUrl.Replace("?", "Login/?sso=google&", StringComparison.Ordinal) : HomeUrl.TrimEnd('/') + "/Login/?sso=google";
+await Cdp("auth", $"public const string Command = \u0022new_page\u0022;\n        public const string Url = \u0022{AuthUrl.Replace("\u0022", "\\\u0022", StringComparison.Ordinal)}\u0022;");
+await Task.Delay(8000);
+Console.WriteLine($"v4 auth pre-flight: {AuthUrl}");
+
 string? CurrentGroup = null;
 int OkCount = 0;
 
 async Task<(bool ok, string? group, string pad)> RunScene(int Idx, JsonElement Scene, string? CurrentGroupIn)
 {
     var Pad = PadFor(Scene, Idx);
+    var ExistingMp4 = Path.Combine(Docs, $"scene-{Pad}.mp4");
+    if (File.Exists(ExistingMp4) && new FileInfo(ExistingMp4).Length > 0) { Console.WriteLine($"  {Pad} SKIP (mp4 exists)"); return (true, CurrentGroupIn, Pad); }
     var Target = Scene.GetProperty("target").GetString() ?? "";
     if (!Target.Contains("theme=", StringComparison.Ordinal))
     {
@@ -497,8 +506,8 @@ foreach (var Scene in Scenes.EnumerateArray())
     Idx0++;
     var (Ok, Cg, Pad) = await RunScene(Idx0, Scene, CurrentGroup);
     CurrentGroup = Cg;
-    if (!Ok) { Console.WriteLine($"  *** scene {Pad} FAILED -- ABORT (idx={Idx0})"); try { ServeProc?.Kill(true); } catch { } return 5; }
-    OkCount++;
+    if (!Ok) { Console.WriteLine($"  *** scene {Pad} FAILED -- continuing (idx={Idx0})"); }
+    else { OkCount++; }
 }
 Console.WriteLine($"PASS1 ok={OkCount}");
 

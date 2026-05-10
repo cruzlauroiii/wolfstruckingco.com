@@ -7,13 +7,17 @@
 
     <div class="Card CardForm">
         <div class="CheckList">
-            <label><input type="checkbox" checked /> Photo proof of delivery required</label>
-            <label><input type="checkbox" checked /> Photo ID check at door</label>
-            <label><input type="checkbox" /> Park in driveway, do not block street</label>
-            <label><input type="checkbox" /> Call 15 minutes before arrival</label>
-            <label><input type="checkbox" checked /> Add cargo insurance ($150)</label>
+            <label><input type="checkbox" @bind="PhotoProof" /> Photo proof of delivery required</label>
+            <label><input type="checkbox" @bind="PhotoId" /> Photo ID check at door</label>
+            <label><input type="checkbox" @bind="Driveway" /> Park in driveway, do not block street</label>
+            <label><input type="checkbox" @bind="CallAhead" /> Call 15 minutes before arrival</label>
+            <label><input type="checkbox" @bind="CargoInsurance" /> Add cargo insurance ($150)</label>
         </div>
-        <div class="Field FieldGap"><label>Note for the driver</label><textarea rows="3">Garage is on the right side of the house. Buyer will be in front yard waiting.</textarea></div>
-        <button class="Btn Block">Confirm order — pay $48,500 on delivery</button>
+        <div class="Field FieldGap"><label>Note for the driver</label><textarea rows="3" @bind="DriverNote"></textarea></div>
+        <button class="Btn Block" type="button" @onclick="ConfirmOrderAsync">@ConfirmLabel</button>
+        @if (!string.IsNullOrEmpty(StatusMessage))
+        {
+            <p class="FieldGap">@StatusMessage</p>
+        }
     </div>
 </div>

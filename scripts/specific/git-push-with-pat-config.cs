@@ -9,5 +9,6 @@ namespace Scripts
         public const string Owner = "cruzlauroiii";
         public const string RepoName = "wolfstruckingco.com";
         public const string Branch = "main";
+        public const string Force = "true";
     }
 }

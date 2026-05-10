@@ -146,7 +146,7 @@ public sealed partial class CdpCli : IDisposable
         if (!Args.TryGetValue(CdpArg.Function, out var Function)) { Console.Error.WriteLine("Required: function"); return; }
         await EnsurePageAttachedAsync();
         var Result = await SendCommandAsync(Cdp.RuntimeEvaluate, new JsonObject { [CdpKey.Expression] = $"({Function}{CdpMsg.InvokeWrapper}", [CdpKey.ReturnByValue] = true, [CdpKey.AwaitPromise] = true });
-        if (Result?[CdpKey.ExceptionDetails] != null) { Console.Error.WriteLine(string.Concat(CdpMsg.ErrorLabel, Result[CdpKey.ExceptionDetails]![CdpKey.Text])); }
+        if (Result?[CdpKey.ExceptionDetails] != null) { var Ed = Result[CdpKey.ExceptionDetails]!; var Desc = Ed["exception"]?["description"]?.GetValue<string>() ?? Ed[CdpKey.Text]?.GetValue<string>() ?? "(no detail)"; Console.Error.WriteLine(string.Concat(CdpMsg.ErrorLabel, Desc)); }
         else { Console.WriteLine(Result?[CdpKey.Result]?[CdpKey.Value] != null ? JsonSerializer.Serialize(Result[CdpKey.Result]![CdpKey.Value], JsonIndented) : CdpEscape.Undefined); }
     }
 

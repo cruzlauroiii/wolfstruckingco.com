@@ -69,10 +69,37 @@ foreach (var R in Routes)
     var Nav = await Cdp(NavBody);
     if (Nav.rc != 0) { Fail.Add(R + ":nav"); continue; }
     await Task.Delay(HydrateMs);
-    var EvalBody = "public const string Command = \"evaluate_script\"; public const string PageId = \"1\"; public const string Function = \"() => '<!DOCTYPE html>\\\\n' + document.documentElement.outerHTML\";";
+    var ListBody = "public const string Command = \"list_pages\";";
+    var List = await Cdp(ListBody);
+    var PageIdx = "1";
+    foreach (var Ln in List.log.Split('\n'))
+    {
+        var T = Ln.Trim();
+        if (!T.Contains("wolfstruckingco", StringComparison.OrdinalIgnoreCase)) continue;
+        var Colon = T.IndexOf(':');
+        if (Colon < 1) continue;
+        var Idx = T[..Colon].Trim();
+        if (Idx.All(char.IsDigit)) { PageIdx = Idx; break; }
+    }
+    var EvalBody = "public const string Command = \"evaluate_script\"; public const string PageId = \"" + PageIdx + "\"; public const string Function = \"() => '<!DOCTYPE html>\\\\n' + document.documentElement.outerHTML\";";
     var Eval = await Cdp(EvalBody);
     if (Eval.rc != 0 || string.IsNullOrEmpty(Eval.log)) { Fail.Add(R + ":eval"); continue; }
     var Html = Eval.log;
+    var Idx2 = Html.IndexOf("<!DOCTYPE", StringComparison.OrdinalIgnoreCase);
+    if (Idx2 < 0)
+    {
+        var Q = Html.IndexOf("\"\\u003C!DOCTYPE", StringComparison.OrdinalIgnoreCase);
+        if (Q >= 0)
+        {
+            var End = Html.LastIndexOf('\"');
+            if (End > Q)
+            {
+                var Json = Html[Q..(End + 1)];
+                try { Html = System.Text.Json.JsonSerializer.Deserialize<string>(Json) ?? Html; } catch { }
+            }
+        }
+    }
+    else { Html = Html[Idx2..]; }
     var OutPath = string.IsNullOrEmpty(Path1)
         ? Path.Combine(DocsDir, "index.html")
         : Path.Combine(DocsDir, Path1, "index.html");

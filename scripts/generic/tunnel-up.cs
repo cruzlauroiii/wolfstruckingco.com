@@ -15,6 +15,9 @@ static Process Spawn(string Generic, string Config, string Wd)
 }
 
 var Wd = @"C:\repo\public\wolfstruckingco.com";
+var Cdt = Spawn(@"main\scripts\generic\chrome-devtools.cs", @"main\scripts\specific\chrome-devtools-serve-config.cs", Wd);
+await Console.Out.WriteLineAsync("chrome-devtools serve pid=" + Cdt.Id);
+await Task.Delay(10000);
 var Server = Spawn(@"main\scripts\generic\tunnel-server.cs", @"main\scripts\specific\tunnel-server-config.cs", Wd);
 await Console.Out.WriteLineAsync("server pid=" + Server.Id);
 await Task.Delay(5000);

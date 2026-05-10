@@ -107,11 +107,17 @@ private async Task RunServeModeAsync(Dictionary<string, object> ParsedArgs)
         var Current = new StringBuilder();
         var InQuote = false;
         var QuoteChar = '"';
-        foreach (var Ch in Line)
+        for (var I = 0; I < Line.Length; I++)
         {
+            var Ch = Line[I];
             if (InQuote)
             {
-                if (Ch == QuoteChar)
+                if (Ch == '\\' && I + 1 < Line.Length && (Line[I + 1] == QuoteChar || Line[I + 1] == '\\'))
+                {
+                    Current.Append(Line[I + 1]);
+                    I++;
+                }
+                else if (Ch == QuoteChar)
                 {
                     InQuote = false;
                 }

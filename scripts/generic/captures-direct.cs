@@ -47,7 +47,9 @@ var BrowserWsUrl = "ws://127.0.0.1:" + DebugPort.ToString(CultureInfo.InvariantC
 
 using var Ws = new ClientWebSocket();
 Ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(15);
-await Ws.ConnectAsync(new Uri(BrowserWsUrl), CancellationToken.None);
+Ws.Options.SetRequestHeader("Origin", "http://localhost");
+using var ConnectCts = new CancellationTokenSource(TimeSpan.FromSeconds(20));
+await Ws.ConnectAsync(new Uri(BrowserWsUrl), ConnectCts.Token);
 
 var CmdId = 0;
 var Pending = new System.Collections.Concurrent.ConcurrentDictionary<int, TaskCompletionSource<JsonElement>>();

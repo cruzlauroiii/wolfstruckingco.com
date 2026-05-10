@@ -26,11 +26,12 @@ string? Get(string Name)
     return null;
 }
 
-var SecretsJsonPath = Get("SecretsJsonPath")!;
-var Repo = Get("Repo")!;
+var SecretsJsonPath = Get("SecretsJsonPath") ?? Environment.GetEnvironmentVariable("WOLFS_SECRETS") ?? System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "UserSecrets", "prtask-server-secrets", "secrets.json");
+var Repo = Get("Repo") ?? Environment.GetEnvironmentVariable("WOLFS_REPO") ?? Environment.CurrentDirectory;
 var Owner = Get("Owner")!;
 var RepoName = Get("RepoName")!;
 var Branch = Get("Branch") ?? "main";
+var Force = Get("Force") == "true";
 
 using var Doc = JsonDocument.Parse(await File.ReadAllTextAsync(SecretsJsonPath));
 var PatStr = Doc.RootElement.TryGetProperty("GitHub:Pat", out var Pp) ? Pp.GetString() ?? string.Empty : string.Empty;
@@ -39,6 +40,7 @@ if (string.IsNullOrEmpty(PatStr)) return 2;
 var Url = "https://x-access-token:" + PatStr + "@github.com/" + Owner + "/" + RepoName + ".git";
 var Psi = new ProcessStartInfo("git") { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, WorkingDirectory = Repo };
 Psi.ArgumentList.Add("push");
+if (Force) Psi.ArgumentList.Add("--force");
 Psi.ArgumentList.Add(Url);
 Psi.ArgumentList.Add(Branch);
 using var P = Process.Start(Psi)!;

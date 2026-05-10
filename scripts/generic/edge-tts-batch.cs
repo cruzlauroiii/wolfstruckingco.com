@@ -44,8 +44,8 @@ string Get(string Name)
     return string.Empty;
 }
 
-var ScenesJsonPath = Get("ScenesJsonPath");
-var AudioDir = Get("AudioDir");
+var ScenesJsonPath = Get("ScenesJsonPath") ?? System.IO.Path.Combine(Environment.GetEnvironmentVariable("WOLFS_REPO") ?? Environment.CurrentDirectory, "docs", "videos", "scenes-final-v3.json");
+var AudioDir = Get("AudioDir") ?? System.IO.Path.Combine(System.IO.Path.GetTempPath(), "wolfs-video", "audio-edge");
 var VoicesCsv = Get("VoicesCsv");
 
 if (!File.Exists(ScenesJsonPath))
@@ -86,11 +86,12 @@ foreach (var Entry in Doc.RootElement.EnumerateArray())
     }
     var Narration = Entry.GetProperty("narration").GetString() ?? string.Empty;
     var Mp3 = Path.Combine(AudioDir, "scene-" + Pad + ".mp3");
-    if (File.Exists(Mp3))
+    if (File.Exists(Mp3) && new FileInfo(Mp3).Length > 0)
     {
         Idx++;
         continue;
     }
+    if (File.Exists(Mp3)) { File.Delete(Mp3); }
 
     var Voice = Voices[Idx % Voices.Length];
     var Psi = new ProcessStartInfo("python")
@@ -110,10 +111,25 @@ foreach (var Entry in Doc.RootElement.EnumerateArray())
     _ = await Proc.StandardOutput.ReadToEndAsync();
     var Err = await Proc.StandardError.ReadToEndAsync();
     await Proc.WaitForExitAsync();
-    if (Proc.ExitCode != 0)
+    var Tries = 0;
+    while (Proc.ExitCode != 0 && Tries < 6)
     {
-        await Console.Error.WriteLineAsync("edge-tts FAILED for " + Pad + ": " + Err);
-        return 6;
+        Tries++;
+        var FallbackVoice = Voices[(Idx + (Tries * 7)) % Voices.Length];
+        var Psi2 = new ProcessStartInfo("python") { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, ArgumentList = { "-m", "edge_tts", "--voice", FallbackVoice, "--text", Narration, "--write-media", Mp3 } };
+        using var Proc2 = Process.Start(Psi2)!;
+        _ = await Proc2.StandardOutput.ReadToEndAsync();
+        Err = await Proc2.StandardError.ReadToEndAsync();
+        await Proc2.WaitForExitAsync();
+        if (Proc2.ExitCode == 0 && File.Exists(Mp3) && new FileInfo(Mp3).Length > 0)
+        {
+            await Console.Error.WriteLineAsync("edge-tts " + Pad + " recovered with " + FallbackVoice + " after " + Tries.ToString(System.Globalization.CultureInfo.InvariantCulture) + " tries");
+            break;
+        }
+    }
+    if (!File.Exists(Mp3) || new FileInfo(Mp3).Length == 0)
+    {
+        await Console.Error.WriteLineAsync("edge-tts SKIP " + Pad + " all retries failed");
     }
 
     Idx++;

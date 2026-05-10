@@ -27,9 +27,10 @@ string? Get(string Name)
     return null;
 }
 
-var ScenesJsonPath = Get("ScenesJsonPath")!;
-var OcrDir = Get("OcrDir")!;
-var OutputMd = Get("OutputMd")!;
+var Repo = Environment.GetEnvironmentVariable("WOLFS_REPO") ?? Environment.CurrentDirectory;
+var ScenesJsonPath = Get("ScenesJsonPath") ?? System.IO.Path.Combine(Repo, "docs", "videos", "scenes-final-v3.json");
+var OcrDir = Get("OcrDir") ?? System.IO.Path.Combine(System.IO.Path.GetTempPath(), "wolfs-ocr");
+var OutputMd = Get("OutputMd") ?? System.IO.Path.Combine(Repo, "docs", "videos", "narration-vs-ocr.md");
 
 var Json = await File.ReadAllTextAsync(ScenesJsonPath);
 using var Doc = JsonDocument.Parse(Json);
@@ -142,7 +143,15 @@ foreach (var Scene in Scenes)
     var Narration = Scene.GetProperty("narration").GetString() ?? string.Empty;
     var P = Pad(Url);
     if (string.IsNullOrEmpty(P)) continue;
-    var TxtPath = Path.Combine(OcrDir, "scene-" + P + ".txt");
+    var TxtPathPrefixed = Path.Combine(OcrDir, "scene-" + P + ".txt");
+    var TxtPathBare = Path.Combine(OcrDir, P + ".txt");
+    string TxtPath;
+    if (File.Exists(TxtPathBare) && File.Exists(TxtPathPrefixed))
+    {
+        TxtPath = new FileInfo(TxtPathBare).LastWriteTimeUtc > new FileInfo(TxtPathPrefixed).LastWriteTimeUtc ? TxtPathBare : TxtPathPrefixed;
+    }
+    else if (File.Exists(TxtPathBare)) { TxtPath = TxtPathBare; }
+    else { TxtPath = TxtPathPrefixed; }
     var Ocr = File.Exists(TxtPath) ? await File.ReadAllTextAsync(TxtPath) : string.Empty;
     var OcrFlat = Ocr.Replace('|', '/').Replace('\n', ' ').Replace('\r', ' ').Trim();
     var Verdict = Pass(Url, OcrFlat) ? "pass" : "fail";

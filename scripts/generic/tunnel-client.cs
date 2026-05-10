@@ -31,7 +31,7 @@ string? Get(string Name)
 
 var ServerUrl = Get("ServerUrl")!;
 var ClientName = Get("ClientName")!;
-var Workdir = Get("Workdir") ?? Environment.CurrentDirectory;
+var Workdir = Get("Workdir") ?? Environment.GetEnvironmentVariable("WOLFS_REPO") ?? Environment.CurrentDirectory;
 
 static string Esc(string S)
 {
@@ -91,6 +91,7 @@ while (Ws.State == WebSocketState.Open)
     var ExitCode = 0;
     var Stdout = string.Empty;
     var Stderr = string.Empty;
+    var SelfChanged = false;
     try
     {
         if (Action == "echo")
@@ -102,6 +103,34 @@ while (Ws.State == WebSocketState.Open)
             var Generic = ArgsEl.GetProperty("generic").GetString() ?? string.Empty;
             var Config = ArgsEl.GetProperty("config").GetString() ?? string.Empty;
             var Wd = ArgsEl.TryGetProperty("workdir", out var W) ? W.GetString() ?? Workdir : Workdir;
+            if (string.IsNullOrEmpty(Wd)) Wd = Workdir;
+            if (ArgsEl.TryGetProperty("genericContent", out var GC))
+            {
+                var GCS = GC.GetString();
+                if (!string.IsNullOrEmpty(GCS) && !string.IsNullOrEmpty(Generic))
+                {
+                    var TargetPath = System.IO.Path.IsPathRooted(Generic) ? Generic : System.IO.Path.Combine(Wd, Generic);
+                    var Dir = System.IO.Path.GetDirectoryName(TargetPath);
+                    if (!string.IsNullOrEmpty(Dir) && !System.IO.Directory.Exists(Dir)) System.IO.Directory.CreateDirectory(Dir);
+                    var Existing = File.Exists(TargetPath) ? await File.ReadAllTextAsync(TargetPath) : string.Empty;
+                    if (Existing != GCS)
+                    {
+                        await File.WriteAllTextAsync(TargetPath, GCS);
+                        if (Generic.EndsWith("tunnel-client.cs", StringComparison.OrdinalIgnoreCase)) SelfChanged = true;
+                    }
+                }
+            }
+            if (ArgsEl.TryGetProperty("configContent", out var CC))
+            {
+                var CCS = CC.GetString();
+                if (!string.IsNullOrEmpty(CCS) && !string.IsNullOrEmpty(Config))
+                {
+                    var TargetPath = System.IO.Path.IsPathRooted(Config) ? Config : System.IO.Path.Combine(Wd, Config);
+                    var Dir = System.IO.Path.GetDirectoryName(TargetPath);
+                    if (!string.IsNullOrEmpty(Dir) && !System.IO.Directory.Exists(Dir)) System.IO.Directory.CreateDirectory(Dir);
+                    await File.WriteAllTextAsync(TargetPath, CCS);
+                }
+            }
             var Psi = new ProcessStartInfo("dotnet")
             {
                 UseShellExecute = false,
@@ -139,5 +168,52 @@ while (Ws.State == WebSocketState.Open)
     }
     var Result = "{\u0022type\u0022:\u0022result\u0022,\u0022id\u0022:\u0022" + Esc(Id) + "\u0022,\u0022client\u0022:\u0022" + Esc(ClientName) + "\u0022,\u0022exit_code\u0022:" + ExitCode.ToString(CultureInfo.InvariantCulture) + ",\u0022stdout\u0022:\u0022" + Esc(Stdout) + "\u0022,\u0022stderr\u0022:\u0022" + Esc(Stderr) + "\u0022}";
     await SendJson(Ws, Result);
+
+    if (SelfChanged)
+    {
+        await Console.Out.WriteLineAsync("auto-sync: tunnel-client.cs updated, spawning fresh and exiting");
+        var SpawnPsi = new ProcessStartInfo("dotnet") { UseShellExecute = true, WorkingDirectory = Workdir };
+        SpawnPsi.ArgumentList.Add("run");
+        SpawnPsi.ArgumentList.Add(@"main\scripts\generic\tunnel-client.cs");
+        SpawnPsi.ArgumentList.Add(args[0]);
+        Process.Start(SpawnPsi);
+        Environment.Exit(0);
+    }
+    if (false)
+    {
+        var PreHead = await GitHead(Workdir);
+        var PullPsi = new ProcessStartInfo("git") { UseShellExecute = false, WorkingDirectory = Workdir, RedirectStandardOutput = true, RedirectStandardError = true };
+        PullPsi.ArgumentList.Add("pull"); PullPsi.ArgumentList.Add("--ff-only");
+        using var PullProc = Process.Start(PullPsi)!;
+        _ = await PullProc.StandardOutput.ReadToEndAsync();
+        _ = await PullProc.StandardError.ReadToEndAsync();
+        await PullProc.WaitForExitAsync();
+        var PostHead = await GitHead(Workdir);
+        if (!string.IsNullOrEmpty(PreHead) && !string.IsNullOrEmpty(PostHead) && PreHead != PostHead)
+        {
+            await Console.Out.WriteLineAsync("auto-sync: source updated " + PreHead[..7] + " -> " + PostHead[..7] + ", restarting");
+            var Spawn = new ProcessStartInfo("dotnet") { UseShellExecute = true, WorkingDirectory = Workdir };
+            Spawn.ArgumentList.Add("run");
+            Spawn.ArgumentList.Add(@"main\scripts\generic\tunnel-client.cs");
+            Spawn.ArgumentList.Add(args[0]);
+            Process.Start(Spawn);
+            Environment.Exit(0);
+        }
+    }
+    catch (Exception E) { await Console.Error.WriteLineAsync("auto-sync: " + E.Message); }
 }
 return 0;
+
+static async Task<string> GitHead(string Workdir)
+{
+    try
+    {
+        var Psi = new ProcessStartInfo("git") { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, WorkingDirectory = Workdir };
+        Psi.ArgumentList.Add("rev-parse"); Psi.ArgumentList.Add("HEAD");
+        var P = Process.Start(Psi)!;
+        var Out = await P.StandardOutput.ReadToEndAsync();
+        await P.WaitForExitAsync();
+        return Out.Trim();
+    }
+    catch { return string.Empty; }
+}

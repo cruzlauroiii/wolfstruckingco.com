@@ -19,6 +19,11 @@
         </div>
 
         <a href="Chat" class="Btn Block">💬 Start application — chat with agent</a>
+        <button class="Btn Ghost Block FieldGap" type="button" @onclick="SubmitDemoAsync">@DemoLabel</button>
+        @if (!string.IsNullOrEmpty(StatusMessage))
+        {
+            <p class="FieldGap">@StatusMessage</p>
+        }
     }
     else if (Status == StatusPending)
     {
