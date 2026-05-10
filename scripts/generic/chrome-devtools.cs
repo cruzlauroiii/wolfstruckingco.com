@@ -7,7 +7,7 @@
 #:property RunAnalyzersDuringBuild=false
 #:property TreatWarningsAsErrors=false
 #:property EnforceCodeStyleInBuild=false
-// cache-bust v6 add-page-reload
+// cache-bust v7 close-all-non-chrome-fresh
 #:include CdpCommands.cs
 #:include CdpConstants.cs
 #:include CdpScratchConfig.cs
