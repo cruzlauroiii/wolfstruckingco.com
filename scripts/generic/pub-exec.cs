@@ -67,6 +67,7 @@ static async Task<string> ReceiveJson(ClientWebSocket Ws)
 }
 
 using var Ws = new ClientWebSocket();
+Ws.Options.SetRequestHeader("X-Tunnel-Skip-AntiPhishing-Page", "true");
 await Ws.ConnectAsync(new Uri(ServerUrl), CancellationToken.None);
 
 var Id = Guid.NewGuid().ToString("N");

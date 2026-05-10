@@ -53,4 +53,4 @@ _ = await RunSilent(DevtunnelExe, "create", TunnelName);
 _ = await RunSilent(DevtunnelExe, "port", "create", TunnelName, "-p", Port, "--protocol", "http");
 _ = await RunSilent(DevtunnelExe, "access", "create", TunnelName, "-p", Port, "--anonymous");
 await Console.Out.WriteLineAsync("tunnel-host: about to run `devtunnel host -p " + Port + "` (long-running). Open a new pane to keep this alive while you use the tunnel; Ctrl+C to stop.");
-return await Run(DevtunnelExe, "host", "-p", Port);
+return await Run(DevtunnelExe, "host", TunnelName);

@@ -71,6 +71,7 @@ static async Task<string> ReceiveJson(ClientWebSocket Ws)
 
 using var Ws = new ClientWebSocket();
 Ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(15);
+Ws.Options.SetRequestHeader("X-Tunnel-Skip-AntiPhishing-Page", "true");
 await Ws.ConnectAsync(new Uri(ServerUrl), CancellationToken.None);
 await SendJson(Ws, "{\u0022type\u0022:\u0022subscribe\u0022,\u0022client\u0022:\u0022" + Esc(ClientName) + "\u0022}");
 await Console.Out.WriteLineAsync("client " + ClientName + " connected to " + ServerUrl);
