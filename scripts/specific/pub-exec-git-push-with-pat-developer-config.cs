@@ -1,0 +1,13 @@
+return 0;
+
+namespace Scripts
+{
+    internal static class PubExecGitPushWithPatDeveloperConfig
+    {
+        public const string ServerUrl = "wss://wolfs-execution-4444.asse.devtunnels.ms/";
+        public const string Target = "developer";
+        public const string Action = "dotnet_run";
+        public const string Generic = @"main\scripts\generic\git-push-with-pat.cs";
+        public const string Config = @"main\scripts\specific\git-push-with-pat-config.cs";
+    }
+}

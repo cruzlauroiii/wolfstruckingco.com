@@ -93,7 +93,7 @@ public sealed partial class CdpCli : IDisposable
     internal async Task ExecuteTakeScreenshotAsync(Dictionary<string, object> Args)
     {
         await EnsurePageAttachedAsync();
-        var Mobile = Args.TryGetValue("mobile", out var MobileArg) && (MobileArg is bool MB ? MB : string.Equals(MobileArg?.ToString(), "true", StringComparison.OrdinalIgnoreCase));
+        var ActivateTargets = await GetPageTargetsAsync(); if (Args.TryGetValue(CdpArg.PageId, out var ScreenPageId)) { var SIdx = int.Parse(ScreenPageId.ToString()!, System.Globalization.CultureInfo.InvariantCulture) - 1; if (SIdx >= 0 && SIdx < ActivateTargets.Count) { await SendBrowserCommandAsync(Cdp.TargetActivateTarget, new JsonObject { [CdpKey.TargetId] = ActivateTargets[SIdx][CdpKey.TargetId]!.ToString() }); await Task.Delay(800); } } var Mobile = Args.TryGetValue("mobile", out var MobileArg) && (MobileArg is bool MB ? MB : string.Equals(MobileArg?.ToString(), "true", StringComparison.OrdinalIgnoreCase));
         var DsfArg2 = Args.TryGetValue("dsf", out var DsfA) && int.TryParse(DsfA?.ToString(), out var DsfP) ? DsfP : 1;
         if (Mobile && Args.TryGetValue(CdpKey.Width, out var EmuW) && Args.TryGetValue(CdpKey.Height, out var EmuH))
         {
@@ -102,7 +102,7 @@ public sealed partial class CdpCli : IDisposable
             await Task.Delay(800);
         }
         var Format = Args.TryGetValue(CdpKey.Format, out var FormatValue) ? FormatValue.ToString()! : CdpProto.PngFormat;
-        var ScreenshotParams = new JsonObject { [CdpKey.Format] = Format };
+        var ScreenshotParams = new JsonObject { [CdpKey.Format] = Format, ["fromSurface"] = false, ["captureBeyondViewport"] = true };
         if (Args.TryGetValue(CdpKey.Quality, out var Quality)) { ScreenshotParams[CdpKey.Quality] = int.Parse(Quality.ToString()!, System.Globalization.CultureInfo.InvariantCulture); }
         if (Args.TryGetValue(CdpArg.FullPage, out var FullPageVal) && bool.Parse(FullPageVal.ToString()!))
         {
@@ -234,7 +234,7 @@ public sealed partial class CdpCli : IDisposable
     {
         if (!Args.TryGetValue(CdpKey.Width, out var Width) || !Args.TryGetValue(CdpKey.Height, out var Height)) { Console.Error.WriteLine("Required: width, height"); return; }
         await EnsurePageAttachedAsync();
-        var Mobile = Args.TryGetValue("mobile", out var MobileArg) && (MobileArg is bool MB ? MB : string.Equals(MobileArg?.ToString(), "true", StringComparison.OrdinalIgnoreCase));
+        var ActivateTargets = await GetPageTargetsAsync(); if (Args.TryGetValue(CdpArg.PageId, out var ScreenPageId)) { var SIdx = int.Parse(ScreenPageId.ToString()!, System.Globalization.CultureInfo.InvariantCulture) - 1; if (SIdx >= 0 && SIdx < ActivateTargets.Count) { await SendBrowserCommandAsync(Cdp.TargetActivateTarget, new JsonObject { [CdpKey.TargetId] = ActivateTargets[SIdx][CdpKey.TargetId]!.ToString() }); await Task.Delay(800); } } var Mobile = Args.TryGetValue("mobile", out var MobileArg) && (MobileArg is bool MB ? MB : string.Equals(MobileArg?.ToString(), "true", StringComparison.OrdinalIgnoreCase));
         var Dsf = Args.TryGetValue("dsf", out var DsfArg) && int.TryParse(DsfArg?.ToString(), out var DsfParsed) ? DsfParsed : 1;
         await SendCommandAsync(Cdp.EmulationSetDeviceMetrics, new JsonObject { [CdpKey.Width] = int.Parse(Width.ToString()!, System.Globalization.CultureInfo.InvariantCulture), [CdpKey.Height] = int.Parse(Height.ToString()!, System.Globalization.CultureInfo.InvariantCulture), [CdpKey.DeviceScaleFactor] = Dsf, [CdpKey.Mobile] = Mobile });
         var MobileSuffix = Mobile ? " (mobile)" : string.Empty;

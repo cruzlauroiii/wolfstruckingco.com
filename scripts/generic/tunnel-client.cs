@@ -200,7 +200,6 @@ while (Ws.State == WebSocketState.Open)
             Environment.Exit(0);
         }
     }
-    catch (Exception E) { await Console.Error.WriteLineAsync("auto-sync: " + E.Message); }
 }
 return 0;
 

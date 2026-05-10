@@ -1,0 +1,5 @@
+static class WriteFileConfig
+{
+    public const string Path = "C:\\repo\\public\\wolfstruckingco.com\\main\\scripts\\generic\\sync-tree.cs";
+    public const string Content = "#:property TargetFramework=net11.0\n#:property ExperimentalFileBasedProgramEnableIncludeDirective=true\n#:include ../specific/sync-tree-scratch-config-v1.cs\n\nvar Src = SyncTreeConfig.Source;\nvar Dst = SyncTreeConfig.Target;\nif (!Directory.Exists(Src)) { await Console.Error.WriteLineAsync(\"src missing\"); return 1; }\nif (Directory.Exists(Dst)) { Directory.Delete(Dst, recursive: true); }\nDirectory.CreateDirectory(Dst);\nCopyTree(Src, Dst);\nreturn 0;\n\nstatic void CopyTree(string S, string D)\n{\n    if (!Directory.Exists(D)) { Directory.CreateDirectory(D); }\n    foreach (var Fp in Directory.GetFiles(S))\n    {\n        File.Copy(Fp, System.IO.Path.Combine(D, System.IO.Path.GetFileName(Fp)), overwrite: true);\n    }\n    foreach (var Sd in Directory.GetDirectories(S))\n    {\n        CopyTree(Sd, System.IO.Path.Combine(D, System.IO.Path.GetFileName(Sd)));\n    }\n}\n";
+}

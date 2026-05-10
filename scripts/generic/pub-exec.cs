@@ -85,7 +85,7 @@ else
 var Cmd = "{\u0022type\u0022:\u0022cmd\u0022,\u0022id\u0022:\u0022" + Id + "\u0022,\u0022target\u0022:\u0022" + Esc(Target) + "\u0022,\u0022action\u0022:\u0022" + Esc(Action) + "\u0022,\u0022args\u0022:" + ArgsJson + "}";
 await Ws.SendAsync(Encoding.UTF8.GetBytes(Cmd), WebSocketMessageType.Text, true, CancellationToken.None);
 
-using var Timeout = new CancellationTokenSource(TimeSpan.FromMinutes(15));
+using var Timeout = new CancellationTokenSource(TimeSpan.FromMinutes(120));
 while (Ws.State == WebSocketState.Open && !Timeout.Token.IsCancellationRequested)
 {
     var Body = await ReceiveJson(Ws);

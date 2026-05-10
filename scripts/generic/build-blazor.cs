@@ -77,6 +77,11 @@ static string? FindProjectRoot(string Start)
     var Dir = new DirectoryInfo(Start);
     while (Dir is not null)
     {
+        if (Directory.Exists(Path.Combine(Dir.FullName, "main", "src")) &&
+            File.Exists(Path.Combine(Dir.FullName, "main", "src", "Client", "Client.csproj")))
+        {
+            return Path.Combine(Dir.FullName, "main");
+        }
         if (Directory.Exists(Path.Combine(Dir.FullName, "src")) &&
             Directory.Exists(Path.Combine(Dir.FullName, "wwwroot")) &&
             File.Exists(Path.Combine(Dir.FullName, "src", "Client", "Client.csproj")))
@@ -89,4 +94,3 @@ static string? FindProjectRoot(string Start)
 
     return null;
 }
-

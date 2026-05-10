@@ -5,6 +5,6 @@ namespace Scripts
     internal static class GitRunScratchConfig
     {
         public const string Repo = @"C:\repo\public\wolfstruckingco.com\main";
-        public const string Command = "add|-u";
+        public const string Command = "commit|--amend|--no-edit";
     }
 }

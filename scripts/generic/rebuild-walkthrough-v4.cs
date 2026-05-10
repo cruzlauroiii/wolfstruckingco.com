@@ -178,7 +178,7 @@ async Task<string> CdpRead(string Name, string Body)
 
 async Task NewPageAt(string Url) => await Cdp("new", $"public const string Command = \"new_page\";\n        public const string Url = \"{Url.Replace("\"", "\\\"")}\";");
 
-async Task ReplaceTab(string Url) => await NewPageAt(Url);
+async Task ReplaceTab(string Url) { await NewPageAt(Url); await Task.Delay(2500); var Listing = await PostServeAsync("list_pages"); var Cleaned = Url.Contains('?', StringComparison.Ordinal) ? Url[..Url.IndexOf('?', StringComparison.Ordinal)] : Url; foreach (var Line in Listing.Split('\n')) { var T = Line.Trim(); if (!T.Contains(Cleaned, StringComparison.OrdinalIgnoreCase)) continue; var Colon = T.IndexOf(':'); if (Colon < 1) continue; var Idx = T.Substring(0, Colon).Trim(); if (Idx.All(char.IsDigit)) { CachedWolfsPageIdx = Idx; break; } } }
 
 async Task ForceLight() => await Task.CompletedTask;
 
@@ -487,7 +487,7 @@ async Task<(bool ok, string? group, string pad)> RunScene(int Idx, JsonElement S
             await FillMicrosoftEmailNoSubmit(SsoAccount);
             await Task.Delay(2000);
         }
-        await Screenshot(Pad);
+        var DbgList = await PostServeAsync("list_pages"); Console.WriteLine("DBG-PRE-SHOT " + Pad); Console.WriteLine(DbgList); Console.WriteLine("DBG-PRE-SHOT-END"); await Screenshot(Pad);
         if (IsSso)
         {
             await WaitForSsoPrePicker(SsoProvider, SsoAccount, Pad);
