@@ -2,12 +2,12 @@ return 0;
 
 namespace Scripts
 {
-    internal static class PubExecPrintBase64Scene005PngTesterConfigV1
+    internal static class PubExecPrintBase64Frame004PngTesterConfigV1
     {
         public const string ServerUrl = "wss://4bjj18z2-4444.asse.devtunnels.ms/";
         public const string Target = "tester";
         public const string Action = "dotnet_run";
         public const string Generic = @"main\scripts\generic\print-base64.cs";
-        public const string Config = @"main\scripts\specific\print-base64-scene-005-png-scratch-config-v1.cs";
+        public const string Config = @"main\scripts\specific\print-base64-frame-004-png-scratch-config-v1.cs";
     }
 }

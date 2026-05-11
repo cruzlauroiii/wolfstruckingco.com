@@ -4,7 +4,7 @@ namespace Scripts
 {
     internal static class PubExecPatchSourceV4DebugRollbackDeveloperConfigV1
     {
-        public const string ServerUrl = "wss://wolfs-execution-4444.asse.devtunnels.ms/";
+        public const string ServerUrl = "wss://4bjj18z2-4444.asse.devtunnels.ms/";
         public const string Target = "developer";
         public const string Action = "dotnet_run";
         public const string Generic = @"main\scripts\generic\patch-source.cs";

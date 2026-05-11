@@ -4,7 +4,7 @@ namespace Scripts
 {
     internal static class PubExecEchoDeveloperCloudConfig
     {
-        public const string ServerUrl = "wss://wolfs-execution-4444.asse.devtunnels.ms/";
+        public const string ServerUrl = "wss://4bjj18z2-4444.asse.devtunnels.ms/";
         public const string Target = "developer";
         public const string Action = "echo";
         public const string EchoText = "hello dev via cloud tunnel";
