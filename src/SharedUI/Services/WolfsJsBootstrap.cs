@@ -204,7 +204,7 @@ public sealed class WolfsJsBootstrap(IJSRuntime Js)
         "      localStorage.setItem('wolfs_sso', p);" + "\n" +
         "    } catch (e) {}" + "\n" +
         """    var base = location.pathname.replace(/Login\/?$/, '');""" + "\n" +
-        "    location.href = base + 'Marketplace/';" + "\n" +
+        "    /* SSO redirect disabled for capture pipeline */" + "\n" +
         "  };" + "\n" +
         "  // Pre-hydration SSO autoload: if the URL has ?sso=<provider>, run the" + "\n" +
         "  // demo session set + redirect immediately. This way the static /Login/" + "\n" +

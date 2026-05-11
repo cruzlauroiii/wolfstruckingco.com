@@ -7,7 +7,7 @@
 #:property RunAnalyzersDuringBuild=false
 #:property TreatWarningsAsErrors=false
 #:property EnforceCodeStyleInBuild=false
-// cache-bust v7 close-all-non-chrome-fresh
+// cache-bust v8 reverted-close-all (use newtab-only)
 #:include CdpCommands.cs
 #:include CdpConstants.cs
 #:include CdpScratchConfig.cs
